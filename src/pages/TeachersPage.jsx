@@ -1,8 +1,10 @@
-import TeacherCollection from '../components/TeacherCollection';
+import Navbar from '../components/Navbar';
+// import { useState } from 'react';
+
 
 const UserPage = () => {
-  return <div>UserPage
-    <TeacherCollection />
+  return <div>
+    <Navbar />
   </div>;
 };
 

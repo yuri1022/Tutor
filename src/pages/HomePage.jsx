@@ -1,24 +1,37 @@
 import Navbar from '../components/Navbar';
 import TeacherCollection from '../components/TeacherCollection';
-import ApplyTeacher from '../components/ApplyTeacher';
-import { Button } from 'react-bootstrap';
-import styled from "styled-components"
+import Search from '../components/Searchbar';
+import BestStudents from '../components/BestStudents';
+
 
 const HomePage = () => {
-  return <div>
-    <h1>HomePage</h1>
-  <Navbar />
-  <ApplyTeacher />
-  <TeacherCollection/>
-  <Button>Test1</Button>
-  <Button variant='warning'>Test1</Button>
-  <ButtonStyle>test2</ButtonStyle>
-  </div>;
-};
+  return (
+  <div className="home-page">
 
-const ButtonStyle = styled(Button)`
-font-weight:bold;
-font-size:32px;
-`;
+  <div className='nav-bar'>
+  <Navbar />
+  </div>
+
+    <div className="form col col-12" style={{display:'flex'}}>
+
+  <div className="form-left col col-8">
+  <div className="search">
+    <Search />
+  </div>
+    <TeacherCollection/>
+    
+  
+  </div>
+  <div className="form-right col col-3">
+  <div className="best-students">
+    <BestStudents />
+  </div>
+  </div>
+
+  </div>
+
+  </div>
+  );
+};
 
 export default HomePage;
