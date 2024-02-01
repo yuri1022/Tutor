@@ -2,8 +2,8 @@ import { FormControl } from 'react-bootstrap';
 
 const Search = () => {
   return (
-  <div className="search-bar" style={{position:'absolute',top:'10%',left:'5%'}}>
-  <FormControl className="form-control-lg" type="text" placeholder="Search" />
+  <div className="search-bar col-lg-7" style={{position:'absolute',top:'12%',left:'6%'}}>
+  <FormControl className="form-control-lg" type="text" placeholder="Search"  />
   </div>
   );
 };

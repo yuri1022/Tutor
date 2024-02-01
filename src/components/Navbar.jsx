@@ -44,11 +44,11 @@ const Navbar = () => {
   <NavbarStyle style={{backgroundColor: 'var(--grey-light)'}}>
   <NavbarContent>
   <div className="navbar" style={{width:'100%',color: 'var(--grey-800)',padding:'10px'}}>
-    <div className="title" style={{ gridColumn: '1/2' }}>Tutor</div>
-    <div className="userpage" style={{ gridColumn: '2/3' }} >Name</div>  
+    <div className="title" style={{ fontSize:'24px',gridColumn: '1/2' }}>Tutor</div>
+    <div className="userpage" style={{ fontSize:'24px',gridColumn: '2/3' }} >Name</div>  
     {/* 這裡要Link至學生頁面 */}
-    <StyledLink to="/apply" className="applyteacher" style={{ gridColumn: '3/4' }}>成為老師</StyledLink>
-    <div className="logout" style={{ gridColumn: '4/5' }}>Log Out</div>
+    <StyledLink to="/apply" className="applyteacher" style={{ fontSize:'24px',gridColumn: '3/4' }}>成為老師</StyledLink>
+    <div className="logout" style={{ fontSize:'24px',gridColumn: '4/5' }}>Log Out</div>
   </div>
   </NavbarContent>
   </NavbarStyle>
