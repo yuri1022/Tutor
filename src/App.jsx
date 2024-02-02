@@ -11,7 +11,7 @@ function App() {
   <BrowserRouter>
   <div className="app">
        <Routes>       
-          <Route path="user/:id" element={<TeachersPage />} />
+          <Route path="teacher/:teacher_id" element={<TeachersPage />} />
           <Route path="home" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
           <Route path="apply" element={<ApplyTeacher />}/>

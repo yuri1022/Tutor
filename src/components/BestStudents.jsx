@@ -1,88 +1,8 @@
 import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { DummyStudents } from './StudentsData';
 
-const DummyStudents = [
-  {
-	name: '1Charlee',
-  email: 'user1@example.com',
-  password:'a1234567890',
-  nation:'taiwan',
-  is_teacher: true,
-  avatar: 'https://png.pngtree.com/png-vector/20221222/ourmid/pngtree-super-cute-cartoon-vector-bear-png-image_6504049.png',
-  info: '热爱分享知识的教育者，致力于提供个性化学习体验。拥有丰富的教学经验，注重培养学生批判性思维和实际问题解决能力。',
-  total_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  week_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  created_at: new Date(),
-  updated_at: new Date()
-},
-  {
-	name: '2mei',
-  email: 'user2@example.com',
-  password:'a1234567890',
-  nation:'taiwan',
-  is_teacher: true,
-  avatar: 'https://png.pngtree.com/png-vector/20221222/ourmid/pngtree-super-cute-cartoon-vector-bear-png-image_6504049.png',
-  info: '热爱分享知识的教育者，致力于提供个性化学习体验。拥有丰富的教学经验，注重培养学生批判性思维和实际问题解决能力。',
-  total_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  week_lesson_time:Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  created_at: new Date(),
-  updated_at: new Date()
-},
-  {
-	name: '3Elly',
-  email: 'user3@example.com',
-  password:'a1234567890',
-  nation:'taiwan',
-  is_teacher: true,
-  avatar: 'https://png.pngtree.com/png-vector/20221222/ourmid/pngtree-super-cute-cartoon-vector-bear-png-image_6504049.png',
-  info: '热爱分享知识的教育者，致力于提供个性化学习体验。拥有丰富的教学经验，注重培养学生批判性思维和实际问题解决能力。',
-  total_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  week_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  created_at: new Date(),
-  updated_at: new Date()
-},
-  {
-	name: '4Azhi',
-  email: 'user4@example.com',
-  password:'a1234567890',
-  nation:'taiwan',
-  is_teacher: true,
-  avatar: 'https://png.pngtree.com/png-vector/20221222/ourmid/pngtree-super-cute-cartoon-vector-bear-png-image_6504049.png',
-  info: '热爱分享知识的教育者，致力于提供个性化学习体验。拥有丰富的教学经验，注重培养学生批判性思维和实际问题解决能力。',
-  total_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  week_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  created_at: new Date(),
-  updated_at: new Date()
-},
-  {
-	name: '5wayne',
-  email: 'user5@example.com',
-  password:'a1234567890',
-  nation:'taiwan',
-  is_teacher: true,
-  avatar: 'https://png.pngtree.com/png-vector/20221222/ourmid/pngtree-super-cute-cartoon-vector-bear-png-image_6504049.png',
-  info: '热爱分享知识的教育者，致力于提供个性化学习体验。拥有丰富的教学经验，注重培养学生批判性思维和实际问题解决能力。',
-  total_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  week_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  created_at: new Date(),
-  updated_at: new Date()
-},
-  {
-	name: '6ashe',
-  email: 'user6@example.com',
-  password:'a1234567890',
-  nation:'taiwan',
-  is_teacher: true,
-  avatar: 'https://png.pngtree.com/png-vector/20221222/ourmid/pngtree-super-cute-cartoon-vector-bear-png-image_6504049.png',
-  info: '热爱分享知识的教育者，致力于提供个性化学习体验。拥有丰富的教学经验，注重培养学生批判性思维和实际问题解决能力。',
-  total_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  week_lesson_time: Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  created_at: new Date(),
-  updated_at: new Date()
-}
-
-];
 
 
 const ImageContainer = styled.div`

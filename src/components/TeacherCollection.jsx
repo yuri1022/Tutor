@@ -22,12 +22,12 @@ const Teacher = ({ teacher }) => {
   const navigate = useNavigate();
   const handleButtonClick = () => {
     // 在這裡執行導航
-    navigate(`/user/${teacher.id}`);
+    navigate(`/teacher/${teacher.teacher_id}`);
   };
 
   return (
     
-      <div className="div-container__info col col-4" key={teacher.id} style={{ maxWidth: '400px' , padding:'15px' }}>
+      <div className="div-container__info col col-4" key={teacher.teacher_id} style={{ maxWidth: '400px' , padding:'15px' }}>
         <Card className="card" style={{width: '100%'}}>
         <Card.Body >
         <div className="teacher-top" style={{ display: 'flex', alignItems: 'center' }}>
@@ -57,7 +57,7 @@ const Teacher = ({ teacher }) => {
 Teacher.propTypes = {
   teacher: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    teacher_id: PropTypes.string.isRequired,
     nation: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
     info: PropTypes.string.isRequired,
@@ -70,7 +70,7 @@ const TeacherCollection = () => {
   return (
   <div className="div-container col col-11" style={{ margin:'14% 0% 5% 7%'}}>
       {DummyTeachers.map((teacher) => (
-        <Teacher key={teacher.id} teacher={teacher} />
+        <Teacher key={teacher.teacher_id} teacher={teacher} />
       ))}
 
   </div>
