@@ -19,21 +19,12 @@ const NavbarStyle = styled.div`
   left: 0;
   width: 100%;
   padding: 10px 20px; 
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
 `;
 
 const NavbarContent = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto auto ;
-  grid-column-gap:10px;
-  align-items: center;
-   & > .title {
-    margin-right: 20px;
-  }
-
-  & > .userpage {
-   margin-right: 50px; 
-  }
+  display: flex;
+  justify-content:space-between;
 
 `;
 
@@ -43,12 +34,13 @@ const Navbar = () => {
   return (
   <NavbarStyle style={{backgroundColor: 'var(--grey-light)'}}>
   <NavbarContent>
-  <div className="navbar" style={{width:'100%',color: 'var(--grey-800)',padding:'10px'}}>
-    <div className="title" style={{ fontSize:'24px',gridColumn: '1/2' }}>Tutor</div>
-    <div className="userpage" style={{ fontSize:'24px',gridColumn: '2/3' }} >Name</div>  
+  <div className="navbar" style={{color: 'var(--grey-800)',padding:'10px',width:'100%'}}>
+    <div className="title" style={{  fontSize: '24px', marginRight: '20px'}}>Tutor</div>
+    <div className="userpage" style={{  fontSize: '24px', marginRight: '20px'}} >Name</div>  
     {/* 這裡要Link至學生頁面 */}
-    <StyledLink to="/apply" className="applyteacher" style={{ fontSize:'24px',gridColumn: '3/4' }}>成為老師</StyledLink>
-    <div className="logout" style={{ fontSize:'24px',gridColumn: '4/5' }}>Log Out</div>
+    <StyledLink to="/apply" className="applyteacher" style={{  fontSize: '24px', marginRight: '20px'}}>成為老師</StyledLink>
+    <div className="logout" style={{fontSize: '24px',
+    marginLeft: 'auto' }}>Log Out</div>
   </div>
   </NavbarContent>
   </NavbarStyle>
