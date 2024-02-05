@@ -14,6 +14,7 @@ function App() {
           <Route path="teacher/:teacher_id" element={<TeachersPage />} />
           <Route path="home" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
+          <Route path="home/:page" element={<HomePage />} />
           <Route path="apply" element={<ApplyTeacher />}/>
         </Routes>
     </div>

@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar';
-import TeachersList from '../components/TeacherList';
+import TeachersCollection from '../components/TeacherCollection';
 import Search from '../components/Searchbar';
 import BestStudents from '../components/BestStudents';
 
@@ -18,7 +18,7 @@ const HomePage = () => {
   <div className="search">
     <Search />
   </div>
-    <TeachersList />    
+    <TeachersCollection />    
   
   </div>
   <div className="form-right col col-3">

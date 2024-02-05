@@ -1,5 +1,4 @@
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from "styled-components"
 import '../main.scss'
@@ -66,11 +65,39 @@ Teacher.propTypes = {
 
 const TeacherCollection = () => {
 
+const itemsPerPage = 6;
+const { page } = useParams(); // 獲取路由參數中的 page
+
+const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默認為 1
+
+  const totalTeachers = DummyTeachers.length;
+  const totalPages = Math.ceil(totalTeachers / itemsPerPage);
+
+  const navigate = useNavigate();
+
+  const handlePageChange = (newPage) => {
+    navigate(`/home/${newPage}`);
+    window.scrollTo(0, 0);
+  };
+
+  const visibleTeachers = DummyTeachers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
   <div className="div-container col col-11" style={{ margin:'14% 0% 5% 7%'}}>
-      {DummyTeachers.map((teacher) => (
+      {visibleTeachers.map((teacher) => (
         <Teacher key={teacher.teacher_id} teacher={teacher} />
       ))}
+
+      <div className="pagination" style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'5%'}}>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            className={`btn ${currentPage === index + 1 ? 'btn-primary' : 'btn-outline-primary'}`}
+            onClick={() => handlePageChange(index + 1)} >
+            {index + 1}
+          </button>
+        ))}
+      </div>
 
   </div>
   );

@@ -198,6 +198,40 @@ export const DummyTeachers = [
   updated_at: new Date(),
   reserveDays:['Sat','Sun']
 },
+],
+},
+
+ {
+  teacher_id:'7',
+	name: '老師7號',
+  email: 'user7@example.com',
+  password:'a1234567890',
+  nation:'taiwan',
+  is_teacher: true,
+  avatar: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
+  info: '一個懂得學習和理解學生技能的人，一個懂得學習和了解教育的人，一個懂得教育和教育的學生的判性思考和實際問題解決能力。',
+  total_lesson_time: totalTime,
+  week_lesson_time: weekTime,
+  created_at: new Date(),
+  updated_at: new Date(),
+  rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
+   teaching_style: '一個活潑熱情的好老師。',
+   courses:[
+  {
+  class_id:'7',
+	name: 'Math',
+  info: '可怕的數學',
+  style:'困難的',
+  link:'https://youtube.com',
+  time:'30',
+  date:'',
+  avatar:'https://png.pngtree.com/png-vector/20221222/ourmid/pngtree-super-cute-cartoon-vector-bear-png-image_6504049.png',
+  total_score: Math.floor(Math.random(56) * 10 + 1) * 0.5,
+  score_count: Math.floor(Math.random(56) * 10 + 1) * 0.5,
+  created_at: new Date(),
+  updated_at: new Date(),
+  reserveDays:['Sat','Sun']
+},
 ]
 }
 

@@ -4,7 +4,9 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
+import SuccessMessage from '../components/successmodal';
 import { useState } from 'react';
+
 
 const ImageContainer = styled.div`
   width: 360px;
@@ -21,6 +23,7 @@ const TeachersPage = () => {
   const { teacher_id } = useParams();
   const selectedTeacher = DummyTeachers.find(teacher => teacher.teacher_id === String(teacher_id));
   const [selectedDates, setSelectedDates] = useState([]);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
 
   const handleSelect = (selectedDay) => {
@@ -39,7 +42,14 @@ const TeachersPage = () => {
     console.log('Submit:', formData);
     // 這裡可以進一步將資料送到伺服器，或進行其他適當的處理
     // 接下來你可以導航到預約成功的頁面，例如使用 React Router 的 useHistory 鉤子
+    setShowSuccessModal(true);
   };
+
+    const handleCloseSuccessModal = () => {
+    // 關閉 SuccessModal 的回調函式
+    setShowSuccessModal(false);
+  };
+
 
 
 
@@ -106,7 +116,7 @@ const TeachersPage = () => {
              {selectedDates.length > 0 ? `Time: ${selectedDates.join(', ')}` : 'Time'}
           </Dropdown.Toggle>
 
-          <Dropdown.Menu variant="btn-lg" style={{ width: '300px', marginTop: '5%' }}>
+          <Dropdown.Menu style={{ width: '300px', marginTop: '5%' }}>
   {selectedTeacher.courses.map((course) => (
     <div key={course.class_id} style={{ width: '100%', marginTop: '2%' }}>
       {course.reserveDays.map((day, index) => (
@@ -124,6 +134,10 @@ const TeachersPage = () => {
         </Dropdown>
 
               <Button className='btn-info' style={{ margin: '5% 0 0 70%' }} onClick={handleSubmit}>Submit</Button>
+
+              <SuccessMessage show={showSuccessModal} handleClose={handleCloseSuccessModal} />
+
+
             </div>
       
           </div>
