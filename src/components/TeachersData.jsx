@@ -30,7 +30,8 @@ export const DummyTeachers = [
   total_score: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   score_count: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   created_at: new Date(),
-  updated_at: new Date()
+  updated_at: new Date(),
+  reserveDays:['Tue','Thu','Sun']
   },
   ]
 },
@@ -62,7 +63,8 @@ export const DummyTeachers = [
   total_score: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   score_count: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   created_at: new Date(),
-  updated_at: new Date()
+  updated_at: new Date(),
+  reserveDays:['Wed','Thu','Sat']
 },
 ]
 },
@@ -94,7 +96,8 @@ export const DummyTeachers = [
   total_score: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   score_count: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   created_at: new Date(),
-  updated_at: new Date()
+  updated_at: new Date(),
+  reserveDays:['Mon','Tue','Fri']
 },
 ]
 },
@@ -126,7 +129,8 @@ export const DummyTeachers = [
   total_score: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   score_count: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   created_at: new Date(),
-  updated_at: new Date()
+  updated_at: new Date(),
+  reserveDays:['Tue','Fri']
 },
 ]
 },
@@ -158,7 +162,8 @@ export const DummyTeachers = [
   total_score: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   score_count: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   created_at: new Date(),
-  updated_at: new Date()
+  updated_at: new Date(),
+  reserveDays:['Mon','Tue','Wed']
 },
 ]
 },
@@ -190,7 +195,8 @@ export const DummyTeachers = [
   total_score: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   score_count: Math.floor(Math.random(56) * 10 + 1) * 0.5,
   created_at: new Date(),
-  updated_at: new Date()
+  updated_at: new Date(),
+  reserveDays:['Sat','Sun']
 },
 ]
 }

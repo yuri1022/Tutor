@@ -35,7 +35,7 @@ const Navbar = () => {
   <NavbarStyle style={{backgroundColor: 'var(--grey-light)'}}>
   <NavbarContent>
   <div className="navbar" style={{color: 'var(--grey-800)',padding:'10px',width:'100%'}}>
-    <div className="title" style={{  fontSize: '24px', marginRight: '20px'}}>Tutor</div>
+    <StyledLink to="/home" className="title" style={{  fontSize: '24px', marginRight: '20px'}}>Tutor</StyledLink>
     <div className="userpage" style={{  fontSize: '24px', marginRight: '20px'}} >Name</div>  
     {/* 這裡要Link至學生頁面 */}
     <StyledLink to="/apply" className="applyteacher" style={{  fontSize: '24px', marginRight: '20px'}}>成為老師</StyledLink>

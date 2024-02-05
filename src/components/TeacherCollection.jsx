@@ -44,7 +44,6 @@ const Teacher = ({ teacher }) => {
    <div className="button" style={{ display:'flex',justifyContent: 'center' }}>
       
       <button className="btn btn-outline-secondary" onClick={handleButtonClick} style={{ margin:'10px' }}>詳細資訊</button>
-       <button href="#" className="btn btn-outline-secondary" style={{ margin:'10px' }}>我要預約</button>
     </div>
      </Card.Body>
    </Card>
