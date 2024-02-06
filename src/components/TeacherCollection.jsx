@@ -1,9 +1,11 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components"
 import '../main.scss'
 import { Card } from 'react-bootstrap';
 import  { DummyTeachers }  from './TeachersData'
+import Search from './Searchbar';
 
 const ImageContainer = styled.div`
   width: 160px;
@@ -65,6 +67,9 @@ Teacher.propTypes = {
 
 const TeacherCollection = () => {
 
+
+const [searchTerm, setSearchTerm] = useState('');
+
 const itemsPerPage = 6;
 const { page } = useParams(); // 獲取路由參數中的 page
 
@@ -75,6 +80,8 @@ const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默�
 
   const navigate = useNavigate();
 
+  //分頁功能
+
   const handlePageChange = (newPage) => {
     navigate(`/home/${newPage}`);
     window.scrollTo(0, 0);
@@ -82,9 +89,27 @@ const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默�
 
   const visibleTeachers = DummyTeachers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+
+  //搜尋功能
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+ const filteredTeachers = searchTerm
+    ? DummyTeachers.filter((teacher) =>
+        teacher.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : visibleTeachers;
+
   return (
+    
   <div className="div-container col col-11" style={{ margin:'14% 0% 5% 7%'}}>
-      {visibleTeachers.map((teacher) => (
+    <div className="search">
+        {/* 傳遞搜索條件和搜索變更的處理函數 */}
+        <Search searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+      </div>
+
+      {filteredTeachers.map((teacher) => (
         <Teacher key={teacher.teacher_id} teacher={teacher} />
       ))}
 

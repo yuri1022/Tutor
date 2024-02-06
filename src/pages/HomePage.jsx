@@ -1,6 +1,5 @@
 import Navbar from '../components/Navbar';
 import TeachersCollection from '../components/TeacherCollection';
-import Search from '../components/Searchbar';
 import BestStudents from '../components/BestStudents';
 
 
@@ -15,9 +14,6 @@ const HomePage = () => {
     <div className="form col col-12" style={{display:'flex'}}>
 
   <div className="form-left col col-8">
-  <div className="search">
-    <Search />
-  </div>
     <TeachersCollection />    
   
   </div>
