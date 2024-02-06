@@ -1,4 +1,5 @@
 import { Modal } from "react-bootstrap";
+import PropTypes from 'prop-types';
 
 const SuccessMessage = ({ show, handleClose }) => {
   return (
@@ -18,6 +19,11 @@ const SuccessMessage = ({ show, handleClose }) => {
       </Modal.Footer>
     </Modal>
   );
+};
+
+SuccessMessage.propTypes = {
+  show: PropTypes.bool.isRequired,  
+  handleClose: PropTypes.func.isRequired,  
 };
 
 export default SuccessMessage;
