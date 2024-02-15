@@ -1,4 +1,6 @@
 import { useState,useEffect,useRef } from 'react';
+import arrow_right from './../assets/images/svg/arrow-right.svg';
+import arrow_left from './../assets/images/svg/arrow-left.svg';
 const Students_profile_Calender = () =>{
     const today = new Date();
     const today_month = today.getMonth();
@@ -8,6 +10,32 @@ const Students_profile_Calender = () =>{
     console.log(currentMonth);
     console.log(currentYear);
     const calender_block = useRef(null);
+
+    const course_list = [{
+        year:2024,
+        month:2,
+        day:2,
+        subject:'多益',
+        teacher:'Grace',
+        time: `17:00-17:30`,
+    },
+    {
+        year:2024,
+        month:2,
+        day:2,
+        subject:'多益',
+        teacher:'Grace',
+        time: `21:00-22:30`,
+    },
+    {
+        year:2024,
+        month:2,
+        day:5,
+        subject:'睡覺',
+        teacer:'Kspsss',
+        time: `22:00-24:00`
+    }
+    ]
     const months = ["January",
     "February",
     "March",
@@ -55,7 +83,23 @@ const Students_profile_Calender = () =>{
             return days_arr[month];
         }   
     }
+    const increament_year =(add)=>{
 
+        setCurrentYear(currentYear+add);
+    }
+    const show_course = (course_list)=>{
+        for(let i = 0 ; i<course_list.length; i++){
+            console.log(`${course_list[i].subject}`);
+            let newDiv = `
+            <div>
+                <div>${course_list[i].subject}</div>
+                <div>${course_list[i].teacher}</div>
+                <div>${course_list[i].time}</div>
+            </div>`
+            
+            
+        }
+    }
     console.log(calender_block);
     let firstDayOfMonth= new Date(currentYear, currentMonth, 1).getDay();
     let dayInMonth= get_days_in_month(currentYear,currentMonth);
@@ -65,6 +109,7 @@ const Students_profile_Calender = () =>{
     const render_week_array = [];
     let currentDay = 1;
     let key = 0 ;
+    
     for(let i = 0 ; i < 5; i++)
     {
         const render_day_arr = [];
@@ -73,7 +118,18 @@ const Students_profile_Calender = () =>{
                 render_day_arr.push(<div className="col calender_block" key={'calender'+key}></div>);
             }
             else if(currentDay <= dayInMonth){
-                render_day_arr.push(<div className="col calender_block" key={'calender'+key}>{currentDay}</div>);
+                let newDiv = ``;
+                for( let z=0; z<course_list.length; z++){
+                    if(course_list[z].day ===currentDay && course_list[z].month-1 === currentMonth){
+                    newDiv = 
+                    <div className="">
+                        <div>{course_list[i].subject}</div>
+                        <div>{course_list[i].teacher}</div>
+                        <div>{course_list[i].time}</div>
+                    </div>
+                    }
+                }
+                render_day_arr.push(<div  className="col calender_block" key={'calender'+key}>{currentDay}{newDiv}</div>);
                 currentDay++;
             }
             else{
@@ -83,6 +139,7 @@ const Students_profile_Calender = () =>{
         }
         render_week_array.push(<div className="d-flex " key={i}>{render_day_arr}</div>)
     }
+    show_course(course_list );
     useEffect(()=>{
 
     },[])
@@ -93,19 +150,46 @@ const Students_profile_Calender = () =>{
     },[currentMonth,currentYear])
     return(
         <>
-        <select className="month-selection mb-20px" name="months" value={currentMonth} onChange={(e)=>{
-            console.log(parseInt(e.target.value));
-            setCurrentMonth(parseInt(e.target.value))}}>
-        {
-            months.map((month,key)=>{
-                return(
-                    <option key={key} value={key} onClick={()=>{setCurrentMonth(key)}}> {month}</option>
-                )
-            })
-        }
-        </select>
+        <div className="d-flex justify-between mb-20px">
+            <select className="month-selection" name="months" value={currentMonth} onChange={(e)=>{
+                console.log(parseInt(e.target.value));
+                setCurrentMonth(parseInt(e.target.value))}}>
+            {
+                months.map((month,key)=>{
+                    return(
+                        <option key={key} value={key} onClick={()=>{setCurrentMonth(key)}}> {month}</option>
+                    )
+                })
+            }
+            </select>
+            <div className="d-flex items-center">
+                <img className="btn" src={arrow_left} onClick={(e)=>{increament_year(-1)}}/>
+                <div className="text-primary">{currentYear}</div>
+                <img className="btn rotate-arrow" src={arrow_left} onClick={(e)=>{increament_year(1)}}/>
+            </div>
+        </div>
 
+            <div className="d-flex flex-reverse mb-10px"> 
+                <div className="d-flex items-center ">
+                    <div className="circle-icon bg-finsh mr-10px"></div>
+                    <div className="">已完課</div>
 
+                </div>
+                <div className="d-flex items-center mr-10px">
+                <div className="circle-icon bg-no-dis mr-10px"></div>
+                    <div className="">未評論</div>
+
+                </div>
+                <div className="d-flex items-center mr-10px">
+                    <div className="circle-icon bg-not-seat mr-10px"></div>
+                    <div className="">缺席</div>
+                </div>
+                <div className="d-flex items-center mr-10px">
+                    <div className="circle-icon bg-o-not-l mr-10px"></div>
+                    <div className="">已預約未聽課</div>
+
+                </div>
+            </div>
             <div className="d-flex">
             {
                     weeks_arr.map((week,key)=>{
@@ -116,8 +200,9 @@ const Students_profile_Calender = () =>{
                         )
                     })
             }
+                
             </div>
-            <div id="calender-block" className="calender_table" ref={calender_block}>{render_week_array}</div>
+            <div id="calender-block" className="calender_table">{render_week_array}</div>
         </>
     )
 }

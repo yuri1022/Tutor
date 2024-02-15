@@ -1,7 +1,7 @@
 
 import { useState , useEffect} from 'react';
 
-import headshot01 from './../assets/images/headshot01.svg';
+import headshot01 from './../assets/images/svg/headshot01.svg';
 const Navbar = () =>{
     const [searchText,setSearchText] = useState("");
     return(

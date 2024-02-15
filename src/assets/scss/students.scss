@@ -68,7 +68,45 @@
     .mb-40px{
         margin-bottom: 40px;
     }
-
+    .mr-10px{
+        margin-right: 10px;
+    }
+    .justify-between{
+        justify-content: space-between;
+    }
+    .flex-reverse{
+        flex-direction: row-reverse;
+    }
+    .circle-icon{
+       width: 20px;
+       height: 20px;
+       border-radius: 10px;
+    }
+    .bg-o-not-l{
+        background-color: #3652E3;
+    }
+    .bg-not-seat{
+        background-color: #F43C2E
+    }
+    .bg-no-dis{
+        background-color:#FFFFFF;
+        border: 1px solid #3652E3;
+    }   
+    .bg-finsh{
+        background-color: #3652E3;
+        opacity: 25%;
+    }
+    .items-center{
+        align-items:center;
+    }
+    .rotate-arrow{
+        transform: rotate(180deg);
+    }
+    .text-primary{
+        font-size:18px;
+        line-height:22px;
+        color:#3652E3;
+    }
 }
 /* Calender Part*/
 .block-week{
@@ -81,7 +119,7 @@
 .calender_block{
     border:1px solid #3652E3;
     text-align:right;
-    height:60px;
+    min-height:60px;
 }
 .calender_table{
     border:1px solid #3652E3;
