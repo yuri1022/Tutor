@@ -1,8 +1,46 @@
-
+.Profile_container_stu{
+    padding: 0px 7vh 30px 7vh;
+    background-color:white;
+    position:relative;
+}
+/* Left Profile Container*/
 .left-profile-stu-container{
-    padding: 16px;
+    padding:20px 10px 0px 10px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    border: 0.2px #000000;
+    border-radius: 15px;
+    box-shadow: 16px 16px 40px #C7C7C7;
+    .text-title{
+        font-size:18px;
+        line-height:22px;
+        font-weight: 500;
+    }
+    .img-profile{
+        margin-bottom: 5px;
+        width:100%;
+    }
+    .mb-10px{
+        margin-bottom:10px;
+    }
+    .mb-20px{
+        margin-bottom: 20px;
+    }
+    .mb-40px{
+        margin-bottom: 40px;
+    }
+    .rank-block{
+        margin-bottom:20px;
+        display:flex;
+        justify-content: space-around;
+        border:1px solid #3652E3;
+        border-radius:15px;
+        padding: 5px 10px 5px 10px;
+    }
+    .w-100{
+        width:100%;
+    }
 }
 .img-lesson{
     border-radius: 30px;
@@ -13,24 +51,38 @@
 .info-title{
     margin-bottom: 10px;
 }
-.lesson-block{
-    margin-bottom:10px;
-    display: flex;
-    align-items: center;
-    .lesson-block-info{
-        border:1px solid black;
-        padding: 10px;
-        display: flex;
+/* Right Profile Container */
+.right-profile-stu-container{
+    padding: 0px 0px 30px 7vh;
+    .text-title{
+        font-size:18px;
+        line-height:22px;
+        font-weight: 500;
     }
-    .lesson-block-into-text{
-        margin-right:10px;
+    .mb-10px{
+        margin-bottom:10px;
     }
+    .mb-20px{
+        margin-bottom: 20px;
+    }
+    .mb-40px{
+        margin-bottom: 40px;
+    }
+
 }
-.text-lesson{
-    color: black;
-    font-size: 16px;
+/* Calender Part*/
+.block-week{
+    text-align: center;
+    color:white;
+    font-size:12px;
+    padding:10px;
+    
 }
-.text-tutor{
-    color: #93989A;
-    font-size: 12px;
+.calender_block{
+    border:1px solid #3652E3;
+    text-align:right;
+    height:60px;
+}
+.calender_table{
+    border:1px solid #3652E3;
 }
