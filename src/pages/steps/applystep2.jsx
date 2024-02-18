@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 
 
-const ApplyStep2 = ({ setIntroduction, onNextStep }) => {
+const ApplyStep2 = ({ setIntroduction, onNextStep,onPrevious }) => {
   return (
  <div className="container" style={{ marginTop: "6%" }}>
       <Form className="form-step">
@@ -11,7 +11,7 @@ const ApplyStep2 = ({ setIntroduction, onNextStep }) => {
           <Form.Label>Your Introduction</Form.Label>
           <Form.Control as="textarea" rows={6} onChange={(e) => setIntroduction(e.target.value)} />
         </Form.Group>
-        <Button variant="primary" onClick={onNextStep}>
+        <Button variant="primary" onClick={onPrevious}>
           上一步
         </Button>
         <Button variant="primary" onClick={onNextStep}>
@@ -25,7 +25,7 @@ const ApplyStep2 = ({ setIntroduction, onNextStep }) => {
 ApplyStep2.propTypes = {
   setIntroduction: PropTypes.func.isRequired,
   onNextStep: PropTypes.func.isRequired,
-   onPrevious: PropTypes.func.isRequired,
+  onPrevious: PropTypes.func.isRequired,
 };
 
 export default ApplyStep2;

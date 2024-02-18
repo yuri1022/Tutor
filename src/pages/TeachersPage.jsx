@@ -25,6 +25,13 @@
     const selectedTeacher = DummyTeachers.find(teacher => teacher.teacher_id === String(teacher_id));
     const [selectedDate, setSelectedDate] = useState(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState(''); // 新增這一行
+
+
+    const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+
+  };
 
     const handleSubmit = () => {
       // 在這裡使用表單資料，例如將資料存儲到 TeacherData 中
@@ -91,7 +98,7 @@
 
     return (
     <div>
-      <Navbar />
+      <Navbar searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
         <div className="div-container col col-11" style={{ margin:'5% 0% 3% 7%'}}>
         {selectedTeacher && (
             <div key={selectedTeacher.id} style={{display:'flex'}}>

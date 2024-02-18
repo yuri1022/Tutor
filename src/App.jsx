@@ -5,12 +5,14 @@ import TeachersPage from "./pages/TeachersPage";
 import ApplyTeacher from './pages/ApplyTeacher';
 // import './main.scss'
 import Students_profile from './pages/students/Students_profile'
+import TeacherSelfPage from './pages/TeacherSelfPage';
 function App() {
   return (
   <BrowserRouter>
   <div className="app">
        <Routes>       
           <Route path="teacher/:teacher_id" element={<TeachersPage />} />
+          <Route path="teacher/:teacher_id/personal" element={<TeacherSelfPage />} />
           <Route path="student" element={<Students_profile/>} />
           <Route path="home" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />

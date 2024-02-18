@@ -22,7 +22,7 @@ export const DummyTeachers = [
   created_at: new Date(),
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  teaching_style: '一個活潑熱情的好老師。',
+  teaching_style: 'Office ipsum you must be muted. Going spaces caught usabiltiy backwards. Info shower know rehydrate synergy indicators calculator cadence hit market. The backwards kimono managing beef close. Done panel join me look cc competitors comms scope container. Awareness catching nor ditching elephant helicopter chime read. Group community deck parking shark shoot plan right synergy couldSay crack air fastworks recap switch. Skulls request angel eager too 30,000ft. Run we key idea principles decisions innovation charts waste. Expectations into turn teeth illustration rundown first-order hit sorry loss. Support sorry world rundown then protocol globalize. Scope submit your driving sorry boy. Heads-up production value-added innovation low lot overflow catching strategies. Explore.',
   category:['雅思','日常會話','新聞英文'],
   courses:[
   {
@@ -63,7 +63,7 @@ export const DummyTeachers = [
   created_at: new Date(),
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
-  teaching_style: '一個活潑熱情的好老師。',
+  teaching_style: 'Office ipsum you must be muted. Going spaces caught usabiltiy backwards. Info shower know rehydrate synergy indicators calculator cadence hit market. The backwards kimono managing beef close. Done panel join me look cc competitors comms scope container. Awareness catching nor ditching elephant helicopter chime read. Group community deck parking shark shoot plan right synergy couldSay crack air fastworks recap switch. Skulls request angel eager too 30,000ft. Run we key idea principles decisions innovation charts waste. Expectations into turn teeth illustration rundown first-order hit sorry loss. Support sorry world rundown then protocol globalize. Scope submit your driving sorry boy. Heads-up production value-added innovation low lot overflow catching strategies. Explore.',
   category:['多益','托福','商用英文','日常會話','新聞英文'],
    courses:[
   {
@@ -104,7 +104,7 @@ export const DummyTeachers = [
   created_at: new Date(),
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
-   teaching_style: '一個活潑熱情的好老師。',
+   teaching_style: 'Office ipsum you must be muted. Going spaces caught usabiltiy backwards. Info shower know rehydrate synergy indicators calculator cadence hit market. The backwards kimono managing beef close. Done panel join me look cc competitors comms scope container. Awareness catching nor ditching elephant helicopter chime read. Group community deck parking shark shoot plan right synergy couldSay crack air fastworks recap switch. Skulls request angel eager too 30,000ft. Run we key idea principles decisions innovation charts waste. Expectations into turn teeth illustration rundown first-order hit sorry loss. Support sorry world rundown then protocol globalize. Scope submit your driving sorry boy. Heads-up production value-added innovation low lot overflow catching strategies. Explore.',
    category:['多益','托福','商用英文','日常會話','新聞英文'],
    courses:[
   {
@@ -145,7 +145,7 @@ export const DummyTeachers = [
   created_at: new Date(),
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
-   teaching_style: '一個活潑熱情的好老師。',
+   teaching_style: 'Office ipsum you must be muted. Going spaces caught usabiltiy backwards. Info shower know rehydrate synergy indicators calculator cadence hit market. The backwards kimono managing beef close. Done panel join me look cc competitors comms scope container. Awareness catching nor ditching elephant helicopter chime read. Group community deck parking shark shoot plan right synergy couldSay crack air fastworks recap switch. Skulls request angel eager too 30,000ft. Run we key idea principles decisions innovation charts waste. Expectations into turn teeth illustration rundown first-order hit sorry loss. Support sorry world rundown then protocol globalize. Scope submit your driving sorry boy. Heads-up production value-added innovation low lot overflow catching strategies. Explore.',
    category:['多益','日常會話','旅遊英文'],
    courses:[
   {
@@ -186,7 +186,7 @@ export const DummyTeachers = [
   created_at: new Date(),
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
-   teaching_style: '一個活潑熱情的好老師。',
+   teaching_style:'Office ipsum you must be muted. Going spaces caught usabiltiy backwards. Info shower know rehydrate synergy indicators calculator cadence hit market. The backwards kimono managing beef close. Done panel join me look cc competitors comms scope container. Awareness catching nor ditching elephant helicopter chime read. Group community deck parking shark shoot plan right synergy couldSay crack air fastworks recap switch. Skulls request angel eager too 30,000ft. Run we key idea principles decisions innovation charts waste. Expectations into turn teeth illustration rundown first-order hit sorry loss. Support sorry world rundown then protocol globalize. Scope submit your driving sorry boy. Heads-up production value-added innovation low lot overflow catching strategies. Explore.',
    category:['托福','雅思','商用英文','新聞英文'],
    courses:[
   {
@@ -227,7 +227,7 @@ export const DummyTeachers = [
   created_at: new Date(),
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
-   teaching_style: '一個活潑熱情的好老師。',
+   teaching_style: 'Office ipsum you must be muted. Going spaces caught usabiltiy backwards. Info shower know rehydrate synergy indicators calculator cadence hit market. The backwards kimono managing beef close. Done panel join me look cc competitors comms scope container. Awareness catching nor ditching elephant helicopter chime read. Group community deck parking shark shoot plan right synergy couldSay crack air fastworks recap switch. Skulls request angel eager too 30,000ft. Run we key idea principles decisions innovation charts waste. Expectations into turn teeth illustration rundown first-order hit sorry loss. Support sorry world rundown then protocol globalize. Scope submit your driving sorry boy. Heads-up production value-added innovation low lot overflow catching strategies. Explore.',
    category:['雅思','日常會話','旅遊英文'],
    courses:[
   {
@@ -269,7 +269,7 @@ export const DummyTeachers = [
   created_at: new Date(),
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
-   teaching_style: '一個活潑熱情的好老師。',
+   teaching_style: 'Office ipsum you must be muted. Going spaces caught usabiltiy backwards. Info shower know rehydrate synergy indicators calculator cadence hit market. The backwards kimono managing beef close. Done panel join me look cc competitors comms scope container. Awareness catching nor ditching elephant helicopter chime read. Group community deck parking shark shoot plan right synergy couldSay crack air fastworks recap switch. Skulls request angel eager too 30,000ft. Run we key idea principles decisions innovation charts waste. Expectations into turn teeth illustration rundown first-order hit sorry loss. Support sorry world rundown then protocol globalize. Scope submit your driving sorry boy. Heads-up production value-added innovation low lot overflow catching strategies. Explore.',
    category:['托福','雅思','旅遊英文','日常會話','新聞英文'],
    courses:[
   {

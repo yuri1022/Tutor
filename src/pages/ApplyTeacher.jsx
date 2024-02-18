@@ -5,10 +5,12 @@ import ApplyStep1 from "./steps/applystep1";
 import ApplyStep2 from "./steps/applystep2";
 import ApplyStep3 from "./steps/applystep3";
 import ApplyStep4 from "./steps/applystep4";
+import PropTypes from 'prop-types';
 
 
 const ApplyTeacher = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(''); // 新增這一行
   const [name,setName]= useState('');
   const [nation,setNation]= useState('');
   const [category,setCategory] = useState('');
@@ -57,9 +59,15 @@ const ApplyTeacher = () => {
     setCurrentStep(currentStep - 1);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+
+  };
+
   return (
     <>
-    <Navbar />
+    <Navbar searchTerm={searchTerm} onSearchChange={handleSearchChange} />    
+    
     <div className="form col col-12" style={{display:'flex',justifyContent:'center'}}>
 
     <div className="form-left col col-3" >
@@ -91,6 +99,11 @@ const ApplyTeacher = () => {
     
     </>
   );
+};
+
+Navbar.propTypes = {
+  searchTerm: PropTypes.string.isRequired,
+  onSearchChange: PropTypes.func.isRequired,
 };
 
 export default ApplyTeacher;
