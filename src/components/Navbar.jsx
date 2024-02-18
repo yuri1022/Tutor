@@ -1,16 +1,23 @@
 
-import { useState , useEffect} from 'react';
-
+import Search from './Searchbar'
+import PropTypes from 'prop-types';
 import headshot01 from './../assets/images/svg/headshot01.svg';
-const Navbar = () =>{
-    const [searchText,setSearchText] = useState("");
+import LogoIcon from '../assets/images/svg/logo.svg'
+import { Link } from 'react-router-dom';
+
+
+const Navbar = ({ searchTerm, onSearchChange }) =>{
+
+  
     return(
             <nav className="Navtop navbar navbar-expand-lg ">
                 <div className="d-flex">
-                    <a className="navbar-brand" href="#">Tutor</a>
+                    <Link to = '/'>
+                    <img src={LogoIcon} alt="tutor" />
+                    </Link>
                     <ul className="navbar-nav ">
                         <li className="nav-item">
-                            <a className="nav-link" href="#">成為老師</a>
+                            <Link to = '/apply'>成為老師</Link>
                         </li>
                     </ul>
                 </div>
@@ -20,7 +27,7 @@ const Navbar = () =>{
                 <div className="NavCollapse" >
                     <div className="navbar-right">
                         <div className="navbar-search">
-                            <input  onChange={(e)=>{setSearchText(e.target.value)}}className="form-control" type="text" value={searchText} placeholder="搜尋"/>
+                        <Search searchTerm={searchTerm} onSearchChange={onSearchChange} />
                         </div>
                         <div className="d-flex">
                             <div><img src={headshot01}/></div>
@@ -30,6 +37,11 @@ const Navbar = () =>{
                 </div>
             </nav>  
     )
-}
+};
+
+Navbar.propTypes = {
+  searchTerm: PropTypes.string.isRequired,
+  onSearchChange: PropTypes.func.isRequired,
+};
 
 export default Navbar;

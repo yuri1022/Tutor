@@ -12,9 +12,9 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img`
-  width: 100%; /* 图片宽度填充容器 */
-  height: 100%; /* 图片高度填充容器 */
-  object-fit: cover; /* 保持宽高比例并裁剪 */
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
 `;
 
 const Student = ({ student, rank }) =>{

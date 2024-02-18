@@ -17,4 +17,4 @@ const LessonBlock = ()=>{
     
 }
 
-export default LessonBlock
+export default LessonBlock;

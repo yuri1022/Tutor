@@ -1,8 +1,17 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
-import { Button,Form } from 'react-bootstrap';
+import ApplyStepProgress from "./steps/applystepprogress";
+import ApplyStep1 from "./steps/applystep1";
+import ApplyStep2 from "./steps/applystep2";
+import ApplyStep3 from "./steps/applystep3";
+import ApplyStep4 from "./steps/applystep4";
+
 
 const ApplyTeacher = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [name,setName]= useState('');
+  const [nation,setNation]= useState('');
+  const [category,setCategory] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [teachingStyle, setTeachingStyle] = useState('');
   const [videoLink, setVideoLink] = useState('');
@@ -25,9 +34,12 @@ const ApplyTeacher = () => {
   };
 
   // 處理表單提交的函式
-  const handleSubmit = () => {
+  const onSubmit = () => {
     // 在這裡使用表單資料，例如將資料存儲到 TeacherData 中
     const formData = {
+      name,
+      nation,
+      category,
       introduction,
       teachingStyle,
       videoLink,
@@ -38,39 +50,45 @@ const ApplyTeacher = () => {
   };
 
 
+    const onNextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+    const onPrevious = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
   return (
     <>
-  <Navbar />
-    <div className="container .col.col-lg-9" style={{marginTop:"6%"}}>
-    <Form className="form-introduction" style={{margin:"1% 0 1% 0"}}>Your Introduction</Form>
-    <textarea className="form-control" value={introduction} onChange={(e)=> setIntroduction(e.target.value)} rows="3"></textarea>
-    <Form className="form-teaching-style" style={{margin:"1% 0 1% 0"}}>Your Teaching Style</Form>
-    <textarea className="form-control" value={teachingStyle} onChange={(e)=> setTeachingStyle(e.target.value)} rows="3"></textarea>
-    <Form className="form-class-link" style={{margin:"1% 0 1% 0"}}>課程視訊連結</Form>
-    <textarea className="form-control" value={videoLink} onChange={(e) => setVideoLink(e.target.value)} rows="1"></textarea>
-    <h6 className="form-reserve-date" style={{margin:"1% 0 1% 0"}}>開放預約</h6>
-    <div className="reserve-date" style={{ display: "flex" }}>
-          {/* 用 map 來動態生成 checkbox */}
-          {Object.keys(reserveDays).map((day) => (
-            <div className="form-check" key={day}>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value=""
-                id={`flexCheck${day}`}
-                checked={reserveDays[day]}
-                onChange={() => handleCheckboxChange(day)}
-              />
-              <label className="form-check-label" htmlFor={`flexCheck${day}`}>
-                {day}
-              </label>
-            </div>
-          ))}
-        </div>
-    <Button className="submit"style={{margin:"1% 0 1% 0"}} onClick={handleSubmit}>Submit</Button>
+    <Navbar />
+    <div className="form col col-12" style={{display:'flex',justifyContent:'center'}}>
+
+    <div className="form-left col col-3" >
+    <ApplyStepProgress currentStep={currentStep} />
 
 
     </div>
+
+
+    <div className="form-right col col-9">
+
+      <div className="container " style={{marginTop:"6%"}}>
+
+    {currentStep === 1 && <ApplyStep1 setName={setName} setNation={setNation}  onNextStep={onNextStep} />}
+          {currentStep === 2 && <ApplyStep2 setIntroduction={setIntroduction} onNextStep={onNextStep} onPrevious={onPrevious}/>}
+          {currentStep === 3 && <ApplyStep3 setCategory={setCategory} setTeachingStyle={setTeachingStyle} setVideoLink={setVideoLink} onNextStep={onNextStep} onPrevious={onPrevious}/>}
+           {currentStep === 4 && <ApplyStep4 reserveDays={reserveDays} handleCheckboxChange={handleCheckboxChange}  onSubmit={onSubmit} onPrevious={onPrevious}/>}
+          
+
+  
+
+    </div>
+
+
+    </div>
+
+    </div>
+
+    
     </>
   );
 };

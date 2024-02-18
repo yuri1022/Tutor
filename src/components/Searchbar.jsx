@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 
 const Search = ({ searchTerm, onSearchChange }) => {
   return (
-  <div className="search-bar col-lg-7" style={{position:'absolute',top:'13%',left:'6%'}}>
+  <div className="search-bar col-lg-2" style={{position:'absolute',right:'10%'}}>
   <FormControl className="form-control-lg" type="text" placeholder="Search" value={searchTerm}
-        onChange={onSearchChange} />
+         onChange={(e) => {
+          onSearchChange(e.target.value);
+          console.log('Search Term:', e.target.value);}} />
   </div>
   );
 };

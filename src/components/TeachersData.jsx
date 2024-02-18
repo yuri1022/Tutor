@@ -1,15 +1,21 @@
 const weekTime = Math.floor(Math.random(56) * 10 + 1) * 0.5;
 const totalTime = weekTime * Math.floor(Math.random(30) * 10 + 1);
+import TeacherImg1 from '../assets/images/svg/teacher-1.svg';
+import TeacherImg2 from '../assets/images/svg/teacher-2.svg';
+import TeacherImg3 from '../assets/images/svg/teacher-3.svg';
+import TeacherImg4 from '../assets/images/svg/teacher-4.svg';
+import TeacherImg5 from '../assets/images/svg/teacher-5.svg';
+import TeacherImg6 from '../assets/images/svg/teacher-6.svg';
 
 export const DummyTeachers = [
   {
   teacher_id:'1',
-	name: '老師1號',
+	name: 'Daniel',
   email: 'user1@example.com',
   password:'a1234567890',
-  nation:'taiwan',
+  nation:'canada',
   is_teacher: true,
-  avatar: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
+  avatar: TeacherImg1,
   info: '一個懂得學習和理解學生技能的人，一個懂得學習和了解教育的人，一個懂得教育和教育的學生的判性思考和實際問題解決能力。',
   total_lesson_time: totalTime,
   week_lesson_time: weekTime,
@@ -17,6 +23,7 @@ export const DummyTeachers = [
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
   teaching_style: '一個活潑熱情的好老師。',
+  category:['雅思','日常會話','新聞英文'],
   courses:[
   {
   class_id:'1',
@@ -44,12 +51,12 @@ export const DummyTeachers = [
 },
   {
   teacher_id:'2',
-	name: '老師2號',
+	name: 'Emily',
   email: 'user2@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: true,
-  avatar: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
+  avatar: TeacherImg2,
   info: '一個懂得學習和理解學生技能的人，一個懂得學習和了解教育的人，一個懂得教育和教育的學生的判性思考和實際問題解決能力。',
   total_lesson_time: totalTime,
   week_lesson_time: weekTime,
@@ -57,6 +64,7 @@ export const DummyTeachers = [
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
   teaching_style: '一個活潑熱情的好老師。',
+  category:['多益','托福','商用英文','日常會話','新聞英文'],
    courses:[
   {
   class_id:'1',
@@ -84,12 +92,12 @@ export const DummyTeachers = [
 },
   {
   teacher_id:'3',
-	name: '老師3號',
+	name: 'Matthew',
   email: 'user3@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: true,
-  avatar: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
+  avatar: TeacherImg3,
   info: '一個懂得學習和理解學生技能的人，一個懂得學習和了解教育的人，一個懂得教育和教育的學生的判性思考和實際問題解決能力。',
   total_lesson_time: totalTime,
   week_lesson_time: weekTime,
@@ -97,6 +105,7 @@ export const DummyTeachers = [
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
    teaching_style: '一個活潑熱情的好老師。',
+   category:['多益','托福','商用英文','日常會話','新聞英文'],
    courses:[
   {
   class_id:'1',
@@ -124,12 +133,12 @@ export const DummyTeachers = [
 },
   {
   teacher_id:'4',
-	name: '老師4號',
+	name: 'Isabella',
   email: 'user4@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: true,
-  avatar: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
+  avatar: TeacherImg4,
   info: '一個懂得學習和理解學生技能的人，一個懂得學習和了解教育的人，一個懂得教育和教育的學生的判性思考和實際問題解決能力。',
   total_lesson_time: totalTime,
   week_lesson_time: weekTime,
@@ -137,6 +146,7 @@ export const DummyTeachers = [
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
    teaching_style: '一個活潑熱情的好老師。',
+   category:['多益','日常會話','旅遊英文'],
    courses:[
   {
   class_id:'4',
@@ -164,12 +174,12 @@ export const DummyTeachers = [
 },
   {
  teacher_id:'5',
-	name: '老師5號',
+	name: 'Christopher',
   email: 'user5@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: true,
-  avatar: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
+  avatar: TeacherImg5,
   info: '一個懂得學習和理解學生技能的人，一個懂得學習和了解教育的人，一個懂得教育和教育的學生的判性思考和實際問題解決能力。',
   total_lesson_time: totalTime,
   week_lesson_time: weekTime,
@@ -177,6 +187,7 @@ export const DummyTeachers = [
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
    teaching_style: '一個活潑熱情的好老師。',
+   category:['托福','雅思','商用英文','新聞英文'],
    courses:[
   {
   class_id:'5',
@@ -204,12 +215,12 @@ export const DummyTeachers = [
 },
   {
   teacher_id:'6',
-	name: '老師6號',
+	name: 'Grace',
   email: 'user6@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: true,
-  avatar: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
+  avatar:TeacherImg6,
   info: '一個懂得學習和理解學生技能的人，一個懂得學習和了解教育的人，一個懂得教育和教育的學生的判性思考和實際問題解決能力。',
   total_lesson_time: totalTime,
   week_lesson_time: weekTime,
@@ -217,6 +228,7 @@ export const DummyTeachers = [
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
    teaching_style: '一個活潑熱情的好老師。',
+   category:['雅思','日常會話','旅遊英文'],
    courses:[
   {
   class_id:'6',
@@ -245,12 +257,12 @@ export const DummyTeachers = [
 
  {
   teacher_id:'7',
-	name: '老師7號',
+	name: 'Tommy',
   email: 'user7@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: true,
-  avatar: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
+  avatar: TeacherImg1,
   info: '一個懂得學習和理解學生技能的人，一個懂得學習和了解教育的人，一個懂得教育和教育的學生的判性思考和實際問題解決能力。',
   total_lesson_time: totalTime,
   week_lesson_time: weekTime,
@@ -258,6 +270,7 @@ export const DummyTeachers = [
   updated_at: new Date(),
   rating:Math.floor(Math.random(56) * 10 + 1) * 0.5,
    teaching_style: '一個活潑熱情的好老師。',
+   category:['托福','雅思','旅遊英文','日常會話','新聞英文'],
    courses:[
   {
   class_id:'7',
