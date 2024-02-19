@@ -1,14 +1,12 @@
 import Navbar from "../components/Navbar";
-import { Button,Card, CardImg } from "react-bootstrap";
 import { useNavigate,useParams } from "react-router-dom";
 import NationImg from '../assets/images/svg/canada.svg';
 import EditImg from '../assets/images/svg/edit.svg';
-import Rating from '../assets/images/svg/rating.svg'
 import '../assets/scss/teacherpage.scss'
 import MyCalendar from "../components/Teacher_profile_Calendar";
 import PropTypes from 'prop-types';
 import { DummyTeachers } from "../components/TeachersData";
-import CommentModal from "../components/CommentsModal";
+import ClassComments from "../components/ClassComments";
 import TeacherEditInfo from "../components/TeacherEditModal";
 import { useState ,useEffect } from "react";
 
@@ -17,7 +15,6 @@ import { useState ,useEffect } from "react";
 
 
 const TeacherSelfPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [teacher, setTeacher] = useState(null); // 新增這行
 
@@ -65,19 +62,7 @@ const handleSave = (editedData) => {
   closeEdit();
 };
 
-  const handleCommentClick = () => {
-    // 在這裡執行你的操作，例如拉取教師評價信息
-    // ...
-
-    // 打開 Modal
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    // 關閉 Modal
-    setIsModalOpen(false);
-  };
-
+  
     if (!teacher) {
     return null; // 或者你可以渲染加载中的 UI
   }
@@ -166,73 +151,11 @@ const handleSave = (editedData) => {
 
     <div className="self-right col col -3" style={{width:'100%'}}>
 
-    <div className="self-comment">
 
-      <div className="self-comment-title-rating" style={{display:'flex'}}>
-        <h6 className="self-comment-title">課程評價</h6>
-        <img src={Rating} alt="rating" />
-        <h6>{teacher.rating}</h6>
-      </div>
-      
-    <div className="class-comment-title"><h5>New Schedule</h5></div>
-        <div className="class-comment-info" style={{display:'flex',flexDirection:'column',width:'80%'}}>
-          <Card className="class-comment-info-card" style={{fontSize:'16px',margin:'10px 10px 20px 0'}}>
-            <Card.Body className="class-comment-info-card-body"> 
-            <div className="card-container" style={{display:'flex'}}>
-
-            <div className="card-img" style={{width:'60px',height:'40px'}}> 
-            <CardImg className="class-comment" src={teacher.avatar} style={{borderRadius:'50%',width:'40px',height:'40px'}} />
-            </div>
-
-
-             <div className="card-title">
-            <Card.Title>Office ipsum</Card.Title>
-            <Card.Title>2024年02月04日</Card.Title>
-            </div> 
-
-            <div className="card-rating">
-              <img src={Rating} alt="rating" />3.0
-            
-            </div>
-
-
-            </div>
-        
-            <div className="card-description">
-
-            <Card.Text className="class-comment-info">
-              Office ipsum you must be muted. Keep fured tentative break land sorry baked productive growth. Mifflin incentivization put able hour timepoint hits. Important unlock activities on t-shaped back-end move wanted. Hop run based anyway mifflin call got.
-              </Card.Text>
-
-
-            </div>
-
-            <div className="card-link">
-            
-            <Button onClick={handleCommentClick}>看更多評價</Button>
-
+     <ClassComments teacher={teacher} />
  
-
-            </div>
-
-          {isModalOpen && (
-           <CommentModal show={isModalOpen} handleClose={closeModal} teacher={teacher}/>
-         )}
-            
-
-
-            </Card.Body>
-          </Card>
-         
-          
-          </div>
-
-
-
     </div>
 
-    </div>
- 
   </div>
 
    </div>
