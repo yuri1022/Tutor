@@ -1,0 +1,99 @@
+.apply-teacher-context{
+
+    .items-center{
+        align-items: center;
+    }
+    .justify-space-between{
+        justify-content: space-between;
+    }
+    .mr-10px{
+        margin-right: 10px;
+    }
+    .mb-10px{
+         margin-bottom: 10px;
+    }
+    .mb-22px{
+        margin-bottom: 22px;
+    }
+    .topbar{
+        border:1px solid #3652E3;
+        padding: 16px 7vh 16px 7vh;
+    }
+    .title{
+        font-size: 20px;
+        font-weight: 500;
+    }
+    .applyContainer {
+        padding: 0px 7vh 30px 7vh;
+
+        .icon-circle{
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            text-align: center;
+            background-color: #3652E3;
+            color: white;
+            font-size: 12px;
+        }
+        .process-bar{
+            width: 100%;
+            color:#3652E3;
+            background-color:white;
+            text-align: center;
+            padding:5px 15px;
+            border-radius: 10px;
+            border: 1px solid #3652E3;
+        }
+        .active{
+            color:white;
+            background-color:#3652E3;
+            border-radius: 10px;
+        }
+        .process-line{
+            position: relative;
+        }
+        .process-line::before{
+            content: "";
+            text-align: center;
+            height: 30px;
+            width:10px;
+            border-right: 1px #D9D9D9 solid;
+            position: absolute;
+            top: 30px;
+        }
+        .process-line-end{
+            position: relative;
+        }
+        .left-container{
+            padding: 15px;
+            min-height: 500px;
+            box-shadow: 3px 3px 2px #C7C7C7;
+            border: 1px black;
+        }
+        .right-container{
+            padding: 20px 20px 0px 20px;
+            height: 100%;
+            position: relative;
+        }
+        .applyForm{
+            min-height: 500px;
+            display:flex;
+            flex-direction: column;
+        }
+        .button-list{
+            width:100%;
+            display:flex;
+            margin-top:auto;
+            // position: absolute;
+            // bottom: 0px;
+            // right: 20px;
+        }
+        .btn-form{
+            background-color: #9B9C9E;
+            color:white
+        }
+        .btn-form:hover{
+            background-color: #3652E3;
+        }
+    }
+}

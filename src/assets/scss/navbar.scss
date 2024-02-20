@@ -4,8 +4,16 @@
     display:flex;
     justify-content: space-between;
     background-color: white;
+    .mr-10px{
+    margin-right:10px;
+    }
     .nav-link{
         color: #b6b6b6;
+    }
+    .headshot{
+        width: 36px;
+        height:36px;
+        border-radius: 18px;
     }
 }
 

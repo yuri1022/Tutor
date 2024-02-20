@@ -1,7 +1,7 @@
 
 import { useState , useEffect} from 'react';
 
-import headshot01 from './../assets/images/svg/headshot01.svg';
+import headshot01 from './../assets/images/svg/user大頭貼學生.svg';
 const Navbar = () =>{
     const [searchText,setSearchText] = useState("");
     return(
@@ -23,7 +23,7 @@ const Navbar = () =>{
                             <input  onChange={(e)=>{setSearchText(e.target.value)}}className="form-control" type="text" value={searchText} placeholder="搜尋"/>
                         </div>
                         <div className="d-flex">
-                            <div><img src={headshot01}/></div>
+                            <div className="mr-10px"><img className="headshot" src={headshot01}/></div>
                             <button className="btn btn-outline-success my-2 my-sm-0" >登出</button>
                         </div>
                     </div>

@@ -24,7 +24,7 @@ const Students_profile_Calender = () =>{
         month:2,
         day:2,
         subject:'多益',
-        teacher:'Grace',
+        teacher:'Gracsse',
         time: `21:00-22:30`,
     },
     {
@@ -32,7 +32,7 @@ const Students_profile_Calender = () =>{
         month:2,
         day:5,
         subject:'睡覺',
-        teacer:'Kspsss',
+        teacher:'Kspsss',
         time: `22:00-24:00`
     }
     ]
@@ -89,21 +89,18 @@ const Students_profile_Calender = () =>{
     }
     const show_course = (course_list)=>{
         for(let i = 0 ; i<course_list.length; i++){
-            console.log(`${course_list[i].subject}`);
+            //console.log(`${course_list[i].subject}`);
             let newDiv = `
             <div>
                 <div>${course_list[i].subject}</div>
                 <div>${course_list[i].teacher}</div>
                 <div>${course_list[i].time}</div>
             </div>`
-            
-            
         }
     }
-    console.log(calender_block);
+
     let firstDayOfMonth= new Date(currentYear, currentMonth, 1).getDay();
     let dayInMonth= get_days_in_month(currentYear,currentMonth);
-    console.log(check_lunar_year(2023));
     const weeks_arr = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
     const render_week_array = [];
@@ -118,15 +115,17 @@ const Students_profile_Calender = () =>{
                 render_day_arr.push(<div className="col calender_block" key={'calender'+key}></div>);
             }
             else if(currentDay <= dayInMonth){
-                let newDiv = ``;
+                let newDiv = [];
                 for( let z=0; z<course_list.length; z++){
-                    if(course_list[z].day ===currentDay && course_list[z].month-1 === currentMonth){
-                    newDiv = 
-                    <div className="">
-                        <div>{course_list[i].subject}</div>
-                        <div>{course_list[i].teacher}</div>
-                        <div>{course_list[i].time}</div>
-                    </div>
+                    //console.log(course_list[z].day);
+                    //console.log(currentDay)
+                    if(course_list[z].day ===currentDay && course_list[z].month-1 === currentMonth && course_list[z].year === currentYear){
+                    newDiv.push(
+                    <div className="" key={z}>
+                        <div>{course_list[z].subject}</div>
+                        <div>{course_list[z].teacher}</div>
+                        <div>{course_list[z].time}</div>
+                    </div>)
                     }
                 }
                 render_day_arr.push(<div  className="col calender_block" key={'calender'+key}>{currentDay}{newDiv}</div>);
@@ -144,9 +143,7 @@ const Students_profile_Calender = () =>{
 
     },[])
 
-    useEffect(()=>{
-
-        
+    useEffect(()=>{  
     },[currentMonth,currentYear])
     return(
         <>

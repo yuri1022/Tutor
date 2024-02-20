@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from "./pages/HomePage";
 import TeachersPage from "./pages/TeachersPage";
 import ApplyTeacher from './pages/ApplyTeacher';
-// import './main.scss'
+import './main.scss'
 import Students_profile from './pages/students/Students_profile'
 function App() {
   return (
