@@ -3,9 +3,11 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from "styled-components"
 import '../main.scss'
-import { Card } from 'react-bootstrap';
-import  { DummyTeachers }  from './TeachersData'
-import Search from './Searchbar';
+import { Card , Button } from 'react-bootstrap';
+import  { DummyTeachers }  from './TeachersData';
+import RatingStar from '../assets/images/svg/rating.svg';
+import Nation from '../assets/images/svg/canada.svg';
+import '../assets/scss/homepage.scss'
 
 const ImageContainer = styled.div`
   width: 160px;
@@ -28,23 +30,45 @@ const Teacher = ({ teacher }) => {
 
   return (
     
-      <div className="div-container__info col col-4" key={teacher.teacher_id} style={{ maxWidth: '400px' , padding:'15px' }}>
-        <Card className="card" style={{width: '100%'}}>
+      <div className="div-container__info col col-4" key={teacher.teacher_id}>
+        <Card className="card">
         <Card.Body >
-        <div className="teacher-top" style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="teacher-top">
         <ImageContainer>
         <Image src={teacher.avatar} alt={teacher.name} />
         </ImageContainer>
-        <div className="teacher-title" style={{ display: 'flex', flexDirection: 'column',alignItems: 'center' ,position:'absolute',top:'10%',left:'55%'}}>
-        <h3 className="card-title">{teacher.name}</h3>
-        <h5 className="card-title">{teacher.nation}</h5>
-        </div>
-        </div>
-        <p className="card-text">{teacher.info}</p>
-     
-   <div className="button" style={{ display:'flex',justifyContent: 'center' }}>
+        <div className="teacher-title" >
+          <div className="teacher-nation">
+            <img className="teacher-nation-img" src={Nation} alt={teacher.nation} /></div>
+        <h5 className="card-title" >{teacher.name}</h5>
+        
+
+        <div className="teacher-rating" >
+          <img src={RatingStar} alt={teacher.rating} style={{width:'16px',height:'16px'}}/>
+          <h6 className="teacher-rating-num">            
+            {teacher.rating}</h6>
+          </div>
+
+      <div className="teacher-reserve-button">
       
-      <button className="btn btn-outline-secondary" onClick={handleButtonClick} style={{ margin:'10px' }}>詳細資訊</button>
+      <button className="btn-reserve btn btn-outline-secondary" onClick={handleButtonClick}>預約課程</button>
+    </div>
+        
+        </div>
+        </div>
+        <div className="teacher-category" style={{ display: 'flex', justifyContent: 'left' }}>
+  {teacher.category.map((category, index) => (
+    <div key={index} style={{ marginRight: '5px',backgroundColor: 'rgba(54, 82, 227, 0.25)' }}>{category}</div>
+  ))}
+</div>
+        <div className="teacher-info">
+          <p className="card-text">{teacher.info}</p>
+          </div>
+        
+     
+   <div className="button-see-more" style={{ display:'flex',justifyContent: 'end' }}>
+      
+      <button className="btn-see-more btn btn-outline-secondary" onClick={handleButtonClick} style={{ margin:'10px' }}>瀏覽更多</button>
     </div>
      </Card.Body>
    </Card>
@@ -61,14 +85,13 @@ Teacher.propTypes = {
     nation: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
     info: PropTypes.string.isRequired,
+    rating:PropTypes.number.isRequired,
+    category: PropTypes.arrayOf(PropTypes.string).isRequired
   }).isRequired,
 };
 
 
-const TeacherCollection = () => {
-
-
-const [searchTerm, setSearchTerm] = useState('');
+const TeacherCollection = ({searchTerm}) => {
 
 const itemsPerPage = 6;
 const { page } = useParams(); // 獲取路由參數中的 page
@@ -87,29 +110,45 @@ const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默�
     window.scrollTo(0, 0);
   };
 
-  const visibleTeachers = DummyTeachers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+ const allVisibleTeachers = DummyTeachers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const allFilteredTeachers = searchTerm
+    ? DummyTeachers.filter((teacher) => teacher.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    : allVisibleTeachers;
 
-
-  //搜尋功能
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
+  // 選擇類別
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
   };
 
- const filteredTeachers = searchTerm
-    ? DummyTeachers.filter((teacher) =>
-        teacher.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : visibleTeachers;
+  const uniqueCategories = ['所有類別', ...new Set(DummyTeachers.flatMap((teacher) => teacher.category))];
+
+  // 類別篩選器的 change 事件處理函數
+  const filteredTeachersByCategory = selectedCategory
+    ? (selectedCategory === '所有類別'
+      ? allVisibleTeachers
+      : allFilteredTeachers.filter((teacher) => teacher.category.includes(selectedCategory)))
+    : allVisibleTeachers;
 
   return (
     
-  <div className="div-container col col-11" style={{ margin:'14% 0% 5% 7%'}}>
-    <div className="search">
-        {/* 傳遞搜索條件和搜索變更的處理函數 */}
-        <Search searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      </div>
+  <div className="div-container__home col col-11" >
+  
+        <div className="category-buttons">
+          {/* 動態生成按鈕 */}
+          {uniqueCategories.map((category) => (
+            <Button
+              className="category-buttons-item"
+              key={category}
+              variant="outline-primary"
+              onClick={() => handleCategoryChange(category)}
+            >
+              {category}
+            </Button>
+          ))}
+        </div>
 
-      {filteredTeachers.map((teacher) => (
+      {filteredTeachersByCategory.map((teacher) => (
         <Teacher key={teacher.teacher_id} teacher={teacher} />
       ))}
 
@@ -127,5 +166,9 @@ const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默�
   </div>
   );
 };
+
+TeacherCollection.propTypes = {
+  searchTerm: PropTypes.string.isRequired,
+};  
 
 export default TeacherCollection;

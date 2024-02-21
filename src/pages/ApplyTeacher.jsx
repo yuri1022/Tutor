@@ -1,12 +1,20 @@
-import { useState,useContext,useEffect} from "react";
-import ApplyProcess from "../components/applyTeacher/ApplyProcess";
-import ApplyTeacherForm from "../components/applyTeacher/ApplyTeacherForm";
-import { ApplyTeacherContext, ApplyTeacherProvider } from "../components/applyTeacher/sotre/ApplyTeacherCotext";
+import { useState } from "react";
+import Navbar from "../components/Navbar";
+import ApplyStepProgress from "./steps/applystepprogress";
+import ApplyStep1 from "./steps/applystep1";
+import ApplyStep2 from "./steps/applystep2";
+import ApplyStep3 from "./steps/applystep3";
+import ApplyStep4 from "./steps/applystep4";
+import PropTypes from 'prop-types';
 const ApplyTeacher = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(''); // 新增這一行
+  const [name,setName]= useState('');
+  const [nation,setNation]= useState('');
+  const [category,setCategory] = useState('');
   const [introduction, setIntroduction] = useState('');
   const [teachingStyle, setTeachingStyle] = useState('');
   const [videoLink, setVideoLink] = useState('');
-  const [country,setCountry] = useState('');
   const [reserveDays, setReserveDays] = useState({
     Mon: false,
     Tue: false,
@@ -26,9 +34,12 @@ const ApplyTeacher = () => {
   };
 
   // 處理表單提交的函式
-  const handleSubmit = () => {
+  const onSubmit = () => {
     // 在這裡使用表單資料，例如將資料存儲到 TeacherData 中
     const formData = {
+      name,
+      nation,
+      category,
       introduction,
       teachingStyle,
       videoLink,
@@ -38,48 +49,55 @@ const ApplyTeacher = () => {
     // 這裡可以進一步將資料送到伺服器，或進行其他適當的處理
   };
 
-  return (
-    <div className="apply-teacher-context">
-      <div className="topbar d-flex flex-row-reverse">
-        X
-      </div>
-      <ApplyTeacherProvider>
-        <div className="applyContainer d-flex .col.col-lg-9" style={{marginTop:"6%"}}>
-            <div  className="left-container" style={{width:"30%"}}>
-              <div className="text-center">
-                <div className="title mb-10px">填寫表單</div>
-                <p>完成時間約三分鐘</p>
-              </div>
-              <ApplyProcess/>
-            
-            </div>
-            <div  style={{width:"70%"}}>
-              <div className="right-container">
-                <ApplyTeacherForm></ApplyTeacherForm>
-              </div>
-            </div>
-        </div>
-      </ApplyTeacherProvider>
 
-      {/* <div className="reserve-date" style={{ display: "flex" }}>
-            {Object.keys(reserveDays).map((day) => (
-              <div className="form-check" key={day}>
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id={`flexCheck${day}`}
-                  checked={reserveDays[day]}
-                  onChange={() => handleCheckboxChange(day)}
-                />
-                <label className="form-check-label" htmlFor={`flexCheck${day}`}>
-                  {day}
-                </label>
-              </div>
-            ))}
-      </div> */}
+    const onNextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+    const onPrevious = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+
+  };
+
+  return (
+    <>
+    <Navbar searchTerm={searchTerm} onSearchChange={handleSearchChange} />    
+    
+    <div className="form col col-12" style={{display:'flex',justifyContent:'center'}}>
+
+    <div className="form-left col col-3" >
+    <ApplyStepProgress currentStep={currentStep} />
+
+
     </div>
+
+
+    <div className="form-right col col-9">
+
+      <div className="container " style={{marginTop:"6%"}}>
+
+    {currentStep === 1 && <ApplyStep1 setName={setName} setNation={setNation}  onNextStep={onNextStep} />}
+          {currentStep === 2 && <ApplyStep2 setIntroduction={setIntroduction} onNextStep={onNextStep} onPrevious={onPrevious}/>}
+          {currentStep === 3 && <ApplyStep3 setCategory={setCategory} setTeachingStyle={setTeachingStyle} setVideoLink={setVideoLink} onNextStep={onNextStep} onPrevious={onPrevious}/>}
+           {currentStep === 4 && <ApplyStep4 reserveDays={reserveDays} handleCheckboxChange={handleCheckboxChange}  onSubmit={onSubmit} onPrevious={onPrevious}/>}
+    </div>
+
+
+    </div>
+
+    </div>
+
+    
+    </>
   );
+};
+
+Navbar.propTypes = {
+  searchTerm: PropTypes.string.isRequired,
+  onSearchChange: PropTypes.func.isRequired,
 };
 
 export default ApplyTeacher;

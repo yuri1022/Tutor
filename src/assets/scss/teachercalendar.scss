@@ -1,0 +1,104 @@
+.rbc-toolbar{
+
+  display: flex;
+  flex-direction:column;
+  align-items: normal;
+
+  .rbc-toolbar-top{
+    display: flex;
+    justify-content: space-between;
+
+    .rbc-btn-group-month-option{
+      color: #3652E3;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 22px;
+
+
+    }
+
+    .rbc-btn-group-year {
+
+        .year-control {
+          border: 0;
+        }
+    
+        .year {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 22px;
+          /* identical to box height */
+          color: #3652E3;
+          /* Inside auto layout */
+          flex: none;
+          order: 1;
+          flex-grow: 0;
+        }
+      }
+
+  }
+  
+  .reserve {
+    display: flex;
+    justify-content: flex-end;
+    }
+}
+
+
+.rbc-month-view {
+ 
+  .rbc-month-header {
+      background-color: #3652E3;
+      color: white;
+      height: 5vh;
+      font-size: 12px;
+      align-items: center;
+  
+      .rbc-header {
+        border: none;
+      }
+  
+    }
+  .rbc-month-row{
+    
+    .rbc-row-bg{
+
+      .rbc-day-bg{
+      border: 1px solid rgba(54, 82, 227, 0.25);
+      }
+
+    }
+  }
+}
+
+
+.rbc-event {
+  background-color: transparent;
+
+  .rbc-event.rbc-selected{
+      background-color: transparent !important;
+  }
+
+  .rbc-event-content{
+      text-align: center;
+      .reserved {
+        border: none;
+          background-color: #9B9C9E;
+          color: white;
+          border-radius: 5px;
+        }
+      .not-reserved{
+         border: 1px solid #3652E3;
+         background-color: transparent;
+         color: #3652E3;
+         border-radius: 5px;
+      }
+  }
+
+
+ 
+}

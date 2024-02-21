@@ -1,20 +1,27 @@
+import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import TeachersCollection from '../components/TeacherCollection';
 import BestStudents from '../components/BestStudents';
 
 
 const HomePage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+
+  };
   return (
   <div className="home-page">
 
   <div className='nav-bar'>
-  <Navbar />
+  <Navbar searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
   </div>
 
-    <div className="form col col-12" style={{display:'flex'}}>
+  <div className="form col col-12" style={{display:'flex'}}>
 
-  <div className="form-left col col-8">
-    <TeachersCollection />    
+  <div className="form-left col col-9">
+    <TeachersCollection searchTerm={searchTerm}/>    
   
   </div>
   <div className="form-right col col-3">

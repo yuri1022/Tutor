@@ -1,0 +1,28 @@
+:root {
+  --progress-bar-color: #3652E3;
+}
+
+.modal-container {
+  &-left {
+    
+    .modal-comment-counts {
+      .modal-comment-count-item {
+        .percentimg {
+          .progressbar{
+            display: flex;
+           &::after {
+            content: '';
+            width: var(--percent);
+            height: 10px;
+            background-color: var(--progress-bar-color);
+           }
+
+          }
+ 
+        }
+      }
+    }
+  }
+
+  &-right {}
+}
