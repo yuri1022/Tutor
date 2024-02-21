@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from "styled-components"
 import '../main.scss'
 import { Card , Button } from 'react-bootstrap';
 import  { DummyTeachers }  from './TeachersData';
@@ -9,17 +8,6 @@ import RatingStar from '../assets/images/svg/rating.svg';
 import Nation from '../assets/images/svg/canada.svg';
 import '../assets/scss/homepage.scss'
 
-const ImageContainer = styled.div`
-  width: 160px;
-  height: 160px; 
-  margin-bottom: 10px; 
-`;
-
-const Image = styled.img`
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-`;
 
 const Teacher = ({ teacher }) => {
   const navigate = useNavigate();
@@ -34,17 +22,20 @@ const Teacher = ({ teacher }) => {
         <Card className="card">
         <Card.Body >
         <div className="teacher-top">
-        <ImageContainer>
-        <Image src={teacher.avatar} alt={teacher.name} />
-        </ImageContainer>
+        <div className="teacher-img" style={{width: '7.5rem',height:'7.5rem'}}>
+        <img src={teacher.avatar} alt={teacher.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+        </div>
+        <div className="teacher-basic-info">
+
+          
         <div className="teacher-title" >
           <div className="teacher-nation">
             <img className="teacher-nation-img" src={Nation} alt={teacher.nation} /></div>
-        <h5 className="card-title" >{teacher.name}</h5>
+        <h5 className="teacher-name" >{teacher.name}</h5>
         
 
         <div className="teacher-rating" >
-          <img src={RatingStar} alt={teacher.rating} style={{width:'16px',height:'16px'}}/>
+          <img className="teacher-rating-img" src={RatingStar} alt={teacher.rating}/>
           <h6 className="teacher-rating-num">            
             {teacher.rating}</h6>
           </div>
@@ -56,19 +47,26 @@ const Teacher = ({ teacher }) => {
         
         </div>
         </div>
-        <div className="teacher-category" style={{ display: 'flex', justifyContent: 'left' }}>
+        </div>
+
+        <div className="teacher-category-container" style={{minHeight:'2.6rem'}}>
+         <div className="teacher-category" style={{ display: 'flex', justifyContent: 'left',flexWrap:'wrap',fontSize:'0.8rem',marginTop:'1.07rem',marginBottm:'0.54rem' }}>
   {teacher.category.map((category, index) => (
-    <div key={index} style={{ marginRight: '5px',backgroundColor: 'rgba(54, 82, 227, 0.25)' }}>{category}</div>
+    <div key={index} style={{ padding:'0 0.268rem 0 0.268rem',margin: '0 0.268rem 0.268rem 0',backgroundColor: 'rgba(54, 82, 227, 0.25)' }}>{category}</div>
   ))}
 </div>
+
+        </div>
+
+       
         <div className="teacher-info">
-          <p className="card-text">{teacher.info}</p>
+          <p className="card-text" style={{fontSize:'0.8rem'}}>{teacher.info}</p>
           </div>
         
      
    <div className="button-see-more" style={{ display:'flex',justifyContent: 'end' }}>
       
-      <button className="btn-see-more btn btn-outline-secondary" onClick={handleButtonClick} style={{ margin:'10px' }}>瀏覽更多</button>
+      <button className="btn-see-more btn btn-outline-secondary" onClick={handleButtonClick} style={{ margin:'10px',border:'none',fontSize:'0.8rem', textDecoration: 'underline dotted'}}>瀏覽更多</button>
     </div>
      </Card.Body>
    </Card>
@@ -132,7 +130,7 @@ const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默�
 
   return (
     
-  <div className="div-container__home col col-11" >
+  <div className="div-container__home col col-10" >
   
         <div className="category-buttons">
           {/* 動態生成按鈕 */}
