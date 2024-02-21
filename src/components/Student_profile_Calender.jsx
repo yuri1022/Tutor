@@ -1,7 +1,7 @@
 import { useState,useEffect,useRef } from 'react';
 import arrow_right from './../assets/images/svg/arrow-right.svg';
 import arrow_left from './../assets/images/svg/arrow-left.svg';
-const Students_profile_Calender = () =>{
+const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const today = new Date();
     const today_month = today.getMonth();
     const today_year = today.getFullYear();
@@ -12,12 +12,18 @@ const Students_profile_Calender = () =>{
     const calender_block = useRef(null);
 
     const course_list = [{
+        
         year:2024,
         month:2,
         day:2,
         subject:'多益',
         teacher:'Grace',
         time: `17:00-17:30`,
+        isreview:false,
+        isattend:false,
+        timestamp: new Date(currentYear, currentMonth, 2).getTime(),
+        date: new Date(currentYear, currentMonth, 2)
+        
     },
     {
         year:2024,
@@ -26,6 +32,22 @@ const Students_profile_Calender = () =>{
         subject:'多益',
         teacher:'Gracsse',
         time: `21:00-22:30`,
+        isreview:true,
+        isattend:true,
+        timestamp: new Date(currentYear, currentMonth, 2).getTime(),
+        date: new Date(currentYear, currentMonth, 2)
+    },
+    {
+        year:2024,
+        month:2,
+        day:2,
+        subject:'多益',
+        teacher:'Gracsse',
+        time: `23:00-24:00`,
+        isreview:true,
+        isattend:true,
+        timestamp: new Date(currentYear, currentMonth, 2).getTime(),
+        date: new Date(currentYear, currentMonth, 2)
     },
     {
         year:2024,
@@ -33,7 +55,23 @@ const Students_profile_Calender = () =>{
         day:5,
         subject:'睡覺',
         teacher:'Kspsss',
-        time: `22:00-24:00`
+        time: `22:00-24:00`,
+        isreview:false,
+        isattend:true,
+        timestamp: new Date(currentYear, currentMonth, 5).getTime(),
+        date: new Date(currentYear, currentMonth, 5)
+    },
+    {
+        year:2024,
+        month:2,
+        day:24,
+        subject:'睡覺',
+        teacher:'Kspsss',
+        time: `22:00-24:00`,
+        isreview:false,
+        isattend:false,
+        timestamp: new Date(currentYear, currentMonth, 24).getTime(),
+        date: new Date(currentYear, currentMonth, 24)
     }
     ]
     const months = ["January",
@@ -87,17 +125,7 @@ const Students_profile_Calender = () =>{
 
         setCurrentYear(currentYear+add);
     }
-    const show_course = (course_list)=>{
-        for(let i = 0 ; i<course_list.length; i++){
-            //console.log(`${course_list[i].subject}`);
-            let newDiv = `
-            <div>
-                <div>${course_list[i].subject}</div>
-                <div>${course_list[i].teacher}</div>
-                <div>${course_list[i].time}</div>
-            </div>`
-        }
-    }
+
 
     let firstDayOfMonth= new Date(currentYear, currentMonth, 1).getDay();
     let dayInMonth= get_days_in_month(currentYear,currentMonth);
@@ -106,39 +134,82 @@ const Students_profile_Calender = () =>{
     const render_week_array = [];
     let currentDay = 1;
     let key = 0 ;
-    
+    const show_course=(course,index)=>{
+        let course_block = ``
+
+        if( course.isattend ===false && course.timestamp < today.getTime()){
+            course_block =
+            <div className="course-block bg-absent" key={index}>
+                <div className="title-bar absent">{course_list[index].subject}</div>
+                <div>{course_list[index].teacher}</div>
+                <div>{course_list[index].time}</div>
+            </div>
+        }
+        else if( course.timestamp > today.getTime()){
+            course_block =
+            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course_list[index].teacher,course_list[index].date,course_list[index].time)} }>
+                <div className="title-bar reserve">{course_list[index].subject}</div>
+                <div>{course_list[index].teacher}</div>
+                <div>{course_list[index].time}</div>
+            </div>
+        }
+        else if ( course.isattend === true && course.isreview === false){
+            course_block =             
+            <div className="course-block bg-not-review" key={index} onClick={openRatingModal}>
+                <div className="title-bar notreview">{course_list[index].subject}</div>
+                <div>{course_list[index].teacher}</div>
+                <div>{course_list[index].time}</div>
+            </div>
+        }
+        else if ( course.isattend === true && course.isreview === true ){
+            course_block =
+            <div className="course-block bg-finish" key={index}>
+                <div className="title-bar finish">{course_list[index].subject}</div>
+                <div>{course_list[index].teacher}</div>
+                <div>{course_list[index].time}</div>
+            </div>
+        }
+
+        return(course_block);
+    }
     for(let i = 0 ; i < 5; i++)
     {
         const render_day_arr = [];
         for (let j=1 ; j < 8; j++){
             if(i===0 && j < firstDayOfMonth ){
-                render_day_arr.push(<div className="col calender_block" key={'calender'+key}></div>);
+                render_day_arr.push(<div className="col calender_block bg-deep" key={'calender'+key}></div>);
             }
             else if(currentDay <= dayInMonth){
                 let newDiv = [];
+                let count_course = 0;
                 for( let z=0; z<course_list.length; z++){
                     //console.log(course_list[z].day);
                     //console.log(currentDay)
                     if(course_list[z].day ===currentDay && course_list[z].month-1 === currentMonth && course_list[z].year === currentYear){
-                    newDiv.push(
-                    <div className="" key={z}>
-                        <div>{course_list[z].subject}</div>
-                        <div>{course_list[z].teacher}</div>
-                        <div>{course_list[z].time}</div>
-                    </div>)
+                        if(count_course >= 2){
+                            newDiv.push(
+                                <button className="btn-more" key={'btn-more'+key}>More</button>
+                            )
+                            z = course_list.length;
+                        }
+                        else{
+                        let inner = show_course(course_list[z],z);
+                        newDiv.push(
+                        inner)
+                        }
+                        count_course++;
                     }
                 }
                 render_day_arr.push(<div  className="col calender_block" key={'calender'+key}>{currentDay}{newDiv}</div>);
                 currentDay++;
             }
             else{
-                render_day_arr.push(<div className="col calender_block" key={'calender'+key}></div>);
+                render_day_arr.push(<div className="col calender_block bg-deep" key={'calender'+key}></div>);
             }
             key++;
         }
         render_week_array.push(<div className="d-flex " key={i}>{render_day_arr}</div>)
     }
-    show_course(course_list );
     useEffect(()=>{
 
     },[])

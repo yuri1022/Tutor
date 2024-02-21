@@ -45,7 +45,7 @@ const ApplyTeacher = () => {
       </div>
       <ApplyTeacherProvider>
         <div className="applyContainer d-flex .col.col-lg-9" style={{marginTop:"6%"}}>
-            <div  className="left-container" style={{width:"30%"}}>1
+            <div  className="left-container" style={{width:"30%"}}>
               <div className="text-center">
                 <div className="title mb-10px">填寫表單</div>
                 <p>完成時間約三分鐘</p>

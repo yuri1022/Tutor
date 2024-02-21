@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'; 
-import headshot01 from './../assets/images/svg/user大頭貼學生.svg';
+import headshot01 from './../../assets/images/svg/user大頭貼學生.svg';
 
 const Students_profile_Edit = ({closeEditModal})=>{
     const [nameTxt,setNameTxt] = useState("");
     const [introTxt,setIntroTxt ] = useState("");
     return(
-        <div className="modal fade show" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
             <div className="editStuModal_content modal-content">
             <div className="modal-header">
