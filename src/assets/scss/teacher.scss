@@ -1,0 +1,201 @@
+.div-container{
+  display: flex;
+  .form-left{
+    width: 63rem;
+    .card-container {
+        margin: 4rem;
+        display: flex;
+        flex-direction:column;
+           
+        .self-card-container {
+          display: flex;
+          height: 12rem;
+          width: 55rem;
+          border-radius: 0.625rem;
+          box-shadow: 1px 3px 5px 1px var(--grey-light);
+            -webkit-box-shadow: 1px 3px 5px 1px var(--main-blue25);
+            -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
+            -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
+          .self-card-img{
+            height: 9.7rem;
+            width: 9.7rem;
+            margin: 1rem 2rem 1rem 1rem;
+          }
+          .self-info-container{
+            margin: 1rem 0 1rem 0;
+            display: flex;
+            flex-direction:column;
+          .self-name-nation-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            .self-nation{
+              display: flex;
+              .self-name{
+                padding-left: 0.5rem;
+                padding-top: 0.5rem;
+                font-weight: 700;
+              }
+            }
+          }
+          .self-category-container {
+            .self-category{
+              display: flex;
+              .self-teacher-item{
+              padding: 0 0.268rem 0 0.268rem;
+              margin: 0 0.268rem 0.268rem 0;
+              border-radius: 3px;
+              background-color: var(--main-blue25);
+              font-size: 0.8rem;
+              font-weight: 600;
+              }
+            }
+           }
+          }
+
+        }
+    .introduction-container{
+      margin:2rem 0 2rem 0;
+      width: 55rem;
+      border: none;
+      .self-introduction{
+        padding: 0.5rem 0 0.5rem 0.5rem;
+        .self-introduction-title{
+          position: relative;
+          height: 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          &::after{
+            content: '';
+            position: absolute;
+            width: 55rem;
+            background-color: var(--main-blue);
+            height: 0.2rem;
+            top:1.5rem;
+            right: 0rem;
+          }
+          .title{
+          font-weight: 700;
+          font-size: 1rem;
+          }
+
+        }
+      .self-info-description{
+        margin-top: 1rem;
+        font-size: 0.8rem;
+      }
+      }
+    }
+    .teacherstyle-container{
+      width: 55rem;
+      margin: 0 0 2rem 0;
+      .self-teaching-style{
+        padding: 0.5rem 0 0.5rem 0.5rem;
+        .self-teaching-style-title{
+          position: relative;
+          height: 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          &::after {
+              content: '';
+              position: absolute;
+              width: 55rem;
+              background-color: var(--main-blue);
+              height: 0.2rem;
+              top: 1.5rem;
+              right: 0rem;
+            }
+          .title{
+          font-weight: 700;
+          font-size: 1rem;
+          }
+        }
+
+      .self-teaching-style-description{
+        margin-top: 1rem;
+        font-size: 0.8rem;
+        }
+      }
+    
+    }
+    .classtime-container{
+      width: 55rem;
+      margin: 0 0 2rem 0;
+      .self-class-time{
+      padding: 0.5rem 0 0.5rem 0.5rem;
+        .self-class-time-title{
+          position: relative;
+          height: 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          &::after {
+              content: '';
+              position: absolute;
+              width: 55rem;
+              background-color: var(--main-blue);
+              height: 0.2rem;
+              top: 1.5rem;
+              right: 0rem;
+            }
+          .title{
+          font-weight: 700;
+          font-size: 1rem;
+          }
+        }
+     .self-class-time-calendar{
+      margin-top:2rem;
+      width: 20rem;
+     }
+      }
+    }
+
+        .notice-container {
+          width: 55rem;
+          margin: 0 0 0.5rem 0;
+          .teacher-notice {
+            padding: 0.5rem 0 0.5rem 0.5rem;
+            .teacher-notice-title{
+            position: relative;
+          height: 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          &::after {
+              content: '';
+              position: absolute;
+              width: 55rem;
+              background-color: var(--main-blue);
+              height: 0.2rem;
+              top: 1.5rem;
+              right: 0rem;
+            }
+          .title{
+          font-weight: 700;
+          font-size: 1rem;
+          }              
+        }
+
+            .teacher-notice-description{
+            margin: 1rem 0 0 -1.8rem;
+            font-size: 0.8rem;
+            .teacher-notice-description-item{
+            .item{
+            list-style-type: disc;
+            margin-left: -0.8rem;
+            }
+            
+            }
+            }
+          }
+        }
+    }
+   }
+
+
+
+
+   .form-right{
+    width: 33.3rem
+   }
+}
+
+

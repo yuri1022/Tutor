@@ -71,7 +71,7 @@ const Teacher = ({ teacher }) => {
      
    <div className="button-see-more" >
       
-      <button className="btn-see-more btn btn-outline-secondary" onClick={handleButtonClick} >瀏覽更多</button>
+      <button className="btn-see-more btn btn-outline-light" onClick={handleButtonClick} >瀏覽更多</button>
     </div>
      </Card.Body>
    </Card>
@@ -162,7 +162,7 @@ const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默�
             <Button
               className={`category-buttons-item ${category === selectedCategory || (category === '所有類別' && !selectedCategory) ? 'selected' : ''}`}
               key={category}
-              variant="outline-primary"
+              variant="outline-light"
               onClick={() => handleCategoryChange(category)}
             >
               {category}
