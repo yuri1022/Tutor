@@ -25,9 +25,9 @@ const HomePage = () => {
   
   </div>
   <div className="form-right col col-3">
-  <div className="best-students">
+  
     <BestStudents />
-  </div>
+
   </div>
 
   </div>

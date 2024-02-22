@@ -6,7 +6,12 @@ import { Card , Button } from 'react-bootstrap';
 import  { DummyTeachers }  from './TeachersData';
 import RatingStar from '../assets/images/svg/rating.svg';
 import Nation from '../assets/images/svg/canada.svg';
-import '../assets/scss/homepage.scss'
+import FirstPageArrow from '../assets/images/svg/arrow-first.svg';
+import LastPageArrow from '../assets/images/svg/arrow-last.svg';
+import PrePageArrow from '../assets/images/svg/previouspage.svg';
+import NextPageArrow from '../assets/images/svg/nextpage.svg'
+import '../assets/scss/homepage.scss';
+
 
 
 const Teacher = ({ teacher }) => {
@@ -49,10 +54,10 @@ const Teacher = ({ teacher }) => {
         </div>
         </div>
 
-        <div className="teacher-category-container" style={{minHeight:'2.6rem'}}>
-         <div className="teacher-category" style={{ display: 'flex', justifyContent: 'left',flexWrap:'wrap',fontSize:'0.8rem',marginTop:'1.07rem',marginBottm:'0.54rem' }}>
+        <div className="teacher-category-container" >
+         <div className="teacher-category" >
   {teacher.category.map((category, index) => (
-    <div key={index} style={{ padding:'0 0.268rem 0 0.268rem',margin: '0 0.268rem 0.268rem 0',backgroundColor: 'rgba(54, 82, 227, 0.25)' }}>{category}</div>
+    <div className="teacher-item" key={index}>{category}</div>
   ))}
 </div>
 
@@ -60,13 +65,13 @@ const Teacher = ({ teacher }) => {
 
        
         <div className="teacher-info">
-          <p className="card-text" style={{fontSize:'0.8rem'}}>{teacher.info}</p>
+          <p className="teacher-info-text" >{teacher.info}</p>
           </div>
         
      
-   <div className="button-see-more" style={{ display:'flex',justifyContent: 'end' }}>
+   <div className="button-see-more" >
       
-      <button className="btn-see-more btn btn-outline-secondary" onClick={handleButtonClick} style={{ margin:'10px',border:'none',fontSize:'0.8rem', textDecoration: 'underline dotted'}}>瀏覽更多</button>
+      <button className="btn-see-more btn btn-outline-secondary" onClick={handleButtonClick} >瀏覽更多</button>
     </div>
      </Card.Body>
    </Card>
@@ -111,7 +116,26 @@ const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默�
  const allVisibleTeachers = DummyTeachers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   const allFilteredTeachers = searchTerm
     ? DummyTeachers.filter((teacher) => teacher.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    : allVisibleTeachers;
+    : DummyTeachers;
+
+
+   const handlePreviousPage = () => {
+    const newPage = currentPage > 1 ? currentPage - 1 : 1;
+    handlePageChange(newPage);
+  };
+
+  const handleNextPage = () => {
+    const newPage = currentPage < totalPages ? currentPage + 1 : totalPages;
+    handlePageChange(newPage);
+  };
+
+  const handleFirstPage = () => {
+    handlePageChange(1);
+  };
+
+  const handleLastPage = () => {
+    handlePageChange(totalPages);
+  };  
 
   // 選擇類別
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -130,13 +154,13 @@ const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默�
 
   return (
     
-  <div className="div-container__home col col-10" >
+  <div className="div-container__home col col-11" >
   
         <div className="category-buttons">
           {/* 動態生成按鈕 */}
           {uniqueCategories.map((category) => (
             <Button
-              className="category-buttons-item"
+              className={`category-buttons-item ${category === selectedCategory || (category === '所有類別' && !selectedCategory) ? 'selected' : ''}`}
               key={category}
               variant="outline-primary"
               onClick={() => handleCategoryChange(category)}
@@ -150,15 +174,44 @@ const currentPage = parseInt(page, 10) || 1; // 將 page 轉換為整數，默�
         <Teacher key={teacher.teacher_id} teacher={teacher} />
       ))}
 
-      <div className="pagination" style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'5%'}}>
-        {Array.from({ length: totalPages }, (_, index) => (
+      <div className="pagination">
+
+        <div className="pagination-control">
+
+        <div className="pagination-control-first">
+          <img src={FirstPageArrow} alt="首頁" onClick={handleFirstPage}/>
+        </div>
+        <div className="pagination-control-prev">
+          <img src={PrePageArrow} alt="上一頁" onClick={handlePreviousPage}/>
+        </div>
+        
+        <div className="pagination-control-page">
+          {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index + 1}
             className={`btn ${currentPage === index + 1 ? 'btn-primary' : 'btn-outline-primary'}`}
-            onClick={() => handlePageChange(index + 1)} >
+            onClick={() => handlePageChange(index + 1)} 
+            style={{border:'none'}}>
             {index + 1}
           </button>
         ))}
+
+        </div>
+
+
+        <div className="pagination-control-next">
+          <img src={NextPageArrow} alt="下一頁" onClick={handleNextPage}/>
+        </div>
+        <div className="pagination-control-last">
+          <img src={LastPageArrow} alt="末頁" onClick={handleLastPage}/>
+        </div>
+        
+        
+        
+
+        </div>
+        
+
       </div>
 
   </div>

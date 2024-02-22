@@ -26,6 +26,10 @@ const TeacherSelfPage = () => {
     setTeacher(fetchedTeacher);
   }, [teacher_id]);
 
+  useEffect(() => {
+  console.log("更新後的教师信息：", teacher);
+}, [teacher]);
+
 
   const handleEditModal = () => {
     setIsEditOpen(true);
@@ -48,25 +52,33 @@ const TeacherSelfPage = () => {
 
 const handleSave = (editedData,section) => {
   // 在這裡可以進行其他保存或提交的操作
-  // 這裡只是示例，你可以根據實際需求進行調
-  
-  // 更新教师信息
-  setTeacher((prevTeacher) => ({
-    ...prevTeacher,
-    [section]: editedData[section] || prevTeacher[section],
-  }));
+    console.log("更新前的教师信息：", teacher);
 
-  console.log("編輯後的資料：", editedData);
-  console.log(editingContent);
+  // 更新教师信息
+setTeacher((prevTeacher) => {
+    console.log("更新中的 prevTeacher：", prevTeacher);
+    return {
+      ...prevTeacher,
+      [section]: editedData[section] || prevTeacher[section],
+    };
+  });
+  setEditingContent(editedData[section] || '');
+
+  console.log("更新後的教师信息：", teacher);
+
 
   closeEdit();
   setIsEditInfo(false);
   setIsEditTeachingStyle(false);
-
+  
 };
 
 const handleCancel = () => {
+     if (isEditInfo) {
     setEditingContent(teacher.info); // 將編輯內容還原為原始內容
+  } else if (isEditTeachingStyle) {
+    setEditingContent(teacher.teaching_style); // 將編輯內容還原為原始內容
+  }
     setIsEditInfo(false);
     setIsEditTeachingStyle(false);
   };
@@ -168,7 +180,7 @@ const handleCancel = () => {
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
-                  onBlur={() => handleSave({ info: editingContent }, 'teaching_style')}
+                  onBlur={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}
 
                 />
               ) : (

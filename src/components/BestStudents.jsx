@@ -1,31 +1,44 @@
 import { Card } from 'react-bootstrap';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { DummyStudents } from './StudentsData';
+import '../assets/scss/studentsrank.scss'
+import RankingImg from '../assets/images/svg/ranking.svg';
+import Rank1 from '../assets/images/svg/rank1.svg';
+import Rank2 from '../assets/images/svg/rank2.svg';
+import Rank3 from '../assets/images/svg/rank3.svg';
 
 
-
-const ImageContainer = styled.div`
-  width: 100px;
-  height: 100px; 
-  margin: 5px; 
-`;
-
-const Image = styled.img`
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-`;
 
 const Student = ({ student, rank }) =>{
+  let icon;
+  if (rank === 1) {
+    icon = <img src={Rank1} alt={`Rank ${rank}`} />;
+  } else if (rank === 2) {
+    icon = <img src={Rank2} alt={`Rank ${rank}`} />;
+  } else if (rank === 3) {
+    icon = <img src={Rank3} alt={`Rank ${rank}`} />;
+  } else {
+    icon = rank; // 如果排名不是前三名，仍然顯示原始的排名數字
+  }
+
+
   return(
-    <div className="student-container" key={student.email} style={{ display: 'flex', alignItems: 'center',margin:'10px' }}>
-        <ImageContainer>
-        <Image src={student.avatar} alt={student.name} />
-        </ImageContainer>
-        <div className="student-rank" style={{padding:'2px'}}>No.{rank} </div>
-        <div className="student-name" style={{padding:'2px'}} >{student.name} </div>
-        <div className="student-time" style={{padding:'2px'}}>{student.total_lesson_time}小時</div>
+    <div className="student-container" key={student.email} style={{ display: 'flex', alignItems: 'center',height:'3.5rem',paddingLeft:'1.125rem',paddingRight:'1.125rem',justifyContent:'space-between'}}>
+        
+        <div className="student-rank" style={{width:'2.625rem',textAlign:'center',marginRight:'1rem'}}>{icon}</div>
+
+        <div className="student-info" style={{display:'flex',flex:'1'}}>
+
+        <div className="img-container" style={{maxWidth:'3.5rem',maxHeight:'3.5rem',marginRight:'0.7rem'}}>
+          <img src={student.avatar} alt={student.name} style={{maxWidth:'1.75rem',maxHeight:'1.75rem',borderRadius:'50%'}}/>
+        </div>
+        <div className="student-name" style={{padding:'2px',fontWeight:'700'}} >{student.name} </div>
+
+        </div>
+
+        <div className="student-time" style={{padding:'2px'}}>{student.total_lesson_time}hr</div>
+        
+       
     </div>
   );
 
@@ -49,10 +62,15 @@ const BestStudents = () => {
 
   return (
     
-  <div className="container ranking-list" style={{position:'absolute',top:'13%',maxWidth:'340px'}}>
+  <div className="container-ranking-list">
 
   <Card>
-  <h3 className="card-title" style={{textAlign:'center',marginTop:'20px'}}>學習時數總排行</h3>
+    <div className="ranking-list-title">
+      <img className="card-rank-img" src={RankingImg} alt="" />
+      <h3 className="card-title">學習時數總排行</h3>
+    </div>
+
+  
   {sortedStudents.map((student, index) => (
           <Student key={student.email} student={student} rank={index + 1} />
         ))}
