@@ -1,35 +1,31 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
 import NationImg from '../assets/images/svg/canada.svg'
 import Navbar from '../components/Navbar';
 import { DummyTeachers } from '../components/TeachersData';
-import SuccessMessage from '../components/successmodal';
-import FailMessage from '../components/FailModal';
 import ClassComments from '../components/ClassComments';
 import MyCalendar from '../components/Teacher_profile_Calendar';
-import Select from 'react-select';
 import '../assets/scss/teacher.scss';
-
+import ClassReserve from '../components/ClassReserve';
+import SuccessModal from '../components/SuccessModal';
+import FailModal from '../components/SuccessModal';
 
 
 const TeachersPage = () => {
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [reserveDays, setReserveDays] = useState({});
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailModal, setShowFailModal] = useState(false);
+  const [searchTerm,setSearchTerm]= useState('');
   const { teacher_id } = useParams();
   const selectedTeacher = DummyTeachers.find((teacher) => teacher.teacher_id === String(teacher_id));
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-    const [showFailModal, setShowFailModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
 
-  const handleSubmit = () => {
+
+    const handleSubmit = () => {
     const formData = {
       selectedDate,
       selectedCategory,
@@ -56,6 +52,8 @@ const TeachersPage = () => {
   const handleCloseFailModal = () => {
     setShowFailModal(false);
   };
+
+  
 
   const checkIfDateIsSelectable = (date, reserveDays) => {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -98,6 +96,11 @@ const TeachersPage = () => {
   };
 
   const categoryOptions = selectedTeacher.category.map((category) => ({ label: category }));
+
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
   return (
     <>
@@ -229,41 +232,32 @@ const TeachersPage = () => {
         </div>
 
         <div className="form-right col col-3" style={{display:'flex',flexDirection:'column'}}>
+          
           {selectedTeacher && (
-            <div>
-              <div className="teacher-reserve" style={{ width: '70%' }}>
-                <div>
-                  <h3 className="teacher-reserve-title" style={{ backgroundColor: '#f3f3f3', textAlign: 'center', fontWeight: '600' }}>
-                    預約上課
-                  </h3>
-                </div>
-                <DatePicker selected={selectedDate} onChange={handleDateChange} filterDate={(date) => checkIfDateIsSelectable(date, selectedTeacher.courses[0].reserveDays)} 
-                
-                showTimeSelect
-                  timeFormat="HH:mm"
-                  timeIntervals={30}
-                  timeCaption="Time"/>
-
-                 <Select
-                  options={categoryOptions}
-                  onChange={(selectedOption) => setSelectedCategory(selectedOption)}
-                  value={selectedCategory}
-                  placeholder="選擇課程類別"
-                />
-
-                <Button className="btn-info" style={{ margin: '8% 0 0 2%' }} onClick={handleSubmit}>
-                  預約
-                </Button>
-                <SuccessMessage show={showSuccessModal} handleClose={handleCloseSuccessModal} />
-                <FailMessage show={showFailModal} handleClose={handleCloseFailModal} />
-
-              </div>
-
-              <div className="class-comments" style={{width:'80%'}}>
-                <ClassComments teacher={selectedTeacher} />
-              </div>
-            </div>
+          <div>
+        <ClassReserve
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          setSelectedCategory={setSelectedCategory}
+          reserveDays={reserveDays}
+          setReserveDays={setReserveDays}
+          selectedTeacher={selectedTeacher}
+          handleSubmit={handleSubmit}
+          categoryOptions={categoryOptions}
+          setShowSuccessModal={setShowSuccessModal}
+          setShowFailModal={setShowFailModal}
+          handleDateChange={handleDateChange}
+          handleOpenFailModal={handleOpenFailModal}
+          checkIfDateIsSelectable={checkIfDateIsSelectable}
+         />
+          <ClassComments teacher={selectedTeacher} />
+           </div>
+              
+            
           )}
+
+      <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} />
+      <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
         </div>
       </div>
     </>
