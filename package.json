@@ -23,6 +23,7 @@
     "react-hook-form": "^7.50.1",
     "react-router-dom": "^6.0.0",
     "react-select": "^5.8.0",
+    "react-time-picker": "^6.6.0",
     "sass": "^1.70.0",
     "styled-components": "^6.1.8"
   },

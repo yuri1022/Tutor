@@ -1,0 +1,32 @@
+.container-ranking-list{
+  position: absolute; 
+  top:13%;
+  right:5%;
+  width:21.25rem;
+  .card{
+    border-radius: 10px;
+    overflow: hidden;
+  .ranking-list-title {
+      background-color: var(--main-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height:3.5rem;
+
+      .card-rank-img{
+        margin-right: 1rem;
+        height: 2.5rem;
+        width: 2.5rem;
+      }
+      .card-title{
+        text-align: center;
+        margin:1rem 0 1rem 0;
+        color:white;
+        font-size: 1rem;
+        font-weight: 700;
+      }
+    }
+  }
+
+    
+}

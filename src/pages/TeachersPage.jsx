@@ -1,42 +1,38 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
 import NationImg from '../assets/images/svg/canada.svg'
 import Navbar from '../components/Navbar';
 import { DummyTeachers } from '../components/TeachersData';
-import SuccessMessage from '../components/successmodal';
-import FailMessage from '../components/FailModal';
 import ClassComments from '../components/ClassComments';
 import MyCalendar from '../components/Teacher_profile_Calendar';
-import Select from 'react-select';
-
+import '../assets/scss/teacher.scss';
+import ClassReserve from '../components/ClassReserve';
+import SuccessModal from '../components/SuccessModal';
+import FailModal from '../components/SuccessModal';
 
 
 const TeachersPage = () => {
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [reserveDays, setReserveDays] = useState({});
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailModal, setShowFailModal] = useState(false);
+  const [searchTerm,setSearchTerm]= useState('');
+  const [selectedTime ,setSelectedTime]=useState('12:00');
   const { teacher_id } = useParams();
   const selectedTeacher = DummyTeachers.find((teacher) => teacher.teacher_id === String(teacher_id));
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-    const [showFailModal, setShowFailModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleSubmit = () => {
+    const handleSubmit = () => {
     const formData = {
       selectedDate,
       selectedCategory,
+      selectedTime,
       // 其他表單資料...
     };
     console.log('Submit:', formData);
-
-    const isReservationSuccessful = selectedDate && selectedCategory !== '';
+    const isReservationSuccessful = selectedDate && selectedTime & selectedCategory !== '';
     if (isReservationSuccessful) {
         setShowSuccessModal(true);
       } else {
@@ -96,53 +92,65 @@ const TeachersPage = () => {
     }
   };
 
+  const handleTimeChange = (time) => {
+  setSelectedTime(time);
+   console.log('Selected Time:', time);
+  };
+
   const categoryOptions = selectedTeacher.category.map((category) => ({ label: category }));
+
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
   return (
     <>
       <Navbar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      <div className="div-container col col-12" style={{ display:'flex' }}>
-        <div className="form-left col col-9" style={{margin:'2% 0 2% 0%'}}>
-          {selectedTeacher && (
+      <div className="div-container col col-12" >
+        <div className="form-left col col-9" >
+
+       
+        {selectedTeacher && (
+        
             <div key={selectedTeacher.id} >
 
-              <div className="card-container" style={{ display: 'flex',flexDirection:'column'}}>
+              <div className="card-container" >
 
-              <div className="self-card-container" style={{display:'flex'}}>
+              <div className="self-card-container">
       
-              <img src={selectedTeacher.avatar} alt={selectedTeacher.name} />
+              <img className="self-card-img" src={selectedTeacher.avatar} alt={selectedTeacher.name} />
 
-              <div className="self-info-container" style={{display:'flex',flexDirection:'column'}}>
+              <div className="self-info-container" >
 
-              <div className="self-name-nation-container" style={{display:'flex',justifyContent: 'space-between'}}>
-              <div className="self-nation" style={{display:'flex'}}>
+              <div className="self-name-nation-container" >
+              <div className="self-nation" >
                <img src={NationImg} alt={selectedTeacher.nation} />
                 <h6 className="self-name">{selectedTeacher.name}</h6>
               </div>
               </div>
                 <div className="self-category-container">        
-                  <div className="self-category">{selectedTeacher.category}</div>
+                  <div className="self-category">
+                    {selectedTeacher.category.map((category, index) => (
+                <div className="self-teacher-item" key={index}>{category}</div>
+                  ))}
+                    </div>
                 </div>
+                 
 
-
-
-
-
-
-      
              </div>
 
               </div> 
 
-      <div className="introduntion-container">
+      <div className="introduction-container">
         
        <div className="self-introduction">
-      <div className="self-introduction-title" style={{display:'flex',justifyContent:'space-between'}}>
-        <h6 className="self-inrtoduction-title">簡介</h6>
+      <div className="self-introduction-title" >
+        <h6 className="title">簡介</h6>
       </div>
       
 
-      <p className="self-info-description" style={{fontSize:'14px',width:'60%'}}>{selectedTeacher.info}</p>
+      <p className="self-info-description">{selectedTeacher.info}</p>
         </div>     
         
         </div>       
@@ -150,74 +158,110 @@ const TeachersPage = () => {
       
       <div className="teacherstyle-container">
         <div className="self-teaching-style">
-      <div className="self-teaching-style-title-edit" style={{display:'flex',justifyContent:'space-between'}}>
-        <h6 className="self-teaching-style-title">教學風格</h6>
+      <div className="self-teaching-style-title">
+        <h6 className="title">教學風格</h6>
       </div>
       
-      <p className="self-teaching-style-description" style={{fontSize:'14px',width:'60%'}}>{selectedTeacher.teaching_style}</p>
+      <p className="self-teaching-style-description" >{selectedTeacher.teaching_style}</p>
     </div>
       </div>
 
       <div className="classtime-container">
 
       <div className="self-class-time">
-      <div className="self-class-time-title-edit" style={{display:'flex',justifyContent:'space-between'}}>
-        <h6 className="self-class-time-title">授課時間</h6>
+      <div className="self-class-time-title" >
+        <h6 className="title">授課時間</h6>
       </div>
       
-
-      <div className="self-class-time-calendar" style={{fontSize:'14px',width:'60%'}}>
+          {/* 日曆待修改 */}
+      <div className="self-class-time-calendar">
         <MyCalendar />
       </div>
-    </div>
-
+      </div>
 
       </div>
 
+      <div className="notice-container">
+      <div className="teacher-notice">
+      <div className="teacher-notice-title">
+        <h6 className="title">常見問題</h6>
+      </div>
+      
+      <p className="teacher-notice-description" >
+        <ul className='teacher-notice-description-item'>
+        <li>預約方式</li>
+        <ul>
+          <li className='item'>可依照教師行事曆的時間預約課程</li> 
+        </ul>
+                   
+        </ul>
+        <ul className='teacher-notice-description-item'>
+        <li >上課時間說明</li>
+        <ul>
+          <li className='item'>正式課程課時約為 30 分鐘 / 60 分鐘</li>     
+        </ul>
+               
+        </ul>
+        <ul className='teacher-notice-description-item'>
+        <li>上課說明</li>
+        <ul>
+        <li className='item'>開課前 10 分鐘進入網站，點選『頭像』找到該堂課並點選，再點選『開始上課』，即可開啟 ZOOM 教室開始上課</li> 
+        <li className='item'>手機、電腦皆可使用 ZOOM 上課（手機請先下載 ZOOM 應用程式）</li>
+                  
+        </ul>
+           
+        </ul>
+        <ul className='teacher-notice-description-item'>
+        <li>退課須知</li>
+        <ul>
+        <li className='item'>於正式開課前點選『頭像』找到該堂課並點選，再點選『取消預約』，皆可退還 100% 全額課程費用</li>           
+        </ul>
+           
+        </ul>    
+
+      </p>
+    </div>
+      </div>
 
     </div>
 
+
     </div>
+
+
 
           )}
         </div>
 
-        <div className="form-right col col-3" style={{display:'flex',flexDirection:'column'}}>
+        <div className="form-right col col-3" >
+          
           {selectedTeacher && (
-            <div>
-              <div className="teacher-reserve" style={{ width: '70%' }}>
-                <div>
-                  <h3 className="teacher-reserve-title" style={{ backgroundColor: '#f3f3f3', textAlign: 'center', fontWeight: '600' }}>
-                    預約上課
-                  </h3>
-                </div>
-                <DatePicker selected={selectedDate} onChange={handleDateChange} filterDate={(date) => checkIfDateIsSelectable(date, selectedTeacher.courses[0].reserveDays)} 
-                
-                showTimeSelect
-                  timeFormat="HH:mm"
-                  timeIntervals={30}
-                  timeCaption="Time"/>
-
-                 <Select
-                  options={categoryOptions}
-                  onChange={(selectedOption) => setSelectedCategory(selectedOption)}
-                  value={selectedCategory}
-                  placeholder="選擇課程類別"
-                />
-
-                <Button className="btn-info" style={{ margin: '8% 0 0 2%' }} onClick={handleSubmit}>
-                  預約
-                </Button>
-                <SuccessMessage show={showSuccessModal} handleClose={handleCloseSuccessModal} />
-                <FailMessage show={showFailModal} handleClose={handleCloseFailModal} />
-
-              </div>
-
-              <div className="class-comments" style={{width:'80%'}}>
-                <ClassComments teacher={selectedTeacher} />
-              </div>
-            </div>
+          <div>
+        <ClassReserve
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          selectedTime={selectedTime}
+          setSelectedTime={handleTimeChange}
+          setSelectedCategory={setSelectedCategory}
+          reserveDays={reserveDays}
+          setReserveDays={setReserveDays}
+          selectedTeacher={selectedTeacher}
+          handleSubmit={handleSubmit}
+          categoryOptions={categoryOptions}
+          setShowSuccessModal={setShowSuccessModal}
+          setShowFailModal={setShowFailModal}
+          handleDateChange={handleDateChange}
+          handleOpenFailModal={handleOpenFailModal}
+          checkIfDateIsSelectable={checkIfDateIsSelectable}
+         />
+          <ClassComments teacher={selectedTeacher} />
+           </div>
+              
+            
           )}
+
+      <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} />
+      <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
         </div>
       </div>
     </>

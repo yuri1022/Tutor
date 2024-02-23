@@ -27,29 +27,30 @@ const ClassComments = (props) =>{
 
     <div className="self-comment">
 
-      <div className="self-comment-title-rating" style={{display:'flex'}}>
+      <div className="self-comment-title-rating" >
         <h6 className="self-comment-title">課程評價</h6>
-        <img src={Rating} alt="rating" />
-        <h6>{props.teacher.rating}</h6>
+        <img className="rating-img" src={Rating} alt="rating" />
+        <h6 className="title">{props.teacher.rating}</h6>
       </div>
       
-        <div className="class-comment-info" style={{display:'flex',flexDirection:'column',width:'80%'}}>
-          <Card className="class-comment-info-card" style={{fontSize:'16px',margin:'10px 10px 20px 0'}}>
+        <div className="class-comment-info" >
+          <Card className="class-comment-info-card">
             <Card.Body className="class-comment-info-card-body"> 
-            <div className="card-container" style={{display:'flex'}}>
+            <div className="card-container">
 
-            <div className="card-img" style={{width:'60px',height:'40px'}}> 
-            <CardImg className="class-comment" src={props.teacher.avatar} style={{borderRadius:'50%',width:'40px',height:'40px'}} />
+            <div className="card-img" > 
+            <CardImg className="class-comment" src={props.teacher.avatar} />
             </div>
 
 
              <div className="card-title">
-            <Card.Title>Office ipsum</Card.Title>
-            <Card.Title>2024年02月04日</Card.Title>
+            <Card.Title className="title">Office ipsum</Card.Title>
+            <Card.Title className="date">2024年02月04日</Card.Title>
             </div> 
 
             <div className="card-rating">
-              <img src={Rating} alt="rating" />3.0
+              <img className="rating" src={Rating} alt="rating" />
+              <h6 className='rating-num'>3.0</h6>
             
             </div>
 
@@ -57,32 +58,22 @@ const ClassComments = (props) =>{
             </div>
         
             <div className="card-description">
-
-            <Card.Text className="class-comment-info">
-              Office ipsum you must be muted. Keep fured tentative break land sorry baked productive growth. Mifflin incentivization put able hour timepoint hits. Important unlock activities on t-shaped back-end move wanted. Hop run based anyway mifflin call got.
-              </Card.Text>
-
+              <p className="class-comment-description">
+              Office ipsum you must be muted. Keep fured tentative break land sorry baked productive growth. Mifflin incentivization put able hour timepoint hits. Important unlock activities on t-shaped back-end move wanted. Hop run based anyway mifflin call got.                
+              </p>
 
             </div>
-
-            <div className="card-link">
-            
-            <Button onClick={handleCommentClick}>看更多評價</Button>
-
- 
-
-            </div>
-
-          {isModalOpen && (
-           <CommentModal show={isModalOpen} handleClose={closeModal} teacher={props.teacher}/>
-         )}
-            
-
 
             </Card.Body>
           </Card>
+          </div>
          
-          
+             <div className="card-link">
+             <Button className="link" variant="outline-primary" onClick={handleCommentClick}>看更多評價</Button>     
+
+          {isModalOpen && (
+           <CommentModal show={isModalOpen} handleClose={closeModal} teacher={props.teacher}/>
+         )}    
           </div>
 
 

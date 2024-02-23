@@ -20,15 +20,17 @@ const HomePage = () => {
 
     <div className="form col col-12" style={{display:'flex'}}>
 
+
     <div className="form-left col col-9">
       <TeachersCollection searchTerm={searchTerm}/>    
     
     </div>
     <div className="form-right col col-3">
-    <div className="best-students">
+    
       <BestStudents />
+
     </div>
-    </div>
+
 
     </div>
 

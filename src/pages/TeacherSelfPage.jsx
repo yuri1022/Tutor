@@ -9,6 +9,7 @@ import { DummyTeachers } from "../components/TeachersData";
 import ClassComments from "../components/ClassComments";
 import TeacherEditInfo from "../components/TeacherEditModal";
 import { useState ,useEffect } from "react";
+import '../assets/scss/teacher.scss';
 
 const TeacherSelfPage = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -25,6 +26,10 @@ const TeacherSelfPage = () => {
     const fetchedTeacher = DummyTeachers.find((t) => t.teacher_id === teacher_id);
     setTeacher(fetchedTeacher);
   }, [teacher_id]);
+
+  useEffect(() => {
+  console.log("更新後的教师信息：", teacher);
+}, [teacher]);
 
 
   const handleEditModal = () => {
@@ -48,25 +53,33 @@ const TeacherSelfPage = () => {
 
 const handleSave = (editedData,section) => {
   // 在這裡可以進行其他保存或提交的操作
-  // 這裡只是示例，你可以根據實際需求進行調
-  
-  // 更新教师信息
-  setTeacher((prevTeacher) => ({
-    ...prevTeacher,
-    [section]: editedData[section] || prevTeacher[section],
-  }));
+    console.log("更新前的教师信息：", teacher);
 
-  console.log("編輯後的資料：", editedData);
-  console.log(editingContent);
+  // 更新教师信息
+setTeacher((prevTeacher) => {
+    console.log("更新中的 prevTeacher：", prevTeacher);
+    return {
+      ...prevTeacher,
+      [section]: editedData[section] || prevTeacher[section],
+    };
+  });
+  setEditingContent(editedData[section] || '');
+
+  console.log("更新後的教师信息：", teacher);
+
 
   closeEdit();
   setIsEditInfo(false);
   setIsEditTeachingStyle(false);
-
+  
 };
 
 const handleCancel = () => {
+     if (isEditInfo) {
     setEditingContent(teacher.info); // 將編輯內容還原為原始內容
+  } else if (isEditTeachingStyle) {
+    setEditingContent(teacher.teaching_style); // 將編輯內容還原為原始內容
+  }
     setIsEditInfo(false);
     setIsEditTeachingStyle(false);
   };
@@ -79,27 +92,25 @@ const handleCancel = () => {
   <div>
     <Navbar />
 
-  <div className="self-container col col-12" style={{marginTop:'6%',display:'flex'}}>
+  <div className="div-container col col-12" >
 
-    <div className="self-left-basicinfo col col -9" style={{width:'100%'}}>
+    <div className="form-left col col-9">
 
-    <div className="self-card" style={{display:'flex'}}>
+    <div className="card-container">
 
      <div className="self-card-container" >
       
-      <img src={teacher.avatar} alt={teacher.name} />
-      </div> 
-    
+      <img className="self-card-img" src={teacher.avatar} alt={teacher.name} />
 
-    <div className="self-card-info-container">
+      <div className="self-info-container">
 
-      <div className="self-name-nation-container" style={{display:'flex',justifyContent: 'space-between',alignItems: 'center'}}>
-      <div className="self-nation" style={{display:'flex'}}>
+      <div className="self-name-nation-container">
+      <div className="self-nation">
         <img src={NationImg} alt={teacher.nation} />
         <h6 className="self-name">{teacher.name}</h6>
       </div>
 
-       <div className="self-edit" style={{display:'flex',flexDirection:'column',alignItems:'end'}}>
+       <div className="self-edit" style={{alignItems:'end'}}>
       <img src={EditImg} alt="edit" onClick={handleEditModal}/>
 
         {isEditOpen && (
@@ -107,24 +118,27 @@ const handleCancel = () => {
          )}
       </div>
 
-      </div>
+    </div>
 
-      <div className="self-category-container">
+    <div className="self-category-container">
         
       <div className="self-category">
-      {teacher.category}
+      {teacher.category.map((category, index) => (
+      <div className="self-teacher-item" key={index}>{category}</div>
+        ))}
       </div>
 
     </div>
 
-    </div>
+      </div> 
+      </div>
 
-
-    </div>
-
-    <div className="self-introduction">
-      <div className="self-introduction-title-edit" style={{display:'flex',justifyContent:'space-between'}}>
-        <h6 className="self-inrtoduction-title">簡介</h6>
+    <div className="introduction-container">
+      <div className="self-introduction">
+        <div className="self-introduction-title">
+          <h6 className="title">簡介</h6>
+        </div>
+        
         {isEditInfo ? (
           <>
         <button onClick={() => handleSave({ info: editingContent }, 'info')}>保存</button>
@@ -144,16 +158,17 @@ const handleCancel = () => {
 
                 />
               ) : (
-                <p className="self-info-description" style={{ fontSize: '14px', width: '60%' }}>
-                  {teacher.info}
-                </p>
+                <p className="self-info-description">{teacher.info}</p>
               )}
     </div>
 
 
-    <div className="self-teaching-style">
-      <div className="self-teaching-style-title-edit" style={{display:'flex',justifyContent:'space-between'}}>
-        <h6 className="self-teaching-style-title">教學風格</h6>
+    <div className="teacherstyle-container">
+      <div className="self-teaching-style" >
+        <div className="self-teaching-style-title">
+          <h6 className="title">教學風格</h6>
+        </div>
+        
               {isEditTeachingStyle ? (
           <>
         <button onClick={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}>保存</button>
@@ -168,24 +183,24 @@ const handleCancel = () => {
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
-                  onBlur={() => handleSave({ info: editingContent }, 'teaching_style')}
+                  onBlur={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}
 
                 />
               ) : (
-                <p className="self-info-description" style={{ fontSize: '14px', width: '60%' }}>
-                  {teacher.teaching_style}
-                </p>
+                <p className="self-teaching-style-description">{teacher.teaching_style}</p>
               )}
     </div>
 
-        <div className="self-class-time">
-      <div className="self-class-time-title-edit" style={{display:'flex',justifyContent:'space-between'}}>
-        <h6 className="self-class-time-title">授課時間</h6>
+    <div className="classtime-container">
+      <div className="self-class-time" >
+        <div className="self-class-time-title">
+          <h6 className="title">授課時間</h6>
+        </div>
        <img src={EditImg} alt="edit" onClick={handleEdit}/>
       </div>
       
-
-      <div className="self-class-time-calendar" style={{fontSize:'14px',width:'60%'}}>
+    {/* 日曆待修改 */}
+      <div className="self-class-time-calendar">
         <MyCalendar />
       </div>
     </div>
@@ -193,7 +208,9 @@ const handleCancel = () => {
 
     </div>
 
-    <div className="self-right col col -3" style={{width:'100%'}}>
+    </div>
+
+    <div className="form-right col col-3">
 
 
      <ClassComments teacher={teacher} />

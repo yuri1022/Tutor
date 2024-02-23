@@ -10,16 +10,34 @@
       padding:5px;
       margin: 5px;
       border:none;
-      color: #B6B6B6;
+      color: var(--grey-light);
 
-    box-shadow: 1px 3px 5px 1px #B6B6B6;
-    -webkit-box-shadow: 1px 3px 5px 1px #B6B6B6;
-    -moz-box-shadow: 1px 3px 5px 1px #B6B6B6;
-    -o-box-shadow: 1px 3px 5px 1px #B6B6B6;
-      :hover{
+    box-shadow: 1px 3px 5px 1px var(--grey-light);
+    -webkit-box-shadow: 1px 3px 5px 1px var(--grey-light);
+    -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
+    -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
+    &.selected{
+      color: black;
       
-      }
+    }
       
+    }
+  }
+  .pagination{
+  width: 100%;
+   display:flex; 
+   justify-content:center;
+   margin:4rem 0rem 4rem 0rem;
+    .pagination-control{
+    display: flex;
+    align-items: center;
+    .pagination-control-first,
+    .pagination-control-prev,
+    .pagination-control-page,
+    .pagination-control-next,
+    .pagination-control-last{
+      margin:0.5rem
+    }
     }
   }
 }
@@ -30,12 +48,12 @@
   margin-bottom: -0.5rem;
   .card{
     width: 17rem;
-    height: 17.14rem;
-    box-shadow: 1px 3px 5px 1px #B6B6B6;
-    -webkit-box-shadow: 1px 3px 5px 1px #B6B6B6;
-    -moz-box-shadow: 1px 3px 5px 1px #B6B6B6;
-    -o-box-shadow: 1px 3px 5px 1px #B6B6B6;
-
+    height: 17.8rem;
+    box-shadow: 0px 3px 2px 1px var(--main-blue25);
+    -webkit-box-shadow: 0px 3px 5px 1px var(--main-blue25);
+    -moz-box-shadow: 1px 3px 5px 1px var(--main-blue25);
+    -o-box-shadow: 0px 3px 5px 1px var(--main-blue25);
+    border: none;
           .teacher-top {
               display: flex;
               align-items: center;
@@ -63,7 +81,7 @@
               
                   .teacher-rating {
                     display: flex;
-                    margin-top: 10%;
+                    margin-top: 6.5%;
 
                     .teacher-rating-img{
                     width: 0.85rem;
@@ -97,14 +115,54 @@
                 }
 
             }
-          
               
             }
 
-
-    
-
-
+    .teacher-category-container{
+      min-height: 3rem;
+        .teacher-category {
+          display: flex;
+          justify-content: left;
+          flex-wrap: wrap;
+          font-size: 0.8rem;
+          margin: 0.8rem 0 0.2rem 0;
+          .teacher-item {        
+            padding: 0 0.268rem 0 0.268rem;
+            margin: 0 0.268rem 0.268rem 0;
+            border-radius: 3px;
+            background-color: var(--main-blue25);
+          }
+        }
+      }
+     .teacher-info{
+      height: 3.2rem;
+      .teacher-info-text{
+        font-size: 0.8rem;
+      }
+     } 
+     .button-see-more{
+      display:flex;
+      justify-content: end;
+      margin:0 ;
+      .btn-see-more{
+        margin: 0 0 0.1rem 0;
+        border:none;
+        font-size:0.8rem;
+        position: relative;
+        color: var(--main-blue);
+        &::after {
+            content: '';
+            position: absolute;
+            width: 85%;
+            height: 1px;            
+            border-bottom: 1px dashed var(--main-blue);
+            bottom: 0.3rem;
+            left: 0.35rem;
+           
+          }
+ 
+      }
+     }
 
   }
 }
