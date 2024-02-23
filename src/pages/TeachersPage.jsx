@@ -173,8 +173,8 @@ const TeachersPage = () => {
         <h6 className="title">授課時間</h6>
       </div>
       
-
-      <div className="self-class-time-calendar" style={{fontSize:'14px',maxWidth:'50%'}}>
+          {/* 日曆待修改 */}
+      <div className="self-class-time-calendar">
         <MyCalendar />
       </div>
       </div>
@@ -233,7 +233,7 @@ const TeachersPage = () => {
           )}
         </div>
 
-        <div className="form-right col col-3" style={{display:'flex',flexDirection:'column'}}>
+        <div className="form-right col col-3" >
           
           {selectedTeacher && (
           <div>
