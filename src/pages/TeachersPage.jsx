@@ -20,20 +20,19 @@ const TeachersPage = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailModal, setShowFailModal] = useState(false);
   const [searchTerm,setSearchTerm]= useState('');
+  const [selectedTime ,setSelectedTime]=useState('12:00');
   const { teacher_id } = useParams();
   const selectedTeacher = DummyTeachers.find((teacher) => teacher.teacher_id === String(teacher_id));
-
-
 
     const handleSubmit = () => {
     const formData = {
       selectedDate,
       selectedCategory,
+      selectedTime,
       // 其他表單資料...
     };
     console.log('Submit:', formData);
-
-    const isReservationSuccessful = selectedDate && selectedCategory !== '';
+    const isReservationSuccessful = selectedDate && selectedTime & selectedCategory !== '';
     if (isReservationSuccessful) {
         setShowSuccessModal(true);
       } else {
@@ -52,8 +51,6 @@ const TeachersPage = () => {
   const handleCloseFailModal = () => {
     setShowFailModal(false);
   };
-
-  
 
   const checkIfDateIsSelectable = (date, reserveDays) => {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -93,6 +90,11 @@ const TeachersPage = () => {
     } else {
       alert('無法獲取課程信息');
     }
+  };
+
+  const handleTimeChange = (time) => {
+  setSelectedTime(time);
+   console.log('Selected Time:', time);
   };
 
   const categoryOptions = selectedTeacher.category.map((category) => ({ label: category }));
@@ -238,6 +240,8 @@ const TeachersPage = () => {
         <ClassReserve
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+          selectedTime={selectedTime}
+          setSelectedTime={handleTimeChange}
           setSelectedCategory={setSelectedCategory}
           reserveDays={reserveDays}
           setReserveDays={setReserveDays}

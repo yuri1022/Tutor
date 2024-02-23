@@ -194,7 +194,17 @@
 
 
    .form-right{
-    width: 33.3rem
+    width: 33.3rem;
+    .class-reserve{
+      width: 100%;
+      .calendar{
+        width: 30rem;
+      }
+      .timepicker{
+        width: 30rem;
+      }
+    }
+
    }
 }
 
