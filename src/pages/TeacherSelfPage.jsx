@@ -10,6 +10,7 @@ import ClassComments from "../components/ClassComments";
 import TeacherEditInfo from "../components/TeacherEditModal";
 import { useState ,useEffect } from "react";
 import '../assets/scss/teacher.scss';
+import { Button } from "react-bootstrap";
 
 const TeacherSelfPage = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -137,25 +138,28 @@ const handleCancel = () => {
       <div className="self-introduction">
         <div className="self-introduction-title">
           <h6 className="title">簡介</h6>
+        {isEditInfo ? (
+          <div className="edit-button" style={{position:'absolute',top:'9.5rem',right:'2rem'}}>
+        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('info')}>取消</Button>
+        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ info: editingContent }, 'info')}>保存</Button>        
+                    </div>
+                  ) : (
+                    <div className="edit-icon">
+                    <img src={EditImg} alt="edit" onClick={() => handleEdit('info')} style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>                      
+                    </div>
+                  )}
+
         </div>
         
-        {isEditInfo ? (
-          <>
-        <button onClick={() => handleSave({ info: editingContent }, 'info')}>保存</button>
-        <button onClick={() => handleCancel('info')}>取消</button>
-                    </>
-                  ) : (
-                    <img src={EditImg} alt="edit" onClick={() => handleEdit('info')} />
-                  )}
+        
       </div>
       
-
       {isEditInfo ? (
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
                   onBlur={() => handleSave({ info: editingContent }, 'info')}
-
+                  style={{width:'95%',height:'60%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem'}}
                 />
               ) : (
                 <p className="self-info-description">{teacher.info}</p>
@@ -167,16 +171,21 @@ const handleCancel = () => {
       <div className="self-teaching-style" >
         <div className="self-teaching-style-title">
           <h6 className="title">教學風格</h6>
+
+          {isEditTeachingStyle ? (
+          <div className="edit-button" style={{position:'absolute',top:'16rem',right:'2rem'}}>
+        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('teaching_style')}>取消</Button>            
+        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}}onClick={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}>保存</Button>
+
+                    </div>
+                  ) : (
+                    <div className="edit-icon" >
+                    <img src={EditImg} alt="edit" onClick={() => handleEdit('teaching_style')} style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>
+                    </div>
+                  )}
         </div>
         
-              {isEditTeachingStyle ? (
-          <>
-        <button onClick={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}>保存</button>
-        <button onClick={() => handleCancel('teaching_style')}>取消</button>
-                    </>
-                  ) : (
-                    <img src={EditImg} alt="edit" onClick={() => handleEdit('teaching_style')} />
-                  )}
+              
       </div>
       
       {isEditTeachingStyle ? (
@@ -184,7 +193,7 @@ const handleCancel = () => {
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
                   onBlur={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}
-
+                  style={{width:'95%',height:'80%',fontSize:'0.8rem',margin:'0.5rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem'}}
                 />
               ) : (
                 <p className="self-teaching-style-description">{teacher.teaching_style}</p>
@@ -195,8 +204,10 @@ const handleCancel = () => {
       <div className="self-class-time" >
         <div className="self-class-time-title">
           <h6 className="title">授課時間</h6>
+          <div className="edit-icon">
+          <img src={EditImg} alt="edit" onClick={handleEdit} style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>
         </div>
-       <img src={EditImg} alt="edit" onClick={handleEdit}/>
+        </div>
       </div>
       
     {/* 日曆待修改 */}

@@ -58,6 +58,7 @@
       margin:2rem 0 2rem 0;
       width: 55rem;
       border: none;
+      min-height: 9.5rem;
       .self-introduction{
         padding: 0.5rem 0 0.5rem 0.5rem;
         .self-introduction-title{
@@ -80,15 +81,17 @@
           }
 
         }
-      .self-info-description{
-        margin-top: 1rem;
-        font-size: 0.8rem;
       }
+    .self-info-description {
+      margin: 0.5rem 1rem 0 1rem;
+      font-size: 0.8rem;
       }
+
     }
     .teacherstyle-container{
       width: 55rem;
       margin: 0 0 2rem 0;
+      min-height: 16rem;
       .self-teaching-style{
         padding: 0.5rem 0 0.5rem 0.5rem;
         .self-teaching-style-title{
@@ -110,12 +113,11 @@
           font-size: 1rem;
           }
         }
-
-      .self-teaching-style-description{
-        margin-top: 1rem;
+      }
+  .self-teaching-style-description{
+        margin: 0.5rem 1rem 0 1rem;
         font-size: 0.8rem;
         }
-      }
     
     }
     .classtime-container{
