@@ -54,7 +54,7 @@ const ClassReserve = ({
 
       <div className="btn-submit">
 
-      <Button className="btn-light" style={{ margin: '2rem 0 2rem 0' }} onClick={handleSubmit}>
+      <Button className="submit btn-light" onClick={handleSubmit}>
         預約課程
       </Button>
       </div>
