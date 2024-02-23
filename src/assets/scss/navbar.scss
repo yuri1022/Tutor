@@ -4,16 +4,36 @@
     display:flex;
     justify-content: space-between;
     background-color: white;
+    .items-center{
+        align-items: center;
+    }
     .mr-10px{
     margin-right:10px;
     }
+    .logo-img{
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+    }
     .nav-link{
-        color: #b6b6b6;
+        color:#B6B6B6;
+        padding: 0px;
+    }
+    .nav-link:hover{
+        color: black;
+    }
+
+    .apply-link{
+        text-align: center;
     }
     .headshot{
         width: 36px;
         height:36px;
         border-radius: 18px;
+    }
+    .apply-link{
+        text-decoration: none;
+        color: black;
     }
 }
 
