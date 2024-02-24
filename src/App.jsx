@@ -6,6 +6,8 @@ import ApplyTeacher from './pages/ApplyTeacher';
 import './main.scss'
 import Students_profile from './pages/students/Students_profile'
 import TeacherSelfPage from './pages/TeacherSelfPage';
+import TeacherCollection from './components/TeacherCollection';
+
 function App() {
   return (
   <BrowserRouter>
@@ -13,6 +15,8 @@ function App() {
        <Routes>       
           <Route path="teacher/:teacher_id" element={<TeachersPage />} />
           <Route path="teacher/:teacher_id/personal" element={<TeacherSelfPage />} />
+          <Route path="teacher/:id" element={<TeacherCollection />} />
+
           <Route path="student" element={<Students_profile/>} />
           <Route path="home" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />

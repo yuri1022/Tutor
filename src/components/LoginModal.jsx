@@ -35,6 +35,7 @@ const LoginModal = ({closeLoginModal}) =>{
         const token = loginRes.data.token;
         console.log(token);
         localStorage.setItem("token",loginRes.data.token);
+        closeLoginModal();
     }
     return(
 

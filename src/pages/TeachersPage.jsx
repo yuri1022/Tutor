@@ -10,7 +10,7 @@ import MyCalendar from '../components/Teacher_profile_Calendar';
 import '../assets/scss/teacher.scss';
 import ClassReserve from '../components/ClassReserve';
 import SuccessModal from '../components/SuccessModal';
-import FailModal from '../components/SuccessModal';
+import FailModal from '../components/FailModal.jsx';
 
 
 const TeachersPage = () => {
@@ -32,20 +32,21 @@ const TeachersPage = () => {
       // 其他表單資料...
     };
     console.log('Submit:', formData);
-    const isReservationSuccessful = selectedDate && selectedTime & selectedCategory !== '';
+
+     const isReservationSuccessful = selectedDate !== '' && selectedTime !== null && selectedCategory !== '';
+     const isReservationFail = selectedDate === '' || selectedTime === null || selectedCategory === '';       
+
     if (isReservationSuccessful) {
         setShowSuccessModal(true);
-      } else {
-        handleOpenFailModal();
+      } else if (isReservationFail){
+        setShowFailModal(true);
       }
-  };
+    };
 
+        console.log('showFailModal',showFailModal);
+    console.log('showSuccessModal',showSuccessModal);
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
-  };
-
-  const handleOpenFailModal = () => {
-    setShowFailModal(true);
   };
 
   const handleCloseFailModal = () => {
@@ -251,7 +252,6 @@ const TeachersPage = () => {
           setShowSuccessModal={setShowSuccessModal}
           setShowFailModal={setShowFailModal}
           handleDateChange={handleDateChange}
-          handleOpenFailModal={handleOpenFailModal}
           checkIfDateIsSelectable={checkIfDateIsSelectable}
          />
           <ClassComments teacher={selectedTeacher} />
@@ -259,9 +259,9 @@ const TeachersPage = () => {
               
             
           )}
-
-      <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} />
       <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
+      <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} />
+      
         </div>
       </div>
     </>

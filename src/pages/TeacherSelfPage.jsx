@@ -159,7 +159,7 @@ const handleCancel = () => {
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
                   onBlur={() => handleSave({ info: editingContent }, 'info')}
-                  style={{width:'95%',height:'60%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem'}}
+                  style={{width:'95%',height:'60%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
                 />
               ) : (
                 <p className="self-info-description">{teacher.info}</p>
@@ -193,7 +193,8 @@ const handleCancel = () => {
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
                   onBlur={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}
-                  style={{width:'95%',height:'80%',fontSize:'0.8rem',margin:'0.5rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem'}}
+                  style={{width:'95%',height:'80%',fontSize:'0.8rem',margin:'0.5rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
+                 
                 />
               ) : (
                 <p className="self-teaching-style-description">{teacher.teaching_style}</p>
