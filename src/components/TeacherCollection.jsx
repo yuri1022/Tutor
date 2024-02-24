@@ -24,6 +24,8 @@ const Teacher = () => {
     const fetchTeacherDetails = async (id) => {
       try {
       const teachersData = await getTeacher(id); // 根據 id 獲取教師
+      console.log('Teachers Data:', teachersData);
+
       const teacher = teachersData.find((teacher) => teacher.id === Number(id)); 
       console.log(teachersData.data)
         setTeacherDetails(teacher);
@@ -39,8 +41,14 @@ const Teacher = () => {
 
   const handleButtonClick = () => {
     // 在這裡執行導航
-    navigate(`/teacher/${id}`);
+    navigate(`/teacher/${id}`, { replace: true });
   };
+
+  if (!teacherDetails) {
+    // 如果教师详细信息还未获取到，可以显示加载状态或其他内容
+    return <div>Loading...</div>;
+  }
+
 
   return (
     
@@ -124,7 +132,7 @@ Teacher.propTypes = {
 };
 
 
-const TeacherCollection = ({searchTerm}) => {
+const TeacherCollection = ({searchTerm,id}) => {
 
 const itemsPerPage = 6;
 const { page } = useParams(); // 獲取路由參數中的 page
@@ -132,21 +140,26 @@ const currentPage = parseInt(page, 10) || 1;// 將 page 轉換為整數，默認
  const [teachers, setTeachers] = useState([]);
 const [totalPages, setTotalPages] = useState(0);
 const navigate = useNavigate();
-const fetchTeachers = async (id) => {
+
+
+  useEffect(() => {
+    const fetchTeachers = async () => {
     try {
-      const teachersData = await getTeacher(id);
+      const teachersData = await getTeacher();
       setTeachers(teachersData.data);
       setTotalPages(Math.ceil(teachersData.data.length / itemsPerPage));
     } catch (error) {
       console.error('Failed to fetch teachers:', error);
     }
   };
-  const { id } = useParams();
-
-  useEffect(() => {
+  // 检查 id 是否存在
+  if (id) {
     fetchTeachers(id);
-  }, [id]);
-
+  }
+  else{
+    console.log('can not read id')
+  }
+}, [id]);
 
   //分頁功能
 
@@ -249,12 +262,8 @@ const allVisibleTeachers = teachers.slice((currentPage - 1) * itemsPerPage, curr
           <img src={LastPageArrow} alt="末頁" onClick={handleLastPage}/>
         </div>
         
-        
-        
-
         </div>
-        
-
+      
       </div>
 
   </div>
@@ -263,6 +272,7 @@ const allVisibleTeachers = teachers.slice((currentPage - 1) * itemsPerPage, curr
 
 TeacherCollection.propTypes = {
   searchTerm: PropTypes.string.isRequired,
+  id:PropTypes.number.isRequired,
 };  
 
 export default TeacherCollection;

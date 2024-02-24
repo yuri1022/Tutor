@@ -1,19 +1,21 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState,useEffect } from 'react';
+import { useParams,useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
 import NationImg from '../assets/images/svg/canada.svg'
 import Navbar from '../components/Navbar';
-import { DummyTeachers } from '../components/TeachersData';
 import ClassComments from '../components/ClassComments';
 import MyCalendar from '../components/Teacher_profile_Calendar';
 import '../assets/scss/teacher.scss';
 import ClassReserve from '../components/ClassReserve';
 import SuccessModal from '../components/SuccessModal';
 import FailModal from '../components/FailModal.jsx';
+import { getTeacher } from '../api/teacher.js';
+import { useAuth } from '../components/AuthContext.jsx';
 
 
 const TeachersPage = () => {
+  const [selectedTeacher,setSelectedTeacher] = useState(null);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [reserveDays, setReserveDays] = useState({});
@@ -21,8 +23,42 @@ const TeachersPage = () => {
   const [showFailModal, setShowFailModal] = useState(false);
   const [searchTerm,setSearchTerm]= useState('');
   const [selectedTime ,setSelectedTime]=useState('12:00');
-  const { teacher_id } = useParams();
-  const selectedTeacher = DummyTeachers.find((teacher) => teacher.teacher_id === String(teacher_id));
+  const { id } = useParams();
+  const { user, isUserLoggedIn } = useAuth();
+  const history = useNavigate();
+
+
+  useEffect(() => {
+    // 如果用户未登录，进行路由跳转到登录页面
+    
+    if (!isUserLoggedIn()) {
+      history.push('/signin'); // 根据实际的登录页面路由进行修改
+    }
+  }, [isUserLoggedIn, history]);
+
+ useEffect(() => {
+  const fetchTeacherData = async () => {
+    try {
+      
+      const teacherData = await getTeacher(id);
+      console.log('Teacher Data:', teacherData);
+      setSelectedTeacher(teacherData);
+      setReserveDays({
+        mon: teacherData.mon,
+        tue: teacherData.tue,
+        wed: teacherData.wed,
+        thu: teacherData.thu,
+        fri: teacherData.fri,
+        sat: teacherData.sat,
+        sun: teacherData.sun,
+      });
+    } catch (error) {
+      console.error('Failed to fetch teacher data:', error);
+    }
+  };
+
+  fetchTeacherData();
+}, [id]);
 
     const handleSubmit = () => {
     const formData = {
@@ -43,7 +79,7 @@ const TeachersPage = () => {
       }
     };
 
-        console.log('showFailModal',showFailModal);
+    console.log('showFailModal',showFailModal);
     console.log('showSuccessModal',showSuccessModal);
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
@@ -54,34 +90,18 @@ const TeachersPage = () => {
   };
 
   const checkIfDateIsSelectable = (date, reserveDays) => {
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const selectedDayOfWeek = daysOfWeek[date.getDay()];
+  const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  const selectedDayOfWeek = daysOfWeek[date.getDay()].toLowerCase(); // 轉換為小寫
     return reserveDays[selectedDayOfWeek];
   };
-
-  let dateLogCounter = 0;
 
   const handleDateChange = (date) => {
     console.log('Selected Date:', date);
 
-    if (selectedTeacher && selectedTeacher.courses) {
-      let isSelectable = false;
-
-      for (const course of selectedTeacher.courses) {
-        if (course.reserveDays) {
-          const isCourseSelectable = checkIfDateIsSelectable(date, course.reserveDays);
-
-          if (dateLogCounter < 10) {
-            console.log('Is Course Selectable:', isCourseSelectable);
-            dateLogCounter++;
-          }
-
-          if (isCourseSelectable) {
-            isSelectable = true;
-            break;
-          }
-        }
-      }
+    if (selectedTeacher && selectedTeacher.reserveDays) {
+      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const selectedDayOfWeek = daysOfWeek[date.getDay()];
+      const isSelectable = selectedTeacher.reserveDays[selectedDayOfWeek];
 
       if (isSelectable) {
         setSelectedDate(date);
@@ -89,7 +109,7 @@ const TeachersPage = () => {
         alert('該日期不可預約');
       }
     } else {
-      alert('無法獲取課程信息');
+      alert('無法獲取教師的預約日期信息');
     }
   };
 
@@ -98,7 +118,8 @@ const TeachersPage = () => {
    console.log('Selected Time:', time);
   };
 
-  const categoryOptions = selectedTeacher.category.map((category) => ({ label: category }));
+  const categoryOptions = selectedTeacher.Courses.map((course) => ({ label: course.Category.name }));
+
 
 
   const handleSearchChange = (event) => {
@@ -132,9 +153,9 @@ const TeachersPage = () => {
               </div>
                 <div className="self-category-container">        
                   <div className="self-category">
-                    {selectedTeacher.category.map((category, index) => (
-                <div className="self-teacher-item" key={index}>{category}</div>
-                  ))}
+                    {selectedTeacher.Courses.map((course, index) => (
+        <div className="self-teacher-item" key={index}>{course.Category.name}</div>
+      ))}
                     </div>
                 </div>
                  
@@ -151,7 +172,7 @@ const TeachersPage = () => {
       </div>
       
 
-      <p className="self-info-description">{selectedTeacher.info}</p>
+      <p className="self-info-description">{selectedTeacher.selfIntro}</p>
         </div>     
         
         </div>       
@@ -163,7 +184,7 @@ const TeachersPage = () => {
         <h6 className="title">教學風格</h6>
       </div>
       
-      <p className="self-teaching-style-description" >{selectedTeacher.teaching_style}</p>
+      <p className="self-teaching-style-description" >{selectedTeacher.teachStyle}</p>
     </div>
       </div>
 
@@ -269,15 +290,19 @@ const TeachersPage = () => {
 };
 
 TeachersPage.propTypes = {
-  teacher: PropTypes.shape({
+  selectedTeacher: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    teacher_id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     nation: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
-    info: PropTypes.string.isRequired,
-    teaching_style: PropTypes.string.isRequired,
+    selfIntro: PropTypes.string.isRequired,
+    teachStyle: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
-    category: PropTypes.arrayOf(PropTypes.string).isRequired,
+    Courses: PropTypes.arrayOf(PropTypes.shape({
+      Category: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    })).isRequired,
   }).isRequired,
 };
 

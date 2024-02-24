@@ -23,7 +23,7 @@ const Student = ({ student, rank }) =>{
 
 
   return(
-    <div className="student-container" key={student.email} style={{ display: 'flex', alignItems: 'center',height:'3.5rem',paddingLeft:'1.125rem',paddingRight:'1.125rem',justifyContent:'space-between'}}>
+    <div className="student-container" key={student.stu_id} style={{ display: 'flex', alignItems: 'center',height:'3.5rem',paddingLeft:'1.125rem',paddingRight:'1.125rem',justifyContent:'space-between'}}>
         
         <div className="student-rank" style={{width:'2.625rem',textAlign:'center',marginRight:'1rem'}}>{icon}</div>
 
@@ -46,6 +46,7 @@ const Student = ({ student, rank }) =>{
 
 Student.propTypes = {
   student: PropTypes.shape({
+    stu_id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,   
     avatar: PropTypes.string.isRequired,
@@ -72,7 +73,7 @@ const BestStudents = () => {
 
   
   {sortedStudents.map((student, index) => (
-          <Student key={student.email} student={student} rank={index + 1} />
+          <Student key={student.stu_id} student={student} rank={index + 1} />
         ))}
   </Card>
 

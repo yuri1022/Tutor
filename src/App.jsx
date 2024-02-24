@@ -6,17 +6,21 @@ import ApplyTeacher from './pages/ApplyTeacher';
 import './main.scss'
 import Students_profile from './pages/students/Students_profile'
 import TeacherSelfPage from './pages/TeacherSelfPage';
-import TeacherCollection from './components/TeacherCollection';
+import { AuthProvider } from './components/AuthContext.jsx';
+import LoginModal from './components/LoginModal.jsx';
+
 
 function App() {
+  
+
   return (
+    <AuthProvider>
   <BrowserRouter>
   <div className="app">
-       <Routes>       
-          <Route path="teacher/:teacher_id" element={<TeachersPage />} />
+       <Routes>   
+          <Route path="signin" element={<LoginModal />} />    
+          <Route path="teacher/:id" element={<TeachersPage />} />
           <Route path="teacher/:teacher_id/personal" element={<TeacherSelfPage />} />
-          <Route path="teacher/:id" element={<TeacherCollection />} />
-
           <Route path="student" element={<Students_profile/>} />
           <Route path="home" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
@@ -25,6 +29,7 @@ function App() {
         </Routes>
     </div>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 export default App;
