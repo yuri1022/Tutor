@@ -1,0 +1,114 @@
+.modal-dialog{
+  min-width: 40rem;
+  min-height: 30rem;
+
+  .container-left {
+      width: 40%;
+      padding: 2rem;
+  
+      .edit-img {
+        width: 10rem;
+  
+        .img {
+          width: 100%;
+        }
+  
+        .edit {
+          margin-top: 0.7rem;
+          border-radius: 0.625rem;
+          border:0.08rem solid var(--main-blue);
+          width: 100%;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: var(--main-blue);
+
+        }
+      }
+    }
+  
+    .container-right {
+      width: 60%;
+      padding: 2rem 1rem 1rem 0;
+      .edit-name{
+        .edit-name-title{
+          font-size: 1.03rem;
+          font-family: "Inter", sans-serif;
+          font-optical-sizing: auto;
+          font-weight: 900;
+        }
+        .edit-name-input{
+          margin-bottom: 1.6rem;
+          font-size: 0.8rem;
+          border-color: var(--main-blue25);
+          font-weight: 500;
+          width: 20rem;
+        }
+      }
+      .edit-nation{
+        .edit-nation-title{
+          font-size: 1.03rem;
+          font-weight: 700;
+        }
+        .edit-nation-input{
+          margin-bottom: 1.6rem;
+          font-size: 0.8rem;
+          border-color: var(--main-blue25);
+          font-weight: 500;
+          width: 20rem;
+        }
+      }
+  
+
+  
+      .edit-category {
+        font-size: 1.03rem;
+        font-weight: 700;
+        
+        .edit-category-items {
+          display: flex;
+          flex-wrap: wrap;
+          font-size: 0.8rem;
+          font-weight: 600;
+          
+          
+          .form-check{
+            display: flex;
+            align-items: center;
+            padding-right: 0.8rem;
+            input{
+              border: 0.15rem solid var(--main-blue);
+              width: 1.3rem;
+              height: 1.3rem;
+              margin-right: 0.8rem;
+            }
+          }
+        }
+  
+      }
+    }
+
+    .footer{
+      display: flex;
+      justify-content: end;
+      margin: 1rem 3.5rem 2.8rem 0;
+      .footer-item{
+
+        .close,
+        .save{
+          border: none;
+          font-size: 0.8rem;
+          width: 4.3rem;
+          height: 2rem;
+          border-radius: 0.5rem;
+          margin-left: 0.6rem;
+        }
+       .close{
+        background-color: var(--grey-300);        
+       }
+       .save{
+        background-color: var(--main-blue);
+       
+       }
+      }
+    }
+}
