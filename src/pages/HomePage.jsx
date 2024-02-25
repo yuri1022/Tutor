@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useContext,useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import TeachersCollection from '../components/TeacherCollection';
 import BestStudents from '../components/BestStudents';
-
+import { AppContext } from '../App';
 
 const HomePage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const handleSearchChange = (searchtext) => {
-    console.log(searchtext);
-    setSearchTerm(searchtext);
-  };
+  const searchTerm = useContext(AppContext).searchTerm;
+  
+  useEffect(()=>{
+    console.log(searchTerm);
+  },[searchTerm])
   return (
   <div className="home-page">
 

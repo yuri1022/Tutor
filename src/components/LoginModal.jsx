@@ -16,8 +16,19 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         mode: 'onTouched'
     });
     const api = 'http://34.125.232.84:3000';
-    const onSubmit = ()=>{
-        
+    const onSubmit = async(data)=>{
+        const { email ,code } = data;
+        console.log(data);
+        const formData={
+            email:email,
+            code:code,
+        }
+        const signupRes = await axios.post(`${api}/signup`,formData
+        ).then(res=>{
+            console.log(res.data);
+        }).catch(err=>{
+            console.log(err);
+        })
     }
     const apiLoginSubmit = async ()=>{
         const loginData= {
@@ -36,7 +47,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         const token = loginRes.data.token;
         const id = loginRes.data.id;
         // fake data
-        const isTeacher = false;
+        const isTeacher = true;
         console.log(token);
         localStorage.setItem("token",loginRes.data.token);
         //handle Login 
@@ -111,7 +122,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
                                 <label className={`form-control input-label ${errors.repassword && 'is-wrong'}`}>確認</label>
                                 <input   className={`form-control input-right ${errors.repassword && 'is-invalid'}`} {...register("repassword",{required: true , maxLegnth: 20})}  placeholder="請再次輸入密碼"/>
                             </div>
-                            <div className="btn btn-primary w-100 mb-20px">
+                            <div className="btn btn-primary w-100 mb-20px"  type="submit">
                                 註冊
                             </div>
                             <div className="mb-10px">使用其他方式註冊</div>

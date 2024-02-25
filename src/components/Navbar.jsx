@@ -91,7 +91,7 @@ const Navbar = (props) =>{
                     <div className="navbar-right">
                         <div className="navbar-search">
                             <input  id="search" className="form-control" placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
-                            <img className="search-icon" src={searchIcon}></img>
+                            <img className="search-icon" src={searchIcon} onClick={handleSearch}></img>
                         </div>
                         {
                             isLogin ? (
@@ -102,7 +102,7 @@ const Navbar = (props) =>{
                                 
                             ):
                             ( 
-                                <button  className="btn btn-outline-success my-2 my-sm-0" onClick={openLoginModal}>登入/註冊</button>
+                                <button  className="btn btn-outline-primary my-2 my-sm-0" onClick={openLoginModal}>登入/註冊</button>
                                 )
                         }
                     </div>
