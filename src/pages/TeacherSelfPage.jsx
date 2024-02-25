@@ -11,6 +11,7 @@ import TeacherEditInfo from "../components/TeacherEditModal";
 import { useState ,useEffect } from "react";
 import '../assets/scss/teacher.scss';
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
 const TeacherSelfPage = () => {
   const [editingSection, setEditingSection] = useState(null);
@@ -18,7 +19,14 @@ const TeacherSelfPage = () => {
   const [isEditInfo, setIsEditInfo] = useState(false);
   const [isEditTeachingStyle, setIsEditTeachingStyle] = useState(false);
   const [editingContent, setEditingContent] = useState('');
-    const [triggerEditModalUpdate, setTriggerEditModalUpdate] = useState(false);
+  const [triggerEditModalUpdate, setTriggerEditModalUpdate] = useState(false);
+
+  const api = 'http://34.125.232.84:3000'
+  const getTeacherData = async () =>{
+    const token = localStorage.getItem("token");
+    console.log(token);
+    const teacherData = await axios.get(`${api}/teacher/12`,{headers:{Authorization: `Bearer${token}` }})
+  }
 
 
   const [teacher, setTeacher] = useState(null); 

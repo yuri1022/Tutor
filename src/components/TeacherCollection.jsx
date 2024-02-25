@@ -10,8 +10,8 @@ import LastPageArrow from '../assets/images/svg/arrow-last.svg';
 import PrePageArrow from '../assets/images/svg/previouspage.svg';
 import NextPageArrow from '../assets/images/svg/nextpage.svg'
 import '../assets/scss/homepage.scss';
-import { getTeacher } from '../api/teacher.js'
-
+// import { getTeacher } from '../api/teacher.js'
+import axios from 'axios';
 
 
 const Teacher = () => {
@@ -19,24 +19,42 @@ const Teacher = () => {
   const navigate = useNavigate();
   const [teacherDetails, setTeacherDetails] = useState(null);
 
-  useEffect(() => {
-    // 使用API來獲取教師詳細資訊
-    const fetchTeacherDetails = async (id) => {
-      try {
-      const teachersData = await getTeacher(id); // 根據 id 獲取教師
-      console.log('Teachers Data:', teachersData);
+  const api = 'http://34.125.232.84:3000';
 
-      const teacher = teachersData.find((teacher) => teacher.id === Number(id)); 
-      console.log(teachersData.data)
-        setTeacherDetails(teacher);
-        return teachersData;
+const getTeacherData = async (id) => {
+    try {
+      
+      const token = localStorage.getItem('token');
+      console.log(token);
+    // 將 token 存儲在 localStorage 中
+      const response = await axios.get(`${api}/teachers/15`, { headers: { Authorization: `Bearer ${token}` } });
+      console.log(response.data);
+      return response.data; // 返回教師數據
+    } catch (error) {
+      console.log(error);
+      throw error; // 將錯誤拋出，以便上層進行錯誤處理
+    }
+  };
+
+ useEffect(() => {
+    const fetchTeacher = async () => {
+      try {
+        const teacherData = await getTeacherData();
+        setTeacherDetails(teacherData.data);
       } catch (error) {
         console.error('Failed to fetch teacher details:', error);
       }
     };
 
-    fetchTeacherDetails(id);
+    // 检查 id 是否存在
+    if (id) {
+      fetchTeacher();
+    } else {
+      console.log('can not read id');
+    }
   }, [id]);
+
+
 
 
   const handleButtonClick = () => {
@@ -48,6 +66,7 @@ const Teacher = () => {
     // 如果教师详细信息还未获取到，可以显示加载状态或其他内容
     return <div>Loading...</div>;
   }
+
 
 
   return (
@@ -132,7 +151,7 @@ Teacher.propTypes = {
 };
 
 
-const TeacherCollection = ({searchTerm,id}) => {
+const TeacherCollection = ({searchTerm}) => {
 
 const itemsPerPage = 6;
 const { page } = useParams(); // 獲取路由參數中的 page
@@ -141,25 +160,35 @@ const currentPage = parseInt(page, 10) || 1;// 將 page 轉換為整數，默認
 const [totalPages, setTotalPages] = useState(0);
 const navigate = useNavigate();
 
+const api = 'http://34.125.232.84:3000';
+
+const getTeachersData = async (id) => {
+    try {
+      
+      const token = localStorage.getItem("token");
+      console.log(token);
+      const response = await axios.get(`${api}/teachers/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      console.log(response.data);
+      return response.data; // 返回教師數據
+    } catch (error) {
+      console.log(error);
+      throw error; // 將錯誤拋出，以便上層進行錯誤處理
+    }
+  };
 
   useEffect(() => {
     const fetchTeachers = async () => {
-    try {
-      const teachersData = await getTeacher();
-      setTeachers(teachersData.data);
-      setTotalPages(Math.ceil(teachersData.data.length / itemsPerPage));
-    } catch (error) {
-      console.error('Failed to fetch teachers:', error);
-    }
-  };
-  // 检查 id 是否存在
-  if (id) {
-    fetchTeachers(id);
-  }
-  else{
-    console.log('can not read id')
-  }
-}, [id]);
+      try {
+        const teachersData = await getTeachersData();
+        setTeachers(teachersData.data);
+        setTotalPages(Math.ceil(teachersData.data.length / itemsPerPage));
+      } catch (error) {
+        console.error('Failed to fetch teachers:', error);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
 
   //分頁功能
 

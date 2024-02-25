@@ -10,8 +10,8 @@ import '../assets/scss/teacher.scss';
 import ClassReserve from '../components/ClassReserve';
 import SuccessModal from '../components/SuccessModal';
 import FailModal from '../components/FailModal.jsx';
-import { getTeacher } from '../api/teacher.js';
-
+// import { getTeacher } from '../api/teacher.js';
+import axios from 'axios';
 
 const TeachersPage = () => {
   const [selectedTeacher,setSelectedTeacher] = useState(null);
@@ -23,14 +23,27 @@ const TeachersPage = () => {
   const [searchTerm,setSearchTerm]= useState('');
   const [selectedTime ,setSelectedTime]=useState('12:00');
   const { id } = useParams();
-  
+  const api = 'http://34.125.232.84:3000';
+
+  const getTeacherData = async () =>{
+    const token = localStorage.getItem("token");
+    console.log(token);
+    const teacherData = await axios.get(`${api}/teacher/12`,{headers:{Authorization: `Bearer${token}` }}).then((res)=>{
+      console.log(res.data)
+      return teacherData.data
+    }).catch(
+      err=>{
+        console.log(err);
+      }
+    )
+  }
 
  useEffect(() => {
   console.log('Current ID in useEffect:', id);
 
-  const fetchTeacherData = async (id) => {
+  const fetchTeacherData = async () => {
     try {
-      const teacherData = await getTeacher(id);
+      const teacherData = await getTeacherData();
       
       console.log('Teacher Data:', teacherData);
       setSelectedTeacher(teacherData);
