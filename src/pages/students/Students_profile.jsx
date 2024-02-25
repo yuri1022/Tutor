@@ -54,7 +54,6 @@ const Students_profile = () =>{
             <Students_profile_Go_Class obj_goclass={obj_goclass} closeGoClassModal={closeGoClassModal}/>
             <Students_profile_Rating closeRatingModal={closeRatingModal}/>
             <Students_profile_Edit closeEditModal={closeEditModal}/>
-            <Navbar></Navbar>
             <div className="Profile_container_stu">
                 <div className="row">
                     <div className="col-3">

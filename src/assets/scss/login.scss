@@ -1,14 +1,17 @@
 
 .login_modal_content{
-    min-width: 700px;
-    padding-left: 20px;
-    padding-right: 20px;
+    .modal-header{
+        border-bottom: 3px solid;
+    }
     .title{
         font-size: 20px;
         line-height: 30px;
     }
     .mb-10px{
         margin-bottom: 10px;
+    }
+    .mb-20px{
+        margin-bottom: 20px;
     }
     /*modal-header*/
     .close-btn{
@@ -20,16 +23,72 @@
         color: #3652E3;
         text-shadow: 0 1px 0 #fff;
     }
+    .login-container{
+        padding-left:60px;
+        padding-right:60px;
+        width:100%;
+    }
+    .button-list{
+        display:flex;
+        justify-content: center;
+        
+    }
     .mode-btn{
+        padding-top:4px;
+        padding-left: 20px;
+        padding-right: 20px;
         font-size:20px;
+        position:relative;
+        color:#9B9C9E;
     }
+    .mode-btn-1{
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size:20px;
+        position:relative;
+        color:#9B9C9E;
+    }
+    .mode-btn-1::after{
+        content:"";
+        top:0px;
+        right: 0px;
+        height:40px;
+        position: absolute;
+        border-left: 1px solid black;
+    }
+    .mode-active{
+        color:black;
+    }
+    .input-bar{
+        display:flex;
+    }
+    .input-label{
+        text-align:center;
+        border:1px  solid #dee2e6;
+        width: 20%;
+        color:#3652E3;
+        border-right: 0px;
+        border-top-right-radius: 0px 0px;
+        border-bottom-right-radius: 0px 0px;
+
+    }
+    .is-wrong{
+        background-image: none;
+        border: 1px solid #dc3546;
+        border-right: 0px;
+        border-top-right-radius: 0px 0px;
+        border-bottom-right-radius: 0px 0px;
+    }
+
     /*modal-body*/
-    .input-email{
-        width: 100%;
+    .input-right{
+        border-top-left-radius: 0px 0px;
+        border-bottom-left-radius: 0px 0px;
+        border-left: 0px;
+        width: 80%;
+        
     }
-    .input-code{
-        width: 100%;
-    }
+
 
     /*modal-footer*/
     .modal-footer{

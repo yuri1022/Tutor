@@ -6,7 +6,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
     const [introTxt,setIntroTxt ] = useState("");
     return(
         <div className="modal fade" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
+        <div className="modal-dialog modal-lg" role="document">
             <div className="editStuModal_content modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel"></h5>

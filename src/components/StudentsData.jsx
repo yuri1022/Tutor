@@ -88,7 +88,7 @@ export const DummyStudents = [
   {
   stu_id:'7',
 	name: 'Mia',
-  email: 'user6@example.com',
+  email: 'user7@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: false,
@@ -102,7 +102,7 @@ export const DummyStudents = [
   {
   stu_id:'8',
 	name: 'James',
-  email: 'user6@example.com',
+  email: 'user8@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: false,
@@ -116,7 +116,7 @@ export const DummyStudents = [
   {
   stu_id:'9',
 	name: 'Sophia',
-  email: 'user6@example.com',
+  email: 'user9@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: false,
@@ -130,7 +130,7 @@ export const DummyStudents = [
   {
   stu_id:'10',
 	name: 'Olivia',
-  email: 'user6@example.com',
+  email: 'user10@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: false,
@@ -144,7 +144,7 @@ export const DummyStudents = [
   {
   stu_id:'11',
 	name: 'Alex',
-  email: 'user6@example.com',
+  email: 'user11@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: false,
@@ -158,7 +158,7 @@ export const DummyStudents = [
   {
   stu_id:'12',
 	name: 'Emma',
-  email: 'user6@example.com',
+  email: 'user12@example.com',
   password:'a1234567890',
   nation:'taiwan',
   is_teacher: false,
