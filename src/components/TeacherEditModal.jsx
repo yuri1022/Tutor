@@ -4,22 +4,30 @@ import { useState,useEffect } from 'react';
 import '../assets/scss/editmodal.scss';
 
 
-const TeacherEditInfo = ({ show, handleClose, handleSave , teacher,editingSection }) => {
+const TeacherEditInfo = ({ show, handleClose, handleSave , teacher, editingSection }) => {
   const [editedData, setEditedData] = useState({ ...teacher });
   const [category, setCategory] = useState(editedData.category);
+  const [nation, setNation] = useState(editedData.nation);
   const [uploadImageModal, setUploadImageModal] = useState(false);
 
   const DummyCategories = ["多益", "托福", "雅思","日常會話","旅遊英文","新聞英文","商用英文"]; // 根据实际情况添加类别
+  const DummyNations = ['Taiwan','China','Canada','USA','Korea']
 
- // 当 editedData 发生变化时输出日志
-  useEffect(() => {
-    console.log(editedData);
-  }, [editedData]);
+useEffect(() => {
+  // 当传递给组件的 teacher 属性发生变化时，更新内部状态
+  setEditedData({ ...teacher });
+  setCategory(teacher.category || []);
+}, [teacher]);
 
-  // 当 category 发生变化时输出日志
-  useEffect(() => {
-    console.log(category);
-  }, [category]);
+
+useEffect(() => {
+  // 当 category 或 editedData 发生变化时，更新编辑的数据
+  setEditedData((prevData) => ({
+    ...prevData,
+    category: category,
+    nation:nation,
+  }));
+}, [category, nation]);
 
 
   const handleInputChange = (e) => {
@@ -32,12 +40,9 @@ const TeacherEditInfo = ({ show, handleClose, handleSave , teacher,editingSectio
 
   // 处理国籍输入框变化
   const handleNationChange = (e) => {
-    // 更新編輯的資料
-    setEditedData({
-      ...editedData,
-      [e.target.name]: e.target.value,
-    });
+    setNation(e.target.value);
   };
+
 
 // 处理类别选择变化
 const handleCategoryChange = (selectedCategory) => {
@@ -74,21 +79,25 @@ const handleCategoryChange = (selectedCategory) => {
   // 处理保存按钮点击 
 const handleSaveClick = () => {
   const updatedData = {
-    ...editedData,
-    category: category,
+  name: editedData.name,
+  nation: editedData.nation,
+  category: category,
+  avatar: editedData.avatar,
   };
 
   // 将編輯的資料傳遞給父層組件的回調函數
   handleSave(updatedData, editingSection);
 
+  handleClose();
+
   console.log("保存后的 updatedData：", updatedData);
 
-  handleClose();
+  
+  
 };
 
-
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal className="edit-modal" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
       </Modal.Header>
 
@@ -100,29 +109,42 @@ const handleSaveClick = () => {
             <div className="container-left">
 
             <div className="edit-img">
-            <img src={editedData.avatar} alt="avatar" />
-            <Button onClick={handleImageChange}>更換大頭貼</Button>              
+            <img className="img" src={editedData.avatar} alt="avatar" />
+            <Button className="edit" variant="outline-primary" onClick={handleImageChange}>更換大頭貼</Button>              
             </div>      
 
             </div>
 
             <div className="container-right">
             <div className="edit-name">
-            <Form.Label>姓名</Form.Label>
-            <Form.Control type="text" name="name" 
+            <Form.Label className="edit-name-title">姓名</Form.Label>
+            <Form.Control className="edit-name-input" type="text" name="name" 
             value={editedData.name} 
-            onChange={(e) => handleInputChange(e)} />
+            onChange={handleInputChange}/>
             </div>
 
             <div className="edit-nation">
-            <Form.Label>國籍</Form.Label>
-            <Form.Control type="text" name="nation" value={editedData.nation} onChange={handleNationChange} />
+             <Form.Label className="edit-nation-title">國籍</Form.Label>
+                <Form.Control
+                  as="select" // 使用下拉式選單
+                  className="edit-nation-input"
+                  name="nation"
+                  value={nation}
+                  onChange={handleNationChange}
+                >
+                  {DummyNations.map((nationOption) => (
+                    <option key={nationOption} value={nationOption}>
+                      {nationOption}
+                    </option>
+                  ))}
+                </Form.Control>
             </div>
 
             {/* 之後改下拉式選單 */}
             <div className="edit-category">
-            <div>
-          <Form.Label>類別</Form.Label>
+          <Form.Label>類別</Form.Label>    
+            <div className="edit-category-items">
+          
           {DummyCategories.map((cat) => (
          <Form.Check
            key={cat}
@@ -145,14 +167,23 @@ const handleSaveClick = () => {
         </Form>
       </Modal.Body>
 
-      <Modal.Footer>
-        <Button variant="primary" onClick={handleSaveClick}>
-          儲存
-        </Button>
-        <Button variant="secondary" onClick={() => { setUploadImageModal(false); handleClose(); }}>
-          關閉
-        </Button>
-      </Modal.Footer>
+      <div className="footer">
+
+        <div className="footer-item">
+      <Button className="close" variant="secondary" onClick={() => { setUploadImageModal(false); handleClose(); }}>
+          取消
+        </Button>     
+
+        <Button className="save" variant="primary" onClick={handleSaveClick}>
+          確定
+        </Button>             
+        </div>
+
+
+      </div>
+
+
+     
 
       <Modal show={uploadImageModal} onHide={() => setUploadImageModal(false)}>
     <Modal.Header closeButton>
@@ -177,6 +208,7 @@ TeacherEditInfo.propTypes = {
   handleSave:PropTypes.func.isRequired,  
   teacher: PropTypes.object.isRequired,
   editingSection: PropTypes.object.isRequired, // 新增 editingSection 属性  
+  setEditingContent:PropTypes.func.isRequired,  
 };
 
 export default TeacherEditInfo;

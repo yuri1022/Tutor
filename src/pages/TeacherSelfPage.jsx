@@ -18,23 +18,43 @@ const TeacherSelfPage = () => {
   const [isEditInfo, setIsEditInfo] = useState(false);
   const [isEditTeachingStyle, setIsEditTeachingStyle] = useState(false);
   const [editingContent, setEditingContent] = useState('');
+    const [triggerEditModalUpdate, setTriggerEditModalUpdate] = useState(false);
+
 
   const [teacher, setTeacher] = useState(null); 
 
 
   const { teacher_id } = useParams();
-    useEffect(() => {
-    // 在這裡取得教師資料，例如從後端拉取
-    const fetchedTeacher = DummyTeachers.find((t) => t.teacher_id === teacher_id);
-    setTeacher(fetchedTeacher);
-  }, [teacher_id]);
 
-  useEffect(() => {
-  console.log("更新後的教师信息：", teacher);
-}, [teacher]);
+useEffect(() => {
+  // 在這裡取得教師資料，例如從後端拉取
+  const fetchedTeacher = DummyTeachers.find((t) => t.teacher_id === teacher_id);
+  console.log('取得教師資料:', fetchedTeacher);
+  setTeacher(fetchedTeacher);
+  // 移動這行到 setTeacher 後面
+  // 触发更新
+  setTriggerEditModalUpdate(true);
+}, [teacher_id]);
+
+// 当 teacher 状态变化时触发更新
+useEffect(() => {
+  console.log('teacher 状态变化:', teacher);
+  if (triggerEditModalUpdate) {
+    setTriggerEditModalUpdate(false);
+  }
+  console.log('更新後:', teacher);
+}, [teacher, triggerEditModalUpdate]);
+
+  
 
 
   const handleEditModal = (section) => {
+    setEditingSection({
+    name: true,
+    nation: true,
+    category: true,
+    avatar: true,
+  });
     setEditingSection(section);
     setIsEditOpen(true);
     setEditingContent(teacher[section])
@@ -69,7 +89,7 @@ setTeacher((prevTeacher) => {
   });
   setEditingContent(editedData[section] || '');
 
-
+  setTriggerEditModalUpdate(true);
   closeEdit();
   setIsEditInfo(false);
   setIsEditTeachingStyle(false);
