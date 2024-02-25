@@ -13,6 +13,7 @@ import '../assets/scss/teacher.scss';
 import { Button } from "react-bootstrap";
 
 const TeacherSelfPage = () => {
+  const [editingSection, setEditingSection] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isEditInfo, setIsEditInfo] = useState(false);
   const [isEditTeachingStyle, setIsEditTeachingStyle] = useState(false);
@@ -33,11 +34,14 @@ const TeacherSelfPage = () => {
 }, [teacher]);
 
 
-  const handleEditModal = () => {
+  const handleEditModal = (section) => {
+    setEditingSection(section);
     setIsEditOpen(true);
+    setEditingContent(teacher[section])
   };
 
   const closeEdit = () => {
+    setEditingSection(null);
     setIsEditOpen(false);
   };
 
@@ -58,7 +62,6 @@ const handleSave = (editedData,section) => {
 
   // 更新教师信息
 setTeacher((prevTeacher) => {
-    console.log("更新中的 prevTeacher：", prevTeacher);
     return {
       ...prevTeacher,
       [section]: editedData[section] || prevTeacher[section],
@@ -66,14 +69,14 @@ setTeacher((prevTeacher) => {
   });
   setEditingContent(editedData[section] || '');
 
-  console.log("更新後的教师信息：", teacher);
-
 
   closeEdit();
   setIsEditInfo(false);
   setIsEditTeachingStyle(false);
   
 };
+
+
 
 const handleCancel = () => {
      if (isEditInfo) {
@@ -115,7 +118,12 @@ const handleCancel = () => {
       <img src={EditImg} alt="edit" onClick={handleEditModal}/>
 
         {isEditOpen && (
-           <TeacherEditInfo show={isEditOpen} handleClose={closeEdit} handleSave={handleSave} teacher={teacher}/>
+           <TeacherEditInfo 
+           show={isEditOpen} 
+           handleClose={closeEdit} 
+           handleSave={(editedData) => handleSave(editedData, editingSection)} //传递section参数
+          teacher={teacher} 
+          editingSection={editingSection}/>
          )}
       </div>
 
@@ -175,7 +183,7 @@ const handleCancel = () => {
           {isEditTeachingStyle ? (
           <div className="edit-button" style={{position:'absolute',top:'16rem',right:'2rem'}}>
         <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('teaching_style')}>取消</Button>            
-        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}}onClick={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}>保存</Button>
+        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}>保存</Button>
 
                     </div>
                   ) : (

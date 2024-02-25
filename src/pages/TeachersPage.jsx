@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react';
-import { useParams,useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
 import NationImg from '../assets/images/svg/canada.svg'
@@ -11,7 +11,6 @@ import ClassReserve from '../components/ClassReserve';
 import SuccessModal from '../components/SuccessModal';
 import FailModal from '../components/FailModal.jsx';
 import { getTeacher } from '../api/teacher.js';
-import { useAuth } from '../components/AuthContext.jsx';
 
 
 const TeachersPage = () => {
@@ -24,23 +23,15 @@ const TeachersPage = () => {
   const [searchTerm,setSearchTerm]= useState('');
   const [selectedTime ,setSelectedTime]=useState('12:00');
   const { id } = useParams();
-  const { user, isUserLoggedIn } = useAuth();
-  const history = useNavigate();
-
-
-  useEffect(() => {
-    // 如果用户未登录，进行路由跳转到登录页面
-    
-    if (!isUserLoggedIn()) {
-      history.push('/signin'); // 根据实际的登录页面路由进行修改
-    }
-  }, [isUserLoggedIn, history]);
+  
 
  useEffect(() => {
-  const fetchTeacherData = async () => {
+  console.log('Current ID in useEffect:', id);
+
+  const fetchTeacherData = async (id) => {
     try {
-      
       const teacherData = await getTeacher(id);
+      
       console.log('Teacher Data:', teacherData);
       setSelectedTeacher(teacherData);
       setReserveDays({
@@ -79,8 +70,8 @@ const TeachersPage = () => {
       }
     };
 
-    console.log('showFailModal',showFailModal);
-    console.log('showSuccessModal',showSuccessModal);
+    // console.log('showFailModal',showFailModal);
+    // console.log('showSuccessModal',showSuccessModal);
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
   };
