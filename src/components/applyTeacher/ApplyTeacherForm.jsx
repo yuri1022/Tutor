@@ -1,4 +1,4 @@
-import { useState,useEffect,useContext } from 'react';
+import { useState,useContext } from 'react';
 import { useForm } from "react-hook-form";
 import ReactFlagsSelect from "react-flags-select";
 import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext';
@@ -84,13 +84,13 @@ const ApplyTeacherForm = () =>{
                         <div className="mr-auto"></div>
                         <button type="button" 
                         className={`btn btn-form mr-10px ${page===1? 'disabled':''}`}
-                        onClick={(e)=>{
+                        onClick={()=>{
                             contextData.page_add(-1);
                         }}
                         >上一步</button>
                         {
                             page===4 ? (<button type="button" className="btn btn-form">完成表單</button>): 
-                            (<button type="button" className="btn btn-form" onClick={(e)=>{
+                            (<button type="button" className="btn btn-form" onClick={()=>{
                                 contextData.page_add(1);
                             }}>下一步</button>)
                         }             

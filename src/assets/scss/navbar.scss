@@ -22,6 +22,11 @@
     .nav-link:hover{
         color: black;
     }
+    .navbar-search{
+        position: relative;
+
+    }
+
 
     .apply-link{
         text-align: center;
@@ -42,7 +47,29 @@
     flex-direction: row;
     
     .navbar-search{
-        margin-right:15px;
+        margin-right:2vh;
+    }
+    .search-icon{
+        position: absolute;
+        right: 13px;
+        top: 7px;
+        display: block;
+        justify-content: center;
+        align-items: center;
+        width: 20px;
+        margin-bottom: 0;
+        cursor: pointer;
+    }
+    .avatar-block{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        margin-right:2vh;
+    }
+    .avatar-img{
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
     }
 }
 .NavCollapse{

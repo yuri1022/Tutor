@@ -6,30 +6,27 @@ import BestStudents from '../components/BestStudents';
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('');
-
   const handleSearchChange = (searchtext) => {
+    console.log(searchtext);
     setSearchTerm(searchtext);
-
   };
   return (
   <div className="home-page">
-
     <div className='nav-bar'>
-    <Navbar searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
+    <Navbar  onSearchChange={handleSearchChange}/>
     </div>
-
     <div className="form col col-12" style={{display:'flex'}}>
 
 
-    <div className="form-left col col-9">
-      <TeachersCollection searchTerm={searchTerm}/>    
-    
-    </div>
-    <div className="form-right col col-3">
-    
-      <BestStudents />
+  <div className="form-left col col-9">
+    <TeachersCollection searchTerm={searchTerm}/>    
+  
+  </div>
+  <div className="form-right col col-3">
+  
+    <BestStudents />
 
-    </div>
+  </div>
 
 
     </div>

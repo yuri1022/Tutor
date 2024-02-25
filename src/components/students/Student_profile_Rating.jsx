@@ -8,7 +8,7 @@ const Student_profile_Rating = ({closeRatingModal}) =>{
     const starArr = [ '5顆星','4顆星','3顆星','2顆星','1顆星'];
     return(
         <div className="modal fade" id="ratingStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog" role="document">
+        <div className="modal-dialog modal-lg" role="document">
             <div className="ratingStuModal_content modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel"></h5>

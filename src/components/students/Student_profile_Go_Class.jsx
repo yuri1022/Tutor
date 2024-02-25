@@ -30,8 +30,8 @@ const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass}) =>{
                                 <div>{obj_goclass.time}</div>
                             </div>
                             <div className="reserve-button-list">
-                                <button type="button" className="btn btn-decline-regisiter" data-dismiss="modal" onClick={closeGoClassModal}>取消</button>
-                                <button type="button" className="btn btn-goclass">確定</button>
+                                <button type="button" className="btn btn-decline-regisiter" data-dismiss="modal" onClick={closeGoClassModal}>取消預約</button>
+                                <button type="button" className="btn btn-goclass">開始上課</button>
                             </div>
                         </div>
                     </div>
