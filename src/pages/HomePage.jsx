@@ -12,9 +12,7 @@ const HomePage = () => {
   };
   return (
   <div className="home-page">
-    <div className='nav-bar'>
-    <Navbar  onSearchChange={handleSearchChange}/>
-    </div>
+
     <div className="form col col-12" style={{display:'flex'}}>
 
 
