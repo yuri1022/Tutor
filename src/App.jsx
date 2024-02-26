@@ -9,7 +9,6 @@ import ApplyTeacher from './pages/ApplyTeacher';
 import './main.scss'
 import Students_profile from './pages/students/Students_profile'
 import TeacherSelfPage from './pages/TeacherSelfPage';
-import LoginModal from './components/LoginModal.jsx';
 export const AppContext = createContext();
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,13 +16,12 @@ function App() {
     setSearchTerm(searchTxt);
   }
   return (
-  <AuthProvider>
+    <AuthProvider>
   <BrowserRouter>
   <div className="app">
     <AppContext.Provider value={{searchTerm}}>
       <Navbar onSearchChange={handleSearchChange}/>
-      <Routes>   
-          <Route path="signin" element={<LoginModal />} />    
+      <Routes>    
           <Route path="teacher/:id" element={<TeachersPage />} />
           <Route path="teacher/:teacher_id/personal" element={<TeacherSelfPage />} />
           <Route path="student" element={<Students_profile/>} />

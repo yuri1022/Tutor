@@ -62,10 +62,10 @@
     .input-bar{
         display:flex;
     }
-    .input-label{
+    .input-login-label{
         text-align:center;
         border:1px  solid #dee2e6;
-        width: 20%;
+        width:34%;
         color:#3652E3;
         border-right: 0px;
         border-top-right-radius: 0px 0px;
@@ -81,11 +81,10 @@
     }
 
     /*modal-body*/
-    .input-right{
+    .input-login-right{
         border-top-left-radius: 0px 0px;
         border-bottom-left-radius: 0px 0px;
         border-left: 0px;
-        width: 80%;
         
     }
 
