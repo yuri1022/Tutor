@@ -25,6 +25,7 @@ function App() {
           <Route path="teacher/:teacher_id/personal" element={<TeacherSelfPage />} />
           <Route path="student" element={<Students_profile/>} />
           <Route path="home" element={<HomePage />} />
+          <Route path="home/:id" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
           <Route path="home/:page" element={<HomePage />} />
           <Route path="apply" element={<ApplyTeacher />}/>

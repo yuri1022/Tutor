@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import TeachersCollection from '../components/TeacherCollection';
 import BestStudents from '../components/BestStudents';
 import { AppContext } from '../App';
+import { TeacherItem } from '../components/TeacherItem';
 
 const HomePage = () => {
   const searchTerm = useContext(AppContext).searchTerm;
@@ -17,8 +18,8 @@ const HomePage = () => {
 
 
   <div className="form-left col col-9">
-    <TeachersCollection searchTerm={searchTerm}/>    
-  
+    {/* <TeachersCollection searchTerm={searchTerm}/>     */}
+  <TeacherItem />
   </div>
   <div className="form-right col col-3">
   
