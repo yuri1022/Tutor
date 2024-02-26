@@ -1,17 +1,19 @@
-.editStuModal_content{
-    min-width: 700px;
+.editStuModal_content {
     padding-left: 20px;
     padding-right: 20px;
-    .title{
+
+    .title {
         font-size: 20px;
         line-height: 30px;
     }
-    .mb-10px{
+
+    .mb-10px {
         margin-bottom: 10px;
     }
+
     /*modal-header*/
-    .close-btn{
-        border:0px;
+    .close-btn {
+        border: 0px;
         background-color: white;
         font-size: 1.5rem;
         font-weight: 700;
@@ -19,34 +21,38 @@
         color: #3652E3;
         text-shadow: 0 1px 0 #fff;
     }
+
     /*modal-body*/
-    .input-name{
+    .input-name {
         width: 100%;
     }
-    .input-intro{
+
+    .input-intro {
         width: 100%;
     }
 
     /*modal-footer*/
-    .modal-footer{
+    .modal-footer {
         border-top: 0px;
     }
 }
 
-.ratingStuModal_content{
-    min-width: 700px;
+.ratingStuModal_content {
     padding-left: 20px;
     padding-right: 20px;
-    .title{
+
+    .title {
         font-size: 20px;
         line-height: 30px;
     }
-    .mb-10px{
+
+    .mb-10px {
         margin-bottom: 10px;
     }
+
     /*modal-header*/
-    .close-btn{
-        border:0px;
+    .close-btn {
+        border: 0px;
         background-color: white;
         font-size: 1.5rem;
         font-weight: 700;
@@ -54,63 +60,81 @@
         color: #3652E3;
         text-shadow: 0 1px 0 #fff;
     }
+
     /*modal-body*/
 
-    .form-check{
+    .form-check {
         padding-left: 0px;
         margin-right: 10px;
     }
-    .items-center{
-        align-items:center
+
+    .items-center {
+        align-items: center
     }
-    input{
-        margin-right:5px;
-        border-radius:0px;
+
+    input {
+        margin-right: 5px;
+        border-radius: 0px;
     }
+
     input[type="radio"] {
-        -webkit-appearance: none; 
+        -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        width: 20px; /* 設置正方形的寬度和高度 */
+        width: 20px;
+        /* 設置正方形的寬度和高度 */
         height: 20px;
-        border-radius: 0; /* 移除圓角 */
-        border: 2px solid #3652E3; /* 設置邊框 */
-        outline: none; /* 移除聚焦時的外框 */
-        margin-right: 5px; /* 添加一些間距 */
-        vertical-align: middle; /* 垂直居中 */
-      }
-      input[type="radio"]:checked {
-        background-color: #3652E3; /* 添加背景顏色以表示選中狀態 */
-      }
-    .text-radio{
+        border-radius: 0;
+        /* 移除圓角 */
+        border: 2px solid #3652E3;
+        /* 設置邊框 */
+        outline: none;
+        /* 移除聚焦時的外框 */
+        margin-right: 5px;
+        /* 添加一些間距 */
+        vertical-align: middle;
+        /* 垂直居中 */
+    }
+
+    input[type="radio"]:checked {
+        background-color: #3652E3;
+        /* 添加背景顏色以表示選中狀態 */
+    }
+
+    .text-radio {
         font-size: 18px;
     }
-    .input-review{
+
+    .input-review {
         width: 100%;
     }
 
     /*modal-footer*/
-    .modal-footer{
+    .modal-footer {
         border-top: 0px;
     }
 }
-.go_classStuModal_content{
-    min-width: 452px;
+
+.go_classStuModal_content {
     padding-left: 20px;
     padding-right: 20px;
-    .title{
+
+    .title {
         font-size: 20px;
         line-height: 30px;
     }
-    .mb-10px{
+
+    .mb-10px {
         margin-bottom: 10px;
     }
-    .mr-10px{
+
+    .mr-10px {
         margin-right: 10px;
     }
+
     /*modal-header*/
-    .close-btn{
-        border:0px;
+    .close-btn {
+        border: 0px;
         background-color: white;
         font-size: 1.5rem;
         font-weight: 700;
@@ -118,47 +142,54 @@
         color: #3652E3;
         text-shadow: 0 1px 0 #fff;
     }
+
     /*modal-body*/
-    .reserve-contents{
+    .reserve-contents {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
-    .reserve-bar{
+
+    .reserve-bar {
         width: 200px;
-        display:flex;
+        display: flex;
         flex-direction: row;
 
         align-items: center;
     }
-    .reserve-button-list{
+
+    .reserve-button-list {
         display: flex;
-        justify-content:space-around;
+        justify-content: space-around;
     }
-    .btn-decline-regisiter{
-        width:120px;
-        height:41px;
+
+    .btn-decline-regisiter {
+        width: 120px;
+        height: 41px;
         background-color: #F43C2E;
         opacity: 70%;
         margin-right: 25px;
     }
-    .btn-goclass{
-        width:120px;
-        height:41px;
+
+    .btn-goclass {
+        width: 120px;
+        height: 41px;
         background-image: linear-gradient(to bottom, #1cdeea, #345ce4);
     }
-    .form-check{
+
+    .form-check {
         padding-left: 0px;
         margin-right: 10px;
     }
-    .items-center{
-        align-items:center
+
+    .items-center {
+        align-items: center
     }
 
 
     /*modal-footer*/
-    .modal-footer{
+    .modal-footer {
         border-top: 0px;
     }
 }
