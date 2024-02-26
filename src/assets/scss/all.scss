@@ -4,15 +4,18 @@
 @import "../node_modules/bootstrap/scss/mixins";
 @import "/src/assets/scss/navbar.scss";
 @import "/src/assets/scss/students.scss";
-@import "/src/assets/scss/login.scss";
-@import "/src/assets/scss/modal_student.scss";
-@import "/src/assets/scss/apply_teacher.scss";
 
 @import "/src/assets/scss/commentmodal.scss";
 @import "/src/assets/scss/homepage.scss";
 @import "/src/assets/scss/teachercalendar.scss";
 @import "/src/assets/scss/teacherpage.scss";
 @import "/src/assets/scss/studentsrank.scss";
+
+@import "/src/assets/scss/login.scss";
+@import "/src/assets/scss/modal_student.scss";
+@import "/src/assets/scss/apply_teacher.scss";
+
+
 
 
 .d-flex{
