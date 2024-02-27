@@ -1,6 +1,6 @@
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { createContext, useState } from 'react';
+import { createContext, useState,useReducer } from 'react';
 import { AuthProvider } from './components/AuthContext.jsx';
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar"
@@ -10,8 +10,15 @@ import './main.scss'
 import Students_profile from './pages/students/Students_profile'
 import TeacherSelfPage from './pages/TeacherSelfPage';
 export const AppContext = createContext();
+import AppReducer from './store/AppContext.js';
 function App() {
+  const initial_data = {
+      logindata: '',
+      isLogin: false,
+      isTeacher: false,
+  }
   const [searchTerm, setSearchTerm] = useState("");
+  const [state,dispatch] = useReducer(AppReducer,initial_data);
   const handleSearchChange = (searchTxt) =>{
     setSearchTerm(searchTxt);
   }
@@ -19,7 +26,7 @@ function App() {
   <AuthProvider>
   <BrowserRouter>
   <div className="app">
-    <AppContext.Provider value={{searchTerm}}>
+    <AppContext.Provider value={{searchTerm,state,dispatch}}>
       <Navbar onSearchChange={handleSearchChange}/>
       <Routes>    
           <Route path="teacher/:id" element={<TeachersPage />} />

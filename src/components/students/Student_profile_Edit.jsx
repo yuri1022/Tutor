@@ -1,9 +1,20 @@
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect, useContext } from 'react'; 
 import headshot01 from './../../assets/images/svg/user大頭貼學生.svg';
-
+import { AppContext } from '../../App';
+import { edit_student_data } from '../../api/student';
 const Students_profile_Edit = ({closeEditModal})=>{
-    const [nameTxt,setNameTxt] = useState("");
-    const [introTxt,setIntroTxt ] = useState("");
+    const studentData = useContext(AppContext).state.logindata.data;
+    const [nameTxt,setNameTxt] = useState(studentData?.name);
+    const [introTxt,setIntroTxt ] = useState(studentData?.selfIntro);
+    const handleEdit = async(id)=>{
+        const formData = {
+            name: nameTxt,
+            nickname: '',
+            selfIntro: introTxt,
+            avatar: '',
+        }
+        const res =await edit_student_data(id,formData);
+    }
     return(
         <div className="modal fade" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg" role="document">
@@ -35,7 +46,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
             </div>
             <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={closeEditModal}>取消</button>
-                <button type="button" className="btn btn-primary">確定</button>
+                <button type="button" className="btn btn-primary" onClick={()=>{handleEdit(studentData.id)}}>確定</button>
             </div>
             </div>
         </div>
