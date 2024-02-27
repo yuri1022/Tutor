@@ -10,7 +10,7 @@ import qs from 'qs';
 const TeacherContext = createContext();
 
 export const TeacherProvider = ({ children }) => {
-  const [teacherData, setTeacherData] = useState([null]);
+  const [teacherData, setTeacherData] = useState([]);
   const { page, categoryId } = useParams(); // 获取路由参数
   const location = useLocation();
   const parsed = qs.parse(location.search, { ignoreQueryPrefix: true });

@@ -4,6 +4,7 @@ import TeachersCollection from '../components/TeacherCollection';
 import BestStudents from '../components/BestStudents';
 import { AppContext } from '../App';
 import { TeacherProvider } from '../components/teachercontext';
+import { CourseProvider } from '../components/coursecontext';
 
 
 const HomePage = () => {
@@ -18,7 +19,7 @@ const HomePage = () => {
   
   <div className="home-page">
       <TeacherProvider>
-
+      
     <div className="form col col-12" style={{display:'flex'}}>
 
 

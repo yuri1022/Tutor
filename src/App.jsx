@@ -8,6 +8,9 @@ import ApplyTeacher from './pages/ApplyTeacher';
 import './main.scss'
 import Students_profile from './pages/students/Students_profile'
 import TeacherSelfPage from './pages/TeacherSelfPage';
+import { TeacherSelfProvider } from './components/teacherselfcontext.jsx';
+
+
 export const AppContext = createContext();
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,9 +23,9 @@ function App() {
   <div className="app">
     <AppContext.Provider value={{searchTerm}}>
       <Navbar onSearchChange={handleSearchChange}/>
-      <Routes>    
+        <Routes>    
           <Route path="teacher/:id" element={<TeachersPage />} />
-          <Route path="teacher/:teacher_id/personal" element={<TeacherSelfPage />} />
+          <Route path="teacher/:id/personal" element={<TeacherSelfPage />} />
           <Route path="student" element={<Students_profile/>} />
           <Route path="home/*" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />

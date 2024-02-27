@@ -21,61 +21,7 @@ const { teacherData } = useTeacherContext();
 
   return (
     
-      <div className="div-container__info col col-4" key={id}>
-        <Card className="card">
-        <Card.Body >
-        <div className="teacher-top">
-        <div className="teacher-img" style={{width: '7.5rem',height:'7.5rem'}}>
-        <img src={teacherData.avatar} alt={teacherData.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
-        </div>
-        <div className="teacher-basic-info">
-
-          
-        <div className="teacher-title" >
-          <div className="teacher-nation">
-            <img className="teacher-nation-img" src={Nation} alt={teacherData.nation} /></div>
-        <h5 className="teacher-name" >{teacherData.name}</h5>
-        
-
-        <div className="teacher-rating" >
-          <img className="teacher-rating-img" src={RatingStar} alt={teacherData.rating}/>
-          <h6 className="teacher-rating-num">            
-            {teacherData.rating}</h6>
-          </div>
-
-      <div className="teacher-reserve-button">
       
-      <button className="btn-reserve btn btn-outline-secondary" onClick={handleButtonClick}>預約課程</button>
-    </div>
-        
-        </div>
-        </div>
-        </div>
-
-        <div className="teacher-category-container" >
-         <div className="teacher-category" >
-      {teacherData.teaching_categories.map((category,index) => (
-      <div className="teacher-item" key={`${category.categoryid}-${index}`}>
-          {category.Category.name}
-                </div>
-              ))}
-</div>
-
-        </div>
-
-       
-        <div className="teacher-info">
-          <p className="teacher-info-text" >{teacherData.selfIntro}</p>
-          </div>
-        
-     
-   <div className="button-see-more" >
-      
-      <button className="btn-see-more btn btn-outline-light" onClick={handleButtonClick} >瀏覽更多</button>
-    </div>
-     </Card.Body>
-   </Card>
-   </div>
    
 
   );

@@ -10,6 +10,7 @@ import ClassReserve from '../components/ClassReserve';
 import SuccessModal from '../components/SuccessModal';
 import FailModal from '../components/FailModal.jsx';
 import axios from 'axios';
+import { TeacherSelfProvider } from '../components/teacherselfcontext.jsx';
 
 const TeachersPage = () => {
   const [selectedDate, setSelectedDate] = useState('');
@@ -17,9 +18,11 @@ const TeachersPage = () => {
   const [reserveDays, setReserveDays] = useState({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailModal, setShowFailModal] = useState(false);
-  const [searchTerm,setSearchTerm]= useState('');
   const [selectedTime ,setSelectedTime]=useState('12:00');
   const [teacherDetails, setTeacherDetails] = useState(null);
+
+  
+
 
   const { id } = useParams();
   const api = 'http://34.125.232.84:3000';
@@ -121,6 +124,7 @@ const TeachersPage = () => {
 
   return (
     <>
+    
       <div className="div-container col col-12" >
         <div className="form-left col col-9" >
 

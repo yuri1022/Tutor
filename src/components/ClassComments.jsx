@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 
 
-const ClassComments = (props) =>{
+const ClassComments = ({teacherDetails}) =>{
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCommentClick = () => {
@@ -30,7 +30,7 @@ const ClassComments = (props) =>{
       <div className="self-comment-title-rating" >
         <h6 className="self-comment-title">課程評價</h6>
         <img className="rating-img" src={Rating} alt="rating" />
-        <h6 className="title">{props.teacher.rating}</h6>
+        <h6 className="title">Rating</h6>
       </div>
       
         <div className="class-comment-info" >
@@ -39,7 +39,7 @@ const ClassComments = (props) =>{
             <div className="card-container">
 
             <div className="card-img" > 
-            <CardImg className="class-comment" src={props.teacher.avatar} />
+            <CardImg className="class-comment" src={teacherDetails.avatar} />
             </div>
 
 
@@ -72,7 +72,7 @@ const ClassComments = (props) =>{
              <Button className="link" variant="outline-primary" onClick={handleCommentClick}>看更多評價</Button>     
 
           {isModalOpen && (
-           <CommentModal show={isModalOpen} handleClose={closeModal} teacher={props.teacher}/>
+           <CommentModal show={isModalOpen} handleClose={closeModal} teacher={teacherDetails}/>
          )}    
           </div>
 
@@ -86,7 +86,9 @@ const ClassComments = (props) =>{
 };
 
 ClassComments.propTypes = {
-  teacher: PropTypes.object.isRequired,
+   teacherDetails: PropTypes.shape({
+   avatar: PropTypes.string.isRequired,
+  }),
 };
 
 
