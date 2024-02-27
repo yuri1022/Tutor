@@ -1,3 +1,5 @@
+//teachercollection.jsx
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect,useState } from 'react';
 import PropTypes from 'prop-types';
@@ -11,8 +13,6 @@ import PrePageArrow from '../assets/images/svg/previouspage.svg';
 import NextPageArrow from '../assets/images/svg/nextpage.svg'
 import '../assets/scss/homepage.scss';
 import { useTeacherContext } from './teachercontext';
-import { TeacherItem } from './TeacherItem';
-// import { getTeacher } from '../api/teacher.js'
 
 
 
@@ -109,43 +109,39 @@ import { TeacherItem } from './TeacherItem';
 // };
 
 
-const TeacherCollection = ({searchTerm}) => {
+const TeacherCollection = () => {
+ const { page, categoryId } = useParams();
+  const [currentPageState, setCurrentPage] = useState(1);
+  const [categoryItemId, setCategoryItemId] = useState(null);
+  const navigate = useNavigate();
+  const { teacherData } = useTeacherContext();
+  const { currentPage, totalPages } = teacherData;
 
-const itemsPerPage = 6;
-const { page } = useParams(); // 獲取路由參數中的 page
-const currentPage = parseInt(page, 10) || 1;// 將 page 轉換為整數，默認為 1
-const [teachers, setTeachers] = useState([]);
-const [totalPages, setTotalPages] = useState(0);
-const navigate = useNavigate();
- const { teacherData } = useTeacherContext();
+  const teachers = teacherData.teachers || [];
 
-
-  const handleButtonClick = () => {
-    navigate(`/teacher/${teacherData.teachers.id}`, { replace: true });
-  };
-
-  //分頁功能
+ useEffect(() => {
+    console.log('Current categoryId:', categoryItemId);
+      }, [page,categoryItemId,currentPage,totalPages]);
 
   const handlePageChange = (newPage) => {
-    navigate(`/home/${newPage}`);
+     if (categoryId) {
+    navigate(`/home?page=${newPage}&categoryId=${categoryId}`);
+  } else {
+    navigate(`/home?page=${newPage}`);
+  }
     window.scrollTo(0, 0);
   };
-
-const allVisibleTeachers = teachers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  const allFilteredTeachers = searchTerm
-    ? teachers.filter((teacher) => teacher.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    : teachers;
-
-
 
    const handlePreviousPage = () => {
     const newPage = currentPage > 1 ? currentPage - 1 : 1;
     handlePageChange(newPage);
+    setCurrentPage(newPage);
   };
 
   const handleNextPage = () => {
     const newPage = currentPage < totalPages ? currentPage + 1 : totalPages;
     handlePageChange(newPage);
+    setCurrentPage(newPage);
   };
 
   const handleFirstPage = () => {
@@ -156,20 +152,24 @@ const allVisibleTeachers = teachers.slice((currentPage - 1) * itemsPerPage, curr
     handlePageChange(totalPages);
   };  
 
-  // 選擇類別
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+
+  const handleButtonClick = () => {
+    navigate(`/teacher/12`, { replace: true });
+  };
+  
+const uniqueCategories = ['所有類別', ...new Set(teachers.flatMap((teacher) => 
+  teacher.teaching_categories.flatMap((category) => category.Category.name)
+))];
+
+const handleCategoryChange = (selectedCategoryItemId) => {
+    setCategoryItemId(selectedCategoryItemId);
+    // 根據需要進行其他操作，例如發起數據請求，更新 URL，等等。
+    // 這裡只是一個示例，你可以根據實際情況進行調整。
+    const categoryIdParam = selectedCategoryItemId ? `&categoryId=${selectedCategoryItemId}` : '';
+    navigate(`/home?page=${currentPageState}${categoryIdParam}`);
+    console.log(categoryIdParam);
   };
 
-  const uniqueCategories = ['所有類別', ...new Set(teachers.flatMap((teacher) => teacher.category))];
-
-  // 類別篩選器的 change 事件處理函數
-  const filteredTeachersByCategory = selectedCategory
-    ? (selectedCategory === '所有類別'
-      ? allVisibleTeachers
-      : allFilteredTeachers.filter((teacher) => teacher.category.includes(selectedCategory)))
-    : allVisibleTeachers;
 
   return (
 
@@ -180,10 +180,10 @@ const allVisibleTeachers = teachers.slice((currentPage - 1) * itemsPerPage, curr
           {/* 動態生成按鈕 */}
           {uniqueCategories.map((category) => (
             <Button
-              className={`category-buttons-item ${category === selectedCategory || (category === '所有類別' && !selectedCategory) ? 'selected' : ''}`}
+              className={`category-buttons-item ${category === categoryItemId || (category === '所有類別' && !categoryItemId) ? 'selected' : ''}`}
               key={category}
               variant="outline-light"
-              onClick={() => handleCategoryChange(category)}
+              onClick={() => handleCategoryChange(category === '所有類別' ? null : category)}
             >
               {category}
             </Button>

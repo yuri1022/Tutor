@@ -8,7 +8,7 @@ import { TeacherProvider } from '../components/teachercontext';
 
 const HomePage = () => {
   const searchTerm = useContext(AppContext).searchTerm;
-  
+
   useEffect(()=>{
     console.log(searchTerm);
   },[searchTerm]);
