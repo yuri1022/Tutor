@@ -1,59 +1,23 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect,useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../main.scss'
 import { Card } from 'react-bootstrap';
 import RatingStar from '../assets/images/svg/rating.svg';
 import Nation from '../assets/images/svg/canada.svg';
 import '../assets/scss/homepage.scss';
-import axios from 'axios';
+import { useTeacherContext } from './teachercontext';
 // import { getTeacher } from '../api/teacher.js'
 
 
 export const TeacherItem = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [teacherDetails, setTeacherDetails] = useState(null);
-  const api = 'http://34.125.232.84:3000';
 
-  useEffect(() => {
-    const fetchTeacherData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-        setTeacherDetails(response.data.data)
-        return response.data.data;
-      } catch (error) {
-        if (error.response) {
-            // 请求已发出，但服务器返回错误响应
-            console.error("Server error:", error.response.status, error.response.data);
-        } else if (error.request) {
-            // 请求已发出，但没有收到响应
-            console.error("No response from server");
-        } else {
-            // 发送请求时出了点问题
-            console.error("Request failed:", error.message);
-        }
-
-        // 可以在这里处理错误，例如显示适当的错误消息给用户
-        throw error; // 继续抛出错误，以便在调用 apiLoginSubmit 的地方可以进一步处理
-    }
-    };
-
-    fetchTeacherData();
-  }, []);
+const navigate = useNavigate(); 
+const { teacherData } = useTeacherContext();
 
 
   const handleButtonClick = () => {
-    // 在這裡執行導航
-    navigate(`/teacher/${id}`, { replace: true });
+    navigate(`/teacher/${teacherData.id}`, { replace: true });
   };
-
-  if (!teacherDetails) {
-    // 如果教师详细信息还未获取到，可以显示加载状态或其他内容
-    return <div>Loading...</div>;
-  }
-
 
   return (
     
@@ -62,21 +26,21 @@ export const TeacherItem = () => {
         <Card.Body >
         <div className="teacher-top">
         <div className="teacher-img" style={{width: '7.5rem',height:'7.5rem'}}>
-        <img src={teacherDetails.avatar} alt={teacherDetails.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+        <img src={teacherData.avatar} alt={teacherData.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
         </div>
         <div className="teacher-basic-info">
 
           
         <div className="teacher-title" >
           <div className="teacher-nation">
-            <img className="teacher-nation-img" src={Nation} alt={teacherDetails.nation} /></div>
-        <h5 className="teacher-name" >{teacherDetails.name}</h5>
+            <img className="teacher-nation-img" src={Nation} alt={teacherData.nation} /></div>
+        <h5 className="teacher-name" >{teacherData.name}</h5>
         
 
         <div className="teacher-rating" >
-          <img className="teacher-rating-img" src={RatingStar} alt={teacherDetails.rating}/>
+          <img className="teacher-rating-img" src={RatingStar} alt={teacherData.rating}/>
           <h6 className="teacher-rating-num">            
-            {teacherDetails.rating}</h6>
+            {teacherData.rating}</h6>
           </div>
 
       <div className="teacher-reserve-button">
@@ -90,9 +54,9 @@ export const TeacherItem = () => {
 
         <div className="teacher-category-container" >
          <div className="teacher-category" >
-      {teacherDetails.Courses.map((course,index) => (
-      <div className="teacher-item" key={`${course.id}-${index}`}>
-          {course.Category.name}
+      {teacherData.teaching_categories.map((category,index) => (
+      <div className="teacher-item" key={`${category.categoryid}-${index}`}>
+          {category.Category.name}
                 </div>
               ))}
 </div>
@@ -101,7 +65,7 @@ export const TeacherItem = () => {
 
        
         <div className="teacher-info">
-          <p className="teacher-info-text" >{teacherDetails.selfIntro}</p>
+          <p className="teacher-info-text" >{teacherData.selfIntro}</p>
           </div>
         
      
@@ -118,16 +82,16 @@ export const TeacherItem = () => {
 };
 
 TeacherItem.propTypes = {
-  teacher: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+  teacherData: PropTypes.shape({
     id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
     nation: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
     selfIntro: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
-    Courses: PropTypes.arrayOf(
+    teaching_categories: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.number.isRequired,
+        categoryid: PropTypes.number.isRequired,
         Category: PropTypes.shape({
           name: PropTypes.string.isRequired,
         }).isRequired,

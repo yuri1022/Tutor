@@ -33,6 +33,7 @@ const TeachersPage = () => {
         console.log(`${api}/teacher/${id}`)
         setTeacherDetails(response.data.data)
         return response.data.data;
+        
       } catch (error) {
         if (error.response) {
             // 请求已发出，但服务器返回错误响应
@@ -44,14 +45,13 @@ const TeachersPage = () => {
             // 发送请求时出了点问题
             console.error("Request failed:", error.message);
         }
-
         // 可以在这里处理错误，例如显示适当的错误消息给用户
         throw error; // 继续抛出错误，以便在调用 apiLoginSubmit 的地方可以进一步处理
     }
     };
 
     fetchTeacherData();
-  }, []);
+  }, [id]);
 
     if (!teacherDetails) {
     // 如果教师详细信息还未获取到，可以显示加载状态或其他内容
@@ -117,13 +117,7 @@ const TeachersPage = () => {
    console.log('Selected Time:', time);
   };
 
-  const categoryOptions = teacherDetails.Courses.map((course) => ({ label: course.Category.name }));
-
-
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  const categoryOptions = teacherDetails.Courses.map((course) => ({ label: course.Category}));
 
   return (
     <>
@@ -152,7 +146,7 @@ const TeachersPage = () => {
                 <div className="self-category-container">        
                   <div className="self-category">
                     {teacherDetails.Courses.map((course, index) => (
-        <div className="self-teacher-item" key={index}>{course.Category.name}</div>
+        <div className="self-teacher-item" key={index}>{course.Category}</div>
       ))}
                     </div>
                 </div>
@@ -301,7 +295,7 @@ TeachersPage.propTypes = {
         name: PropTypes.string.isRequired,
       }).isRequired,
     })).isRequired,
-  }).isRequired,
+  }),
 };
 
 export default TeachersPage;

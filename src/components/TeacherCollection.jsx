@@ -10,156 +10,119 @@ import LastPageArrow from '../assets/images/svg/arrow-last.svg';
 import PrePageArrow from '../assets/images/svg/previouspage.svg';
 import NextPageArrow from '../assets/images/svg/nextpage.svg'
 import '../assets/scss/homepage.scss';
-import { getTeacher } from '../api/teacher.js'
+import { useTeacherContext } from './teachercontext';
+import { TeacherItem } from './TeacherItem';
+// import { getTeacher } from '../api/teacher.js'
 
 
 
-const Teacher = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [teacherDetails, setTeacherDetails] = useState(null);
-
-  useEffect(() => {
-    // 使用API來獲取教師詳細資訊
-    const fetchTeacherDetails = async (id) => {
-      try {
-      const teachersData = await getTeacher(id); // 根據 id 獲取教師
-      console.log('Teachers Data:', teachersData);
-
-      const teacher = teachersData.find((teacher) => teacher.id === Number(id)); 
-      console.log(teachersData.data)
-        setTeacherDetails(teacher);
-        return teachersData;
-      } catch (error) {
-        console.error('Failed to fetch teacher details:', error);
-      }
-    };
-
-    fetchTeacherDetails(id);
-  }, [id]);
+// const Teacher = ({ teacher }) => {
+//   const { id, name, avatar, nation, rating, selfIntro, Courses } = teacher;
+//   const { selectedTeacherId, setTeacherId } = useTeacherContext();
+//   const navigate = useNavigate();
 
 
-  const handleButtonClick = () => {
-    // 在這裡執行導航
-    navigate(`/teacher/${id}`, { replace: true });
-  };
+//  const handleButtonClick = () => {
+//     setTeacherId(id); // 設定選定的教師 ID
+//     navigate(`/teacher/${id}`, { replace: true });
+//   };
 
-  if (!teacherDetails) {
-    // 如果教师详细信息还未获取到，可以显示加载状态或其他内容
-    return <div>Loading...</div>;
-  }
-
-
-  return (
+//   return (
     
-      <div className="div-container__info col col-4" key={id}>
-        <Card className="card">
-        <Card.Body >
-        <div className="teacher-top">
-        <div className="teacher-img" style={{width: '7.5rem',height:'7.5rem'}}>
-        <img src={teacherDetails.avatar} alt={teacherDetails.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
-        </div>
-        <div className="teacher-basic-info">
+//       <div className="div-container__info col col-4" key={id}>
+//         <Card className="card">
+//         <Card.Body >
+//         <div className="teacher-top">
+//         <div className="teacher-img" style={{width: '7.5rem',height:'7.5rem'}}>
+//         <img src={teacher.avatar} alt={teacher.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+//         </div>
+//         <div className="teacher-basic-info">
 
           
-        <div className="teacher-title" >
-          <div className="teacher-nation">
-            <img className="teacher-nation-img" src={Nation} alt={teacherDetails.nation} /></div>
-        <h5 className="teacher-name" >{teacherDetails.name}</h5>
+//         <div className="teacher-title" >
+//           <div className="teacher-nation">
+//             <img className="teacher-nation-img" src={Nation} alt={teacher.nation} /></div>
+//         <h5 className="teacher-name" >{teacher.name}</h5>
         
 
-        <div className="teacher-rating" >
-          <img className="teacher-rating-img" src={RatingStar} alt={teacherDetails.rating}/>
-          <h6 className="teacher-rating-num">            
-            {teacherDetails.rating}</h6>
-          </div>
+//         <div className="teacher-rating" >
+//           <img className="teacher-rating-img" src={RatingStar} alt={teacher.rating}/>
+//           <h6 className="teacher-rating-num">            
+//             {teacher.rating}</h6>
+//           </div>
 
-      <div className="teacher-reserve-button">
+//       <div className="teacher-reserve-button">
       
-      <button className="btn-reserve btn btn-outline-secondary" onClick={handleButtonClick}>預約課程</button>
-    </div>
+//       <button className="btn-reserve btn btn-outline-secondary" onClick={handleButtonClick}>預約課程</button>
+//     </div>
         
-        </div>
-        </div>
-        </div>
+//         </div>
+//         </div>
+//         </div>
 
-        <div className="teacher-category-container" >
-         <div className="teacher-category" >
-      {teacherDetails.Courses.map((course,index) => (
-      <div className="teacher-item" key={`${course.id}-${index}`}>
-          {course.Category.name}
-                </div>
-              ))}
-</div>
+//         <div className="teacher-category-container" >
+//          <div className="teacher-category" >
+//       {teacher.Courses.map((course,index) => (
+//       <div className="teacher-item" key={`${course.id}-${index}`}>
+//           {course.Category.name}
+//                 </div>
+//               ))}
+// </div>
 
-        </div>
+//         </div>
 
        
-        <div className="teacher-info">
-          <p className="teacher-info-text" >{teacherDetails.selfIntro}</p>
-          </div>
+//         <div className="teacher-info">
+//           <p className="teacher-info-text" >{teacher.selfIntro}</p>
+//           </div>
         
      
-   <div className="button-see-more" >
+//    <div className="button-see-more" >
       
-      <button className="btn-see-more btn btn-outline-light" onClick={handleButtonClick} >瀏覽更多</button>
-    </div>
-     </Card.Body>
-   </Card>
-   </div>
+//       <button className="btn-see-more btn btn-outline-light" onClick={handleButtonClick} >瀏覽更多</button>
+//     </div>
+//      </Card.Body>
+//    </Card>
+//    </div>
    
 
-  );
-};
+//   );
+// };
 
-Teacher.propTypes = {
-  teacher: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    nation: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
-    selfIntro: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-    Courses: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        Category: PropTypes.shape({
-          name: PropTypes.string.isRequired,
-        }).isRequired,
-      })
-    ).isRequired,
-  }).isRequired,
-};
+// Teacher.propTypes = {
+//   teacher: PropTypes.shape({
+//     id: PropTypes.number.isRequired,
+//     name: PropTypes.string.isRequired,
+//     avatar: PropTypes.string.isRequired,
+//     nation: PropTypes.string.isRequired,
+//     rating: PropTypes.number.isRequired,
+//     selfIntro: PropTypes.string.isRequired,
+//     Courses: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         id: PropTypes.number.isRequired,
+//         Category: PropTypes.shape({
+//           name: PropTypes.string.isRequired,
+//         }).isRequired,
+//       })
+//     ).isRequired,
+//   }).isRequired,
+// };
 
 
-const TeacherCollection = ({searchTerm,id}) => {
+const TeacherCollection = ({searchTerm}) => {
 
 const itemsPerPage = 6;
 const { page } = useParams(); // 獲取路由參數中的 page
 const currentPage = parseInt(page, 10) || 1;// 將 page 轉換為整數，默認為 1
- const [teachers, setTeachers] = useState([]);
+const [teachers, setTeachers] = useState([]);
 const [totalPages, setTotalPages] = useState(0);
 const navigate = useNavigate();
+ const { teacherData } = useTeacherContext();
 
 
-  useEffect(() => {
-    const fetchTeachers = async () => {
-    try {
-      const teachersData = await getTeacher();
-      setTeachers(teachersData.data);
-      setTotalPages(Math.ceil(teachersData.data.length / itemsPerPage));
-    } catch (error) {
-      console.error('Failed to fetch teachers:', error);
-    }
+  const handleButtonClick = () => {
+    navigate(`/teacher/${teacherData.teachers.id}`, { replace: true });
   };
-  // 检查 id 是否存在
-  if (id) {
-    fetchTeachers(id);
-  }
-  else{
-    console.log('can not read id')
-  }
-}, [id]);
 
   //分頁功能
 
@@ -209,9 +172,10 @@ const allVisibleTeachers = teachers.slice((currentPage - 1) * itemsPerPage, curr
     : allVisibleTeachers;
 
   return (
+
     
   <div className="div-container__home col col-11" >
-  
+
         <div className="category-buttons">
           {/* 動態生成按鈕 */}
           {uniqueCategories.map((category) => (
@@ -226,9 +190,68 @@ const allVisibleTeachers = teachers.slice((currentPage - 1) * itemsPerPage, curr
           ))}
         </div>
 
-      {filteredTeachersByCategory.map((teacher) => (
-        <Teacher key={teacher.id} teacher={teacher} />
-      ))}
+      {/* {filteredTeachersByCategory.map((teacher) => (
+        <TeacherItem key={teacher.id} teacher={teacher} />
+      ))} */}
+
+    {teacherData.teachers && teacherData.teachers.map((teacher) => (
+
+      <div className="div-container__info col col-4" key={teacher.id}>
+        <Card className="card">
+        <Card.Body >
+        <div className="teacher-top">
+        <div className="teacher-img" style={{width: '7.5rem',height:'7.5rem'}}>
+        <img src={teacher.avatar} alt={teacher.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+        </div>
+        <div className="teacher-basic-info">
+
+          
+        <div className="teacher-title" >
+          <div className="teacher-nation">
+            <img className="teacher-nation-img" src={Nation} alt={teacherData.nation} /></div>
+        <h5 className="teacher-name" >{teacher.name}</h5>
+        
+
+        <div className="teacher-rating" >
+          <img className="teacher-rating-img" src={RatingStar} alt={teacherData.rating}/>
+          <h6 className="teacher-rating-num">            
+            {teacherData.rating}</h6>
+          </div>
+
+      <div className="teacher-reserve-button">
+      
+      <button className="btn-reserve btn btn-outline-secondary" onClick={handleButtonClick}>預約課程</button>
+    </div>
+        
+        </div>
+        </div>
+        </div>
+
+        <div className="teacher-category-container" >
+         <div className="teacher-category" >
+      {teacher.teaching_categories.map((category,index) => (
+      <div className="teacher-item" key={`${category.categoryid}-${index}`}>
+          {category.Category.name}
+                </div>
+              ))}
+</div>
+
+        </div>
+
+       
+        <div className="teacher-info">
+          <p className="teacher-info-text" >{teacher.selfIntro}</p>
+          </div>
+        
+     
+   <div className="button-see-more" >
+      
+      <button className="btn-see-more btn btn-outline-light" onClick={handleButtonClick} >瀏覽更多</button>
+    </div>
+     </Card.Body>
+   </Card>
+   </div>
+    ))}
 
       <div className="pagination">
 
@@ -267,12 +290,12 @@ const allVisibleTeachers = teachers.slice((currentPage - 1) * itemsPerPage, curr
       </div>
 
   </div>
+  
   );
 };
 
 TeacherCollection.propTypes = {
   searchTerm: PropTypes.string.isRequired,
-  id:PropTypes.number.isRequired,
-};  
+};
 
 export default TeacherCollection;
