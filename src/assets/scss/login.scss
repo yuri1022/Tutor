@@ -1,21 +1,24 @@
-
-.login_modal_content{
-    .modal-header{
+.login_modal_content {
+    .modal-header {
         border-bottom: 3px solid;
     }
-    .title{
+    .title {
         font-size: 20px;
         line-height: 30px;
     }
-    .mb-10px{
+
+    .mb-10px {
         margin-bottom: 10px;
     }
-    .mb-20px{
+
+    .mb-20px {
         margin-bottom: 20px;
     }
+
+
     /*modal-header*/
-    .close-btn{
-        border:0px;
+    .close-btn {
+        border: 0px;
         background-color: white;
         font-size: 1.5rem;
         font-weight: 700;
@@ -23,6 +26,7 @@
         color: #3652E3;
         text-shadow: 0 1px 0 #fff;
     }
+
     .login-container{
         padding-left:60px;
         padding-right:60px;
@@ -87,10 +91,8 @@
         border-left: 0px;
         
     }
-
-
     /*modal-footer*/
-    .modal-footer{
+    .modal-footer {
         border-top: 0px;
     }
 

@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createContext, useState } from 'react';
 import { AuthProvider } from './components/AuthContext.jsx';
@@ -16,7 +15,7 @@ function App() {
     setSearchTerm(searchTxt);
   }
   return (
-    <AuthProvider>
+  <AuthProvider>
   <BrowserRouter>
   <div className="app">
     <AppContext.Provider value={{searchTerm}}>
@@ -26,14 +25,15 @@ function App() {
           <Route path="teacher/:teacher_id/personal" element={<TeacherSelfPage />} />
           <Route path="student" element={<Students_profile/>} />
           <Route path="home" element={<HomePage />} />
+          <Route path="home/:id" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
           <Route path="home/:page" element={<HomePage />} />
           <Route path="apply" element={<ApplyTeacher />}/>
-        </Routes>
+      </Routes>
     </AppContext.Provider>
   </div>
-    </BrowserRouter>
-    </AuthProvider>
+  </BrowserRouter>
+  </AuthProvider>
   );
 }
 export default App;

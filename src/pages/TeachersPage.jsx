@@ -3,18 +3,15 @@ import { useParams } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
 import NationImg from '../assets/images/svg/canada.svg'
-import Navbar from '../components/Navbar';
 import ClassComments from '../components/ClassComments';
 import MyCalendar from '../components/Teacher_profile_Calendar';
 import '../assets/scss/teacher.scss';
 import ClassReserve from '../components/ClassReserve';
 import SuccessModal from '../components/SuccessModal';
 import FailModal from '../components/FailModal.jsx';
-import { getTeacher } from '../api/teacher.js';
-
+import axios from 'axios';
 
 const TeachersPage = () => {
-  const [selectedTeacher,setSelectedTeacher] = useState(null);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [reserveDays, setReserveDays] = useState({});
@@ -22,34 +19,45 @@ const TeachersPage = () => {
   const [showFailModal, setShowFailModal] = useState(false);
   const [searchTerm,setSearchTerm]= useState('');
   const [selectedTime ,setSelectedTime]=useState('12:00');
+  const [teacherDetails, setTeacherDetails] = useState(null);
+
   const { id } = useParams();
+  const api = 'http://34.125.232.84:3000';
   
 
  useEffect(() => {
-  console.log('Current ID in useEffect:', id);
+    const fetchTeacherData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        console.log(`${api}/teacher/${id}`)
+        setTeacherDetails(response.data.data)
+        return response.data.data;
+      } catch (error) {
+        if (error.response) {
+            // 请求已发出，但服务器返回错误响应
+            console.error("Server error:", error.response.status, error.response.data);
+        } else if (error.request) {
+            // 请求已发出，但没有收到响应
+            console.error("No response from server");
+        } else {
+            // 发送请求时出了点问题
+            console.error("Request failed:", error.message);
+        }
 
-  const fetchTeacherData = async (id) => {
-    try {
-      const teacherData = await getTeacher(id);
-      
-      console.log('Teacher Data:', teacherData);
-      setSelectedTeacher(teacherData);
-      setReserveDays({
-        mon: teacherData.mon,
-        tue: teacherData.tue,
-        wed: teacherData.wed,
-        thu: teacherData.thu,
-        fri: teacherData.fri,
-        sat: teacherData.sat,
-        sun: teacherData.sun,
-      });
-    } catch (error) {
-      console.error('Failed to fetch teacher data:', error);
+        // 可以在这里处理错误，例如显示适当的错误消息给用户
+        throw error; // 继续抛出错误，以便在调用 apiLoginSubmit 的地方可以进一步处理
     }
-  };
+    };
 
-  fetchTeacherData();
-}, [id]);
+    fetchTeacherData();
+  }, []);
+
+    if (!teacherDetails) {
+    // 如果教师详细信息还未获取到，可以显示加载状态或其他内容
+    return <div>Loading...</div>;
+  }
+
 
     const handleSubmit = () => {
     const formData = {
@@ -89,10 +97,10 @@ const TeachersPage = () => {
   const handleDateChange = (date) => {
     console.log('Selected Date:', date);
 
-    if (selectedTeacher && selectedTeacher.reserveDays) {
-      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    if (teacherDetails && teacherDetails.reserveDays) {
+      const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
       const selectedDayOfWeek = daysOfWeek[date.getDay()];
-      const isSelectable = selectedTeacher.reserveDays[selectedDayOfWeek];
+      const isSelectable = teacherDetails.reserveDays[selectedDayOfWeek];
 
       if (isSelectable) {
         setSelectedDate(date);
@@ -109,7 +117,7 @@ const TeachersPage = () => {
    console.log('Selected Time:', time);
   };
 
-  const categoryOptions = selectedTeacher.Courses.map((course) => ({ label: course.Category.name }));
+  const categoryOptions = teacherDetails.Courses.map((course) => ({ label: course.Category.name }));
 
 
 
@@ -119,32 +127,31 @@ const TeachersPage = () => {
 
   return (
     <>
-      <Navbar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <div className="div-container col col-12" >
         <div className="form-left col col-9" >
 
        
-        {selectedTeacher && (
+        {teacherDetails && (
         
-            <div key={selectedTeacher.id} >
+            <div key={teacherDetails.id} >
 
               <div className="card-container" >
 
               <div className="self-card-container">
       
-              <img className="self-card-img" src={selectedTeacher.avatar} alt={selectedTeacher.name} />
+              <img className="self-card-img" src={teacherDetails.avatar} alt={teacherDetails.name} />
 
               <div className="self-info-container" >
 
               <div className="self-name-nation-container" >
               <div className="self-nation" >
-               <img src={NationImg} alt={selectedTeacher.nation} />
-                <h6 className="self-name">{selectedTeacher.name}</h6>
+               <img src={NationImg} alt={teacherDetails.nation} />
+                <h6 className="self-name">{teacherDetails.name}</h6>
               </div>
               </div>
                 <div className="self-category-container">        
                   <div className="self-category">
-                    {selectedTeacher.Courses.map((course, index) => (
+                    {teacherDetails.Courses.map((course, index) => (
         <div className="self-teacher-item" key={index}>{course.Category.name}</div>
       ))}
                     </div>
@@ -163,7 +170,7 @@ const TeachersPage = () => {
       </div>
       
 
-      <p className="self-info-description">{selectedTeacher.selfIntro}</p>
+      <p className="self-info-description">{teacherDetails.selfIntro}</p>
         </div>     
         
         </div>       
@@ -175,7 +182,7 @@ const TeachersPage = () => {
         <h6 className="title">教學風格</h6>
       </div>
       
-      <p className="self-teaching-style-description" >{selectedTeacher.teachStyle}</p>
+      <p className="self-teaching-style-description" >{teacherDetails.teachStyle}</p>
     </div>
       </div>
 
@@ -248,7 +255,7 @@ const TeachersPage = () => {
 
         <div className="form-right col col-3" >
           
-          {selectedTeacher && (
+          {teacherDetails && (
           <div>
         <ClassReserve
           selectedDate={selectedDate}
@@ -258,7 +265,7 @@ const TeachersPage = () => {
           setSelectedCategory={setSelectedCategory}
           reserveDays={reserveDays}
           setReserveDays={setReserveDays}
-          selectedTeacher={selectedTeacher}
+          teacherDetails={teacherDetails}
           handleSubmit={handleSubmit}
           categoryOptions={categoryOptions}
           setShowSuccessModal={setShowSuccessModal}
@@ -266,7 +273,7 @@ const TeachersPage = () => {
           handleDateChange={handleDateChange}
           checkIfDateIsSelectable={checkIfDateIsSelectable}
          />
-          <ClassComments teacher={selectedTeacher} />
+          <ClassComments teacher={teacherDetails} />
            </div>
               
             
@@ -281,7 +288,7 @@ const TeachersPage = () => {
 };
 
 TeachersPage.propTypes = {
-  selectedTeacher: PropTypes.shape({
+  teacherDetails: PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     nation: PropTypes.string.isRequired,
