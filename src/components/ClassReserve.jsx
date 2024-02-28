@@ -24,7 +24,8 @@ const ClassReserve = ({
   setSelectedCategory,
   teacherDetails,
   setSelectedDuration,
-  selectedDuration }) => {
+  selectedDuration,
+  isSelectable }) => {
 
   return (
     <div className="class-reserve">
@@ -86,6 +87,7 @@ ClassReserve.propTypes = {
   handleDateChange: PropTypes.func.isRequired,
   selectedDate: PropTypes.instanceOf(Date).isRequired,
   categoryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isSelectable: PropTypes.bool.isRequired,
   teacherDetails: PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,

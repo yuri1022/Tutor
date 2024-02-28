@@ -293,7 +293,9 @@ const categoryOptions = teacherDetails
           handleDateChange={handleDateChange}
           checkIfDateIsSelectable={checkIfDateIsSelectable}
          />
-          {/* <ClassComments TeacherDetails={teacherDetails} /> */}
+           </div>
+           <div>
+            <ClassComments teacherDetails={teacherDetails} />
            </div>
             
       <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
