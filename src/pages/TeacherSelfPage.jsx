@@ -1,3 +1,5 @@
+//teacherselfpage
+
 import { useParams } from "react-router-dom";
 import NationImg from '../assets/images/svg/canada.svg';
 import EditImg from '../assets/images/svg/edit.svg';
@@ -21,7 +23,6 @@ const TeacherSelfPage = () => {
   const [editingContent, setEditingContent] = useState('');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const { id } = useParams();
-  console.log('ID',id);
   const api = 'http://34.125.232.84:3000';
 
 
@@ -31,7 +32,6 @@ const TeacherSelfPage = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-        console.log(`${api}/teacher/${id}`)
         setTeacherDetails(response.data.data)
         return response.data.data;
         
@@ -82,23 +82,31 @@ const TeacherSelfPage = () => {
   }
   };
 
-const handleSave = (editedData,section) => {
-  // 在這裡可以進行其他保存或提交的操作
-    console.log("更新前的教师信息：", teacherDetails);
-
-  // 更新教师信息
-setTeacherDetails((prevTeacher) => {
-    return {
+const handleSave = async (editedData, section) => {
+  console.log('要發送的數據：', editedData); // 
+  console.log('Patch API ID',id);
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.patch(`${api}/teacher/${id}`, editedData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    
+    // 處理成功更新的情況，例如更新本地 state
+    setTeacherDetails((prevTeacher) => ({
       ...prevTeacher,
-      [section]: editedData[section] || prevTeacher[section],
-    };
-  });
-  setEditingContent(editedData[section] || '');
-
-  closeEdit();
-  setIsEditInfo(false);
-  setIsEditTeachingStyle(false);
-  
+      [section]: response.data.data[section] || prevTeacher[section],
+    }));
+    
+    setEditingContent(editedData[section] || '');
+    
+    closeEdit();
+    setIsEditInfo(false);
+    setIsEditTeachingStyle(false);
+    return response.data.data;
+  } catch (error) {
+    // 處理錯誤
+    console.error('Error updating teacher:', error);
+  }
 };
 
 
@@ -155,9 +163,10 @@ const handleCancel = () => {
     <div className="self-category-container">
         
       <div className="self-category">
-      {teacherDetails.Courses.map((course, index) => (
-    <span key={index}>{course.Category}</span>
-  ))}
+         {[...new Set(teacherDetails.Courses.map(course => course.category).flat())]
+      .map((category, index) => (
+        <span className="self-teacher-item" key={index}>{category}</span>
+      ))}
       </div>
 
     </div>
@@ -189,7 +198,7 @@ const handleCancel = () => {
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
-                  onBlur={() => handleSave({ info: editingContent }, 'info')}
+                  onBlur={() => handleSave({ selfIntro: editingContent }, 'selfInstro')}
                   style={{width:'95%',height:'60%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
                 />
               ) : (
@@ -275,10 +284,14 @@ TeacherSelfPage.propTypes = {
     avatar: PropTypes.string.isRequired,
     selfIntro: PropTypes.string.isRequired,
     teachStyle: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
+    ratingAverage: PropTypes.string.isRequired,
     Courses: PropTypes.arrayOf(PropTypes.shape({
-      Category: PropTypes.shape({
-        name: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      category: PropTypes.shape({
+      }).isRequired,
+      Registrations: PropTypes.shape({
+        rating:PropTypes.number.isRequired,
+        comment:PropTypes.string.isRequired,
       }).isRequired,
     })).isRequired,
   }),
