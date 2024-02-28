@@ -45,7 +45,7 @@ const ClassComments = ({teacherDetails}) =>{
             <Card.Body className="class-comment-info-card-body">
               <div className="card-container">
                 <div className="card-img">
-                  <CardImg className="class-comment" src={teacherDetails.avatar} alt={teacherDetails.name} />
+                  <CardImg className="class-comment" src={course.image} alt={course.name} />
                 </div>
 
                 <div className="card-title">
@@ -75,7 +75,7 @@ const ClassComments = ({teacherDetails}) =>{
              <Button className="link" variant="outline-primary" onClick={handleCommentClick}>看更多評價</Button>     
 
           {isModalOpen && (
-           <CommentModal show={isModalOpen} handleClose={closeModal} teacher={teacherDetails}/>
+           <CommentModal show={isModalOpen} handleClose={closeModal} teacherDetails={teacherDetails}/>
          )}    
           </div>
 
