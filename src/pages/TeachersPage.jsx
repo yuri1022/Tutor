@@ -1,90 +1,110 @@
-import { useState,useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import 'react-datepicker/dist/react-datepicker.css';
+//teacherpage
+
+import { useParams } from "react-router-dom";
+import NationImg from '../assets/images/svg/canada.svg';
+import '../assets/scss/teacherpage.scss'
+import MyCalendar from "../components/Teacher_profile_Calendar";
 import PropTypes from 'prop-types';
-import NationImg from '../assets/images/svg/canada.svg'
-import Navbar from '../components/Navbar';
-import ClassComments from '../components/ClassComments';
-import MyCalendar from '../components/Teacher_profile_Calendar';
+import ClassComments from "../components/ClassComments";
+import ClassReserve from '../components/ClassReserve.jsx';
+import TeacherEditInfo from "../components/TeacherEditModal";
+import { useState ,useEffect } from "react";
 import '../assets/scss/teacher.scss';
-import ClassReserve from '../components/ClassReserve';
+import { Button } from "react-bootstrap";
+import axios from "axios";
 import SuccessModal from '../components/SuccessModal';
 import FailModal from '../components/FailModal.jsx';
-// import { getTeacher } from '../api/teacher.js';
-import axios from 'axios';
+
 
 const TeachersPage = () => {
-  const [selectedTeacher,setSelectedTeacher] = useState(null);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [reserveDays, setReserveDays] = useState({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showFailModal, setShowFailModal] = useState(false);
-  const [searchTerm,setSearchTerm]= useState('');
   const [selectedTime ,setSelectedTime]=useState('12:00');
+  const [teacherDetails, setTeacherDetails] = useState(null);
+  const [selectedDuration, setSelectedDuration] = useState('');
   const { id } = useParams();
   const api = 'http://34.125.232.84:3000';
 
-  const getTeacherData = async () =>{
-    const token = localStorage.getItem("token");
-    console.log(token);
-    const teacherData = await axios.get(`${api}/teacher/12`,{headers:{Authorization: `Bearer${token}` }}).then((res)=>{
-      console.log(res.data)
-      return teacherData.data
-    }).catch(
-      err=>{
-        console.log(err);
-      }
-    )
+
+
+  useEffect(() => {
+    const fetchTeacherData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        setTeacherDetails(response.data.data)
+        return response.data.data;        
+      } catch (error) {
+        if (error.response) {
+            console.error("Server error:", error.response.status, error.response.data);
+        } else if (error.request) {
+            console.error("No response from server");
+        } else {
+            console.error("Request failed:", error.message);
+        }
+        throw error; 
+    }
+    };
+
+    fetchTeacherData();
+  }, [id]);
+  
+    if (!teacherDetails) {
+    return null; // 或者你可以渲染加载中的 UI
   }
 
- useEffect(() => {
-  console.log('Current ID in useEffect:', id);
+const { mon, tue, wed, thu, fri, sat, sun } = teacherDetails || {};
+// 合併成一個名為 reserveDays 的物件
+const reserveDay = { mon, tue, wed, thu, fri, sat, sun };
+// 現在 reserveDays 就是包含所有屬性的物件
 
-  const fetchTeacherData = async () => {
-    try {
-      const teacherData = await getTeacherData();
-      
-      console.log('Teacher Data:', teacherData);
-      setSelectedTeacher(teacherData);
-      setReserveDays({
-        mon: teacherData.mon,
-        tue: teacherData.tue,
-        wed: teacherData.wed,
-        thu: teacherData.thu,
-        fri: teacherData.fri,
-        sat: teacherData.sat,
-        sun: teacherData.sun,
-      });
-    } catch (error) {
-      console.error('Failed to fetch teacher data:', error);
-    }
+const categoryMapping = {
+  "多益": 1,
+  "托福": 2,
+  "雅思": 3,
+  "商用英文":4,
+  "旅遊英文":5,
+};
+
+const handleSubmit = async () => {
+    const apiFormattedData = {
+    teacherId: parseInt(teacherDetails.id, 10), 
+    categoryId: parseInt(selectedCategory.id, 10),
+    categoryname: selectedCategory.label, 
+    intro: "123",
+    link: "https://naughty-laborer.info/",
+    duration: parseInt(selectedDuration.value, 10),
+    startAt: `${selectedDate.toISOString().slice(0, 10)} ${selectedTime}`,
   };
+  console.log(selectedCategory);
+  console.log(apiFormattedData);
+ try {
+    const token = localStorage.getItem('token');
 
-  fetchTeacherData();
-}, [id]);
+    // Make a POST request to the /course endpoint
+    const response = await axios.post(
+      `${api}/course`,
+      apiFormattedData,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-    const handleSubmit = () => {
-    const formData = {
-      selectedDate,
-      selectedCategory,
-      selectedTime,
-      // 其他表單資料...
-    };
-    console.log('Submit:', formData);
+    console.log('Course creation response:', response.data);
 
-     const isReservationSuccessful = selectedDate !== '' && selectedTime !== null && selectedCategory !== '';
-     const isReservationFail = selectedDate === '' || selectedTime === null || selectedCategory === '';       
+    // Check the response and show success or fail modal
+    if (response.data.success) {
+      setShowSuccessModal(true);
+    } else {
+      setShowFailModal(true);
+    }
+  } catch (error) {
+    console.error('Course creation error:', error.message);
+    setShowFailModal(true);
+  }
+};
 
-    if (isReservationSuccessful) {
-        setShowSuccessModal(true);
-      } else if (isReservationFail){
-        setShowFailModal(true);
-      }
-    };
-
-    // console.log('showFailModal',showFailModal);
-    // console.log('showSuccessModal',showSuccessModal);
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
   };
@@ -93,19 +113,23 @@ const TeachersPage = () => {
     setShowFailModal(false);
   };
 
-  const checkIfDateIsSelectable = (date, reserveDays) => {
+
+  const checkIfDateIsSelectable = (date, reserveDay) => {
   const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   const selectedDayOfWeek = daysOfWeek[date.getDay()].toLowerCase(); // 轉換為小寫
-    return reserveDays[selectedDayOfWeek];
+  console.log('Checktime:',selectedDayOfWeek);
+  return reserveDay[selectedDayOfWeek];
+    
   };
 
   const handleDateChange = (date) => {
     console.log('Selected Date:', date);
 
-    if (selectedTeacher && selectedTeacher.reserveDays) {
-      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    if (teacherDetails && reserveDay) {
+      const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
       const selectedDayOfWeek = daysOfWeek[date.getDay()];
-      const isSelectable = selectedTeacher.reserveDays[selectedDayOfWeek];
+      const isSelectable = reserveDay[selectedDayOfWeek];
+      console.log('isselectable',isSelectable)
 
       if (isSelectable) {
         setSelectedDate(date);
@@ -122,43 +146,38 @@ const TeachersPage = () => {
    console.log('Selected Time:', time);
   };
 
-  const categoryOptions = selectedTeacher.Courses.map((course) => ({ label: course.Category.name }));
+const categoryOptions = teacherDetails
+  ? [...new Set(teacherDetails.Courses.map(course => course.category).flat())]
+      .map((category) => ({ label: category , id:categoryMapping[category] }))
+  : [];
 
-
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  return (
-    <>
-      <Navbar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+  return ( 
+      <div>
+    
       <div className="div-container col col-12" >
         <div className="form-left col col-9" >
 
-       
-        {selectedTeacher && (
-        
-            <div key={selectedTeacher.id} >
+              
 
               <div className="card-container" >
 
               <div className="self-card-container">
       
-              <img className="self-card-img" src={selectedTeacher.avatar} alt={selectedTeacher.name} />
+              <img className="self-card-img" src={teacherDetails.avatar} alt={teacherDetails.name} />
 
               <div className="self-info-container" >
 
               <div className="self-name-nation-container" >
               <div className="self-nation" >
-               <img src={NationImg} alt={selectedTeacher.nation} />
-                <h6 className="self-name">{selectedTeacher.name}</h6>
+               <img src={NationImg} alt={teacherDetails.nation} />
+                <h6 className="self-name">{teacherDetails.name}</h6>
               </div>
               </div>
                 <div className="self-category-container">        
                   <div className="self-category">
-                    {selectedTeacher.Courses.map((course, index) => (
-        <div className="self-teacher-item" key={index}>{course.Category.name}</div>
+   {[...new Set(teacherDetails.Courses.map(course => course.category).flat())]
+      .map((category, index) => (
+        <span className="self-teacher-item" key={index}>{category}</span>
       ))}
                     </div>
                 </div>
@@ -176,7 +195,7 @@ const TeachersPage = () => {
       </div>
       
 
-      <p className="self-info-description">{selectedTeacher.selfIntro}</p>
+      <p className="self-info-description">{teacherDetails.selfIntro}</p>
         </div>     
         
         </div>       
@@ -188,7 +207,7 @@ const TeachersPage = () => {
         <h6 className="title">教學風格</h6>
       </div>
       
-      <p className="self-teaching-style-description" >{selectedTeacher.teachStyle}</p>
+      <p className="self-teaching-style-description" >{teacherDetails.teachStyle}</p>
     </div>
       </div>
 
@@ -201,7 +220,7 @@ const TeachersPage = () => {
       
           {/* 日曆待修改 */}
       <div className="self-class-time-calendar">
-        <MyCalendar />
+        {/* <MyCalendar /> */}
       </div>
       </div>
 
@@ -250,18 +269,11 @@ const TeachersPage = () => {
       </div>
 
     </div>
-
-
-    </div>
-
-
-
-          )}
         </div>
 
         <div className="form-right col col-3" >
           
-          {selectedTeacher && (
+      
           <div>
         <ClassReserve
           selectedDate={selectedDate}
@@ -269,9 +281,11 @@ const TeachersPage = () => {
           selectedTime={selectedTime}
           setSelectedTime={handleTimeChange}
           setSelectedCategory={setSelectedCategory}
+          selectedDuration={selectedDuration}
+          setSelectedDuration={setSelectedDuration}
           reserveDays={reserveDays}
           setReserveDays={setReserveDays}
-          selectedTeacher={selectedTeacher}
+          teacherDetails={teacherDetails}
           handleSubmit={handleSubmit}
           categoryOptions={categoryOptions}
           setShowSuccessModal={setShowSuccessModal}
@@ -279,35 +293,40 @@ const TeachersPage = () => {
           handleDateChange={handleDateChange}
           checkIfDateIsSelectable={checkIfDateIsSelectable}
          />
-          <ClassComments teacher={selectedTeacher} />
            </div>
-              
+           <div>
+            <ClassComments teacherDetails={teacherDetails} />
+           </div>
             
-          )}
       <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
       <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} />
       
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
 TeachersPage.propTypes = {
-  selectedTeacher: PropTypes.shape({
+  teacherDetails: PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     nation: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
     selfIntro: PropTypes.string.isRequired,
     teachStyle: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
+    ratingAverage: PropTypes.string.isRequired,
     Courses: PropTypes.arrayOf(PropTypes.shape({
-      Category: PropTypes.shape({
-        name: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      duration:PropTypes.number.isRequired,
+      category: PropTypes.shape({
+      }).isRequired,
+      Registrations: PropTypes.shape({
+        rating:PropTypes.number.isRequired,
+        comment:PropTypes.string.isRequired,
       }).isRequired,
     })).isRequired,
-  }).isRequired,
+  }),
 };
 
 export default TeachersPage;

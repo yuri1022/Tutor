@@ -1,121 +1,105 @@
 import { Modal , Card ,CardImg } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import Rating from '../assets/images/svg/rating.svg';
-import '../assets/scss/commentmodal.scss'
+import '../assets/scss/commentmodal.scss';
+import { useState } from "react";
 
 
-const CommentModal = (props) => {
+const CommentModal = ({show,handleClose,teacherDetails}) => {
+const [selectedRatings, setSelectedRatings] = useState({
+  5: true,
+  4: true,
+  3: true,
+  2: true,
+  1: true,
+});
 
-  const percent = 50; 
-  //之後補percent計算式
+const handleRatingToggle = (rating) => {
+  setSelectedRatings((prev) => ({
+    ...prev,
+    [rating]: !prev[rating],
+  }));
+};
 
-  const rootStyle = {
-    '--percent': `${percent}%`,
+
+    const ratingCounts = {
+    5: 0, 
+    4: 0,
+    3: 0,
+    2: 0,
+    1: 0,
   };
+
+ teacherDetails.Courses.forEach((course) => {
+    // 使用 filter 過濾掉 rating 或 comment 為 null 的 Registrations
+    const validRegistrations = course.Registrations.filter(
+      (registration) => registration.rating !== null && registration.comment !== null
+    );
+
+    // 接著處理過濾後的 validRegistrations
+    validRegistrations.forEach((validRegistration) => {
+      const rating = validRegistration.rating;
+      ratingCounts[rating]++;
+    });
+  });
+
+  const totalComments = Object.values(ratingCounts).reduce((total, count) => total + count, 0);
+
+   const ratingPercentages = {};
+  for (const key in ratingCounts) {
+    if (Object.hasOwnProperty.call(ratingCounts, key)) {
+      ratingPercentages[key] = (ratingCounts[key] / totalComments) * 100;
+    }
+  }
+
+  const ratingKeys = Object.keys(ratingPercentages);
+  console.log(ratingPercentages)
+
   return (
-    <Modal size="xl" show={props.show} onHide={props.handleClose}>
+    <Modal size="xl" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
       </Modal.Header>
 
       <Modal.Body>
-        <div className="modal-container col col -12" style={{display:'flex'}}>
+        <div className="modal-container col col -12">
 
-        <div className="modal-container-left col col -6" style={{display:'flex',flexDirection:'column'}}>
+        <div className="modal-container-left col col -6" >
 
           <div className="modal-comment-counts">
 
             <div className="modal-comment-title">課程評價</div>
-              <div className="modal-comment-count">
-              <div className="modal-comment-count-item" style={{display:'flex'}}>  
-               <div className="toggle">
-                <input className="form-check-input" type="checkbox" value=""/>              
-               </div>
-
-               <div className="title">
-                <span>5顆星</span>
-               </div>
-               <div className="percentimg" style={{ width: `${percent}%` }}>
-                <div className="progressbar" style={rootStyle}></div>
-               </div>
-               <div className="percent">100%</div>
-             
-              </div>
-              </div>
-
-              <div className="modal-comment-count">
-              <div className="modal-comment-count-item" style={{display:'flex'}}>  
-               <div className="toggle">
-                <input className="form-check-input" type="checkbox" value=""/>              
-               </div>
-
-               <div className="title">
-                <span>4顆星</span>
-               </div>
-               <div className="percentimg" style={{ width: `${percent}%` }}>
-                <div className="progressbar" style={rootStyle}></div>
-               </div>
-               <div className="percent">100%</div>
-             
-              </div>
-              </div>
-
-              <div className="modal-comment-count">
-              <div className="modal-comment-count-item" style={{display:'flex'}}>  
-               <div className="toggle">
-                <input className="form-check-input" type="checkbox" value=""/>              
-               </div>
-
-               <div className="title">
-                <span>3顆星</span>
-               </div>
-               <div className="percentimg" style={{ width: `${percent}%` }}>
-                <div className="progressbar" style={rootStyle}></div>
-               </div>
-               <div className="percent">100%</div>
-             
-              </div>
-              </div>
-
-              <div className="modal-comment-count">
-              <div className="modal-comment-count-item" style={{display:'flex'}}>  
-               <div className="toggle">
-                <input className="form-check-input" type="checkbox" value=""/>              
-               </div>
-
-               <div className="title">
-                <span>2顆星</span>
-               </div>
-               <div className="percentimg" style={{ width: `${percent}%` }}>
-                <div className="progressbar" style={rootStyle}></div>
-               </div>
-               <div className="percent">100%</div>
-             
-              </div>
-              </div>
-
-              <div className="modal-comment-count">
-              <div className="modal-comment-count-item" style={{display:'flex'}}>  
-               <div className="toggle">
-                <input className="form-check-input" type="checkbox" value=""/>              
-               </div>
-
-               <div className="title">
-                <span>1顆星</span>
-               </div>
-               <div className="percentimg" style={{ width: `${percent}%` }}>
-                <div className="progressbar" style={rootStyle}></div>
-               </div>
-               <div className="percent">100%</div>
-             
-              </div>
-              </div>
+            {ratingKeys.map((key, index) => (
+                <div className="modal-comment-count" key={index} style={{minWidth:'15rem'}}>
+                  <div className="modal-comment-count-item" style={{ display: 'flex' }}>
+                    <div className="toggle">
+                      <input className="form-check-input" type="checkbox" value="" 
+                      checked={selectedRatings[key]}
+                      onChange={() => handleRatingToggle(key)}/>
+                    </div>
+                    <div className="title">
+                      <span>{`${key}顆星`}</span>
+                    </div>
+                    <div className="percentimg" style={{ width: `${ratingPercentages[key]}%`,backgroundColor:'var(--main-blue)' }}>
+                      <div className="progressbar"></div>
+                    </div>
+                    <div className="percent" style={{display:'flex',justifyContent:'end'}} >
+                      <h6 >{`${ratingPercentages[key]}%`}</h6></div>
+                  </div>
+                </div>
+              ))}
 
           </div>
 
           <div className="modal-category">
 
             <div className="modal-category-title">課程類別</div>
-            <div className="modal-category-detail">{props.teacher.category}</div>
+            <div className="modal-category-detail">
+             {[...new Set(teacherDetails.Courses.map(course => course.category).flat())]
+           .map((category, index) => (
+        <span className="self-teacher-item" key={index}>{category}</span>
+        
+      ))}
+            </div>
             
           </div>
 
@@ -125,24 +109,26 @@ const CommentModal = (props) => {
         <div className="modal-container-right col col -6">
 
           <div className="modal-comment-detail "> 
-
-          <Card className="class-comment-info-card" style={{fontSize:'16px',margin:'10px 10px 20px 0'}}>
+          {teacherDetails.Courses
+          .filter((course) => selectedRatings[course.Registrations[0].rating])
+          .map((course,index)=>(
+            <Card key={index} className="class-comment-info-card">
             <Card.Body className="class-comment-info-card-body"> 
-            <div className="card-container" style={{display:'flex'}}>
+            <div className="card-container">
 
-            <div className="card-img" style={{width:'60px',height:'40px'}}> 
-            <CardImg className="class-comment" src={props.teacher?.avatar} style={{borderRadius:'50%',width:'40px',height:'40px'}} />
+            <div className="card-img" > 
+            <CardImg className="class-comment" src={course.image} />
             </div>
 
 
              <div className="card-title">
-            <Card.Title>Office ipsum</Card.Title>
-            <Card.Title>2024年02月04日</Card.Title>
+            <Card.Title className="card-title-name">{course.name}</Card.Title>
+            <Card.Title className="card-title-startat">{course.startAt}</Card.Title>
             </div> 
 
-            <div className="card-rating">
-              <img src={Rating} alt="rating" />3.0
-            
+            <div className="card-rating" style={{display:'flex'}}>
+              <img className="rating" src={Rating} alt="rating" />
+              <h6 className="rating-num">{course.Registrations[0].rating}</h6>
             </div>
 
 
@@ -151,92 +137,17 @@ const CommentModal = (props) => {
             <div className="card-description">
 
             <Card.Text className="class-comment-info">
-              Office ipsum you must be muted. Keep fured tentative break land sorry baked productive growth. Mifflin incentivization put able hour timepoint hits. Important unlock activities on t-shaped back-end move wanted. Hop run based anyway mifflin call got.
+            {course.Registrations[0].comment}
+
               </Card.Text>
 
 
             </div>
 
-      
-            
-
             </Card.Body>
           </Card>
 
-                    <Card className="class-comment-info-card" style={{fontSize:'16px',margin:'10px 10px 20px 0'}}>
-            <Card.Body className="class-comment-info-card-body"> 
-            <div className="card-container" style={{display:'flex'}}>
-
-            <div className="card-img" style={{width:'60px',height:'40px'}}> 
-            <CardImg className="class-comment" src={props.teacher?.avatar} style={{borderRadius:'50%',width:'40px',height:'40px'}} />
-            </div>
-
-
-             <div className="card-title">
-            <Card.Title>Office ipsum</Card.Title>
-            <Card.Title>2024年02月04日</Card.Title>
-            </div> 
-
-            <div className="card-rating">
-              <img src={Rating} alt="rating" />3.0
-            
-            </div>
-
-
-            </div>
-        
-            <div className="card-description">
-
-            <Card.Text className="class-comment-info">
-              Office ipsum you must be muted. Keep fured tentative break land sorry baked productive growth. Mifflin incentivization put able hour timepoint hits. Important unlock activities on t-shaped back-end move wanted. Hop run based anyway mifflin call got.
-              </Card.Text>
-
-
-            </div>
-
-      
-            
-
-            </Card.Body>
-          </Card>
-         
-
-                   <Card className="class-comment-info-card" style={{fontSize:'16px',margin:'10px 10px 20px 0'}}>
-            <Card.Body className="class-comment-info-card-body"> 
-            <div className="card-container" style={{display:'flex'}}>
-
-            <div className="card-img" style={{width:'60px',height:'40px'}}> 
-            <CardImg className="class-comment" src={props.teacher?.avatar} style={{borderRadius:'50%',width:'40px',height:'40px'}} />
-            </div>
-
-
-             <div className="card-title">
-            <Card.Title>Office ipsum</Card.Title>
-            <Card.Title>2024年02月04日</Card.Title>
-            </div> 
-
-            <div className="card-rating">
-              <img src={Rating} alt="rating" />3.0
-            
-            </div>
-
-
-            </div>
-        
-            <div className="card-description">
-
-            <Card.Text className="class-comment-info">
-              Office ipsum you must be muted. Keep fured tentative break land sorry baked productive growth. Mifflin incentivization put able hour timepoint hits. Important unlock activities on t-shaped back-end move wanted. Hop run based anyway mifflin call got.
-              </Card.Text>
-
-
-            </div>
-
-      
-            
-
-            </Card.Body>
-          </Card>
+          ))}
          
          
 
@@ -253,7 +164,7 @@ const CommentModal = (props) => {
       </Modal.Body>
 
       <Modal.Footer>
-        <button className="btn btn-secondary" onClick={props.handleClose}>
+        <button className="btn btn-secondary" onClick={handleClose}>
           Close
         </button>
       </Modal.Footer>
@@ -264,7 +175,25 @@ const CommentModal = (props) => {
 CommentModal.propTypes = {
   show: PropTypes.bool.isRequired,  
   handleClose: PropTypes.func.isRequired,
-  teacher: PropTypes.object.isRequired,  
+   teacherDetails: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    nation: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    selfIntro: PropTypes.string.isRequired,
+    teachStyle: PropTypes.string.isRequired,
+    ratingAverage: PropTypes.string.isRequired,
+    Courses: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        Registrations: PropTypes.shape({
+          rating: PropTypes.number.isRequired,
+          comment: PropTypes.string.isRequired,
+        }).isRequired,
+        category: PropTypes.shape({}).isRequired,
+      })
+    ).isRequired,
+  }), 
 };
 
 export default CommentModal;

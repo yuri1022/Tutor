@@ -1,11 +1,11 @@
-import Navbar from "../components/Navbar";
+//teacherselfpage
+
 import { useParams } from "react-router-dom";
 import NationImg from '../assets/images/svg/canada.svg';
 import EditImg from '../assets/images/svg/edit.svg';
 import '../assets/scss/teacherpage.scss'
 import MyCalendar from "../components/Teacher_profile_Calendar";
 import PropTypes from 'prop-types';
-import { DummyTeachers } from "../components/TeachersData";
 import ClassComments from "../components/ClassComments";
 import TeacherEditInfo from "../components/TeacherEditModal";
 import { useState ,useEffect } from "react";
@@ -13,49 +13,42 @@ import '../assets/scss/teacher.scss';
 import { Button } from "react-bootstrap";
 import axios from "axios";
 
+
+
 const TeacherSelfPage = () => {
   const [editingSection, setEditingSection] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isEditInfo, setIsEditInfo] = useState(false);
   const [isEditTeachingStyle, setIsEditTeachingStyle] = useState(false);
   const [editingContent, setEditingContent] = useState('');
-  const [triggerEditModalUpdate, setTriggerEditModalUpdate] = useState(false);
-
-  const api = 'http://34.125.232.84:3000'
-  const getTeacherData = async () =>{
-    const token = localStorage.getItem("token");
-    console.log(token);
-    const teacherData = await axios.get(`${api}/teacher/12`,{headers:{Authorization: `Bearer${token}` }})
-  }
+  const [teacherDetails, setTeacherDetails] = useState(null);
+  const { id } = useParams();
+  const api = 'http://34.125.232.84:3000';
 
 
-  const [teacher, setTeacher] = useState(null); 
 
+  useEffect(() => {
+    const fetchTeacherData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        setTeacherDetails(response.data.data)
+        return response.data.data;        
+      } catch (error) {
+        if (error.response) {
+            console.error("Server error:", error.response.status, error.response.data);
+        } else if (error.request) {
+            console.error("No response from server");
+        } else {
+            console.error("Request failed:", error.message);
+        }
+        throw error; 
+    }
+    };
 
-  const { teacher_id } = useParams();
-
-useEffect(() => {
-  // 在這裡取得教師資料，例如從後端拉取
-  const fetchedTeacher = DummyTeachers.find((t) => t.teacher_id === teacher_id);
-  console.log('取得教師資料:', fetchedTeacher);
-  setTeacher(fetchedTeacher);
-  // 移動這行到 setTeacher 後面
-  // 触发更新
-  setTriggerEditModalUpdate(true);
-}, [teacher_id]);
-
-// 当 teacher 状态变化时触发更新
-useEffect(() => {
-  console.log('teacher 状态变化:', teacher);
-  if (triggerEditModalUpdate) {
-    setTriggerEditModalUpdate(false);
-  }
-  console.log('更新後:', teacher);
-}, [teacher, triggerEditModalUpdate]);
-
+    fetchTeacherData();
+  }, [id]);
   
-
-
   const handleEditModal = (section) => {
     setEditingSection({
     name: true,
@@ -65,7 +58,7 @@ useEffect(() => {
   });
     setEditingSection(section);
     setIsEditOpen(true);
-    setEditingContent(teacher[section])
+    setEditingContent(teacherDetails[section])
   };
 
   const closeEdit = () => {
@@ -75,55 +68,60 @@ useEffect(() => {
 
  const handleEdit = (section) => {
 
-    if (section === 'info') {
+    if (section === 'selfIntro') {
     setIsEditInfo(true);
-    setEditingContent(teacher.info);
+    setEditingContent(teacherDetails.selfIntro);
   } else if (section === 'teaching_style') {
     setIsEditTeachingStyle(true);
-    setEditingContent(teacher.teaching_style);
+    setEditingContent(teacherDetails.teaching_style);
   }
   };
 
-const handleSave = (editedData,section) => {
-  // 在這裡可以進行其他保存或提交的操作
-    console.log("更新前的教师信息：", teacher);
-
-  // 更新教师信息
-setTeacher((prevTeacher) => {
-    return {
+const handleSave = async (editedData, section) => {
+  console.log('要發送的數據：', editedData); // 
+  console.log('Patch API ID',id);
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.patch(`${api}/teacher/${id}`, editedData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    
+    // 處理成功更新的情況，例如更新本地 state
+    setTeacherDetails((prevTeacher) => ({
       ...prevTeacher,
-      [section]: editedData[section] || prevTeacher[section],
-    };
-  });
-  setEditingContent(editedData[section] || '');
-
-  setTriggerEditModalUpdate(true);
-  closeEdit();
-  setIsEditInfo(false);
-  setIsEditTeachingStyle(false);
-  
+      [section]: response.data.data[section] || prevTeacher[section],
+    }));
+    
+    setEditingContent(editedData[section] || '');
+    
+    closeEdit();
+    setIsEditInfo(false);
+    setIsEditTeachingStyle(false);
+    return response.data.data;
+  } catch (error) {
+    // 處理錯誤
+    console.error('Error updating teacher:', error);
+  }
 };
 
 
 
 const handleCancel = () => {
      if (isEditInfo) {
-    setEditingContent(teacher.info); // 將編輯內容還原為原始內容
+    setEditingContent(teacherDetails.selfIntro); // 將編輯內容還原為原始內容
   } else if (isEditTeachingStyle) {
-    setEditingContent(teacher.teaching_style); // 將編輯內容還原為原始內容
+    setEditingContent(teacherDetails.teachStyle); // 將編輯內容還原為原始內容
   }
     setIsEditInfo(false);
     setIsEditTeachingStyle(false);
   };
 
-    if (!teacher) {
+    if (!teacherDetails) {
     return null; // 或者你可以渲染加载中的 UI
   }
 
   return ( 
   <div>
-    <Navbar />
-
   <div className="div-container col col-12" >
 
     <div className="form-left col col-9">
@@ -132,14 +130,14 @@ const handleCancel = () => {
 
      <div className="self-card-container" >
       
-      <img className="self-card-img" src={teacher.avatar} alt={teacher.name} />
+      <img className="self-card-img" src={teacherDetails.avatar} alt={teacherDetails.name} />
 
       <div className="self-info-container">
 
       <div className="self-name-nation-container">
       <div className="self-nation">
-        <img src={NationImg} alt={teacher.nation} />
-        <h6 className="self-name">{teacher.name}</h6>
+        <img src={NationImg} alt={teacherDetails.nation} />
+        <h6 className="self-name">{teacherDetails.name}</h6>
       </div>
 
        <div className="self-edit" style={{alignItems:'end'}}>
@@ -150,7 +148,7 @@ const handleCancel = () => {
            show={isEditOpen} 
            handleClose={closeEdit} 
            handleSave={(editedData) => handleSave(editedData, editingSection)} //传递section参数
-          teacher={teacher} 
+          teacherDetails={teacherDetails} 
           editingSection={editingSection}/>
          )}
       </div>
@@ -160,9 +158,10 @@ const handleCancel = () => {
     <div className="self-category-container">
         
       <div className="self-category">
-      {teacher.category.map((category, index) => (
-      <div className="self-teacher-item" key={index}>{category}</div>
-        ))}
+         {[...new Set(teacherDetails.Courses.map(course => course.category).flat())]
+      .map((category, index) => (
+        <span className="self-teacher-item" key={index}>{category}</span>
+      ))}
       </div>
 
     </div>
@@ -176,12 +175,12 @@ const handleCancel = () => {
           <h6 className="title">簡介</h6>
         {isEditInfo ? (
           <div className="edit-button" style={{position:'absolute',top:'9.5rem',right:'2rem'}}>
-        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('info')}>取消</Button>
-        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ info: editingContent }, 'info')}>保存</Button>        
+        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('selfIntro')}>取消</Button>
+        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ selfIntro: editingContent }, 'selfIntro')}>保存</Button>        
                     </div>
                   ) : (
                     <div className="edit-icon">
-                    <img src={EditImg} alt="edit" onClick={() => handleEdit('info')} style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>                      
+                    <img src={EditImg} alt="edit" onClick={() => handleEdit('selfIntro')} style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>                      
                     </div>
                   )}
 
@@ -194,11 +193,11 @@ const handleCancel = () => {
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
-                  onBlur={() => handleSave({ info: editingContent }, 'info')}
+                  onBlur={() => handleSave({ selfIntro: editingContent }, 'selfInstro')}
                   style={{width:'95%',height:'60%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
                 />
               ) : (
-                <p className="self-info-description">{teacher.info}</p>
+                <p className="self-info-description">{teacherDetails.selfIntro}</p>
               )}
     </div>
 
@@ -210,13 +209,13 @@ const handleCancel = () => {
 
           {isEditTeachingStyle ? (
           <div className="edit-button" style={{position:'absolute',top:'16rem',right:'2rem'}}>
-        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('teaching_style')}>取消</Button>            
-        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}>保存</Button>
+        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('teachStyle')}>取消</Button>            
+        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ teachStyle: editingContent }, 'teachStyle')}>保存</Button>
 
                     </div>
                   ) : (
                     <div className="edit-icon" >
-                    <img src={EditImg} alt="edit" onClick={() => handleEdit('teaching_style')} style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>
+                    <img src={EditImg} alt="edit" onClick={() => handleEdit('teachStyle')} style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>
                     </div>
                   )}
         </div>
@@ -228,12 +227,12 @@ const handleCancel = () => {
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
-                  onBlur={() => handleSave({ teaching_style: editingContent }, 'teaching_style')}
+                  onBlur={() => handleSave({ teachStyle: editingContent }, 'teachStyle')}
                   style={{width:'95%',height:'80%',fontSize:'0.8rem',margin:'0.5rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
                  
                 />
               ) : (
-                <p className="self-teaching-style-description">{teacher.teaching_style}</p>
+                <p className="self-teaching-style-description">{teacherDetails.teachStyle}</p>
               )}
     </div>
 
@@ -261,28 +260,36 @@ const handleCancel = () => {
     <div className="form-right col col-3">
 
 
-     <ClassComments teacher={teacher} />
+     <ClassComments teacherDetails={teacherDetails} />
  
     </div>
 
   </div>
-
    </div>
+  
   );
 };
 
 
 TeacherSelfPage.propTypes = {
-  teacher: PropTypes.shape({
+  teacherDetails: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    teacher_id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     nation: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
-    info: PropTypes.string.isRequired,
-    teaching_style:PropTypes.string.isRequired,
-    rating:PropTypes.number.isRequired,
-    category: PropTypes.arrayOf(PropTypes.string).isRequired
-  }).isRequired,
+    selfIntro: PropTypes.string.isRequired,
+    teachStyle: PropTypes.string.isRequired,
+    ratingAverage: PropTypes.string.isRequired,
+    Courses: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      category: PropTypes.shape({
+      }).isRequired,
+      Registrations: PropTypes.shape({
+        rating:PropTypes.number.isRequired,
+        comment:PropTypes.string.isRequired,
+      }).isRequired,
+    })).isRequired,
+  }),
 };
 
 export default TeacherSelfPage;

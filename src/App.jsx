@@ -1,9 +1,8 @@
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createContext, useState } from 'react';
 import { AuthProvider } from './components/AuthContext.jsx';
 import HomePage from "./pages/HomePage";
-import Navbar from "./components/Navbar"
+import Navbar from "./components/Navbar";
 import TeachersPage from "./pages/TeachersPage";
 import ApplyTeacher from './pages/ApplyTeacher';
 import './main.scss'
@@ -23,11 +22,10 @@ function App() {
       <Navbar onSearchChange={handleSearchChange}/>
       <Routes>    
           <Route path="teacher/:id" element={<TeachersPage />} />
-          <Route path="teacher/:teacher_id/personal" element={<TeacherSelfPage />} />
+          <Route path="teacher/:id/personal" element={<TeacherSelfPage />} />
           <Route path="student" element={<Students_profile/>} />
-          <Route path="home" element={<HomePage />} />
+          <Route path="home/*" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
-          <Route path="home/:page" element={<HomePage />} />
           <Route path="apply" element={<ApplyTeacher />}/>
       </Routes>
     </AppContext.Provider>
