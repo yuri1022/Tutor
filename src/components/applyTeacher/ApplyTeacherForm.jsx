@@ -1,5 +1,5 @@
 import { useState,useContext } from 'react';
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import ReactFlagsSelect from "react-flags-select";
 import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext';
 
@@ -7,11 +7,19 @@ const ApplyTeacherForm = () =>{
     const contextData = useContext(ApplyTeacherContext);
     const page = contextData.page;
     const [country,setCountry] = useState('');
-    const { register, handleSubmit,formState:{errors} } = useForm({
+    const week_list = ['mon','tue','wed','thu','fri','sat','sun'];
+    const { control, register, handleSubmit,formState:{errors} } = useForm({
         defaultValues:{
             teachername: '',
             intro: '',
             content: '',
+            mon: false,
+            tue: false,
+            wed: false,
+            thu: false,
+            fri: false,
+            sat: false,
+            sun: false,
         },
         mode: 'onTouched'
     });
@@ -62,6 +70,8 @@ const ApplyTeacherForm = () =>{
                 {
                     page===3 &&(
                         <>
+                        <label className="title mb-22px">類別</label>
+
                         <label className="title mb-22px">課程內容</label>
                         <div className="mb-22px">
                         <textarea className={`form-control  ${errors.content && 'is-invalid'}`} rows={5} {...register("content",{required: true , maxLegnth: 200})}  placeholder="請輸入內容"/>
@@ -75,9 +85,48 @@ const ApplyTeacherForm = () =>{
                 }
                 {
                     page===4 && (
-                        <div>
-                            授課時間
-                        </div>
+                        <>
+                        <label className="title mb-22px">授課時間</label>
+                        {
+                            week_list.map((day,index)=>(
+                                <div key={index}>
+                                {
+                                    day ==='mon' && (<label htmlFor={day}>星期一</label>)
+                                }   
+                                {
+                                    day ==='tue' && (<label htmlFor={day}>星期二</label>)
+                                }               
+                                {
+                                    day ==='wed' && (<label htmlFor={day}>星期三</label>)
+                                }  
+                                {
+                                    day ==='thu' && (<label htmlFor={day}>星期四</label>)
+                                }  
+                                {
+                                    day ==='fri' && (<label htmlFor={day}>星期五</label>)
+                                }  
+                                {
+                                    day ==='sat' && (<label htmlFor={day}>星期六</label>)
+                                }
+                                {
+                                    day ==='sun' && (<label htmlFor={day}>星期日</label>)
+                                }  
+                                <Controller
+                                name={day}
+                                control={control}
+                                defaultValue={false}
+                                render={({ field }) => (
+                                  <input
+                                    type="checkbox"
+                                    id={day}
+                                    {...field}
+                                  />
+                                )}
+                              />
+                              </div>
+                            )) 
+                        }
+                        </>
                     )
                 }
                     <div className="button-list">
@@ -89,7 +138,7 @@ const ApplyTeacherForm = () =>{
                         }}
                         >上一步</button>
                         {
-                            page===4 ? (<button type="button" className="btn btn-form">完成表單</button>): 
+                            page===4 ? (<button type="button" className="btn btn-form" onClick={()=>{onSubmit}}>完成表單</button>): 
                             (<button type="button" className="btn btn-form" onClick={()=>{
                                 contextData.page_add(1);
                             }}>下一步</button>)

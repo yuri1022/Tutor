@@ -10,7 +10,11 @@ export default function AppReducer(state, action ){
 
             }
         case 'LOGOUT':
-            return {}
+            return {
+                logindata:'',
+                isLogin: false,
+                isTeacher: 0,
+            }
         default:
             return state;
     }

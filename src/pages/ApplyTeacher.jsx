@@ -13,9 +13,7 @@ const ApplyTeacher = () => {
 
 
   // 處理表單提交的函式
-const ApplyTeacher = () => {
-    // 這裡可以進一步將資料送到伺服器，或進行其他適當的處理
-  };
+
 
   return (
     <div className="apply-teacher-context">

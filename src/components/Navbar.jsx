@@ -14,6 +14,7 @@ import AppReducer from '../store/AppContext';
 const Navbar = (props) =>{
     const [isLogin,setIsLogin] = useState(false);
     const [isHome,setIsHome]= useState(true);
+    const [ isTeacher,setIsTeacher] = useState(0);
     const [searchTxt, setSearchTxt]= useState('');
     const {state,dispatch} = useContext(AppContext);
     const loginModal = useRef(null);
@@ -35,6 +36,7 @@ const Navbar = (props) =>{
     },[])
     const handleLogin = (id,isTeacher)=>{
         const user_data = getData(id,isTeacher);
+        setIsTeacher(isTeacher);
     }
     const handleLogout = ()=>{
         setIsLogin(false);
@@ -47,7 +49,7 @@ const Navbar = (props) =>{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
                 console.log(`teacher data${res.data.data.teachStyle}`);
-                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:true,isLogin:true} });
+                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:1,isLogin:true} });
                 setIsLogin(true);
             }).catch(
                 err=>{
@@ -61,7 +63,7 @@ const Navbar = (props) =>{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
                 console.log(`student data ${res.data.data.selfIntro}`);
-                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:true,isLogin:true} });
+                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isLogin:true} });
                 setIsLogin(true);
             }).catch(
                 err=>{
@@ -85,7 +87,11 @@ const Navbar = (props) =>{
                     </Link>
                     <ul className="navbar-nav ">
                         <li className="nav-item">
-                            <Link className="nav-link" to = '/apply'>成為老師</Link>
+                            {
+                                isTeacher===1 ?
+                                (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>):
+                                (<Link className="nav-link" to = '/apply'>成為老師</Link>)
+                            }
                         </li>
                     </ul>
                 </div>

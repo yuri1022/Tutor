@@ -13,7 +13,8 @@ const Students_profile_Edit = ({closeEditModal})=>{
             selfIntro: introTxt,
             avatar: '',
         }
-        const res =await edit_student_data(id,formData);
+        const edit_res =await edit_student_data(id,formData);
+        console.log(edit_res);
     }
     return(
         <div className="modal fade" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
