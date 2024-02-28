@@ -55,12 +55,12 @@ const ClassComments = ({teacherDetails}) =>{
 
                 <div className="card-rating">
                   <img className="rating" src={Rating} alt="rating" />
-                  <h6 className="rating-num">{course.Registrations.rating}</h6>
+                  <h6 className="rating-num">{course.Registrations[0].rating}</h6>
                 </div>
               </div>
 
               <div className="card-description">
-                <p className="class-comment-description">{course.Registrations.comment}</p>
+                <p className="class-comment-description">{course.Registrations[0].comment}</p>
               </div>
             </Card.Body>
           </Card>

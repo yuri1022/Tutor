@@ -72,14 +72,13 @@ const categoryMapping = {
 const handleSubmit = async () => {
     const apiFormattedData = {
     teacherId: parseInt(teacherDetails.id, 10), 
-    categoryId: parseInt(selectedCategory.id, 10),
-    categoryname: selectedCategory.label, 
+    categoryId: JSON.stringify(selectedCategory.id),
+    name: selectedCategory.label,
     intro: "123",
     link: "https://naughty-laborer.info/",
     duration: parseInt(selectedDuration.value, 10),
     startAt: `${selectedDate.toISOString().slice(0, 10)} ${selectedTime}`,
   };
-  console.log(selectedCategory);
   console.log(apiFormattedData);
  try {
     const token = localStorage.getItem('token');
