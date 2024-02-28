@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { createContext, useState,useReducer } from 'react';
+import { createContext, useState,useReducer,useEffect } from 'react';
 import { AuthProvider } from './components/AuthContext.jsx';
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
@@ -10,17 +10,39 @@ import Students_profile from './pages/students/Students_profile'
 import TeacherSelfPage from './pages/TeacherSelfPage';
 import AppReducer from './store/AppContext.js';
 export const AppContext = createContext();
+const initial_login = ()=>{
+  let data = false;
+  if(localStorage.getItem("islogin")===null){
+    localStorage.setItem("islogin",false);
+    // const local_islogin = localStorage.getItem("islogin");
+    // data = local_islogin === 'false' ? false : Boolean(local_islogin);
+    data = false;
+  }
+  if(localStorage.getItem("islogin")===true){
+    data = true;
+  }
+  else{
+    data = false;
+  }
+  return data;
+}
 function App() {
   const initial_data = {
     logindata : '',
     isTeacher: 0,
     isLogin: false,
+    isApply: false,
   }
   const [searchTerm, setSearchTerm] = useState("");
   const [state, dispatch ] = useReducer( AppReducer,initial_data);
+  
   const handleSearchChange = (searchTxt) =>{
     setSearchTerm(searchTxt);
   }
+
+  useEffect(()=>{
+    const data =initial_login();
+  },[])
   return (
   <AuthProvider>
   <BrowserRouter>

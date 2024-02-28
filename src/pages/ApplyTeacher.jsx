@@ -1,5 +1,4 @@
 
-import Navbar from "../components/Navbar";
 import { useState,useContext,useEffect} from "react";
 import ApplyProcess from "../components/applyTeacher/ApplyProcess";
 import ApplyTeacherForm from "../components/applyTeacher/ApplyTeacherForm";
@@ -17,9 +16,6 @@ const ApplyTeacher = () => {
 
   return (
     <div className="apply-teacher-context">
-      <div className="topbar d-flex flex-row-reverse">
-        X
-      </div>
       <ApplyTeacherProvider>
         <div className="applyContainer d-flex .col.col-lg-9" style={{marginTop:"6%"}}>
             <div  className="left-container" style={{width:"30%"}}>

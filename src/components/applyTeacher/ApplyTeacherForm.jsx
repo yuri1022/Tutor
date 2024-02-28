@@ -2,17 +2,20 @@ import { useState,useContext } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import ReactFlagsSelect from "react-flags-select";
 import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext';
-
+import { AppContext } from '../../App';
 const ApplyTeacherForm = () =>{
     const contextData = useContext(ApplyTeacherContext);
     const page = contextData.page;
+    const userdata = useContext(AppContext).state.logindata;
     const [country,setCountry] = useState('');
     const week_list = ['mon','tue','wed','thu','fri','sat','sun'];
     const { control, register, handleSubmit,formState:{errors} } = useForm({
         defaultValues:{
-            teachername: '',
-            intro: '',
+            teachername: userdata.name,
+            intro: userdata.intro,
+            email: userdata.email,
             content: '',
+            country: '',
             mon: false,
             tue: false,
             wed: false,
@@ -36,7 +39,7 @@ const ApplyTeacherForm = () =>{
                    (<>
                         <label htmlFor="teachername" className="title mb-22px">姓名</label>
                         <div className="mb-22px">
-                            <input className={`form-control  ${errors.teachername && 'is-invalid'}`} {...register("teachername",{required: true , maxLegnth: 20})}  placeholder="請輸入姓名"/>
+                            <input name="teachername" className={`form-control ${errors.teachername && 'is-invalid'}`} {...register("teachername",{required: true , maxLegnth: 20})}  placeholder="請輸入姓名"/>
     
                             {errors.teachername && <div id="validationServerusernameFeedback" className="invalid-feedback">
                                 請輸入姓名
@@ -44,13 +47,27 @@ const ApplyTeacherForm = () =>{
                         </div>
     
                         <label className="title mb-22px">請問來自哪個國家請問來自哪個國家</label>
-                        <ReactFlagsSelect
+                        <Controller
+                            control={control}
+                            name="country"
+                            render={({ field }) => (
+                            <ReactFlagsSelect
+                                selected={field.value}
+                                onSelect={(code) => field.onChange(code)}
+                                placeholder="選擇國家"
+                                searchable
+                                searchPlaceholder="搜尋國家"
+                            />
+                            )}
+                        />
+                        {/* <ReactFlagsSelect
                             selected={country}
                             onSelect={(code) => setCountry(code)}
                             placeholder="選擇國家"
                             searchable
                             searchPlaceholder="搜尋國家"
-                        />
+                            className={`form-control  ${errors.country && 'is-invalid'}`} {...register("teachername",{required: true})} 
+                        /> */}
                         <div className="mb-auto"></div>
                     </>)
                 }
@@ -87,9 +104,10 @@ const ApplyTeacherForm = () =>{
                     page===4 && (
                         <>
                         <label className="title mb-22px">授課時間</label>
+                        <div className="row">
                         {
                             week_list.map((day,index)=>(
-                                <div key={index}>
+                                <div className="col-3"key={index}>
                                 {
                                     day ==='mon' && (<label htmlFor={day}>星期一</label>)
                                 }   
@@ -125,7 +143,9 @@ const ApplyTeacherForm = () =>{
                               />
                               </div>
                             )) 
+                            
                         }
+                        </div>
                         </>
                     )
                 }
@@ -138,7 +158,7 @@ const ApplyTeacherForm = () =>{
                         }}
                         >上一步</button>
                         {
-                            page===4 ? (<button type="button" className="btn btn-form" onClick={()=>{onSubmit}}>完成表單</button>): 
+                            page===4 ? (<button className="btn btn-form" type="submit">完成表單</button>): 
                             (<button type="button" className="btn btn-form" onClick={()=>{
                                 contextData.page_add(1);
                             }}>下一步</button>)
