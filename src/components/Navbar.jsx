@@ -1,4 +1,4 @@
-import { useState,useEffect ,useRef } from 'react';
+import { useState,useEffect ,useRef,useContext,useReducer } from 'react';
 import axios from 'axios';
 
 import Search from './Searchbar'
@@ -9,11 +9,13 @@ import searchIcon from '../assets/images/svg/icon_search.svg';
 import { Link } from 'react-router-dom';
 import LoginModal from './../components/LoginModal';
 import { Modal } from 'bootstrap';
+import { AppContext } from '../App';
+import AppReducer from '../store/AppContext';
 const Navbar = (props) =>{
     const [isLogin,setIsLogin] = useState(false);
     const [isHome,setIsHome]= useState(true);
     const [searchTxt, setSearchTxt]= useState('');
-    const [userData, setUserData]  = useState('');
+    const {state,dispatch} = useContext(AppContext);
     const loginModal = useRef(null);
     const api = 'http://34.125.232.84:3000';
     const openLoginModal = () =>{
@@ -32,7 +34,6 @@ const Navbar = (props) =>{
         });
     },[])
     const handleLogin = (id,isTeacher)=>{
-        setIsLogin(true);
         const user_data = getData(id,isTeacher);
     }
     const handleLogout = ()=>{
@@ -41,12 +42,13 @@ const Navbar = (props) =>{
     }
     const getData = async(id,isTeacher)=>{
         const token = localStorage.getItem('token');
-        if(isTeacher){
+        if(isTeacher===1){
             const teacherData = await axios.get(`${api}/teacher/${id}`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
-                console.log(res.data);
-                setUserData(res.data);
+                console.log(`teacher data${res.data.data.teachStyle}`);
+                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:true,isLogin:true} });
+                setIsLogin(true);
             }).catch(
                 err=>{
                     console.log(err);
@@ -58,8 +60,9 @@ const Navbar = (props) =>{
             const studentData = await axios.get(`${api}/student/${id}`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
-                // console.log(res.data);
-                setUserData(res.data);
+                console.log(`student data ${res.data.data.selfIntro}`);
+                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:true,isLogin:true} });
+                setIsLogin(true);
             }).catch(
                 err=>{
                     console.log(err);
@@ -96,7 +99,11 @@ const Navbar = (props) =>{
                         {
                             isLogin ? (
                                 <div className="d-flex">
-                                    <div className="avatar-block"><Link to='/student'><img className="avatar-img" src={userData?.data?.avatar}/></Link></div>
+                                    {
+                                        state.isTeacher===1 ?
+                                        (<div className="avatar-block"><Link to={`/teacher/${state.logindata.data.id}`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>):
+                                        (<div className="avatar-block"><Link to='/student'><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>)
+                                    }
                                     <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
                                 </div>
                                 

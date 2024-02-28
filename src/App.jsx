@@ -29,9 +29,9 @@ function App() {
           <Route path="apply" element={<ApplyTeacher />}/>
       </Routes>
     </AppContext.Provider>
-    </div>
-    </BrowserRouter>
-    </AuthProvider>
+  </div>
+  </BrowserRouter>
+  </AuthProvider>
   );
 }
 export default App;
