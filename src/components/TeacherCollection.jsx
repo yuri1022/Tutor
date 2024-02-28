@@ -15,100 +15,6 @@ import '../assets/scss/homepage.scss';
 import { useTeacherContext } from './teachercontext';
 
 
-
-// const Teacher = ({ teacher }) => {
-//   const { id, name, avatar, nation, rating, selfIntro, Courses } = teacher;
-//   const { selectedTeacherId, setTeacherId } = useTeacherContext();
-//   const navigate = useNavigate();
-
-
-//  const handleButtonClick = () => {
-//     setTeacherId(id); // 設定選定的教師 ID
-//     navigate(`/teacher/${id}`, { replace: true });
-//   };
-
-//   return (
-    
-//       <div className="div-container__info col col-4" key={id}>
-//         <Card className="card">
-//         <Card.Body >
-//         <div className="teacher-top">
-//         <div className="teacher-img" style={{width: '7.5rem',height:'7.5rem'}}>
-//         <img src={teacher.avatar} alt={teacher.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
-//         </div>
-//         <div className="teacher-basic-info">
-
-          
-//         <div className="teacher-title" >
-//           <div className="teacher-nation">
-//             <img className="teacher-nation-img" src={Nation} alt={teacher.nation} /></div>
-//         <h5 className="teacher-name" >{teacher.name}</h5>
-        
-
-//         <div className="teacher-rating" >
-//           <img className="teacher-rating-img" src={RatingStar} alt={teacher.rating}/>
-//           <h6 className="teacher-rating-num">            
-//             {teacher.rating}</h6>
-//           </div>
-
-//       <div className="teacher-reserve-button">
-      
-//       <button className="btn-reserve btn btn-outline-secondary" onClick={handleButtonClick}>預約課程</button>
-//     </div>
-        
-//         </div>
-//         </div>
-//         </div>
-
-//         <div className="teacher-category-container" >
-//          <div className="teacher-category" >
-//       {teacher.Courses.map((course,index) => (
-//       <div className="teacher-item" key={`${course.id}-${index}`}>
-//           {course.Category.name}
-//                 </div>
-//               ))}
-// </div>
-
-//         </div>
-
-       
-//         <div className="teacher-info">
-//           <p className="teacher-info-text" >{teacher.selfIntro}</p>
-//           </div>
-        
-     
-//    <div className="button-see-more" >
-      
-//       <button className="btn-see-more btn btn-outline-light" onClick={handleButtonClick} >瀏覽更多</button>
-//     </div>
-//      </Card.Body>
-//    </Card>
-//    </div>
-   
-
-//   );
-// };
-
-// Teacher.propTypes = {
-//   teacher: PropTypes.shape({
-//     id: PropTypes.number.isRequired,
-//     name: PropTypes.string.isRequired,
-//     avatar: PropTypes.string.isRequired,
-//     nation: PropTypes.string.isRequired,
-//     rating: PropTypes.number.isRequired,
-//     selfIntro: PropTypes.string.isRequired,
-//     Courses: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         id: PropTypes.number.isRequired,
-//         Category: PropTypes.shape({
-//           name: PropTypes.string.isRequired,
-//         }).isRequired,
-//       })
-//     ).isRequired,
-//   }).isRequired,
-// };
-
-
 const TeacherCollection = () => {
  const { page, categoryId } = useParams();
   const [currentPageState, setCurrentPage] = useState(1);
@@ -153,8 +59,10 @@ const TeacherCollection = () => {
   };  
 
 
-  const handleButtonClick = () => {
-    navigate(`/teacher/12`, { replace: true });
+  const handleButtonClick = (teacherId) => {
+  // 假設你有一個 teacher 物件，其中包含 id 屬性
+  navigate(`/teacher/${teacherId}`);
+
   };
   
 const uniqueCategories = ['所有類別', ...new Set(teachers.flatMap((teacher) => 
@@ -163,13 +71,24 @@ const uniqueCategories = ['所有類別', ...new Set(teachers.flatMap((teacher) 
 
 const handleCategoryChange = (selectedCategoryItemId) => {
     setCategoryItemId(selectedCategoryItemId);
-    // 根據需要進行其他操作，例如發起數據請求，更新 URL，等等。
-    // 這裡只是一個示例，你可以根據實際情況進行調整。
-    const categoryIdParam = selectedCategoryItemId ? `&categoryId=${selectedCategoryItemId}` : '';
-    navigate(`/home?page=${currentPageState}${categoryIdParam}`);
-    console.log(categoryIdParam);
-  };
 
+   // 從所有的 teaching_categories 中找到對應的 categoryId
+    const categoryIdFromTeachingCategories = selectedCategoryItemId
+      ? teacherData.teachers
+          .flatMap((teacher) =>
+            teacher.teaching_categories.find(
+              (category) => category.Category.name === selectedCategoryItemId
+            )
+          )
+          .find(Boolean)?.categoryId
+      : null;
+
+    const categoryIdParam = categoryIdFromTeachingCategories
+      ? `&categoryId=${categoryIdFromTeachingCategories}`
+      : '';
+
+    navigate(`/home?page=${currentPageState}${categoryIdParam}`);
+};
 
   return (
 
@@ -220,7 +139,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
 
       <div className="teacher-reserve-button">
       
-      <button className="btn-reserve btn btn-outline-secondary" onClick={handleButtonClick}>預約課程</button>
+      <button className="btn-reserve btn btn-outline-secondary" onClick={() => handleButtonClick(teacher.id)}>預約課程</button>
     </div>
         
         </div>
@@ -230,10 +149,11 @@ const handleCategoryChange = (selectedCategoryItemId) => {
         <div className="teacher-category-container" >
          <div className="teacher-category" >
       {teacher.teaching_categories.map((category,index) => (
-      <div className="teacher-item" key={`${category.categoryid}-${index}`}>
+      <div className="teacher-item" key={`${category.categoryId}-${index}`}>
           {category.Category.name}
                 </div>
               ))}
+              
 </div>
 
         </div>
@@ -246,7 +166,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
      
    <div className="button-see-more" >
       
-      <button className="btn-see-more btn btn-outline-light" onClick={handleButtonClick} >瀏覽更多</button>
+      <button className="btn-see-more btn btn-outline-light" onClick={() => handleButtonClick(teacher.id)}>瀏覽更多</button>
     </div>
      </Card.Body>
    </Card>
