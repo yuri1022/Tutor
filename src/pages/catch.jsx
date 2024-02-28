@@ -1,20 +1,15 @@
-//teacherpage
-
-import { useParams } from "react-router-dom";
-import NationImg from '../assets/images/svg/canada.svg';
-import '../assets/scss/teacherpage.scss'
-import MyCalendar from "../components/Teacher_profile_Calendar";
+import { useState,useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
-import ClassComments from "../components/ClassComments";
-import ClassReserve from '../components/ClassReserve.jsx';
-import TeacherEditInfo from "../components/TeacherEditModal";
-import { useState ,useEffect } from "react";
+import NationImg from '../assets/images/svg/canada.svg'
+import ClassComments from '../components/ClassComments';
+// import MyCalendar from '../components/Teacher_profile_Calendar';
 import '../assets/scss/teacher.scss';
-import { Button } from "react-bootstrap";
-import axios from "axios";
+// import ClassReserve from '../components/ClassReserve';
 import SuccessModal from '../components/SuccessModal';
 import FailModal from '../components/FailModal.jsx';
-
+import axios from 'axios';
 
 const TeachersPage = () => {
   const [selectedDate, setSelectedDate] = useState('');
@@ -24,21 +19,21 @@ const TeachersPage = () => {
   const [showFailModal, setShowFailModal] = useState(false);
   const [selectedTime ,setSelectedTime]=useState('12:00');
   const [teacherDetails, setTeacherDetails] = useState(null);
-  const [selectedDuration, setSelectedDuration] = useState('');
   const { id } = useParams();
   const api = 'http://34.125.232.84:3000';
+  
 
+ useEffect(() => {
 
-
-  useEffect(() => {
-    const fetchTeacherData = async () => {
+    const fetchTeacherData = async()=> {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        console.log(`${api}/teacher/${id}`)
         setTeacherDetails(response.data.data)
-        return response.data.data;        
-      } catch (error) {
-        if (error.response) {
+        return response.data.data;
+        } catch (error) {
+        if (error.response) {           
             console.error("Server error:", error.response.status, error.response.data);
         } else if (error.request) {
             console.error("No response from server");
@@ -48,63 +43,39 @@ const TeachersPage = () => {
         throw error; 
     }
     };
-
     fetchTeacherData();
   }, [id]);
-  
-    if (!teacherDetails) {
-    return null; // 或者你可以渲染加载中的 UI
-  }
 
-const { mon, tue, wed, thu, fri, sat, sun } = teacherDetails || {};
-// 合併成一個名為 reserveDays 的物件
-const reserveDay = { mon, tue, wed, thu, fri, sat, sun };
-// 現在 reserveDays 就是包含所有屬性的物件
+// const { mon, tue, wed, thu, fri, sat, sun } = teacherDetails || {};
 
-const categoryMapping = {
-  "多益": 1,
-  "托福": 2,
-  "雅思": 3,
-  "商用英文":4,
-  "旅遊英文":5,
-};
+// // 合併成一個名為 reserveDays 的物件
+// const reserveDay = { mon, tue, wed, thu, fri, sat, sun };
 
-const handleSubmit = async () => {
-    const apiFormattedData = {
-    teacherId: parseInt(teacherDetails.id, 10), 
-    categoryId: parseInt(selectedCategory.id, 10),
-    categoryname: selectedCategory.label, 
-    intro: "123",
-    link: "https://naughty-laborer.info/",
-    duration: parseInt(selectedDuration.value, 10),
-    startAt: `${selectedDate.toISOString().slice(0, 10)} ${selectedTime}`,
-  };
-  console.log(selectedCategory);
-  console.log(apiFormattedData);
- try {
-    const token = localStorage.getItem('token');
+// // 現在 reserveDays 就是包含所有屬性的物件
+// console.log(reserveDay);
 
-    // Make a POST request to the /course endpoint
-    const response = await axios.post(
-      `${api}/course`,
-      apiFormattedData,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
 
-    console.log('Course creation response:', response.data);
+    const handleSubmit = () => {
+    const formData = {
+      selectedDate,
+      selectedCategory,
+      selectedTime,
+      // 其他表單資料...
+    };
+    console.log('Submit:', formData);
 
-    // Check the response and show success or fail modal
-    if (response.data.success) {
-      setShowSuccessModal(true);
-    } else {
-      setShowFailModal(true);
-    }
-  } catch (error) {
-    console.error('Course creation error:', error.message);
-    setShowFailModal(true);
-  }
-};
+     const isReservationSuccessful = selectedDate !== '' && selectedTime !== null && selectedCategory !== '';
+     const isReservationFail = selectedDate === '' || selectedTime === null || selectedCategory === '';       
 
+    if (isReservationSuccessful) {
+        setShowSuccessModal(true);
+      } else if (isReservationFail){
+        setShowFailModal(true);
+      }
+    };
+
+    // console.log('showFailModal',showFailModal);
+    // console.log('showSuccessModal',showSuccessModal);
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
   };
@@ -113,23 +84,19 @@ const handleSubmit = async () => {
     setShowFailModal(false);
   };
 
-
-  const checkIfDateIsSelectable = (date, reserveDay) => {
+  const checkIfDateIsSelectable = (date, reserveDays) => {
   const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   const selectedDayOfWeek = daysOfWeek[date.getDay()].toLowerCase(); // 轉換為小寫
-  console.log('Checktime:',selectedDayOfWeek);
-  return reserveDay[selectedDayOfWeek];
-    
+    return reserveDays[selectedDayOfWeek];
   };
 
   const handleDateChange = (date) => {
     console.log('Selected Date:', date);
 
-    if (teacherDetails && reserveDay) {
+    if (teacherDetails && teacherDetails.reserveDays) {
       const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
       const selectedDayOfWeek = daysOfWeek[date.getDay()];
-      const isSelectable = reserveDay[selectedDayOfWeek];
-      console.log('isselectable',isSelectable)
+      const isSelectable = teacherDetails.reserveDays[selectedDayOfWeek];
 
       if (isSelectable) {
         setSelectedDate(date);
@@ -148,11 +115,11 @@ const handleSubmit = async () => {
 
 const categoryOptions = teacherDetails
   ? [...new Set(teacherDetails.Courses.map(course => course.category).flat())]
-      .map((category) => ({ label: category , id:categoryMapping[category] }))
+      .map((category) => ({ label: category }))
   : [];
 
-  return ( 
-      <div>
+  return (
+    <div>
     
       <div className="div-container col col-12" >
         <div className="form-left col col-9" >
@@ -281,8 +248,6 @@ const categoryOptions = teacherDetails
           selectedTime={selectedTime}
           setSelectedTime={handleTimeChange}
           setSelectedCategory={setSelectedCategory}
-          selectedDuration={selectedDuration}
-          setSelectedDuration={setSelectedDuration}
           reserveDays={reserveDays}
           setReserveDays={setReserveDays}
           teacherDetails={teacherDetails}
@@ -293,7 +258,7 @@ const categoryOptions = teacherDetails
           handleDateChange={handleDateChange}
           checkIfDateIsSelectable={checkIfDateIsSelectable}
          />
-          {/* <ClassComments TeacherDetails={teacherDetails} /> */}
+          <ClassComments TeacherDetails={teacherDetails} />
            </div>
             
       <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
@@ -316,7 +281,6 @@ TeachersPage.propTypes = {
     ratingAverage: PropTypes.string.isRequired,
     Courses: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
-      duration:PropTypes.number.isRequired,
       category: PropTypes.shape({
       }).isRequired,
       Registrations: PropTypes.shape({

@@ -8,7 +8,6 @@ import ApplyTeacher from './pages/ApplyTeacher';
 import './main.scss'
 import Students_profile from './pages/students/Students_profile'
 import TeacherSelfPage from './pages/TeacherSelfPage';
-import { TeacherSelfProvider } from './components/teacherselfcontext.jsx';
 
 
 export const AppContext = createContext();

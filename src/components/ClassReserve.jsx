@@ -1,3 +1,4 @@
+//classReseve.jsx
 
 import { Button } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -21,7 +22,9 @@ const ClassReserve = ({
   handleSubmit,
   handleDateChange,
   setSelectedCategory,
-  selectedTeacher }) => {
+  teacherDetails,
+  setSelectedDuration,
+  selectedDuration }) => {
 
   return (
     <div className="class-reserve">
@@ -29,7 +32,7 @@ const ClassReserve = ({
       <Calendar
           onChange={handleDateChange} // 將選擇的日期傳遞給 handleDateChange
           value={selectedDate}
-          filterDate={(date) => checkIfDateIsSelectable(date, selectedTeacher.courses[0].reserveDays)}
+          filterDate={(date) => checkIfDateIsSelectable(date, teacherDetails.reserveDays)}
           locale="en-US"
         />
       </div>
@@ -49,6 +52,16 @@ const ClassReserve = ({
         value={selectedCategory}
         placeholder="選擇課程類別"
       />
+
+        <Select
+      options={[
+      { value: 30, label: '30 分鐘' },
+      { value: 60, label: '60 分鐘' },
+    ]}
+        onChange={(selectedOption) => setSelectedDuration (selectedOption)}
+        value={selectedDuration}
+        placeholder="選擇課程時間"
+      />
       
       </div> 
 
@@ -66,18 +79,34 @@ const ClassReserve = ({
 };
 
 ClassReserve.propTypes = {
-  selectedTime: PropTypes.string,
+  selectedTime: PropTypes.string.isRequired,
   setSelectedTime: PropTypes.func.isRequired,
+  selectedDuration:PropTypes.string.isRequired,
+  setSelectedDuration:PropTypes.func.isRequired,
   handleDateChange: PropTypes.func.isRequired,
   selectedDate: PropTypes.instanceOf(Date).isRequired,
   categoryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectedTeacher: PropTypes.shape({
-    courses: PropTypes.arrayOf(
+  teacherDetails: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    nation: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    selfIntro: PropTypes.string.isRequired,
+    teachStyle: PropTypes.string.isRequired,
+    ratingAverage: PropTypes.string.isRequired,
+    reserveDays:PropTypes.object.isRequired,
+    Courses: PropTypes.arrayOf(
       PropTypes.shape({
-        reserveDays: PropTypes.object.isRequired,
+        name: PropTypes.string.isRequired,
+        Registrations: PropTypes.shape({
+          rating: PropTypes.number.isRequired,
+          comment: PropTypes.string.isRequired,
+        }).isRequired,
+        category: PropTypes.shape({}).isRequired,
+        duration:PropTypes.number.isRequired,
       })
-    ),
-  }).isRequired,
+    ).isRequired,
+  }),
   handleSubmit: PropTypes.func.isRequired,
   checkIfDateIsSelectable: PropTypes.func.isRequired,
   selectedCategory: PropTypes.string.isRequired,

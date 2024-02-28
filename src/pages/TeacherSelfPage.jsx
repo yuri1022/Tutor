@@ -33,21 +33,16 @@ const TeacherSelfPage = () => {
         const token = localStorage.getItem('token');
         const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
         setTeacherDetails(response.data.data)
-        return response.data.data;
-        
+        return response.data.data;        
       } catch (error) {
         if (error.response) {
-            // 请求已发出，但服务器返回错误响应
             console.error("Server error:", error.response.status, error.response.data);
         } else if (error.request) {
-            // 请求已发出，但没有收到响应
             console.error("No response from server");
         } else {
-            // 发送请求时出了点问题
             console.error("Request failed:", error.message);
         }
-        // 可以在这里处理错误，例如显示适当的错误消息给用户
-        throw error; // 继续抛出错误，以便在调用 apiLoginSubmit 的地方可以进一步处理
+        throw error; 
     }
     };
 
