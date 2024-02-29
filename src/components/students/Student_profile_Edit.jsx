@@ -4,8 +4,8 @@ import { AppContext } from '../../App';
 import { edit_student_data } from '../../api/student';
 const Students_profile_Edit = ({closeEditModal})=>{
     const studentData = useContext(AppContext).state.logindata.data;
-    const [nameTxt,setNameTxt] = useState('');
-    const [introTxt,setIntroTxt ] = useState('');
+    const [nameTxt,setNameTxt] = useState(studentData?.name);
+    const [introTxt,setIntroTxt ] = useState(studentData?.selfIntro);
     const [ imageurl,setImageurl] = useState('');
     const [ ischangePhoto,setIschangePhoto] = useState(false);
     const handleEdit = async(id)=>{
@@ -21,10 +21,10 @@ const Students_profile_Edit = ({closeEditModal})=>{
     const handleChangeheadshot = ()=>{
         setIschangePhoto(true);
     }
-    useEffect(()=>{
-        setNameTxt(studentData?.name);
-        setIntroTxt(studentData?.selfIntro);
-    },[])
+    // useEffect(()=>{
+    //     setNameTxt(studentData?.name);
+    //     setIntroTxt(studentData?.selfIntro);
+    // },[])
     return(
         <div className="modal fade" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg" role="document">

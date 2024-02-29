@@ -28,3 +28,35 @@ export const getTeacher = async (id) => {
 export const createTeacher = () => {};
 export const patchTeacher = () => {};
 export const deleteTeacher = () => {};
+
+export const applyTeacher = async(id,formdata)=>{
+  const token = localStorage.getItem("token");
+  const patchdata = {
+    name: formdata.name,
+    email:formdata.email,
+    password: formdata.password,
+  }
+  try {
+    const res = await axios.put(`${baseUrl}/${id}`,formdata,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then( async() =>{
+      const postres = await axios.patch(`${baseUrl}/${id}`,patchdata,{
+        headers:{
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res)=>{
+        console.log(res.data);
+        console.log('申請成為老師成功');
+      })
+  })
+    console.log('API Response:', res);
+    return res.data;
+
+  } catch (error) {
+    console.error('[Apply Teacher failed]: ', error);
+  }
+
+}

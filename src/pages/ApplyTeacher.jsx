@@ -9,11 +9,7 @@ const ApplyTeacher = () => {
   const [teachingStyle, setTeachingStyle] = useState('');
   const [videoLink, setVideoLink] = useState('');
   const [country,setCountry] = useState('');
-
-
   // 處理表單提交的函式
-
-
   return (
     <div className="apply-teacher-context">
       <ApplyTeacherProvider>

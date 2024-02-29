@@ -45,6 +45,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
 
         const loginRes = await axios.post(`${api}/signin`,
         loginData).then(res=>{
+            localStorage.setItem("password",password);
             console.log(res.data);
             return res.data;
         }).catch(err=>{
