@@ -2,6 +2,7 @@ import { Modal,Button,Form } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { useState,useEffect } from 'react';
 import '../assets/scss/editmodal.scss';
+import ReactFlagsSelect from "react-flags-select";
 
 
 const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editingSection }) => {
@@ -11,7 +12,6 @@ const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editi
   const [uploadImageModal, setUploadImageModal] = useState(false);
 
   const AllCategories = ["多益", "托福", "雅思","日常會話","旅遊英文","新聞英文","商用英文"]; // 根据实际情况添加类别
-  const DummyNations = ['Taiwan','China','Canada','USA','Korea']
 
 useEffect(() => {
   // 当传递给组件的 teacher 属性发生变化时，更新内部状态
@@ -42,9 +42,9 @@ useEffect(() => {
   };
 
   // 处理国籍输入框变化
-  const handleNationChange = (e) => {
-    setNation(e.target.value);
-  };
+const handleNationChange = (code) => {
+  setNation(code);
+};
 
 
 // 处理类别选择变化
@@ -83,7 +83,7 @@ const handleCategoryChange = (selectedCategory) => {
 const handleSaveClick = () => {
   const updatedData = {
   name: editedData.name,
-  nation: editedData.nation,
+  nation: nation,
   category: category,
   avatar: editedData.avatar,
   };
@@ -128,19 +128,17 @@ const handleSaveClick = () => {
 
             <div className="edit-nation">
              <Form.Label className="edit-nation-title">國籍</Form.Label>
-                <Form.Control
-                  as="select" // 使用下拉式選單
-                  className="edit-nation-input"
-                  name="nation"
-                  value={nation}
-                  onChange={handleNationChange}
-                >
-                  {DummyNations.map((nationOption) => (
-                    <option key={nationOption} value={nationOption}>
-                      {nationOption}
-                    </option>
-                  ))}
-                </Form.Control>
+               
+            <div>
+           <ReactFlagsSelect
+            selected={nation}
+            onSelect={handleNationChange}
+            placeholder="選擇國家"
+            searchable
+          searchPlaceholder="搜尋國家"
+          />
+          </div>
+               
             </div>
 
             {/* 之後改下拉式選單 */}

@@ -42,8 +42,8 @@ const ClassComments = ({teacherDetails}) =>{
       
         <div className="class-comment-info" >
           {teacherDetails.Courses.map((course,index)=>(
-          
-            <Card key={index} className="class-comment-info-card">
+             course && course.Registrations && course.Registrations.length > 0 &&(
+               <Card key={index} className="class-comment-info-card">
             <Card.Body className="class-comment-info-card-body">
               <div className="card-container">
                 <div className="card-img">
@@ -67,6 +67,9 @@ const ClassComments = ({teacherDetails}) =>{
               </div>
             </Card.Body>
           </Card>
+
+            )
+           
          
 
           )
