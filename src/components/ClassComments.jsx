@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 const ClassComments = ({teacherDetails}) =>{
   const [isModalOpen, setIsModalOpen] = useState(false);
   const roundedRating = parseFloat(teacherDetails.ratingAverage).toFixed(1);
+  const courseLength = teacherDetails.Courses.length;
 
 
 
@@ -36,6 +37,7 @@ const ClassComments = ({teacherDetails}) =>{
         <h6 className="self-comment-title">課程評價</h6>
         <img className="rating-img" src={Rating} alt="rating" />
         <h6 className="title">{roundedRating}</h6>
+        <h6 className="rating-count">{'('}{courseLength}{')'}</h6>
       </div>
       
         <div className="class-comment-info" >
@@ -56,6 +58,7 @@ const ClassComments = ({teacherDetails}) =>{
                 <div className="card-rating">
                   <img className="rating" src={Rating} alt="rating" />
                   <h6 className="rating-num">{course.Registrations[0].rating}</h6>
+                  
                 </div>
               </div>
 

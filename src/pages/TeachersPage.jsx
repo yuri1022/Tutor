@@ -61,18 +61,10 @@ const { mon, tue, wed, thu, fri, sat, sun } = teacherDetails || {};
 const reserveDay = { mon, tue, wed, thu, fri, sat, sun };
 // 現在 reserveDays 就是包含所有屬性的物件
 
-const categoryMapping = {
-  "多益": 1,
-  "托福": 2,
-  "雅思": 3,
-  "商用英文":4,
-  "旅遊英文":5,
-};
-
 const handleSubmit = async () => {
     const apiFormattedData = {
     teacherId: parseInt(teacherDetails.id, 10), 
-    categoryId: JSON.stringify(selectedCategory.id),
+    category: [selectedCategory.label],
     name: selectedCategory.label,
     intro: "123",
     link: "https://naughty-laborer.info/",
@@ -82,12 +74,17 @@ const handleSubmit = async () => {
   console.log(apiFormattedData);
  try {
     const token = localStorage.getItem('token');
-
+    
     // Make a POST request to the /course endpoint
     const response = await axios.post(
       `${api}/course`,
       apiFormattedData,
-      { headers: { Authorization: `Bearer ${token}` } }
+ { 
+    headers: { 
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json' 
+    } 
+  }
     );
 
     console.log('Course creation response:', response.data);
@@ -146,10 +143,11 @@ const handleSubmit = async () => {
   };
 
 const categoryOptions = teacherDetails
-  ? [...new Set(teacherDetails.Courses.map(course => course.category).flat())]
-      .map((category) => ({ label: category , id:categoryMapping[category] }))
+  ? teacherDetails.teaching_categories.map((categoryObj) => ({
+      label: categoryObj.Category.name,
+      id: categoryObj.categoryId,
+    }))
   : [];
-
   return ( 
       <div>
     
@@ -174,7 +172,7 @@ const categoryOptions = teacherDetails
               </div>
                 <div className="self-category-container">        
                   <div className="self-category">
-   {[...new Set(teacherDetails.Courses.map(course => course.category).flat())]
+    {[...new Set(teacherDetails.teaching_categories.map(categories => categories.Category.name).flat())]
       .map((category, index) => (
         <span className="self-teacher-item" key={index}>{category}</span>
       ))}
@@ -294,7 +292,7 @@ const categoryOptions = teacherDetails
          />
            </div>
            <div>
-            <ClassComments teacherDetails={teacherDetails} />
+            {/* <ClassComments teacherDetails={teacherDetails} /> */}
            </div>
             
       <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
@@ -314,7 +312,14 @@ TeachersPage.propTypes = {
     avatar: PropTypes.string.isRequired,
     selfIntro: PropTypes.string.isRequired,
     teachStyle: PropTypes.string.isRequired,
-    ratingAverage: PropTypes.string.isRequired,
+   ratingAverage: PropTypes.string.isRequired,
+    teaching_categories: PropTypes.arrayOf(PropTypes.shape({
+      categoryId: PropTypes.number.isRequired,
+      Category: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    })).isRequired,
+
     Courses: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       duration:PropTypes.number.isRequired,
