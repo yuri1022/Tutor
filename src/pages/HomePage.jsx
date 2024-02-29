@@ -1,5 +1,4 @@
 import { useContext,useEffect} from 'react';
-import Navbar from '../components/Navbar';
 import TeachersCollection from '../components/TeacherCollection';
 import BestStudents from '../components/BestStudents';
 import { AppContext } from '../App';

@@ -7,10 +7,8 @@ import MyCalendar from "../components/Teacher_profile_Calendar";
 import PropTypes from 'prop-types';
 import ClassComments from "../components/ClassComments";
 import ClassReserve from '../components/ClassReserve.jsx';
-import TeacherEditInfo from "../components/TeacherEditModal";
 import { useState ,useEffect } from "react";
 import '../assets/scss/teacher.scss';
-import { Button } from "react-bootstrap";
 import axios from "axios";
 import SuccessModal from '../components/SuccessModal';
 import FailModal from '../components/FailModal.jsx';
@@ -25,6 +23,8 @@ const TeachersPage = () => {
   const [selectedTime ,setSelectedTime]=useState('12:00');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState('');
+  const [reservedCourseData, setReservedCourseData] = useState(null);
+
   const { id } = useParams();
   const api = 'http://34.125.232.84:3000';
 
@@ -62,27 +62,26 @@ const reserveDay = { mon, tue, wed, thu, fri, sat, sun };
 // 現在 reserveDays 就是包含所有屬性的物件
 
 const handleSubmit = async () => {
-    const apiFormattedData = {
+    const reservedCourseData = {
     teacherId: parseInt(teacherDetails.id, 10), 
-    category: [selectedCategory.label],
+    category: [selectedCategory.id],
     name: selectedCategory.label,
     intro: "123",
     link: "https://naughty-laborer.info/",
     duration: parseInt(selectedDuration.value, 10),
     startAt: `${selectedDate.toISOString().slice(0, 10)} ${selectedTime}`,
   };
-  console.log(apiFormattedData);
+  console.log(reservedCourseData);
  try {
     const token = localStorage.getItem('token');
     
     // Make a POST request to the /course endpoint
     const response = await axios.post(
       `${api}/course`,
-      apiFormattedData,
+      reservedCourseData,
  { 
     headers: { 
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json' 
+      Authorization: `Bearer ${token}`
     } 
   }
     );
@@ -90,7 +89,7 @@ const handleSubmit = async () => {
     console.log('Course creation response:', response.data);
 
     // Check the response and show success or fail modal
-    if (response.data.success) {
+    if (response.data.status=== 'success') {
       setShowSuccessModal(true);
     } else {
       setShowFailModal(true);
@@ -217,7 +216,7 @@ const categoryOptions = teacherDetails
       
           {/* 日曆待修改 */}
       <div className="self-class-time-calendar">
-        {/* <MyCalendar /> */}
+        <MyCalendar teacherDetails={teacherDetails}/>
       </div>
       </div>
 
@@ -292,11 +291,12 @@ const categoryOptions = teacherDetails
          />
            </div>
            <div>
-            {/* <ClassComments teacherDetails={teacherDetails} /> */}
+            <ClassComments teacherDetails={teacherDetails} />
            </div>
             
       <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
-      <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} />
+     <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} teacherDetails={reservedCourseData} />
+
       
         </div>
       </div>

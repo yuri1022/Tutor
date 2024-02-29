@@ -8,6 +8,7 @@ import ApplyTeacher from './pages/ApplyTeacher';
 import './main.scss'
 import Students_profile from './pages/students/Students_profile'
 import TeacherSelfPage from './pages/TeacherSelfPage';
+import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 
 
 export const AppContext = createContext();
@@ -23,6 +24,7 @@ function App() {
     <AppContext.Provider value={{searchTerm}}>
       <Navbar onSearchChange={handleSearchChange}/>
         <Routes>    
+          <Route path="course" element={<TeacherCalendarPage />} />
           <Route path="teacher/:id" element={<TeachersPage />} />
           <Route path="teacher/:id/personal" element={<TeacherSelfPage />} />
           <Route path="student" element={<Students_profile/>} />

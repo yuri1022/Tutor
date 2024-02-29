@@ -25,8 +25,10 @@ const TeacherCollection = () => {
 
   const teachers = teacherData.teachers || [];
 
+
  useEffect(() => {
     console.log('Current categoryId:', categoryItemId);
+    console.log('Current totalPages:', totalPages);
       }, [page,categoryItemId,currentPage,totalPages]);
 
   const handlePageChange = (newPage) => {
@@ -134,7 +136,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
         <div className="teacher-rating" >
           <img className="teacher-rating-img" src={RatingStar} alt={teacherData.rating}/>
           <h6 className="teacher-rating-num">            
-            {teacherData.rating}</h6>
+          {parseFloat(teacher.ratingAverage).toFixed(1)}</h6>
           </div>
 
       <div className="teacher-reserve-button">
@@ -160,7 +162,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
 
        
         <div className="teacher-info">
-          <p className="teacher-info-text" >{teacher.selfIntro}</p>
+          <p className="teacher-info-text" >{teacher.selfIntro.slice(0, 90)}</p>
           </div>
         
      

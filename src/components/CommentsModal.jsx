@@ -182,18 +182,25 @@ CommentModal.propTypes = {
     avatar: PropTypes.string.isRequired,
     selfIntro: PropTypes.string.isRequired,
     teachStyle: PropTypes.string.isRequired,
-    ratingAverage: PropTypes.string.isRequired,
-    Courses: PropTypes.arrayOf(
-      PropTypes.shape({
+   ratingAverage: PropTypes.string.isRequired,
+    teaching_categories: PropTypes.arrayOf(PropTypes.shape({
+      categoryId: PropTypes.number.isRequired,
+      Category: PropTypes.shape({
         name: PropTypes.string.isRequired,
-        Registrations: PropTypes.shape({
-          rating: PropTypes.number.isRequired,
-          comment: PropTypes.string.isRequired,
-        }).isRequired,
-        category: PropTypes.shape({}).isRequired,
-      })
-    ).isRequired,
-  }), 
+      }).isRequired,
+    })).isRequired,
+
+    Courses: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      duration:PropTypes.number.isRequired,
+      category: PropTypes.shape({
+      }).isRequired,
+      Registrations: PropTypes.shape({
+        rating:PropTypes.number.isRequired,
+        comment:PropTypes.string.isRequired,
+      }).isRequired,
+    })).isRequired,
+  }),
 };
 
 export default CommentModal;

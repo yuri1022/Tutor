@@ -91,7 +91,7 @@ const handleSave = async (updatedData,editedData, section) => {
   "nation": updatedData.nation || teacherDetails.nation,
   "nickname": updatedData.nickname || teacherDetails.nickname,
   "avatar": updatedData.avatar || teacherDetails.avatar,
-  "category": updatedData.category || teacherDetails.teaching_categories.map(categories => categories.Category.name).flat(),
+  "category": updatedData.category || teacherDetails.map(teacher => teacher.categoryId).flat(),
   "teachStyle": isEditTeachingStyle ? updatedData.teachStyle : teacherDetails.teachStyle,
   "selfIntro": isEditInfo ? updatedData.selfIntro : teacherDetails.selfIntro,
   "mon": true,
@@ -283,7 +283,7 @@ const handleCancel = () => {
       
     {/* 日曆待修改 */}
       <div className="self-class-time-calendar">
-        <MyCalendar />
+        <MyCalendar teacherDetails={teacherDetails}/>
       </div>
     </div>
 
@@ -295,7 +295,9 @@ const handleCancel = () => {
     <div className="form-right col col-3">
 
 
-     {/* <ClassComments teacherDetails={teacherDetails} /> */}
+     <div>
+      <ClassComments teacherDetails={teacherDetails} />
+      </div>
  
     </div>
 
