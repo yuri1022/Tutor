@@ -1,6 +1,9 @@
 import { useState,useEffect,useRef } from 'react';
 import arrow_right from './../assets/images/svg/arrow-right.svg';
 import arrow_left from './../assets/images/svg/arrow-left.svg';
+import { useContext } from 'react';
+import { AppContext } from "../App";
+import axios from "axios";
 
 const Teacher_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const today = new Date();
@@ -8,73 +11,63 @@ const Teacher_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const today_year = today.getFullYear();
     const [currentMonth,setCurrentMonth] = useState(today.getMonth());
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
-    console.log(currentMonth);
-    console.log(currentYear);
     const calender_block = useRef(null);
+    const [courseList, setCourseList] = useState([]);
 
-    const course_list = [{
+     const { state } = useContext(AppContext);
+    const api = 'http://34.125.232.84:3000';
+
+
+   useEffect(() => {
+    const fetchTeacherData = async () => {
+      try {
+        const teacherId = state.logindata.data.id;
+        const response = await axios.get(`${api}/teacher/${teacherId}`);
+
+     
+        const teacherData = response.data;
+
+        console.log('Teacher Data:', teacherData);
+
+        if (teacherData.data.Courses) {
         
-        year:2024,
-        month:2,
-        day:2,
-        subject:'多益',
-        teacher:'Grace',
-        time: `17:00-17:30`,
-        isreview:false,
-        isattend:false,
-        timestamp: new Date(currentYear, currentMonth, 2).getTime(),
-        date: new Date(currentYear, currentMonth, 2)
+           const courses = teacherData.data.Courses.map(course => {
+          const startDate = new Date(course.startAt);
+            return {
+            year: startDate.getFullYear(),
+            month: startDate.getMonth() + 1,
+            day: startDate.getDate(),
+            subject: course.name,
+             student: '學生一號',
+             time: course.duration,
+            isreview: false,
+             isattend: false,
+             timestamp: startDate.getTime(),
+              date: startDate,
+  };
+          });
+
+          // 更新courseList状态
+          setCourseList(courses);
+          console.log('Coursedata',courses);
+        }else{
+            console.log('No courses data available.');
+        }
         
-    },
-    {
-        year:2024,
-        month:2,
-        day:2,
-        subject:'多益',
-        teacher:'Gracsse',
-        time: `21:00-22:30`,
-        isreview:true,
-        isattend:true,
-        timestamp: new Date(currentYear, currentMonth, 2).getTime(),
-        date: new Date(currentYear, currentMonth, 2)
-    },
-    {
-        year:2024,
-        month:2,
-        day:2,
-        subject:'多益',
-        teacher:'Gracsse',
-        time: `23:00-24:00`,
-        isreview:true,
-        isattend:true,
-        timestamp: new Date(currentYear, currentMonth, 2).getTime(),
-        date: new Date(currentYear, currentMonth, 2)
-    },
-    {
-        year:2024,
-        month:2,
-        day:5,
-        subject:'睡覺',
-        teacher:'Kspsss',
-        time: `22:00-24:00`,
-        isreview:false,
-        isattend:true,
-        timestamp: new Date(currentYear, currentMonth, 5).getTime(),
-        date: new Date(currentYear, currentMonth, 5)
-    },
-    {
-        year:2024,
-        month:2,
-        day:24,
-        subject:'睡覺',
-        teacher:'Kspsss',
-        time: `22:00-24:00`,
-        isreview:false,
-        isattend:false,
-        timestamp: new Date(currentYear, currentMonth, 24).getTime(),
-        date: new Date(currentYear, currentMonth, 24)
+
+      } catch (error) {
+        // 处理错误
+        console.error('Error fetching teacher data:', error);
+      }
+    };
+
+    // 只有在 state.logindata 发生变化时才执行
+    if (state.logindata && state.logindata.data) {
+      fetchTeacherData();
     }
-    ]
+
+  }, [state.logindata]);
+
     const months = ["January",
     "February",
     "March",
@@ -141,138 +134,164 @@ const Teacher_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
         if( course.isattend ===false && course.timestamp < today.getTime()){
             course_block =
             <div className="course-block bg-absent" key={index}>
-                <div className="title-bar absent">{course_list[index].subject}</div>
-                <div>{course_list[index].teacher}</div>
-                <div>{course_list[index].time}</div>
+                <div className="title-bar absent">{course.subject}</div>
+                <div>{course.student}</div>
+                <div>{course.time}</div>
             </div>
         }
         else if( course.timestamp > today.getTime()){
             course_block =
-            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course_list[index].teacher,course_list[index].date,course_list[index].time)} }>
-                <div className="title-bar reserve">{course_list[index].subject}</div>
-                <div>{course_list[index].teacher}</div>
-                <div>{course_list[index].time}</div>
+            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.student,course.date,course.time)} }>
+                <div className="title-bar reserve">{course.subject}</div>
+                <div>{course.student}</div>
+                <div>{course.time}</div>
             </div>
         }
         else if ( course.isattend === true && course.isreview === false){
             course_block =             
             <div className="course-block bg-not-review" key={index} onClick={openRatingModal}>
-                <div className="title-bar notreview">{course_list[index].subject}</div>
-                <div>{course_list[index].teacher}</div>
-                <div>{course_list[index].time}</div>
+                <div className="title-bar notreview">{course.subject}</div>
+                <div>{course.student}</div>
+                <div>{course.time}</div>
             </div>
         }
         else if ( course.isattend === true && course.isreview === true ){
             course_block =
             <div className="course-block bg-finish" key={index}>
-                <div className="title-bar finish">{course_list[index].subject}</div>
-                <div>{course_list[index].teacher}</div>
-                <div>{course_list[index].time}</div>
+                <div className="title-bar finish">{course.subject}</div>
+                <div>{course.student}</div>
+                <div>{course.time}</div>
             </div>
         }
 
         return(course_block);
     }
-    for(let i = 0 ; i < 5; i++)
-    {
-        const render_day_arr = [];
-        for (let j=1 ; j < 8; j++){
-            if(i===0 && j < firstDayOfMonth ){
-                render_day_arr.push(<div className="col calender_block bg-deep" key={'calender'+key}></div>);
+for (let i = 0; i < 5; i++) {
+    const render_day_arr = [];
+    for (let j = 1; j < 8; j++) {
+      if (i === 0 && j < firstDayOfMonth) {
+        render_day_arr.push(
+          <div className="col calender_block bg-deep" key={'calender' + key}></div>
+        );
+      } else if (currentDay <= dayInMonth) {
+        let newDiv = [];
+        let count_course = 0;
+        for (let z = 0; z < courseList.length; z++) {
+          if (
+            courseList[z].day === currentDay &&
+            courseList[z].month - 1 === currentMonth &&
+            courseList[z].year === currentYear
+          ) {
+            if (count_course >= 2) {
+              newDiv.push(
+                <button className="btn-more" key={'btn-more' + key}>
+                  More
+                </button>
+              );
+              z = courseList.length;
+            } else {
+              let inner = show_course(courseList[z], z);
+              newDiv.push(inner);
             }
-            else if(currentDay <= dayInMonth){
-                let newDiv = [];
-                let count_course = 0;
-                for( let z=0; z<course_list.length; z++){
-                    //console.log(course_list[z].day);
-                    //console.log(currentDay)
-                    if(course_list[z].day ===currentDay && course_list[z].month-1 === currentMonth && course_list[z].year === currentYear){
-                        if(count_course >= 2){
-                            newDiv.push(
-                                <button className="btn-more" key={'btn-more'+key}>More</button>
-                            )
-                            z = course_list.length;
-                        }
-                        else{
-                        let inner = show_course(course_list[z],z);
-                        newDiv.push(
-                        inner)
-                        }
-                        count_course++;
-                    }
-                }
-                render_day_arr.push(<div  className="col calender_block" key={'calender'+key}>{currentDay}{newDiv}</div>);
-                currentDay++;
-            }
-            else{
-                render_day_arr.push(<div className="col calender_block bg-deep" key={'calender'+key}></div>);
-            }
-            key++;
+            count_course++;
+          }
         }
-        render_week_array.push(<div className="d-flex " key={i}>{render_day_arr}</div>)
+        render_day_arr.push(
+          <div className="col calender_block" key={'calender' + key}>
+            {currentDay}
+            {newDiv}
+          </div>
+        );
+        currentDay++;
+      } else {
+        render_day_arr.push(
+          <div className="col calender_block bg-deep" key={'calender' + key}></div>
+        );
+      }
+      key++;
     }
-    useEffect(()=>{
+    render_week_array.push(
+      <div className="d-flex " key={i}>
+        {render_day_arr}
+      </div>
+    );
+  }
 
-    },[])
+  useEffect(() => {}, []);
 
-    useEffect(()=>{  
-    },[currentMonth,currentYear])
+  useEffect(() => {}, [currentMonth, currentYear]);
+
     return(
-        <>
-        <div className="d-flex justify-between mb-20px">
-            <select className="month-selection" name="months" value={currentMonth} onChange={(e)=>{
-                console.log(parseInt(e.target.value));
-                setCurrentMonth(parseInt(e.target.value))}}>
-            {
-                months.map((month,key)=>{
-                    return(
-                        <option key={key} value={key} onClick={()=>{setCurrentMonth(key)}}> {month}</option>
-                    )
-                })
-            }
-            </select>
-            <div className="d-flex items-center">
-                <img className="btn" src={arrow_left} onClick={(e)=>{increament_year(-1)}}/>
-                <div className="text-primary">{currentYear}</div>
-                <img className="btn rotate-arrow" src={arrow_right} onClick={(e)=>{increament_year(1)}}/>
-            </div>
+         <>
+      <div className="d-flex justify-between mb-20px">
+        <select
+          className="month-selection"
+          name="months"
+          value={currentMonth}
+          onChange={(e) => {
+            console.log(parseInt(e.target.value));
+            setCurrentMonth(parseInt(e.target.value));
+          }}
+        >
+          {months.map((month, key) => {
+            return (
+              <option key={key} value={key} onClick={() => setCurrentMonth(key)}>
+                {' '}
+                {month}
+              </option>
+            );
+          })}
+        </select>
+        <div className="d-flex items-center">
+          <img
+            className="btn"
+            src={arrow_left}
+            onClick={(e) => {
+              increament_year(-1);
+            }}
+          />
+          <div className="text-primary">{currentYear}</div>
+          <img
+            className="btn rotate-arrow"
+            src={arrow_right}
+            onClick={(e) => {
+              increament_year(1);
+            }}
+          />
         </div>
+      </div>
 
-            <div className="d-flex flex-reverse mb-10px"> 
-                <div className="d-flex items-center ">
-                    <div className="circle-icon bg-finsh mr-10px"></div>
-                    <div className="">已完課</div>
-
-                </div>
-                <div className="d-flex items-center mr-10px">
-                <div className="circle-icon bg-no-dis mr-10px"></div>
-                    <div className="">未評論</div>
-
-                </div>
-                <div className="d-flex items-center mr-10px">
-                    <div className="circle-icon bg-not-seat mr-10px"></div>
-                    <div className="">缺席</div>
-                </div>
-                <div className="d-flex items-center mr-10px">
-                    <div className="circle-icon bg-o-not-l mr-10px"></div>
-                    <div className="">已預約未聽課</div>
-
-                </div>
+      <div className="d-flex flex-reverse mb-10px">
+        <div className="d-flex items-center ">
+          <div className="circle-icon bg-finsh mr-10px"></div>
+          <div className="">已完課</div>
+        </div>
+        <div className="d-flex items-center mr-10px">
+          <div className="circle-icon bg-no-dis mr-10px"></div>
+          <div className="">未評論</div>
+        </div>
+        <div className="d-flex items-center mr-10px">
+          <div className="circle-icon bg-not-seat mr-10px"></div>
+          <div className="">缺席</div>
+        </div>
+        <div className="d-flex items-center mr-10px">
+          <div className="circle-icon bg-o-not-l mr-10px"></div>
+          <div className="">已預約未聽課</div>
+        </div>
+      </div>
+      <div className="d-flex">
+        {weeks_arr.map((week, key) => {
+          return (
+            <div className="col" key={week}>
+              <div className="block-week bg-primary">{week}</div>
             </div>
-            <div className="d-flex">
-            {
-                    weeks_arr.map((week,key)=>{
-                        return(
-                            <div className="col" key={week}>
-                                <div className="block-week bg-primary">{week}</div>
-                            </div>
-                        )
-                    })
-            }
-                
-            </div>
-            <div id="calender-block" className="calender_table">{render_week_array}</div>
-        </>
+          );
+        })}
+      </div>
+      <div id="calender-block" className="calender_table">
+        {render_week_array}
+      </div>
+    </>
     )
 }
 export default Teacher_profile_Calender;

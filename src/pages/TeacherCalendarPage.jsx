@@ -2,11 +2,10 @@
  
  const TeacherCalendarPage =  () =>{
 
-  return(
-<Teacher_profile_Calender/>
-  )
-  
 
+  return (
+    <Teacher_profile_Calender/>
+  );
 };
 
 export default TeacherCalendarPage;
