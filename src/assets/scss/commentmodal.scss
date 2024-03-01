@@ -3,32 +3,70 @@
   &-left {
     display: flex;
     flex-direction: column;
+    min-width: 20rem;
+    margin: 0 1rem 0 2rem;
     .modal-comment-counts {
+      margin:1rem 0 0 0;
       .modal-comment-title{
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 700;
+        margin: 0 0 0.8rem 0;
       }
       .modal-comment-count{
         .modal-comment-count-item {
+          font-size: 0.8rem;
             .percentimg {
+              height: 0.5rem;
+              display: flex;
+              align-items: center;
+              flex-wrap: wrap;
+              
               .progressbar {
-                display: flex;
+               
+                
             }
       
+          }
+          .percentnum{
+            .percent-num-item{
+            font-size: 0.8rem;
+            }
+            
           }
  
         }
       }
     }
+
+    .modal-category{
+      .modal-category-title{
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0.5rem 0 0.5rem 0;
+      }
+
+      .modal-category-detail{
+        .modal-category-item{
+          margin-right: 0.5rem;
+          padding: 0.1rem;
+          background-color: var(--main-blue25);
+          border-radius: 0.2rem;
+          font-size: 0.8rem;
+          font-weight: 700;
+        }
+      }
+
+
+      }
   }
 
   &-right {
     .modal-comment-detail{
-      width: 40rem;
-      margin: 2rem 0 2rem 0;
+      min-width: 40rem;
+      margin: 1rem 2rem 2rem 0;
       .class-comment-info-card{
         margin:1.2rem 0 1rem 1rem;
-        min-height: 10rem;
+        min-height: 5rem;
           box-shadow: 0px 3px 2px 1px var(--main-blue);
           -webkit-box-shadow: 0px 3px 5px 1px var(--grey-light);
           -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
@@ -37,28 +75,58 @@
           .class-comment-info-card-body{
             .card-container{
               display: flex;
-              .card-img{
-                width: 3rem;
-                height: 2rem;
-                .class-comment{
-                  border-radius: 50%;
-                  width: 2rem;
+              width: 100%;
+              justify-content: space-between;
+
+              .card-img-title{
+                display: flex;
+              .card-img {
+                  width: 3rem;
                   height: 2rem;
+                  
+                  .class-comment {
+                    border-radius: 50%;
+                    width: 2rem;
+                    height: 2rem;
+                  }
+                }
+              
+                .card-title {
+                  margin-top: -0.1rem;
+              
+                  .card-title-name {
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                  }
+              
+                  .card-title-startat {
+                    font-size: 0.7rem;
+                    font-weight: 500;
+                    margin-top: -0.2rem;
+                  }
                 }
               }
-              .card-title{
-                margin-top: -0.1rem;
-                .card-title-name{
-                  font-size: 1.2rem;
-                  font-weight: 700;
+
+              .card-rating{
+                display: flex;
+                height: 0.8rem;
+                justify-content: end;
+                margin-right: 0.5rem;
+                .rating{
+                  margin-right: 0.5rem;
                 }
-                .card-title-startat{
-                  font-size: 0.7rem;
-                   font-weight: 500;
-                   margin-top: -0.2rem;
+                .rating-num{
+                  font-size: 0.8rem;
                 }
-                }
+              }
+
             }
+
+      .card-description{
+      .class-comment-info{
+          font-size: 0.8rem;
+                }
+              }
           }
       }
     }
