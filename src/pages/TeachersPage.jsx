@@ -24,6 +24,12 @@ const TeachersPage = () => {
   const [teacherDetails, setTeacherDetails] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState('');
   const [reservedCourseData, setReservedCourseData] = useState(null);
+  const [isSelfIntroExpanded, setIsSelfIntroExpanded] = useState(true);
+  const [isTeachStyleExpanded, setIsTeachStyleExpanded] = useState(true);
+  const [isCalendarExpanded, setIsCalendarExpanded] = useState(true);
+  const [isNoticeExpanded, setIsNoticeExpanded] = useState(true);
+
+
 
   const { id } = useParams();
   const api = 'http://34.125.232.84:3000';
@@ -187,11 +193,19 @@ const categoryOptions = teacherDetails
         
        <div className="self-introduction">
       <div className="self-introduction-title" >
-        <h6 className="title">簡介</h6>
+        <h6 className="title" >簡介</h6>
+        <span className="expand-icon"
+                onClick={() => setIsSelfIntroExpanded(!isSelfIntroExpanded)}>
+                {isSelfIntroExpanded ? "收合" : "打開"}
+              </span>
       </div>
       
 
-      <p className="self-info-description">{teacherDetails.selfIntro}</p>
+      <p className={`self-info-description ${
+        isSelfIntroExpanded ? "expanded" : "collapsed"
+      }`}> {isSelfIntroExpanded && (
+            <p className="self-info-description">{teacherDetails.selfIntro}</p>
+          )}</p>
         </div>     
         
         </div>       
@@ -201,9 +215,17 @@ const categoryOptions = teacherDetails
         <div className="self-teaching-style">
       <div className="self-teaching-style-title">
         <h6 className="title">教學風格</h6>
+         <span className="expand-icon"
+                onClick={() => setIsTeachStyleExpanded(!isTeachStyleExpanded)}>
+                {isTeachStyleExpanded ? "收合" : "打開"}
+              </span>       
       </div>
       
-      <p className="self-teaching-style-description" >{teacherDetails.teachStyle}</p>
+      <p className={`self-teaching-style-description ${
+        isTeachStyleExpanded ? "expanded" : "collapsed"
+      }`} >{isTeachStyleExpanded && (
+            <p className="self-info-description">{teacherDetails.teachStyle}</p>
+          )}</p>
     </div>
       </div>
 
@@ -212,11 +234,21 @@ const categoryOptions = teacherDetails
       <div className="self-class-time">
       <div className="self-class-time-title" >
         <h6 className="title">授課時間</h6>
+        <span className="expand-icon"
+                onClick={() => setIsCalendarExpanded(!isCalendarExpanded)}>
+                {isCalendarExpanded ? "收合" : "打開"}
+              </span>        
       </div>
       
           {/* 日曆待修改 */}
       <div className="self-class-time-calendar">
-        <MyCalendar teacherDetails={teacherDetails}/>
+          <p className={`self-class-time-description ${
+        isCalendarExpanded ? "expanded" : "collapsed"
+      }`}> {isCalendarExpanded && (
+             <MyCalendar teacherDetails={teacherDetails}/>
+          )}</p>
+
+       
       </div>
       </div>
 
@@ -226,10 +258,17 @@ const categoryOptions = teacherDetails
       <div className="teacher-notice">
       <div className="teacher-notice-title">
         <h6 className="title">常見問題</h6>
+        <span className="expand-icon"
+                onClick={() => setIsNoticeExpanded(!isNoticeExpanded)}>
+                {isNoticeExpanded ? "收合" : "打開"}</span>        
       </div>
       
-      <p className="teacher-notice-description" >
-        <ul className='teacher-notice-description-item'>
+      <p className={`teacher-notice-description ${
+        isNoticeExpanded ? "expanded" : "collapsed"
+      }`} >
+        {isNoticeExpanded && (
+          <>
+           <ul className='teacher-notice-description-item'>
         <li>預約方式</li>
         <ul>
           <li className='item'>可依照教師行事曆的時間預約課程</li> 
@@ -258,7 +297,11 @@ const categoryOptions = teacherDetails
         <li className='item'>於正式開課前點選『頭像』找到該堂課並點選，再點選『取消預約』，皆可退還 100% 全額課程費用</li>           
         </ul>
            
-        </ul>    
+        </ul>  
+        </>        
+          )}
+
+           
 
       </p>
     </div>

@@ -110,8 +110,9 @@ const handleRatingToggle = (rating) => {
 
           <div className="modal-comment-detail "> 
           {teacherDetails.Courses
-          .filter((course) => selectedRatings[course.Registrations[0].rating])
+          .filter((course) => selectedRatings[course.Registrations[0]?.rating])
           .map((course,index)=>(
+             course.Registrations[0].rating !== null && course.Registrations[0].comment !== null && (
             <Card key={index} className="class-comment-info-card">
             <Card.Body className="class-comment-info-card-body"> 
             <div className="card-container">
@@ -146,6 +147,8 @@ const handleRatingToggle = (rating) => {
 
             </Card.Body>
           </Card>
+             )
+            
 
           ))}
          

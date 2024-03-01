@@ -42,7 +42,7 @@ const ClassComments = ({teacherDetails}) =>{
       
         <div className="class-comment-info" >
           {teacherDetails.Courses.map((course,index)=>(
-             course && course.Registrations && course.Registrations.length > 0 &&(
+             course && course.Registrations && course.Registrations.length > 0 && course.Registrations[0].rating !== null &&(
                <Card key={index} className="class-comment-info-card">
             <Card.Body className="class-comment-info-card-body">
               <div className="card-container">
