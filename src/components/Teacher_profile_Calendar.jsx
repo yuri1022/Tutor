@@ -11,13 +11,16 @@ import RightArrow from '../assets/images/svg/arrow-right.svg'
 
 const localizer = momentLocalizer(moment);
 
-const MyCalendar = memo(() => {
+const MyCalendar = memo(({teacherDetails}) => {
+  
   const [disableMonthNavigation, setDisableMonthNavigation] = useState(false);
+  console.log(teacherDetails)
+  console.log(teacherDetails.Courses)
+const reservedDates = Array.isArray(teacherDetails.Courses)
+  ? teacherDetails.Courses.map(course => course.startAt)
+  : [];
 
-  const reservedDates = [
-    moment('2024-02-22T17:30:00').toDate(),
-    moment('2024-02-24T18:30:00').toDate(),
-  ];
+  console.log(reservedDates)
 
  const allDates = Array.from({ length: 30 }, (_, index) =>
     new Date(moment().add(index, 'days'))
@@ -192,6 +195,36 @@ EventComponent.propTypes = {
     </div>
   );
 });
+
+MyCalendar.propTypes = {
+  teacherDetails: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    nation: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    selfIntro: PropTypes.string.isRequired,
+    teachStyle: PropTypes.string.isRequired,
+   ratingAverage: PropTypes.string.isRequired,
+    teaching_categories: PropTypes.arrayOf(PropTypes.shape({
+      categoryId: PropTypes.number.isRequired,
+      Category: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    })).isRequired,
+
+    Courses: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      duration:PropTypes.number.isRequired,
+      startAt:PropTypes.instanceOf(Date).isRequired,
+      category: PropTypes.shape({
+      }).isRequired,
+      Registrations: PropTypes.shape({
+        rating:PropTypes.number.isRequired,
+        comment:PropTypes.string.isRequired,
+      }).isRequired,
+    })).isRequired,
+  }),
+};
 
 MyCalendar.displayName = 'MyCalendar';
 

@@ -5,7 +5,13 @@
   width:21.25rem;
   .card{
     border-radius: 10px;
+    border: none;
     overflow: hidden;
+    position: relative;
+        box-shadow: 1px 3px 5px 1px var(--main-blue25);
+          -webkit-box-shadow: 1px 3px 5px 1px var(--main-blue25);
+          -moz-box-shadow: 1px 3px 5px 1px var(--main-blue25);
+          -o-box-shadow: 1px 3px 5px 1px var(--main-blue25);
   .ranking-list-title {
       background-color: var(--main-blue);
       display: flex;
@@ -26,6 +32,21 @@
         font-weight: 700;
       }
     }
+    .best-rank-container{
+        .student-container {
+    /* 如果有需要，可以在這裡設定子元素的樣式 */
+    
+   }
+
+    &::after {
+      position: absolute;
+      content: '';
+      width: 100%;
+      border: 0.05rem dashed var(--main-blue);
+     }
+    }
+
+
   }
 
     

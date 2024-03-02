@@ -1,4 +1,5 @@
 import { useState,useEffect ,useRef,useContext,useReducer } from 'react';
+import { useState,useEffect ,useRef,useContext,useReducer } from 'react';
 import axios from 'axios';
 
 import Search from './Searchbar'
@@ -11,10 +12,14 @@ import LoginModal from './../components/LoginModal';
 import { Modal } from 'bootstrap';
 import { AppContext } from '../App';
 import AppReducer from '../store/AppContext';
+import { AppContext } from '../App';
+import AppReducer from '../store/AppContext';
 const Navbar = (props) =>{
     const [isLogin,setIsLogin] = useState(false);
     const [isHome,setIsHome]= useState(true);
+    const [ isTeacher,setIsTeacher] = useState(1);
     const [searchTxt, setSearchTxt]= useState('');
+    const {state,dispatch} = useContext(AppContext);
     const {state,dispatch} = useContext(AppContext);
     const loginModal = useRef(null);
     const api = 'http://34.125.232.84:3000';
@@ -35,6 +40,7 @@ const Navbar = (props) =>{
     },[])
     const handleLogin = (id,isTeacher)=>{
         const user_data = getData(id,isTeacher);
+        setIsTeacher(isTeacher);
     }
     const handleLogout = ()=>{
         setIsLogin(false);
@@ -85,7 +91,11 @@ const Navbar = (props) =>{
                     </Link>
                     <ul className="navbar-nav ">
                         <li className="nav-item">
-                            <Link className="nav-link" to = '/apply'>成為老師</Link>
+                            {
+                                isTeacher===1 ?
+                                (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>):
+                                (<Link className="nav-link" to = '/apply'>成為老師</Link>)
+                            }
                         </li>
                     </ul>
                 </div>

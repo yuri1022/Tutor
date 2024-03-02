@@ -2,32 +2,35 @@ import { Modal,Button,Form } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { useState,useEffect } from 'react';
 import '../assets/scss/editmodal.scss';
+import ReactFlagsSelect from "react-flags-select";
 
 
-const TeacherEditInfo = ({ show, handleClose, handleSave , teacher, editingSection }) => {
-  const [editedData, setEditedData] = useState({ ...teacher });
-  const [category, setCategory] = useState(editedData.category);
+const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editingSection }) => {
+  const [editedData, setEditedData] = useState({ ...teacherDetails });
+  const [category, setCategory] = useState([...new Set(teacherDetails.teaching_categories.map(categories => categories.Category.name))]);
   const [nation, setNation] = useState(editedData.nation);
   const [uploadImageModal, setUploadImageModal] = useState(false);
 
-  const DummyCategories = ["多益", "托福", "雅思","日常會話","旅遊英文","新聞英文","商用英文"]; // 根据实际情况添加类别
-  const DummyNations = ['Taiwan','China','Canada','USA','Korea']
+  const AllCategories = ["多益", "托福", "雅思","日常會話","旅遊英文","新聞英文","商用英文"]; // 根据实际情况添加类别
 
 useEffect(() => {
   // 当传递给组件的 teacher 属性发生变化时，更新内部状态
-  setEditedData({ ...teacher });
-  setCategory(teacher.category || []);
-}, [teacher]);
+  setEditedData({ ...teacherDetails });
+  setCategory(teacherDetails.teaching_categories || []);
+}, [teacherDetails]);
 
 
 useEffect(() => {
-  // 当 category 或 editedData 发生变化时，更新编辑的数据
-  setEditedData((prevData) => ({
-    ...prevData,
-    category: category,
-    nation:nation,
-  }));
-}, [category, nation]);
+  // 当传递给组件的 teacher 属性发生变化时，更新内部状态
+  setEditedData({ ...teacherDetails });
+  
+  // 將教師的分類轉換為字符串陣列
+  const initialCategories = teacherDetails.teaching_categories
+    ? teacherDetails.teaching_categories.map(category => category.Category.name)
+    : [];
+
+  setCategory(initialCategories);
+}, [teacherDetails]);
 
 
   const handleInputChange = (e) => {
@@ -39,9 +42,9 @@ useEffect(() => {
   };
 
   // 处理国籍输入框变化
-  const handleNationChange = (e) => {
-    setNation(e.target.value);
-  };
+const handleNationChange = (code) => {
+  setNation(code);
+};
 
 
 // 处理类别选择变化
@@ -80,7 +83,7 @@ const handleCategoryChange = (selectedCategory) => {
 const handleSaveClick = () => {
   const updatedData = {
   name: editedData.name,
-  nation: editedData.nation,
+  nation: nation,
   category: category,
   avatar: editedData.avatar,
   };
@@ -125,19 +128,17 @@ const handleSaveClick = () => {
 
             <div className="edit-nation">
              <Form.Label className="edit-nation-title">國籍</Form.Label>
-                <Form.Control
-                  as="select" // 使用下拉式選單
-                  className="edit-nation-input"
-                  name="nation"
-                  value={nation}
-                  onChange={handleNationChange}
-                >
-                  {DummyNations.map((nationOption) => (
-                    <option key={nationOption} value={nationOption}>
-                      {nationOption}
-                    </option>
-                  ))}
-                </Form.Control>
+               
+            <div>
+           <ReactFlagsSelect
+            selected={nation}
+            onSelect={handleNationChange}
+            placeholder="選擇國家"
+            searchable
+          searchPlaceholder="搜尋國家"
+          />
+          </div>
+               
             </div>
 
             {/* 之後改下拉式選單 */}
@@ -145,7 +146,7 @@ const handleSaveClick = () => {
           <Form.Label>類別</Form.Label>    
             <div className="edit-category-items">
           
-          {DummyCategories.map((cat) => (
+          {AllCategories.map((cat) => (
          <Form.Check
            key={cat}
           type="checkbox"
@@ -206,9 +207,39 @@ TeacherEditInfo.propTypes = {
   show: PropTypes.bool.isRequired,  
   handleClose: PropTypes.func.isRequired,
   handleSave:PropTypes.func.isRequired,  
-  teacher: PropTypes.object.isRequired,
-  editingSection: PropTypes.object.isRequired, // 新增 editingSection 属性  
+  editingSection: PropTypes.object.isRequired,
   setEditingContent:PropTypes.func.isRequired,  
+
+  teacherDetails: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    nation: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    selfIntro: PropTypes.string.isRequired,
+    teachStyle: PropTypes.string.isRequired,
+    ratingAverage: PropTypes.string.isRequired,
+    Courses: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      teacherId: PropTypes.number.isRequired,
+      category: PropTypes.arrayOf(PropTypes.string).isRequired,
+      name: PropTypes.string.isRequired,
+      intro: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired,
+      startAt: PropTypes.string.isRequired,
+      duration: PropTypes.number.isRequired,
+      Registrations: PropTypes.arrayOf(PropTypes.shape({
+        rating: PropTypes.number.isRequired,
+        comment: PropTypes.string.isRequired,
+      })).isRequired,
+    })).isRequired,
+    teaching_categories: PropTypes.arrayOf(PropTypes.shape({
+      categoryId: PropTypes.number.isRequired,
+      Category: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    })).isRequired,
+  }),
 };
 
 export default TeacherEditInfo;

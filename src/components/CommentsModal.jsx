@@ -63,28 +63,37 @@ const handleRatingToggle = (rating) => {
       <Modal.Body>
         <div className="modal-container col col -12">
 
-        <div className="modal-container-left col col -6" >
+        <div className="modal-container-left col col -4" >
 
           <div className="modal-comment-counts">
 
             <div className="modal-comment-title">課程評價</div>
             {ratingKeys.map((key, index) => (
-                <div className="modal-comment-count" key={index} style={{minWidth:'15rem'}}>
-                  <div className="modal-comment-count-item" style={{ display: 'flex' }}>
+                <div className="modal-comment-count" key={index} >
+                  <div className="modal-comment-count-item" style={{ display: 'flex', width:'80%' }}>
                     <div className="toggle">
                       <input className="form-check-input" type="checkbox" value="" 
                       checked={selectedRatings[key]}
                       onChange={() => handleRatingToggle(key)}/>
                     </div>
-                    <div className="title">
+                    <div className="title" style={{minWidth:'3rem'}}>
                       <span>{`${key}顆星`}</span>
                     </div>
-                    <div className="percentimg" style={{ width: `${ratingPercentages[key]}%`,backgroundColor:'var(--main-blue)' }}>
-                      <div className="progressbar"></div>
-                    </div>
-                    <div className="percent" style={{display:'flex',justifyContent:'end'}} >
-                      <h6 >{`${ratingPercentages[key]}%`}</h6></div>
+                  {/* 已經評分的部分，藍色 */}
+                  <div>
+
                   </div>
+                <div className="percentimg" style={{ width: `${ratingPercentages[key]}%`,backgroundColor: 'var(--main-blue)' }}>
+                <div className="progressbar"></div>
+                 </div>
+                {/* 未評分的部分，灰色 */}
+               <div className="percentimg" style={{ width: `${100 - ratingPercentages[key]}%`,backgroundColor: '#D9D9D9' }}>
+                <div className="progressbar" ></div>
+                </div>
+              <div className="percentnum" style={{ display: 'flex', justifyContent: 'end' ,minWidth:'3rem'}}>
+              <h6 className="percent-num-item">{`${ratingPercentages[key]}%`}</h6>
+                </div>
+             </div>
                 </div>
               ))}
 
@@ -96,7 +105,7 @@ const handleRatingToggle = (rating) => {
             <div className="modal-category-detail">
              {[...new Set(teacherDetails.Courses.map(course => course.category).flat())]
            .map((category, index) => (
-        <span className="self-teacher-item" key={index}>{category}</span>
+        <span className="modal-category-item" key={index}>{category}</span>
         
       ))}
             </div>
@@ -106,17 +115,19 @@ const handleRatingToggle = (rating) => {
         </div>
 
         
-        <div className="modal-container-right col col -6">
+        <div className="modal-container-right col col -8">
 
           <div className="modal-comment-detail "> 
           {teacherDetails.Courses
-          .filter((course) => selectedRatings[course.Registrations[0].rating])
+          .filter((course) => selectedRatings[course.Registrations[0]?.rating])
           .map((course,index)=>(
+             course.Registrations[0].rating !== null && course.Registrations[0].comment !== null && (
             <Card key={index} className="class-comment-info-card">
             <Card.Body className="class-comment-info-card-body"> 
             <div className="card-container">
 
-            <div className="card-img" > 
+              <div className="card-img-title">
+                 <div className="card-img" > 
             <CardImg className="class-comment" src={course.image} />
             </div>
 
@@ -125,17 +136,19 @@ const handleRatingToggle = (rating) => {
             <Card.Title className="card-title-name">{course.name}</Card.Title>
             <Card.Title className="card-title-startat">{course.startAt}</Card.Title>
             </div> 
+              </div>
+         
 
-            <div className="card-rating" style={{display:'flex'}}>
+            <div className="card-rating" >
+
               <img className="rating" src={Rating} alt="rating" />
-              <h6 className="rating-num">{course.Registrations[0].rating}</h6>
+              <h6 className="rating-num">{course.Registrations[0].rating.toFixed(1)}</h6>
             </div>
 
 
             </div>
         
             <div className="card-description">
-
             <Card.Text className="class-comment-info">
             {course.Registrations[0].comment}
 
@@ -146,6 +159,8 @@ const handleRatingToggle = (rating) => {
 
             </Card.Body>
           </Card>
+             )
+            
 
           ))}
          
@@ -182,18 +197,25 @@ CommentModal.propTypes = {
     avatar: PropTypes.string.isRequired,
     selfIntro: PropTypes.string.isRequired,
     teachStyle: PropTypes.string.isRequired,
-    ratingAverage: PropTypes.string.isRequired,
-    Courses: PropTypes.arrayOf(
-      PropTypes.shape({
+   ratingAverage: PropTypes.string.isRequired,
+    teaching_categories: PropTypes.arrayOf(PropTypes.shape({
+      categoryId: PropTypes.number.isRequired,
+      Category: PropTypes.shape({
         name: PropTypes.string.isRequired,
-        Registrations: PropTypes.shape({
-          rating: PropTypes.number.isRequired,
-          comment: PropTypes.string.isRequired,
-        }).isRequired,
-        category: PropTypes.shape({}).isRequired,
-      })
-    ).isRequired,
-  }), 
+      }).isRequired,
+    })).isRequired,
+
+    Courses: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      duration:PropTypes.number.isRequired,
+      category: PropTypes.shape({
+      }).isRequired,
+      Registrations: PropTypes.shape({
+        rating:PropTypes.number.isRequired,
+        comment:PropTypes.string.isRequired,
+      }).isRequired,
+    })).isRequired,
+  }),
 };
 
 export default CommentModal;

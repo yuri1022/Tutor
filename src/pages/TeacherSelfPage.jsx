@@ -12,6 +12,23 @@ import { useState ,useEffect } from "react";
 import '../assets/scss/teacher.scss';
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import { useContext } from 'react';
+import { AppContext } from "../App";
+
+
+const fetchTeacherData = async (api,id) => {
+  try {
+    
+
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${api}/teacher/${id}/personal`, { headers: { Authorization: `Bearer ${token}` } });
+    return response.data.data;
+  } catch (error) {
+    // 处理错误
+    console.error('Error fetching teacher data:', error);
+    throw error;
+  }
+};
 
 
 
@@ -23,44 +40,41 @@ const TeacherSelfPage = () => {
   const [editingContent, setEditingContent] = useState('');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const { id } = useParams();
+  const { state } = useContext(AppContext);
   const api = 'http://34.125.232.84:3000';
 
 
 
-  useEffect(() => {
-    const fetchTeacherData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-        setTeacherDetails(response.data.data)
-        return response.data.data;        
-      } catch (error) {
-        if (error.response) {
-            console.error("Server error:", error.response.status, error.response.data);
-        } else if (error.request) {
-            console.error("No response from server");
-        } else {
-            console.error("Request failed:", error.message);
-        }
-        throw error; 
-    }
+ useEffect(() => {
+    // 在组件内调用外部定义的 fetchTeacherData 函数
+   
+    const fetchData = async () => {
+      try{
+      const data = await fetchTeacherData(api, id);
+      console.log(state.logindata)
+      setTeacherDetails(data);
+      }catch(error){
+        console.error(error)
+      }
+
     };
 
-    fetchTeacherData();
-  }, [id]);
+    fetchData();
+  }, [id, state]);
+
+
   
   const handleEditModal = (section) => {
+    
     setEditingSection({
     name: true,
     nation: true,
     category: true,
     avatar: true,
   });
-    setEditingSection(section);
-    setIsEditOpen(true);
-    setEditingContent(teacherDetails[section])
+  setIsEditOpen(true);
+  setEditingSection(section);
   };
-
   const closeEdit = () => {
     setEditingSection(null);
     setIsEditOpen(false);
@@ -71,19 +85,57 @@ const TeacherSelfPage = () => {
     if (section === 'selfIntro') {
     setIsEditInfo(true);
     setEditingContent(teacherDetails.selfIntro);
-  } else if (section === 'teaching_style') {
+  } else if (section === 'teachStyle') {
     setIsEditTeachingStyle(true);
-    setEditingContent(teacherDetails.teaching_style);
+    setEditingContent(teacherDetails.teachStyle);
   }
+  
+  
   };
 
-const handleSave = async (editedData, section) => {
-  console.log('要發送的數據：', editedData); // 
-  console.log('Patch API ID',id);
+  
+
+const handleSave = async (updatedData,editedData, section) => {
+
+   console.log("從 TeacherEditInfo 收到的 updatedData：", updatedData)
+   console.log('我在編輯intro嗎',isEditInfo)
+
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.patch(`${api}/teacher/${id}`, editedData, {
+
+   const requestData = {
+  "name": updatedData.name || teacherDetails.name,
+  "nation": updatedData.nation || teacherDetails.nation,
+  "nickname": updatedData.nickname || teacherDetails.nickname,
+  "avatar": updatedData.avatar || teacherDetails.avatar,
+  "category": [1,2,3,4,5],
+  "teachStyle": isEditTeachingStyle ? updatedData.teachStyle : teacherDetails.teachStyle,
+  "selfIntro": isEditInfo ? updatedData.selfIntro : teacherDetails.selfIntro,
+  "mon": true,
+  "tue": true,
+  "wed": true,
+  "thu": true,
+  "fri": false,
+  "sat": false,
+  "sun": false,
+};
+    // 检查哪些数据发生了更改
+    const changedData = {};
+    Object.keys(requestData).forEach((key) => {
+      if (requestData[key] !== teacherDetails[key]) {
+        changedData[key] = requestData[key];
+      }
+    });
+
+    // 如果没有更改，不发送请求
+    if (Object.keys(changedData).length === 0) {
+      return;
+    }
+    const requestBody = JSON.stringify(requestData)
+    console.log('reqeustBody:', requestBody);  
+    const response = await axios.put(`${api}/teacher/${id}`, requestBody, {
       headers: { Authorization: `Bearer ${token}` },
+      
     });
     
     // 處理成功更新的情況，例如更新本地 state
@@ -91,7 +143,7 @@ const handleSave = async (editedData, section) => {
       ...prevTeacher,
       [section]: response.data.data[section] || prevTeacher[section],
     }));
-    
+      
     setEditingContent(editedData[section] || '');
     
     closeEdit();
@@ -158,7 +210,7 @@ const handleCancel = () => {
     <div className="self-category-container">
         
       <div className="self-category">
-         {[...new Set(teacherDetails.Courses.map(course => course.category).flat())]
+         {[...new Set(teacherDetails.teaching_categories.map(categories => categories.Category.name).flat())]
       .map((category, index) => (
         <span className="self-teacher-item" key={index}>{category}</span>
       ))}
@@ -193,7 +245,7 @@ const handleCancel = () => {
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
-                  onBlur={() => handleSave({ selfIntro: editingContent }, 'selfInstro')}
+                  onBlur={() => handleSave({ selfIntro: editingContent }, 'selfIntro')}
                   style={{width:'95%',height:'60%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
                 />
               ) : (
@@ -248,7 +300,7 @@ const handleCancel = () => {
       
     {/* 日曆待修改 */}
       <div className="self-class-time-calendar">
-        <MyCalendar />
+        <MyCalendar teacherDetails={teacherDetails}/>
       </div>
     </div>
 
@@ -260,7 +312,9 @@ const handleCancel = () => {
     <div className="form-right col col-3">
 
 
-     <ClassComments teacherDetails={teacherDetails} />
+     <div>
+      <ClassComments teacherDetails={teacherDetails} />
+      </div>
  
     </div>
 
@@ -281,15 +335,26 @@ TeacherSelfPage.propTypes = {
     teachStyle: PropTypes.string.isRequired,
     ratingAverage: PropTypes.string.isRequired,
     Courses: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      teacherId: PropTypes.number.isRequired,
+      category: PropTypes.arrayOf(PropTypes.string).isRequired,
       name: PropTypes.string.isRequired,
-      category: PropTypes.shape({
-      }).isRequired,
-      Registrations: PropTypes.shape({
-        rating:PropTypes.number.isRequired,
-        comment:PropTypes.string.isRequired,
+      intro: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired,
+      startAt: PropTypes.string.isRequired,
+      duration: PropTypes.number.isRequired,
+      Registrations: PropTypes.arrayOf(PropTypes.shape({
+        rating: PropTypes.number.isRequired,
+        comment: PropTypes.string.isRequired,
+      })).isRequired,
+    })).isRequired,
+    teaching_categories: PropTypes.arrayOf(PropTypes.shape({
+      categoryId: PropTypes.number.isRequired,
+      Category: PropTypes.shape({
+        name: PropTypes.string.isRequired,
       }).isRequired,
     })).isRequired,
   }),
 };
-
 export default TeacherSelfPage;
