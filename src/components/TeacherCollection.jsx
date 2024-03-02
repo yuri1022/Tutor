@@ -23,8 +23,6 @@ const TeacherCollection = () => {
   const { teacherData } = useTeacherContext();
   const { currentPage, totalPages } = teacherData;
 
-  const teachers = teacherData.teachers || [];
-
 
  useEffect(() => {
     console.log('Current categoryId:', categoryItemId);
@@ -67,23 +65,16 @@ const TeacherCollection = () => {
 
   };
   
-const uniqueCategories = ['所有類別', ...new Set(teachers.flatMap((teacher) => 
-  teacher.teaching_categories.flatMap((category) => category.Category.name)
-))];
+const uniqueCategories = ['所有類別', ...(teacherData.categories ? new Set(teacherData.categories.map(category => category.name)) : [])];
 
 const handleCategoryChange = (selectedCategoryItemId) => {
     setCategoryItemId(selectedCategoryItemId);
 
    // 從所有的 teaching_categories 中找到對應的 categoryId
-    const categoryIdFromTeachingCategories = selectedCategoryItemId
-      ? teacherData.teachers
-          .flatMap((teacher) =>
-            teacher.teaching_categories.find(
-              (category) => category.Category.name === selectedCategoryItemId
-            )
-          )
-          .find(Boolean)?.categoryId
-      : null;
+  const categoryIdFromTeachingCategories = selectedCategoryItemId
+  ? teacherData.categories
+      .find((category) => category.name === selectedCategoryItemId)?.id
+  : null;
 
     const categoryIdParam = categoryIdFromTeachingCategories
       ? `&categoryId=${categoryIdFromTeachingCategories}`
