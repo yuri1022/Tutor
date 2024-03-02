@@ -1,36 +1,127 @@
-import { useState,useContext } from 'react';
-import { useForm } from "react-hook-form";
+import { useState,useEffect,useContext } from 'react';
+import { useNavigate} from 'react-router-dom';
 import ReactFlagsSelect from "react-flags-select";
 import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext';
-
+import { AppContext } from '../../App';
+import { applyTeacher } from '../../api/teacher';
+import countries from './data/country';
 const ApplyTeacherForm = () =>{
-    const contextData = useContext(ApplyTeacherContext);
-    const page = contextData.page;
+    const {page,page_add} = useContext(ApplyTeacherContext);
+    const userdata = useContext(AppContext).state.logindata.data;
+    const navigate = useNavigate();
+    const [teachername,setTeachername] = useState('');
     const [country,setCountry] = useState('');
-    const { register, handleSubmit,formState:{errors} } = useForm({
-        defaultValues:{
-            teachername: '',
-            intro: '',
-            content: '',
-        },
-        mode: 'onTouched'
-    });
-    const onSubmit = (data)=>{
-        console.log(data);
+    const [introTxt, setIntroTxt] = useState('');
+    const [teachStyle,setTeachStyle] = useState('');
+    const [weekdays, setWeekdays] = useState({
+        mon: false,
+        tue: false,
+        wed: false,
+        thu: false,
+        fri: false,
+        sat: false,
+        sun: false,
+      });
+      const weekdayforstr = ()=>{
+        let c= JSON.parse(JSON.stringify(weekdays));
+        for (let key in c) {
+            // 检查对象是否拥有该属性，避免从原型链继承的属性
+            c[key]= c[key].toString();
+        }
+        console.log(c);
+        return c;
+    }
+
+      const [categoryObj,setCategoryObj]=useState({
+        1:false,
+        2:false,
+        3:false,
+        4:false,
+        5:false,
+        6:false,
+        7:false
+      });
+      const categroyLabels = ['多益','托福','雅思','商用英文','生活會話','旅遊英文','新聞英文'];
+      const weekLabels = {
+        mon: '星期一',
+        tue: '星期二',
+        wed: '星期三',
+        thu: '星期四',
+        fri: '星期五',
+        sat: '星期六',
+        sun: '星期日'
+      };
+      //handle change formdata
+      //cg
+    const categoryToList=()=>{
+        let cg_list = [];
+        let count =1;
+        for(let key in categoryObj){
+            if(categoryObj[key]===true){
+                cg_list.push(count)
+            }
+            count++;
+        }
+        return cg_list;
+    }
+    const changeCountryISO = ()=>{
+        const country_name = countries[country];
+        return country_name;
+    }
+    //checkbox
+    const handleCheckboxChange_day = (e)=>{
+        const { name, checked } = e.target;
+        setWeekdays(prevWeekdays => ({
+          ...prevWeekdays,
+          [name]: checked
+        }));
+    }
+    const handleCheckboxChange_cg = (e)=>{
+        const { name, checked } = e.target;
+        setCategoryObj(prevCgObj => ({
+          ...prevCgObj,
+          [name]: checked
+        }));
+    }
+    const handleApplyTeacher = async()=>{
+        const weekday_obj = weekdayforstr();
+        const category_list = categoryToList();
+        const country_name = changeCountryISO();
+        const formdata = {
+            name:teachername,
+            email:userdata?.email,
+            password: localStorage.getItem("password"),
+            nation: country_name,
+            selfIntro: introTxt,
+            teachStyle:teachStyle,
+            ...weekday_obj,
+            category:category_list
+        }
+        console.log(formdata);
+        // const applyres= await applyTeacher(userdata.id,formdata);
+        navigate('/');
+
     }
     // console.log('errors:',errors);
     // console.log(errors.teachername);
+    useEffect(()=>{
+        setTeachername(userdata?.name);
+        setIntroTxt(userdata?.selfIntro);
+    },[])
         return(
             <div>
-                <form className=" h-100 applyForm " action='' onSubmit={handleSubmit(onSubmit)}>
+                <form className=" h-100 applyForm " action=''>
                 {
                     page===1 &&
                    (<>
                         <label htmlFor="teachername" className="title mb-22px">姓名</label>
                         <div className="mb-22px">
-                            <input className={`form-control  ${errors.teachername && 'is-invalid'}`} {...register("teachername",{required: true , maxLegnth: 20})}  placeholder="請輸入姓名"/>
+                            <input name="teachername" value={teachername}
+                            onChange={(e)=>{setTeachername(e.target.value)}}
+                            className={`form-control ${teachername===null && 'is-invalid'}`}
+                            placeholder="請輸入姓名"/>
     
-                            {errors.teachername && <div id="validationServerusernameFeedback" className="invalid-feedback">
+                            {!teachername==='' && <div id="validationServerusernameFeedback" className="invalid-feedback">
                                 請輸入姓名
                             </div>}
                         </div>
@@ -42,6 +133,7 @@ const ApplyTeacherForm = () =>{
                             placeholder="選擇國家"
                             searchable
                             searchPlaceholder="搜尋國家"
+                            
                         />
                         <div className="mb-auto"></div>
                     </>)
@@ -51,33 +143,73 @@ const ApplyTeacherForm = () =>{
                         <>
                             <label className="title mb-22px">簡介</label>
                             <div className="mb-22px">
-                            <textarea className={`form-control  ${errors.intro && 'is-invalid'}`} rows={10} {...register("intro",{required: true , maxLegnth: 30})}  placeholder="請輸入內容"/>
-                            {errors.intro && <div id="validationServerusernameFeedback" className="invalid-feedback">
+                            <textarea value={introTxt}
+                            onChange={(e)=>{setIntroTxt(e.target.value)}}
+                            className={`form-control`} rows={10}   placeholder="請輸入簡介"/>
+                            {/* {introTxt && <div id="validationServerusernameFeedback" className="invalid-feedback">
                                 請輸入內容
-                            </div>}
+                            </div>} */}
                         </div>
                         </>
                     )
                 }  
                 {
                     page===3 &&(
-                        <>
-                        <label className="title mb-22px">課程內容</label>
+                    <>
+                        <label className="title mb-22px">類別</label>
+                        <div className="row">
+                        {
+                            Object.keys(categoryObj).map((cg)=>(
+                                <div className="col-3" key={cg}>
+                                    <label>
+                                        <input
+                                        type="checkbox"
+                                        name={cg}
+                                        checked={categoryObj[cg]}
+                                        onChange={(e)=>{handleCheckboxChange_cg(e)}}
+                                        />
+    
+                                        {categroyLabels[cg-1]}
+                                    </label>
+                                </div>
+                            ))
+                        }
+                        </div>
+
+                        <label className="title mb-22px">教學風格</label>
                         <div className="mb-22px">
-                        <textarea className={`form-control  ${errors.content && 'is-invalid'}`} rows={5} {...register("content",{required: true , maxLegnth: 200})}  placeholder="請輸入內容"/>
-                        {errors.content && <div id="validationServerusernameFeedback" className="invalid-feedback">
-                            請輸入內容
-                        </div>}
-                    </div>
+                            <textarea type="text" value={teachStyle} 
+                            onChange={(e)=>{setTeachStyle(e.target.value)}}
+                            className={`form-control`} rows={5}   
+                            placeholder="請輸入教學風格"/>
+                        </div>
                     </>
 
                     )
                 }
                 {
                     page===4 && (
-                        <div>
-                            授課時間
+                        <>
+                        <label className="title mb-22px">授課時間1</label>
+                        <div className="row">
+                        {
+                            Object.keys(weekdays).map((day)=>(                             
+                                <div className="col-3" key={day}>
+                                    <label >
+                                    <input
+                                    type="checkbox"
+                                    name={day}
+                                    checked={weekdays[day]}
+                                    onChange={(e)=>{handleCheckboxChange_day(e)}}
+                                    />
+   
+                                    {weekLabels[day]}
+                                </label>
+                              </div>
+                            ))
+                        }
                         </div>
+                        </>
                     )
                 }
                     <div className="button-list">
@@ -85,13 +217,13 @@ const ApplyTeacherForm = () =>{
                         <button type="button" 
                         className={`btn btn-form mr-10px ${page===1? 'disabled':''}`}
                         onClick={()=>{
-                            contextData.page_add(-1);
+                            page_add(-1);
                         }}
                         >上一步</button>
                         {
-                            page===4 ? (<button type="button" className="btn btn-form">完成表單</button>): 
+                            page===4 ? (<button type="button" className="btn btn-form" onClick={()=>{handleApplyTeacher()}}>完成表單</button>): 
                             (<button type="button" className="btn btn-form" onClick={()=>{
-                                contextData.page_add(1);
+                                page_add(1);
                             }}>下一步</button>)
                         }             
                     </div>

@@ -45,6 +45,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
 
         const loginRes = await axios.post(`${api}/signin`,
         loginData).then(res=>{
+            localStorage.setItem("password",password);
             console.log(res.data);
             return res.data;
         }).catch(err=>{
@@ -58,6 +59,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         // fake data
         console.log(token);
         localStorage.setItem("token",loginRes.data.token);
+        localStorage.setItem("islogin",true);
         //handle Login 
         if(token){
             onNavbar(id,isTeacher);
@@ -111,9 +113,6 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
                             <button className="btn btn-primary w-100 mb-20px"  type="submit">
                                 註冊
                             </button>
-                            <p>First Name: {watchEmail}</p>
-                            <p>Last Name: {watchCode}</p>
-
                             <div className="mb-10px">使用其他方式註冊</div>
                             <button className="btn">
                                 <img src={icon_google}></img>

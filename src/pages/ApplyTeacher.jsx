@@ -1,5 +1,4 @@
 
-import Navbar from "../components/Navbar";
 import { useState,useContext,useEffect} from "react";
 import ApplyProcess from "../components/applyTeacher/ApplyProcess";
 import ApplyTeacherForm from "../components/applyTeacher/ApplyTeacherForm";
@@ -10,18 +9,9 @@ const ApplyTeacher = () => {
   const [teachingStyle, setTeachingStyle] = useState('');
   const [videoLink, setVideoLink] = useState('');
   const [country,setCountry] = useState('');
-
-
   // 處理表單提交的函式
-const ApplyTeacher = () => {
-    // 這裡可以進一步將資料送到伺服器，或進行其他適當的處理
-  };
-
   return (
     <div className="apply-teacher-context">
-      <div className="topbar d-flex flex-row-reverse">
-        X
-      </div>
       <ApplyTeacherProvider>
         <div className="applyContainer d-flex .col.col-lg-9" style={{marginTop:"6%"}}>
             <div  className="left-container" style={{width:"30%"}}>
