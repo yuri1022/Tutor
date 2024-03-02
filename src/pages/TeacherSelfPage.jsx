@@ -12,6 +12,23 @@ import { useState ,useEffect } from "react";
 import '../assets/scss/teacher.scss';
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import { useContext } from 'react';
+import { AppContext } from "../App";
+
+
+const fetchTeacherData = async (api,id) => {
+  try {
+    
+
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${api}/teacher/${id}/personal`, { headers: { Authorization: `Bearer ${token}` } });
+    return response.data.data;
+  } catch (error) {
+    // 处理错误
+    console.error('Error fetching teacher data:', error);
+    throw error;
+  }
+};
 
 
 
@@ -23,31 +40,29 @@ const TeacherSelfPage = () => {
   const [editingContent, setEditingContent] = useState('');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const { id } = useParams();
+  const { state } = useContext(AppContext);
   const api = 'http://34.125.232.84:3000';
 
 
 
-  useEffect(() => {
-    const fetchTeacherData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${api}/teacher/${id}/personal`, { headers: { Authorization: `Bearer ${token}` } });
-        setTeacherDetails(response.data.data)
-        return response.data.data;        
-      } catch (error) {
-        if (error.response) {
-            console.error("Server error:", error.response.status, error.response.data);
-        } else if (error.request) {
-            console.error("No response from server");
-        } else {
-            console.error("Request failed:", error.message);
-        }
-        throw error; 
-    }
+ useEffect(() => {
+    // 在组件内调用外部定义的 fetchTeacherData 函数
+   
+    const fetchData = async () => {
+      try{
+      const data = await fetchTeacherData(api, id);
+      console.log(state.logindata)
+      setTeacherDetails(data);
+      }catch(error){
+        console.error(error)
+      }
+
     };
 
-    fetchTeacherData();
-  }, [id]);
+    fetchData();
+  }, [id, state]);
+
+
   
   const handleEditModal = (section) => {
     
@@ -78,6 +93,8 @@ const TeacherSelfPage = () => {
   
   };
 
+  
+
 const handleSave = async (updatedData,editedData, section) => {
 
    console.log("從 TeacherEditInfo 收到的 updatedData：", updatedData)
@@ -91,7 +108,7 @@ const handleSave = async (updatedData,editedData, section) => {
   "nation": updatedData.nation || teacherDetails.nation,
   "nickname": updatedData.nickname || teacherDetails.nickname,
   "avatar": updatedData.avatar || teacherDetails.avatar,
-  "category": updatedData.category || teacherDetails.map(teacher => teacher.categoryId).flat(),
+  "category": [1,2,3,4,5],
   "teachStyle": isEditTeachingStyle ? updatedData.teachStyle : teacherDetails.teachStyle,
   "selfIntro": isEditInfo ? updatedData.selfIntro : teacherDetails.selfIntro,
   "mon": true,

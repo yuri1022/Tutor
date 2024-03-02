@@ -4,7 +4,10 @@
 
 
   return (
+    <div style={{margin:'2rem'}}> 
     <Teacher_profile_Calender/>
+    </div>
+
   );
 };
 

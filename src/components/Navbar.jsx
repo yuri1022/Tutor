@@ -44,7 +44,7 @@ const Navbar = (props) =>{
     }
     const getData = async(id,isTeacher)=>{
         const token = localStorage.getItem('token');
-        if(isTeacher===1){
+        if(isTeacher){
             const teacherData = await axios.get(`${api}/teacher/${id}`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
@@ -63,7 +63,7 @@ const Navbar = (props) =>{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
                 console.log(`student data ${res.data.data.selfIntro}`);
-                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:1,isLogin:true} });
+                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isLogin:true} });
                 setIsLogin(true);
             }).catch(
                 err=>{
@@ -107,7 +107,7 @@ const Navbar = (props) =>{
                                 <div className="d-flex">
                                     {
                                         state.isTeacher===1 ?
-                                        (<div className="avatar-block"><Link to={`/teacher/${state.logindata.data.id}`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>):
+                                        (<div className="avatar-block"><Link to={`/teacher/${state.logindata.data.id}/personal`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>):
                                         (<div className="avatar-block"><Link to='/student'><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>)
                                     }
                                     <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
