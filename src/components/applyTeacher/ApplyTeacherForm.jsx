@@ -4,6 +4,7 @@ import ReactFlagsSelect from "react-flags-select";
 import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext';
 import { AppContext } from '../../App';
 import { applyTeacher } from '../../api/teacher';
+import countries from './data/country';
 const ApplyTeacherForm = () =>{
     const {page,page_add} = useContext(ApplyTeacherContext);
     const userdata = useContext(AppContext).state.logindata.data;
@@ -30,6 +31,7 @@ const ApplyTeacherForm = () =>{
         console.log(c);
         return c;
     }
+
       const [categoryObj,setCategoryObj]=useState({
         1:false,
         2:false,
@@ -49,6 +51,24 @@ const ApplyTeacherForm = () =>{
         sat: '星期六',
         sun: '星期日'
       };
+      //handle change formdata
+      //cg
+    const categoryToList=()=>{
+        let cg_list = [];
+        let count =1;
+        for(let key in categoryObj){
+            if(categoryObj[key]===true){
+                cg_list.push(count)
+            }
+            count++;
+        }
+        return cg_list;
+    }
+    const changeCountryISO = ()=>{
+        const country_name = countries[country];
+        return country_name;
+    }
+    //checkbox
     const handleCheckboxChange_day = (e)=>{
         const { name, checked } = e.target;
         setWeekdays(prevWeekdays => ({
@@ -65,17 +85,20 @@ const ApplyTeacherForm = () =>{
     }
     const handleApplyTeacher = async()=>{
         const weekday_obj = weekdayforstr();
+        const category_list = categoryToList();
+        const country_name = changeCountryISO();
         const formdata = {
             name:teachername,
             email:userdata?.email,
             password: localStorage.getItem("password"),
-            nation: country,
+            nation: country_name,
             selfIntro: introTxt,
             teachStyle:teachStyle,
             ...weekday_obj,
+            category:category_list
         }
         console.log(formdata);
-        const applyres= await applyTeacher(userdata.id,formdata);
+        // const applyres= await applyTeacher(userdata.id,formdata);
         navigate('/');
 
     }

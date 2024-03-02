@@ -114,7 +114,7 @@ const Navbar = (props) =>{
                                 {
                                     isTeacher===1 ?
                                     (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>):
-                                    (<button className="nav-link" onClick={()=>{handleGotoApply()}}>成為老師</button>)
+                                    (<button className={`nav-link  ${ state.logindata ? '':'disabled'}`}  onClick={()=>{handleGotoApply()}}>成為老師</button>)
                                 }
                             </li>
                         </ul>
