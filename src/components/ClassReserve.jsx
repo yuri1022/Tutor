@@ -25,6 +25,9 @@ const ClassReserve = ({
   teacherDetails,
   setSelectedDuration,
   selectedDuration,
+  setSelectedCourse,
+  selectedCourse,
+  courseOptions,
   isSelectable }) => {
 
   return (
@@ -46,6 +49,13 @@ const ClassReserve = ({
         />
       </div>
       <div className="select-option">
+
+      <Select
+        options={courseOptions}
+        onChange={(selectedCourse) => setSelectedCourse (selectedCourse)}
+        value={selectedCourse}
+        placeholder="選擇課程名稱"
+      />        
         
       <Select
         options={categoryOptions}

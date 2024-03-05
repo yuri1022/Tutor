@@ -44,7 +44,7 @@ const Navbar = (props) =>{
     }
     const getData = async(id,isTeacher)=>{
         const token = localStorage.getItem('token');
-        if(isTeacher){
+        if(isTeacher===1){
             const teacherData = await axios.get(`${api}/teacher/${id}`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
