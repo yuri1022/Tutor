@@ -23,6 +23,7 @@ const TeachersPage = () => {
   const [selectedTime ,setSelectedTime]=useState('12:00');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState('');
   const [reservedCourseData, setReservedCourseData] = useState(null);
   const [isSelfIntroExpanded, setIsSelfIntroExpanded] = useState(true);
   const [isTeachStyleExpanded, setIsTeachStyleExpanded] = useState(true);
@@ -69,30 +70,29 @@ const reserveDay = { mon, tue, wed, thu, fri, sat, sun };
 
 const handleSubmit = async () => {
     const reservedCourseData = {
-    teacherId: parseInt(teacherDetails.id, 10), 
-    category: [selectedCategory.id],
+    // category: [selectedCategory.id],
+    studentId:2,
     name: selectedCategory.label,
-    intro: "123",
-    link: "https://naughty-laborer.info/",
-    duration: parseInt(selectedDuration.value, 10),
+    courseId:  parseInt(selectedCourse.id, 10),
+    // duration: parseInt(selectedDuration.value, 10),
     startAt: `${selectedDate.toISOString().slice(0, 10)} ${selectedTime}`,
+    createAt:`${selectedDate.toISOString().slice(0, 10)} ${selectedTime}`,
   };
   console.log(reservedCourseData);
  try {
     const token = localStorage.getItem('token');
-    
+    const courseId = reservedCourseData.courseId;
     // Make a POST request to the /course endpoint
     const response = await axios.post(
-      `${api}/course`,
-      reservedCourseData,
- { 
+      `${api}/register/${courseId}`,{},
+ {
     headers: { 
       Authorization: `Bearer ${token}`
     } 
   }
     );
 
-    console.log('Course creation response:', response.data);
+    console.log('Course creation response:', response);
 
     // Check the response and show success or fail modal
     if (response.data.status=== 'success') {
@@ -153,6 +153,14 @@ const categoryOptions = teacherDetails
       id: categoryObj.categoryId,
     }))
   : [];
+
+const courseOptions = teacherDetails
+  ? teacherDetails.Courses.map((courseObj) => ({
+      label: courseObj.name,
+      id: courseObj.id,
+    }))
+  : [];
+
   return ( 
       <div>
     
@@ -317,6 +325,8 @@ const categoryOptions = teacherDetails
         <ClassReserve
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+          selectedCourse={selectedCourse}
+          setSelectedCourse={setSelectedCourse}
           selectedTime={selectedTime}
           setSelectedTime={handleTimeChange}
           setSelectedCategory={setSelectedCategory}
@@ -327,6 +337,7 @@ const categoryOptions = teacherDetails
           teacherDetails={teacherDetails}
           handleSubmit={handleSubmit}
           categoryOptions={categoryOptions}
+          courseOptions={courseOptions}
           setShowSuccessModal={setShowSuccessModal}
           setShowFailModal={setShowFailModal}
           handleDateChange={handleDateChange}

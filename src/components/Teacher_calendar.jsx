@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { AppContext } from "../App";
 import axios from "axios";
 
-const Teacher_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
+const Teacher_profile_Calender = ({openGoClassModal}) =>{
     const today = new Date();
     const today_month = today.getMonth();
     const today_year = today.getFullYear();

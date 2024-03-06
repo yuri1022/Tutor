@@ -13,75 +13,26 @@ const localizer = momentLocalizer(moment);
 
 const MyCalendar = memo(({teacherDetails}) => {
   
-  const [disableMonthNavigation, setDisableMonthNavigation] = useState(false);
-  console.log(teacherDetails)
-  console.log(teacherDetails.Courses)
+const [disableMonthNavigation, setDisableMonthNavigation] = useState(false);
+
 const reservedDates = Array.isArray(teacherDetails.Courses)
   ? teacherDetails.Courses.map(course => course.startAt)
   : [];
 
   console.log(reservedDates)
 
- const allDates = Array.from({ length: 30 }, (_, index) =>
-    new Date(moment().add(index, 'days'))
-  );
-
   // 根據已預約名單標識是否已預約
-const events = allDates.flatMap(date => {
-  const timeRangeStart1 = moment(date).set('hour', 17).set('minute', 0);
-  const timeRangeEnd1 = moment(date).set('hour', 17).set('minute', 30);
+const events = teacherDetails.Courses.flatMap(course => {
+  const start = moment(course.startAt)
+  const end = moment(course.startAt).add(course.duration, 'minutes'); 
+    const isReserved = course.Registrations.some(registration => registration.rating !== null);
 
-  const timeRangeStart2 = moment(date).set('hour', 18).set('minute', 0);
-  const timeRangeEnd2 = moment(date).set('hour', 18).set('minute', 30);
-
-  const isReserved1 =
-  reservedDates.some(
-    reservedDate =>
-      moment(reservedDate).isSameOrAfter(timeRangeStart1) &&
-      moment(reservedDate).isBefore(timeRangeEnd1)
-  );
-
-const isReserved2 =
-  reservedDates.some(
-    reservedDate =>
-      moment(reservedDate).isSameOrAfter(timeRangeStart2) &&
-      moment(reservedDate).isBefore(timeRangeEnd2)
-  );
-  const eventsForDate = [];
-
-  if (isReserved1) {
-  eventsForDate.push({
-    start: timeRangeStart1.toDate(),
-    end: timeRangeEnd1.toDate(),
-    title: 'Evening Event 1',
-    reserved: true,
-  });
-} else {
-  eventsForDate.push({
-    start: timeRangeStart1.toDate(),
-    end: timeRangeEnd1.toDate(),
-    title: 'Evening Event 1',
-    reserved: false,
-  });
-}
-
-if (isReserved2) {
-  eventsForDate.push({
-    start: timeRangeStart2.toDate(),
-    end: timeRangeEnd2.toDate(),
-    title: 'Evening Event 2',
-    reserved: true,
-  });
-} else {
-  eventsForDate.push({
-    start: timeRangeStart2.toDate(),
-    end: timeRangeEnd2.toDate(),
-    title: 'Evening Event 2',
-    reserved: false,
-  });
-}
-
-  return eventsForDate;
+  return {
+    start: start.toDate(),
+    end: end.toDate(),
+    title: course.name,
+    reserved: isReserved,  
+  };
 });
 
 
@@ -151,7 +102,7 @@ const currentDate = moment(toolbar.date).toDate();
       </div>
 
       <div className="reserve">
-        <span>可預約</span>
+        <span style={{marginRight:'1rem'}}>可預約</span>
         <span>不可預約</span>
       </div>
 
@@ -179,20 +130,20 @@ EventComponent.propTypes = {
 };
 
   return (
-    <div>
+    <>
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: '80vh',width:'150vh' }}
+        style={{ height: '42rem',width:'54rem' }}
         components={{
           toolbar: CustomToolbar,
             event: EventComponent,
 
         }}
       />
-    </div>
+    </>
   );
 });
 

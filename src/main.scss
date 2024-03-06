@@ -145,16 +145,21 @@ table {
 
 :root {
   --white: #FFFFFF;
-  --pink: #F67599;
+  --red: #F43C2E;
+  --pink:#F8776D;
+  --black:#000000;
   --grey-800: #2A2A2A;
   --grey-700: #333333;
-  --grey-400: #808080;
-  --grey-300: #9B9C9E;
-  --grey-light: #B6B6B6;
+  --grey-400: #666666;
+  --grey-300: #999999;
+  --grey-light: #CCCCCC;
   --main-blue:#3652E3;
-  --main-blue25:rgba(54, 82, 227, 0.25);
+  --main-blue25:#CCD3F8;
+  --main-blue-light:#1AEAEA;
+  --main-green:#65E716;
   --site-edge-margin: 15px;
   --main-font-family: "Inter", sans-serif;
+  --gradient: linear-gradient(180deg, var(--main-blue-light) 0%, var(--main-blue) 100%);
 }
 
 // <uniquifier>: Use a uniquifier for the class name
