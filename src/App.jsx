@@ -5,8 +5,9 @@ import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import TeachersPage from "./pages/TeachersPage";
 import ApplyTeacher from './pages/ApplyTeacher';
-import './main.scss'
-import Students_profile from './pages/students/Students_profile'
+import './main.scss';
+import Students_profile from './pages/students/Students_profile';
+import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 import TeacherSelfPage from './pages/TeacherSelfPage';
 import AppReducer from './store/AppContext.js';
 export const AppContext = createContext();

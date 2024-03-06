@@ -11,14 +11,10 @@ import { Link } from 'react-router-dom';
 import LoginModal from './../components/LoginModal';
 import { Modal } from 'bootstrap';
 import { AppContext } from '../App';
-import AppReducer from '../store/AppContext';
-import { AppContext } from '../App';
-import AppReducer from '../store/AppContext';
 const Navbar = (props) =>{
     const [isHome,setIsHome]= useState(true);
     const [ isTeacher,setIsTeacher] = useState(0);
     const [searchTxt, setSearchTxt]= useState('');
-    const {state,dispatch} = useContext(AppContext);
     const {state,dispatch} = useContext(AppContext);
     const loginModal = useRef(null);
     const api = 'http://34.125.232.84:3000';
