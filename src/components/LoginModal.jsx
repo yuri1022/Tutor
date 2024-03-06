@@ -2,12 +2,15 @@ import { useState, } from 'react';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import icon_google from './../assets/images/svg/icon_google.svg';
+import AppContext from './../App';
+import AppReducer from './../store/AppContext';
+
 const LoginModal = ({closeLoginModal,onNavbar}) =>{
     const [mode ,setMode] = useState('signup');
     const [ email,setEmail ] = useState('');
     const [ password,setPassword ] = useState('');
     const [ repassword,setRepassword] = useState('');
-    const { register, handleSubmit,formState:{errors} } = useForm({
+    const { register, handleSubmit,formState:{errors},watch } = useForm({
         defaultValues:{
             email: '',
             password: '',
@@ -15,17 +18,21 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         },
         mode: 'onTouched'
     });
+    const watchEmail = watch("email");
+    const watchCode = watch("password");
     const api = 'http://34.125.232.84:3000';
     const onSubmit = async(data)=>{
-        const { email ,code } = data;
-        console.log(data);
         const formData={
-            email:email,
-            code:code,
+            email:data.email,
+            password:data.password,
+            passwordCheck:data.repassword,
+            name:data.email.split('@')[0],
         }
+        //console.log(formData);
         const signupRes = await axios.post(`${api}/signup`,formData
         ).then(res=>{
             console.log(res.data);
+            setMode('login');
         }).catch(err=>{
             console.log(err);
         })
@@ -38,6 +45,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
 
         const loginRes = await axios.post(`${api}/signin`,
         loginData).then(res=>{
+            localStorage.setItem("password",password);
             console.log(res.data);
             return res.data;
         }).catch(err=>{
@@ -46,10 +54,12 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         //console.log(loginRes);
         const token = loginRes.data.token;
         const id = loginRes.data.id;
+        const isTeacher = loginRes.data.isTeacher;
+        console.log(isTeacher);
         // fake data
-        const isTeacher = true;
         console.log(token);
         localStorage.setItem("token",loginRes.data.token);
+        localStorage.setItem("islogin",true);
         //handle Login 
         if(token){
             onNavbar(id,isTeacher);
@@ -57,6 +67,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         //close modal
         closeLoginModal();
     }
+
     const handleClose = () =>{
         setEmail('');
         setPassword('');
@@ -99,9 +110,9 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
                                 <label className={`form-control input-login-label ${errors.repassword && 'is-wrong'}`}>確認</label>
                                 <input   className={`form-control input-login-right ${errors.repassword && 'is-invalid'}`} {...register("repassword",{required: true , maxLegnth: 20})}  placeholder="請再次輸入密碼"/>
                             </div>
-                            <div className="btn btn-primary w-100 mb-20px"  type="submit">
+                            <button className="btn btn-primary w-100 mb-20px"  type="submit">
                                 註冊
-                            </div>
+                            </button>
                             <div className="mb-10px">使用其他方式註冊</div>
                             <button className="btn">
                                 <img src={icon_google}></img>

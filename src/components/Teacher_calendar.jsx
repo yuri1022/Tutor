@@ -40,14 +40,12 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
             subject: course.name,
              student: '學生一號',
              time: course.duration,
-            isreview: false,
-             isattend: false,
+             isattend: true,
              timestamp: startDate.getTime(),
-              date: startDate,
-  };
+            date: course.startAt,
+            };
           });
 
-          // 更新courseList状态
           setCourseList(courses);
           console.log('Coursedata',courses);
         }else{
@@ -56,12 +54,10 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
         
 
       } catch (error) {
-        // 处理错误
         console.error('Error fetching teacher data:', error);
       }
     };
 
-    // 只有在 state.logindata 发生变化时才执行
     if (state.logindata && state.logindata.data) {
       fetchTeacherData();
     }
@@ -136,7 +132,7 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
             <div className="course-block bg-absent" key={index}>
                 <div className="title-bar absent">{course.subject}</div>
                 <div>{course.student}</div>
-                <div>{course.time}</div>
+                <div>{course.date}</div>
             </div>
         }
         else if( course.timestamp > today.getTime()){
@@ -147,15 +143,7 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
                 <div>{course.time}</div>
             </div>
         }
-        else if ( course.isattend === true && course.isreview === false){
-            course_block =             
-            <div className="course-block bg-not-review" key={index} onClick={openRatingModal}>
-                <div className="title-bar notreview">{course.subject}</div>
-                <div>{course.student}</div>
-                <div>{course.time}</div>
-            </div>
-        }
-        else if ( course.isattend === true && course.isreview === true ){
+        else if ( course.isattend === true ){
             course_block =
             <div className="course-block bg-finish" key={index}>
                 <div className="title-bar finish">{course.subject}</div>
@@ -265,10 +253,6 @@ for (let i = 0; i < 5; i++) {
         <div className="d-flex items-center ">
           <div className="circle-icon bg-finsh mr-10px"></div>
           <div className="">已完課</div>
-        </div>
-        <div className="d-flex items-center mr-10px">
-          <div className="circle-icon bg-no-dis mr-10px"></div>
-          <div className="">未評論</div>
         </div>
         <div className="d-flex items-center mr-10px">
           <div className="circle-icon bg-not-seat mr-10px"></div>

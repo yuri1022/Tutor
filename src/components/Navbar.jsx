@@ -56,7 +56,9 @@ const Navbar = (props) =>{
                     console.log(err);
                 }
             )
+            console.log(isTeacher);
             return teacherData;
+            
         }
         else{
             const studentData = await axios.get(`${api}/student/${id}`,{
