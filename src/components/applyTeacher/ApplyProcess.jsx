@@ -1,4 +1,4 @@
-import { useContext,useReducer} from 'react'
+import { useContext} from 'react'
 import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext'
 const ApplyProcess = () =>{
     const contextdata = useContext(ApplyTeacherContext);

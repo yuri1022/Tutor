@@ -1,4 +1,5 @@
 import { useState,useEffect ,useRef,useContext,useReducer } from 'react';
+import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 import Search from './Searchbar'
@@ -11,14 +12,17 @@ import LoginModal from './../components/LoginModal';
 import { Modal } from 'bootstrap';
 import { AppContext } from '../App';
 import AppReducer from '../store/AppContext';
+import { AppContext } from '../App';
+import AppReducer from '../store/AppContext';
 const Navbar = (props) =>{
-    const [isLogin,setIsLogin] = useState(false);
     const [isHome,setIsHome]= useState(true);
-    const [ isTeacher,setIsTeacher] = useState(1);
+    const [ isTeacher,setIsTeacher] = useState(0);
     const [searchTxt, setSearchTxt]= useState('');
+    const {state,dispatch} = useContext(AppContext);
     const {state,dispatch} = useContext(AppContext);
     const loginModal = useRef(null);
     const api = 'http://34.125.232.84:3000';
+    const navigate = useNavigate();
     const openLoginModal = () =>{
         loginModal.current.show();
     }
@@ -28,6 +32,16 @@ const Navbar = (props) =>{
     const handleSearch = () =>{
         console.log("search");
         props.onSearchChange(searchTxt);
+    }
+    const handleGotoApply = ()=>{
+        if(localStorage.getItem("islogin") === false){
+            console.log("You need to login");
+        }
+        else{
+            dispatch({type:"APPLYTEACHER"});
+            navigate('/apply');
+
+        }
     }
     useEffect(()=>{
         loginModal.current = new Modal('#login_Modal',{
@@ -39,8 +53,13 @@ const Navbar = (props) =>{
         setIsTeacher(isTeacher);
     }
     const handleLogout = ()=>{
-        setIsLogin(false);
-        localStorage.clear();
+        localStorage.setItem("islogin",false);
+        navigate('/');
+
+    }
+    const apply_to_homepage = ()=>{
+        dispatch({type:"APPLYTEACHER_BACK"});
+        navigate('/')
     }
     const getData = async(id,isTeacher)=>{
         const token = localStorage.getItem('token');
@@ -50,7 +69,6 @@ const Navbar = (props) =>{
             }).then((res)=>{
                 console.log(`teacher data${res.data.data.teachStyle}`);
                 dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:1,isLogin:true} });
-                setIsLogin(true);
             }).catch(
                 err=>{
                     console.log(err);
@@ -66,7 +84,6 @@ const Navbar = (props) =>{
             }).then((res)=>{
                 console.log(`student data ${res.data.data.selfIntro}`);
                 dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isLogin:true} });
-                setIsLogin(true);
             }).catch(
                 err=>{
                     console.log(err);
@@ -78,51 +95,64 @@ const Navbar = (props) =>{
     }
     useEffect(()=>{
 
-    },[isLogin])
+    },[localStorage.getItem("islogin")])
     return(
         <>
-            <LoginModal closeLoginModal={closeLoginModal} onNavbar={handleLogin}></LoginModal>
-            <nav className="Navtop navbar navbar-expand-lg ">
-                <div className="d-flex ">
-                    <Link className="logo-img" to = '/'>
-                        <img src={LogoIcon} alt="tutor" />
-                    </Link>
-                    <ul className="navbar-nav ">
-                        <li className="nav-item">
-                            {
-                                isTeacher===1 ?
-                                (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>):
-                                (<Link className="nav-link" to = '/apply'>成為老師</Link>)
-                            }
-                        </li>
-                    </ul>
+        {
+            state.isApply ?
+            (<div className="apply-Nav">
+                <div className="topbar d-flex flex-row-reverse" onClick={()=>{apply_to_homepage()}}>
+                    X
                 </div>
-
-                <div className="NavCollapse" >
-                    <div className="navbar-right">
-                        <div className="navbar-search">
-                            <input  id="search" className="form-control" placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
-                            <img className="search-icon" src={searchIcon} onClick={handleSearch}></img>
-                        </div>
-                        {
-                            isLogin ? (
-                                <div className="d-flex">
-                                    {
-                                        state.isTeacher===1 ?
-                                        (<div className="avatar-block"><Link to={`/teacher/${state.logindata.data.id}/personal`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>):
-                                        (<div className="avatar-block"><Link to='/student'><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>)
-                                    }
-                                    <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
-                                </div>
-                                
-                            ):
-                            ( 
-                                <button  className="btn btn-outline-primary my-2 my-sm-0" onClick={openLoginModal}>登入/註冊</button>
-                                )
-                        }
+            </div>
+            ):
+            (
+                <>
+                <LoginModal closeLoginModal={closeLoginModal} onNavbar={handleLogin}></LoginModal>
+                <nav className="Navtop navbar navbar-expand-lg ">
+                    <div className="d-flex ">
+                        <Link className="logo-img" to = '/'>
+                            <img src={LogoIcon} alt="tutor" />
+                        </Link>
+                        <ul className="navbar-nav ">
+                            <li className="nav-item">
+                                {
+                                    isTeacher===1 ?
+                                    (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>):
+                                    (<button className={`nav-link  ${ state.logindata ? '':'disabled'}`}  onClick={()=>{handleGotoApply()}}>成為老師</button>)
+                                }
+                            </li>
+                        </ul>
                     </div>
-                </div>
-            </nav> 
+    
+                    <div className="NavCollapse" >
+                        <div className="navbar-right">
+                            <div className="navbar-search">
+                                <input  id="search" className="form-control" placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
+                                <img className="search-icon" src={searchIcon} onClick={handleSearch}></img>
+                            </div>
+                            {
+                                localStorage.getItem("islogin")==="true" ? (
+                                    <div className="d-flex">
+                                        {
+                                            state.isTeacher===1 ?
+                                            (<div className="avatar-block"><Link to={`/teacher/${state.logindata.data.id}`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>):
+                                            (<div className="avatar-block"><Link to='/student'><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>)
+                                        }
+                                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
+                                    </div>
+                                    
+                                ):
+                                ( 
+                                    <button  className="btn btn-outline-primary my-2 my-sm-0" onClick={openLoginModal}>登入/註冊</button>
+                                    )
+                            }
+                        </div>
+                    </div>
+                </nav> 
+                </>
+            )
+        }
         </> 
     )
 };

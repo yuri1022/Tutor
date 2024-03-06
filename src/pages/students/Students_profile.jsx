@@ -1,4 +1,4 @@
-import { useRef,useState,useEffect } from 'react';
+import { useRef,useState,useEffect,useContext } from 'react';
 import Navbar from "../../components/Navbar";
 import Students_profile_Calender from "../../components/Student_profile_Calender";
 import Students_profile_Edit from "../../components/students/Student_profile_Edit";
@@ -6,10 +6,13 @@ import Students_profile_Rating from "../../components/students/Student_profile_R
 import Students_profile_Go_Class from "../../components/students/Student_profile_Go_Class";
 import headshot01 from './../../assets/images/svg/user大頭貼學生.svg';
 import { Modal } from 'bootstrap';
+import { AppContext } from './../../App';
 const Students_profile = () =>{
     const editModal = useRef(null);
     const ratingModal = useRef(null);
     const goclassModal = useRef(null);
+    const userdata = useContext(AppContext).state.logindata;
+    
     const [obj_goclass, setObj_goclass] = useState({
         teacher: '',
         date: new Date(),
@@ -54,13 +57,12 @@ const Students_profile = () =>{
             <Students_profile_Go_Class obj_goclass={obj_goclass} closeGoClassModal={closeGoClassModal}/>
             <Students_profile_Rating closeRatingModal={closeRatingModal}/>
             <Students_profile_Edit closeEditModal={closeEditModal}/>
-            <Navbar></Navbar>
             <div className="Profile_container_stu">
                 <div className="row">
                     <div className="col-3">
                         <div className="left-profile-stu-container">
                             <div className="img-profile"><img className="img-profile" src={headshot01}></img></div>
-                            <div className="text-title mb-40px">Agnes</div>
+                            <div className="text-title mb-40px">{userdata.name}</div>
                             <div>
                                 <div>
                                     <div className="text-title mb-10px">我的學習名次</div>
@@ -72,7 +74,7 @@ const Students_profile = () =>{
                                 <div className="intro-block mb-40px">
                                     <div className="text-title mb-10px">自我介紹</div>
                                     <div className="intro">
-                                        <p>Office ipsum you must be muted. Both reach idea we at land bed ditching. Meaningful win-win-win savvy angel like. Dog at anomalies submit replied businesses. It centric want strategic discussions hop six good wanted.</p>
+                                        <p>{userdata.selfIntro}</p>
                                     </div>
                                 </div>
                             </div>    

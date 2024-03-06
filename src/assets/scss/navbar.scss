@@ -1,3 +1,13 @@
+/*Apply Navbar*/
+.apply-Nav{
+    .topbar{
+        border:1px solid #3652E3;
+        border-right: 0px;
+        border-left: 0px;
+        padding: 16px 7vh 16px 7vh;
+    }
+}
+/**/
 .Navtop {
     padding: 16px 7vh 16px 7vh;
     margin-bottom: 3px;
@@ -27,14 +37,13 @@
     .nav-link:hover {
         color: black;
     }
-
-    .navbar-search {
+    .navbar-search{
         position: relative;
 
     }
 
 
-    .apply-link {
+    .apply-link{
         text-align: center;
     }
 
@@ -53,12 +62,11 @@
 .navbar-right {
     display: flex;
     flex-direction: row;
-
-    .navbar-search {
-        margin-right: 2vh;
+    
+    .navbar-search{
+        margin-right:2vh;
     }
-
-    .search-icon {
+    .search-icon{
         position: absolute;
         right: 13px;
         top: 7px;
@@ -69,15 +77,13 @@
         margin-bottom: 0;
         cursor: pointer;
     }
-
-    .avatar-block {
-        display: flex;
+    .avatar-block{
+        display:flex;
         justify-content: center;
         align-items: center;
-        margin-right: 2vh;
+        margin-right:2vh;
     }
-
-    .avatar-img {
+    .avatar-img{
         width: 30px;
         height: 30px;
         border-radius: 15px;

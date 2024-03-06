@@ -1,4 +1,4 @@
-.editStuModal_content {
+.editStuModal_content{
     padding-left: 20px;
     padding-right: 20px;
 
@@ -30,6 +30,9 @@
     .input-intro {
         width: 100%;
     }
+    .input-imageurl{
+        width:100%;
+    }
 
     /*modal-footer*/
     .modal-footer {
@@ -37,7 +40,7 @@
     }
 }
 
-.ratingStuModal_content {
+.ratingStuModal_content{
     padding-left: 20px;
     padding-right: 20px;
 
@@ -114,8 +117,7 @@
         border-top: 0px;
     }
 }
-
-.go_classStuModal_content {
+.go_classStuModal_content{
     padding-left: 20px;
     padding-right: 20px;
 
