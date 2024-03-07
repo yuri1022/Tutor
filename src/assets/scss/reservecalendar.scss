@@ -1,0 +1,143 @@
+.rbc-toolbar {
+
+  display: flex;
+  flex-direction: column;
+  align-items: normal;
+
+  .rbc-toolbar-top {
+    display: flex;
+    justify-content: space-between;
+
+    .rbc-btn-group-month-option {
+      color: var(--main-blue);
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 22px;
+
+
+    }
+
+    .rbc-btn-group-year {
+
+      .year-control {
+        border: 0;
+      }
+
+      .year {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 22px;
+        /* identical to box height */
+        color: var(--main-blue);
+        /* Inside auto layout */
+        flex: none;
+        order: 1;
+        flex-grow: 0;
+      }
+    }
+
+  }
+
+  .reserve {
+    display: flex;
+    justify-content: flex-end;
+    background-color: transparent;
+  }
+
+  .reserve span {
+    position: relative;
+    padding-left: 1rem;
+  }
+
+  .reserve span::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    /* 调整根据需要的圆形大小 */
+    height: 20px;
+    /* 调整根据需要的圆形大小 */
+    border-radius: 50%;
+  }
+
+  .reserve span:first-child::before {
+    background-color: var(--white);
+    border: 0.1rem solid var(--main-blue);
+  }
+
+  .reserve span:last-child::before {
+    background-color: var(--grey-300);
+  }
+
+
+}
+
+
+.rbc-month-view {
+
+  .rbc-month-header {
+    background-color: var(--main-blue);
+    color: var(--white);
+    height: 2rem;
+    font-size: 12px;
+    align-items: center;
+
+    .rbc-header {
+      border: none;
+    }
+
+  }
+
+  .rbc-month-row {
+
+    .rbc-row-bg {
+
+      .rbc-day-bg {
+        border: 1px solid var(--main-blue25)
+      }
+
+    }
+  }
+}
+
+.rbc-event.rbc-selected {
+      background-color: var(--main-blue25);
+      padding: 0;
+  }
+
+.rbc-event {
+  background-color: transparent;
+
+
+
+  .rbc-event-content {
+    text-align: center;
+    width:3.2rem;
+    .reserved {
+      border: none;
+      background-color: var(--grey-300);
+      color: var(--white);
+      border-radius: 0.3125rem;
+      height: 1rem;
+      font-size: 0.6rem;
+    }
+
+    .not-reserved {
+      border: 1px solid var(--main-blue);
+      background-color: transparent;
+      color: var(--main-blue);
+      border-radius: 0.3125rem;
+      height: 1rem;
+      font-size: 0.6rem;
+    }
+  }
+
+
+
+}

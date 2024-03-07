@@ -10,6 +10,9 @@ import Students_profile from './pages/students/Students_profile';
 import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 import TeacherSelfPage from './pages/TeacherSelfPage';
 import AppReducer from './store/AppContext.js';
+import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx'
+
+
 export const AppContext = createContext();
 const initial_login = ()=>{
   let data = false;

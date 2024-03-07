@@ -4,100 +4,293 @@ import { Button } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
-import Calendar from 'react-calendar';
 import '../assets/scss/teacherpage.scss';
-import '../assets/scss/reservecalendar.scss';
-import 'react-calendar/dist/Calendar.css';
-import TimePicker from 'react-time-picker';
-import 'react-time-picker/dist/TimePicker.css';
+import { Modal } from 'react-bootstrap';
+import { Calendar,momentLocalizer } from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import moment from 'moment';
+import { useState } from 'react';
+import LeftArrow from '../assets/images/svg/arrow-left.svg';
+import RightArrow from '../assets/images/svg/arrow-right.svg';
+import '../assets/scss/teachercalendar.scss';
+import axios from 'axios';
+import SuccessModal from './SuccessModal.jsx';
+import FailModal from './FailModal.jsx';
 
 
 const ClassReserve = ({ 
-  selectedCategory,
-  selectedDate,
-  selectedTime,
-  setSelectedTime,
-  categoryOptions,
-  checkIfDateIsSelectable,
-  handleSubmit,
-  handleDateChange,
-  setSelectedCategory,
   teacherDetails,
-  setSelectedDuration,
-  selectedDuration,
-  setSelectedCourse,
-  selectedCourse,
-  courseOptions,
-  isSelectable }) => {
+  show,
+  handleClose }) => {
+
+
+const localizer = momentLocalizer(moment);
+const [disableMonthNavigation, setDisableMonthNavigation] = useState(false);
+const [selectedCourse, setSelectedCourse] = useState('');
+const [selectedDuration, setSelectedDuration] = useState('');
+const [selectedCourseId, setSelectedCourseId] = useState('');
+
+const [showSuccessModal, setShowSuccessModal] = useState(false);
+const [showFailModal, setShowFailModal] = useState(false);
+ 
+  // 根據已預約名單標識是否已預約
+const events = teacherDetails.Courses.flatMap(course => {
+  const start = moment(course.startAt)
+  const end = moment(course.startAt).add(course.duration, 'minutes'); 
+    const isReserved = course.Registrations.some(registration => registration.rating !== null);
+
+  return {
+    start: start.toDate(),
+    end: end.toDate(),
+    title: course.name,
+    id:course.id,
+    reserved: isReserved,
+    duration:course.duration,  
+  };
+});
+
+const handleInputCourseChange = (event) => {
+    setSelectedCourse(event.target.value);
+  };
+
+const handleInputDurationChange = (event) => {
+    setSelectedDuration(event.target.value);
+  };
+
+const handleInputCourse = (event) =>{
+  setSelectedCourseId(event.target.value)
+}
+
+
+  const handleEventClick = (events) => {
+    // 在這裡根據點擊的事件更新 selectedCourse 的值
+    setSelectedCourse(events.title);
+    setSelectedDuration(events.duration);
+    setSelectedCourseId(events.id);
+  };
+
+const handleSubmit = async () => {
+ try {
+
+    if (!selectedCourseId) {
+      // 處理未選擇課程的情況
+      console.error('請選擇課程');
+      return;
+    }
+    const token = localStorage.getItem('token');
+    const courseId = selectedCourseId
+
+    const api = 'http://34.125.232.84:3000';
+    // Make a POST request to the /course endpoint
+    const response = await axios.post(
+      `${api}/register/${courseId}`,{},
+ {
+    headers: { 
+      Authorization: `Bearer ${token}`
+    } 
+  }
+    );
+
+    console.log('Course creation response:', response);
+
+    // Check the response and show success or fail modal
+    if (response.data.status=== 'success') {
+
+    //   const updatedTeacherDetails = await fetchTeacherData(); // 這裡請替換為你的獲取教師詳細資訊的邏輯
+    //  fetchTeacherData(updatedTeacherDetails);
+
+      setShowSuccessModal(true);
+    } else {
+      setShowFailModal(true);
+    }
+  } catch (error) {
+    console.error('Course creation error:', error.message);
+    setShowFailModal(true);
+  }
+};
+
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+  };
+
+
+  const handleCloseFailModal = () => {
+    setShowFailModal(false);
+  };
+
+
+
+const CustomToolbar = (toolbar) => {
+  const goToBack = () => {
+    const newDate = moment(toolbar.date).subtract(11, 'month');
+    toolbar.onNavigate('PREV', newDate);
+    setDisableMonthNavigation(false);
+  };
+
+  const goToNext = () => {
+    const newDate = moment(toolbar.date).add(11, 'month');
+    toolbar.onNavigate('NEXT', newDate);
+    setDisableMonthNavigation(false);
+  };
+
+const handleMonthChange = (selectedOption) => {
+  console.log('Selected Month:', selectedOption);
+  
+  // 確保 toolbar.date 是 Date 物件
+const currentDate = moment(toolbar.date).toDate();
+
+
+  if (!isNaN(currentDate.getTime())) {
+    const newDate = moment(currentDate).set('month', selectedOption.value);
+    toolbar.onNavigate('DATE', newDate.toDate());
+    setDisableMonthNavigation(true);
+  }
+
+  setDisableMonthNavigation(false);
+};
+
+  const monthOptions = moment.months().map((month, index) => ({
+    value: index,
+    label: month,
+  }));
+
 
   return (
-    <div className="class-reserve">
-      <div className="calendar">
-      <Calendar
-          onChange={handleDateChange} // 將選擇的日期傳遞給 handleDateChange
-          value={selectedDate}
-          filterDate={(date) => checkIfDateIsSelectable(date, teacherDetails.reserveDays)}
-          locale="en-US"
-        />
-      </div>
-      <div className="timepicker">
+    <div className="rbc-toolbar" >
 
-      <TimePicker
-          onChange={(time) => setSelectedTime(time)} // 將選擇的時間傳遞給 setSelectedTime
-          value={selectedTime}
-          hideDisabledOptions={true}
-        />
-      </div>
-      <div className="select-option">
-
-      <Select
-        options={courseOptions}
-        onChange={(selectedCourse) => setSelectedCourse (selectedCourse)}
-        value={selectedCourse}
-        placeholder="選擇課程名稱"
-      />        
-        
-      <Select
-        options={categoryOptions}
-        onChange={(selectedOption) => setSelectedCategory (selectedOption)}
-        value={selectedCategory}
-        placeholder="選擇課程類別"
-      />
-
-        <Select
-      options={[
-      { value: 30, label: '30 分鐘' },
-      { value: 60, label: '60 分鐘' },
-    ]}
-        onChange={(selectedOption) => setSelectedDuration (selectedOption)}
-        value={selectedDuration}
-        placeholder="選擇課程時間"
-      />
+      <div className="rbc-toolbar-top" >
       
-      </div> 
+      <span className="rbc-btn-group-month-option" style={{zIndex:'10'}}>
+        <Select
+          options={monthOptions}
+          onChange={handleMonthChange}
+          defaultValue={monthOptions.find((opt) => opt.value === toolbar.date.getMonth())}
+          isDisabled={disableMonthNavigation}
+        />
+  
+      </span>
 
-      <div className="btn-submit">
+      <span className="rbc-btn-group-year">
+        <button type="button" className="year-control" onClick={goToBack}>
+          <img src={LeftArrow} alt="" />
+        </button>
 
-      <Button className="submit btn-light" onClick={handleSubmit}>
-        預約課程
-      </Button>
+        <span className="year">{toolbar.date.getFullYear()} {/* 這裡顯示年份 */}</span>
+           
+        <button type="button" className="year-control" onClick={goToNext}>
+          <img src={RightArrow} alt="" />
+        </button>
+      </span>
+
+
       </div>
 
-
+      <div className="reserve">
+        <span style={{marginRight:'1rem'}}>可預約</span>
+        <span>不可預約</span>
+      </div>
 
     </div>
+
+  );
+};
+
+  const EventComponent = ({ event }) => {
+    const start = moment(event.start).format('HH:mm');
+    const end = moment(event.end).format('HH:mm');
+    return (
+      <div className={event.reserved ? 'reserved' : 'not-reserved' }  onClick={() => handleEventClick(event)}>
+        {`${start}-${end}`}    </div>
+    );
+  };
+
+  // 添加 PropTypes
+EventComponent.propTypes = {
+  event: PropTypes.shape({
+    start:PropTypes.instanceOf(Date).isRequired,
+    end:PropTypes.instanceOf(Date).isRequired,
+    reserved: PropTypes.bool.isRequired,
+  }).isRequired,
+};
+
+
+
+  return (
+    <Modal show={show} onHide={handleClose} size='sm'>
+    <Modal.Body>  
+     <div className="class-reserve">
+      <div className="calendar">
+      <Calendar
+        localizer={localizer}
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: '30rem',width:'30rem' }}
+        components={{
+          toolbar: CustomToolbar,
+            event: EventComponent,
+        }}
+      />
+
+
+      </div>
+
+
+      <div className="select-submit" style={{width:'100%',textAlign:'center',margin:'1rem 0 1rem 0'}}>
+        <div className="select-item d-flex" style={{marginBottom:'1rem',justifyContent:'center'}}>
+
+
+
+
+        <div style={{background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程名稱</div>
+          <input style={{width:'20.5rem',fontSize:'0.875rem',borderRadius:'0 0.5rem 0.5rem 0',border:'none',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}
+      onChange={(selectedCourse) => handleInputCourseChange (selectedCourse)}
+        value={selectedCourse}
+        placeholder="Please Click Date To Check Course Name"
+        readOnly
+      />  
+
+        </div>
+        <div className="select-item d-flex" style={{marginBottom:'1rem',justifyContent:'center'}}>
+          
+        <div style={{background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程時長</div>
+      <input style={{width:'20.5rem',fontSize:'0.875rem',borderRadius:'0 0.5rem 0.5rem 0',border:'none',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}
+      onChange={(selectedDuration) => handleInputDurationChange (selectedDuration)}
+      value={selectedDuration}
+       placeholder="Please Click Date To Check Course Duration"
+        readOnly
+      />
+      
+        </div>  
+        <div className="btn-submit" >
+
+      <Button className="submit btn-light" style={{width:'25rem',background:'linear-gradient(#1AEAEA,#3652E3)',border:'none',color:'var(--white)'}} onClick={handleSubmit}>
+        預約課程
+      </Button>
+         </div>
+
+    <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
+     <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} teacherDetails={teacherDetails} />        
+        
+      </div>
+  
+        
+
+
+      </div>    
+    </Modal.Body>
+
+
+
+
+    </Modal>
   );
 };
 
 ClassReserve.propTypes = {
-  selectedTime: PropTypes.string.isRequired,
-  setSelectedTime: PropTypes.func.isRequired,
-  selectedDuration:PropTypes.string.isRequired,
-  setSelectedDuration:PropTypes.func.isRequired,
   handleDateChange: PropTypes.func.isRequired,
-  selectedDate: PropTypes.instanceOf(Date).isRequired,
-  categoryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isSelectable: PropTypes.bool.isRequired,
+  selectedDate: PropTypes.string.isRequired,
   teacherDetails: PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
@@ -106,23 +299,12 @@ ClassReserve.propTypes = {
     selfIntro: PropTypes.string.isRequired,
     teachStyle: PropTypes.string.isRequired,
     ratingAverage: PropTypes.string.isRequired,
-    reserveDays:PropTypes.object.isRequired,
     Courses: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
-        Registrations: PropTypes.shape({
-          rating: PropTypes.number.isRequired,
-          comment: PropTypes.string.isRequired,
-        }).isRequired,
-        category: PropTypes.shape({}).isRequired,
-        duration:PropTypes.number.isRequired,
       })
     ).isRequired,
   }),
-  handleSubmit: PropTypes.func.isRequired,
-  checkIfDateIsSelectable: PropTypes.func.isRequired,
-  selectedCategory: PropTypes.string.isRequired,
-  setSelectedCategory: PropTypes.func.isRequired,
 };
 
 export default ClassReserve;

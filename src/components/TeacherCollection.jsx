@@ -13,6 +13,9 @@ import PrePageArrow from '../assets/images/svg/previouspage.svg';
 import NextPageArrow from '../assets/images/svg/nextpage.svg'
 import '../assets/scss/homepage.scss';
 import { useTeacherContext } from './teachercontext';
+import ClassReserve from './ClassReserve';
+import axios from 'axios';
+const api = 'http://34.125.232.84:3000';
 
 
 const TeacherCollection = () => {
@@ -22,6 +25,9 @@ const TeacherCollection = () => {
   const navigate = useNavigate();
   const { teacherData } = useTeacherContext();
   const { currentPage, totalPages } = teacherData;
+  const [reserveModalOpen,setIsReserveModalOpen]= useState(false);
+  const [reserveTeacher, setReserveTeacher] = useState('');
+
 
 
  useEffect(() => {
@@ -64,6 +70,38 @@ const TeacherCollection = () => {
   navigate(`/teacher/${teacherId}`);
 
   };
+
+
+
+const handleReserveOpen = async (teacher) => {
+
+  const fetchTeacherData = async (teacherId) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${api}/teacher/${teacherId}`, { headers: { Authorization: `Bearer ${token}` } });
+    return response.data.data;
+  } catch (error) {
+    if (error.response) {
+      console.error("Server error:", error.response.status, error.response.data);
+    } else if (error.request) {
+      console.error("No response from server");
+    } else {
+      console.error("Request failed:", error.message);
+    }
+    throw error;
+  }
+};
+  // 獲取教師數據
+  const teacherData = await fetchTeacherData(teacher.id);
+  setReserveTeacher(teacherData);
+  setIsReserveModalOpen(true);
+};
+  
+
+  const handleReserveClose = () => {
+    setIsReserveModalOpen(false);
+  };
+
   
 const uniqueCategories = ['所有類別', ...(teacherData.categories ? new Set(teacherData.categories.map(category => category.name)) : [])];
 
@@ -132,7 +170,16 @@ const handleCategoryChange = (selectedCategoryItemId) => {
 
       <div className="teacher-reserve-button">
       
-      <button className="btn-reserve btn btn-outline-secondary" onClick={() => handleButtonClick(teacher.id)}>預約課程</button>
+      <button className="btn-reserve btn btn-outline-secondary"  onClick={() => handleReserveOpen(teacher)}>預約課程</button>
+
+        {reserveModalOpen&&        
+        <ClassReserve
+          teacherDetails={reserveTeacher}
+          show={reserveModalOpen} 
+          handleClose={handleReserveClose}
+         />
+         }
+
     </div>
         
         </div>

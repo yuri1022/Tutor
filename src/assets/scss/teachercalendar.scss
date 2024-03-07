@@ -86,7 +86,7 @@
   .rbc-month-header {
       background-color: var(--main-blue);
       color: var(--white);
-      height: 5vh;
+      height: 2rem;
       font-size: 12px;
       align-items: center;
   
@@ -117,17 +117,19 @@
 
   .rbc-event-content{
       text-align: center;
+      width: 100%;
+      font-size: 1rem;
       .reserved {
         border: none;
           background-color:var(--grey-300);
           color: var(--white);
-          border-radius: 5px;
+          border-radius: 0.3125rem;
         }
       .not-reserved{
          border: 1px solid var(--main-blue);
          background-color: transparent;
          color: var(--main-blue);
-         border-radius: 5px;
+         border-radius: 0.3125rem;
       }
   }
 
