@@ -1,7 +1,6 @@
 import { useState,useEffect ,useRef,useContext,useReducer } from 'react';
 import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
-
 import Search from './Searchbar'
 import PropTypes from 'prop-types';
 import headshot01 from './../assets/images/svg/headshot01.svg';
@@ -10,15 +9,13 @@ import searchIcon from '../assets/images/svg/icon_search.svg';
 import { Link } from 'react-router-dom';
 import LoginModal from './../components/LoginModal';
 import { Modal } from 'bootstrap';
-import { AppContext } from '../App';
 import AppReducer from '../store/AppContext';
 import { AppContext } from '../App';
-import AppReducer from '../store/AppContext';
+
 const Navbar = (props) =>{
     const [isHome,setIsHome]= useState(true);
     const [ isTeacher,setIsTeacher] = useState(0);
     const [searchTxt, setSearchTxt]= useState('');
-    const {state,dispatch} = useContext(AppContext);
     const {state,dispatch} = useContext(AppContext);
     const loginModal = useRef(null);
     const api = 'http://34.125.232.84:3000';

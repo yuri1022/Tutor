@@ -10,26 +10,17 @@ import ClassReserve from '../components/ClassReserve.jsx';
 import { useState ,useEffect } from "react";
 import '../assets/scss/teacher.scss';
 import axios from "axios";
-import SuccessModal from '../components/SuccessModal';
-import FailModal from '../components/FailModal.jsx';
+import { Button } from 'react-bootstrap';
+
 
 
 const TeachersPage = () => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [reserveDays, setReserveDays] = useState({});
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showFailModal, setShowFailModal] = useState(false);
-  const [selectedTime ,setSelectedTime]=useState('12:00');
   const [teacherDetails, setTeacherDetails] = useState(null);
-  const [selectedDuration, setSelectedDuration] = useState('');
-  const [selectedCourse, setSelectedCourse] = useState('');
-  const [reservedCourseData, setReservedCourseData] = useState(null);
   const [isSelfIntroExpanded, setIsSelfIntroExpanded] = useState(true);
   const [isTeachStyleExpanded, setIsTeachStyleExpanded] = useState(true);
   const [isCalendarExpanded, setIsCalendarExpanded] = useState(true);
   const [isNoticeExpanded, setIsNoticeExpanded] = useState(true);
-
+  const [reserveModalOpen,setIsReserveModalOpen]= useState(false);
 
 
   const { id } = useParams();
@@ -63,103 +54,15 @@ const TeachersPage = () => {
     return null; // 或者你可以渲染加载中的 UI
   }
 
-const { mon, tue, wed, thu, fri, sat, sun } = teacherDetails || {};
-// 合併成一個名為 reserveDays 的物件
-const reserveDay = { mon, tue, wed, thu, fri, sat, sun };
-// 現在 reserveDays 就是包含所有屬性的物件
 
-const handleSubmit = async () => {
-    const reservedCourseData = {
-    // category: [selectedCategory.id],
-    studentId:2,
-    name: selectedCategory.label,
-    courseId:  parseInt(selectedCourse.id, 10),
-    // duration: parseInt(selectedDuration.value, 10),
-    startAt: `${selectedDate.toISOString().slice(0, 10)} ${selectedTime}`,
-    createAt:`${selectedDate.toISOString().slice(0, 10)} ${selectedTime}`,
-  };
-  console.log(reservedCourseData);
- try {
-    const token = localStorage.getItem('token');
-    const courseId = reservedCourseData.courseId;
-    // Make a POST request to the /course endpoint
-    const response = await axios.post(
-      `${api}/register/${courseId}`,{},
- {
-    headers: { 
-      Authorization: `Bearer ${token}`
-    } 
-  }
-    );
-
-    console.log('Course creation response:', response);
-
-    // Check the response and show success or fail modal
-    if (response.data.status=== 'success') {
-      setShowSuccessModal(true);
-    } else {
-      setShowFailModal(true);
-    }
-  } catch (error) {
-    console.error('Course creation error:', error.message);
-    setShowFailModal(true);
-  }
-};
-
-  const handleCloseSuccessModal = () => {
-    setShowSuccessModal(false);
+  const handleReserveOpen = () => {
+    setIsReserveModalOpen(true);
   };
 
-  const handleCloseFailModal = () => {
-    setShowFailModal(false);
+  const handleReserveClose = () => {
+    setIsReserveModalOpen(false);
   };
 
-
-  const checkIfDateIsSelectable = (date, reserveDay) => {
-  const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-  const selectedDayOfWeek = daysOfWeek[date.getDay()].toLowerCase(); // 轉換為小寫
-  console.log('Checktime:',selectedDayOfWeek);
-  return reserveDay[selectedDayOfWeek];
-    
-  };
-
-  const handleDateChange = (date) => {
-    console.log('Selected Date:', date);
-
-    if (teacherDetails && reserveDay) {
-      const daysOfWeek = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-      const selectedDayOfWeek = daysOfWeek[date.getDay()];
-      const isSelectable = reserveDay[selectedDayOfWeek];
-      console.log('isselectable',isSelectable)
-
-      if (isSelectable) {
-        setSelectedDate(date);
-      } else {
-        alert('該日期不可預約');
-      }
-    } else {
-      alert('無法獲取教師的預約日期信息');
-    }
-  };
-
-  const handleTimeChange = (time) => {
-  setSelectedTime(time);
-   console.log('Selected Time:', time);
-  };
-
-const categoryOptions = teacherDetails
-  ? teacherDetails.teaching_categories.map((categoryObj) => ({
-      label: categoryObj.Category.name,
-      id: categoryObj.categoryId,
-    }))
-  : [];
-
-const courseOptions = teacherDetails
-  ? teacherDetails.Courses.map((courseObj) => ({
-      label: courseObj.name,
-      id: courseObj.id,
-    }))
-  : [];
 
   return ( 
       <div>
@@ -191,11 +94,28 @@ const courseOptions = teacherDetails
       ))}
                     </div>
                 </div>
-                 
+       <div className="reserve-button" style={{marginTop:'3.8rem'}}>
+        <Button style={{background:'linear-gradient(#1AEAEA,#3652E3)',border:'none'}} onClick={() => handleReserveOpen()}>
+          <div style={{fontSize:'0.875rem'}}>
+            預約上課
+          </div>
+          
+          </Button>
+        {reserveModalOpen&&        
+        <ClassReserve
+          teacherDetails={teacherDetails}
+          show={reserveModalOpen} 
+          handleClose={handleReserveClose}
+         />
+         }
+      </div>                
 
              </div>
 
               </div> 
+
+
+
 
       <div className="introduction-container">
         
@@ -320,36 +240,12 @@ const courseOptions = teacherDetails
 
         <div className="form-right col col-3" >
           
-      
-          <div>
-        <ClassReserve
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          selectedCourse={selectedCourse}
-          setSelectedCourse={setSelectedCourse}
-          selectedTime={selectedTime}
-          setSelectedTime={handleTimeChange}
-          setSelectedCategory={setSelectedCategory}
-          selectedDuration={selectedDuration}
-          setSelectedDuration={setSelectedDuration}
-          reserveDays={reserveDays}
-          setReserveDays={setReserveDays}
-          teacherDetails={teacherDetails}
-          handleSubmit={handleSubmit}
-          categoryOptions={categoryOptions}
-          courseOptions={courseOptions}
-          setShowSuccessModal={setShowSuccessModal}
-          setShowFailModal={setShowFailModal}
-          handleDateChange={handleDateChange}
-          checkIfDateIsSelectable={checkIfDateIsSelectable}
-         />
-           </div>
+  
            <div>
             <ClassComments teacherDetails={teacherDetails} />
            </div>
             
-      <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
-     <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} teacherDetails={reservedCourseData} />
+
 
       
         </div>

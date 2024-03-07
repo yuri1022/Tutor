@@ -5,7 +5,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
-import '../assets/scss/teachercalendar.scss'
+import '../assets/scss/reservecalendar.scss'
 import LeftArrow from '../assets/images/svg/arrow-left.svg'
 import RightArrow from '../assets/images/svg/arrow-right.svg'
 
@@ -140,7 +140,6 @@ EventComponent.propTypes = {
         components={{
           toolbar: CustomToolbar,
             event: EventComponent,
-
         }}
       />
     </>
