@@ -4,6 +4,7 @@ import BestStudents from '../components/BestStudents';
 import { AppContext } from '../App';
 import { TeacherProvider } from '../components/teachercontext';
 import { CourseProvider } from '../components/coursecontext';
+import '../assets/scss/home.scss'
 
 
 const HomePage = () => {
@@ -16,19 +17,19 @@ const HomePage = () => {
   return (
 
   
-  <div className="home-page">
+  <div className="home-page d-flex">
       <TeacherProvider>
       
-    <div className="form col col-12" style={{display:'flex'}}>
+    <div className="form col col-12 d-flex" >
 
 
-  <div className="form-left col col-9">
+  <div className="form-left col-12 col-md-9 col-lg-9 d-flex">
     
     <TeachersCollection searchTerm={searchTerm}/>    
 
     
   </div>
-  <div className="form-right col col-3">
+  <div className="form-right col-12 col-md-3 col-lg-3">
     <BestStudents />
   </div>
   </div>

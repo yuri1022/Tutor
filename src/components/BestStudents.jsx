@@ -60,7 +60,7 @@ useEffect(() => {
 
   return (
     
-  <div className="container-ranking-list">
+  <div className="container-ranking-list d-flex col-12">
 
   <Card>
     <div className="ranking-list-title">
