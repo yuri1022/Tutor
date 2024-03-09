@@ -4,8 +4,9 @@ import '../assets/scss/successmodal.scss';
 import CourseIcon from '../assets/images/svg/course-icon.svg';
 import DateIcon from '../assets/images/svg/calendar-icon.svg';
 import TimeIcon from '../assets/images/svg/time-icon.svg';
+import { Link } from "react-router-dom";
 
-const SuccessMessage = ({ show, handleClose }) => {
+const SuccessMessage = ({ show, handleClose, successReservationData }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -19,20 +20,22 @@ const SuccessMessage = ({ show, handleClose }) => {
         
         <div className="modal-class">
           <img className="modal-class-img" src={CourseIcon} alt="Course" />
-          <h6 className="modal-class-title">Grace老師</h6>
+          <h6 className="modal-class-title">{successReservationData.courseName}</h6>
         </div>
         <div className="modal-date">
           <img className="modal-date-img" src={DateIcon} alt="Date" />
-          <h6 className="modal-date-title">2024年1月1日</h6>
+          <h6 className="modal-date-title">{successReservationData.date}</h6>
         </div>
         <div className="modal-time">
           <img className="modal-time-img" src={TimeIcon} alt="Time" />
-          <h6 className="modal-time-title">17:30~18:00</h6>
+          <h6 className="modal-time-title">{successReservationData.time}</h6>
         </div>
-
-        <button className="close-button btn btn-secondary" onClick={handleClose}>
+        <Link to="/student">
+        <button className="close-button btn btn-secondary">
           至我的課程查看
         </button>
+        </Link>
+
       </Modal.Body>
 
 
@@ -42,7 +45,12 @@ const SuccessMessage = ({ show, handleClose }) => {
 
 SuccessMessage.propTypes = {
   show: PropTypes.bool.isRequired,  
-  handleClose: PropTypes.func.isRequired,  
+  handleClose: PropTypes.func.isRequired,
+  successReservationData: PropTypes.shape({
+    courseName: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired, // 根據實際資料型別調整
+    time: PropTypes.string.isRequired, // 根據實際資料型別調整
+  }).isRequired,
 };
 
 export default SuccessMessage;
