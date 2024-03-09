@@ -13,7 +13,6 @@ Tutor是一個旨在提供學生和家教之間的配對服務的網站
 學生預約課程
 上完課後的課程評分與評論
 
--
 
 # Tutor
 
@@ -22,17 +21,17 @@ Tutor is a website ,  prefer English teachers and students matchmaker service.
 
 ## Function
 
-At Tutor , you can do diffrent things when you are in different identities.
-1. unregistered:
+At Tutor , you can do diffrent things when you are in different identities:
+1. Unregistered:
 You can see our teacher's brief introduction at homepage.
 
-3. student:
-You can click teacher's to see teacher's integral information , and reserve a course with your favorite teacher.
+3. Student:
+You can click to see teacher's integral information , and reserve a course with your favorite teacher ! 
 
-4. teacher:
-You can create courses on Tutor website. 
+4. Teacher:
+You can create courses on Tutor website , and students will reserve your class. 
    
-6. admin:
+6. Admin:
 You can see member list at backstage.
 
 
@@ -43,12 +42,16 @@ You can see member list at backstage.
 3. If you have 'teacher' identity , you can press button to switch your 'student' and 'teacher' indentity.
 
 ## Tools
+
 - React
-- React Bootstrappr
+- React Bootstrap
 - SCSS
 
 
 ## Contributer
-Front-End : @kspsss @yuri1022
-Back-End :
-UI/UX :
+
+-Front-End : @kspsss @yuri1022
+
+-Back-End :
+
+-UI/UX :
