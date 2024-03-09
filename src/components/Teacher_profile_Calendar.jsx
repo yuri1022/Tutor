@@ -136,7 +136,7 @@ EventComponent.propTypes = {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: '42rem',width:'54rem' }}
+        style={{ minHeight: '25rem',width:'100%' }}
         components={{
           toolbar: CustomToolbar,
             event: EventComponent,

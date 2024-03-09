@@ -174,9 +174,9 @@ const handleCancel = () => {
 
   return ( 
   <div>
-  <div className="div-container col col-12" >
+  <div className="div-container col-12 d-flex" >
 
-    <div className="form-left col col-9">
+    <div className="form-left col-12 col-md-9 col-lg-9">
 
     <div className="card-container">
 
@@ -309,7 +309,7 @@ const handleCancel = () => {
 
     </div>
 
-    <div className="form-right col col-3">
+    <div className="form-right col-12 col-md-3 col-lg-3">
 
 
      <div>

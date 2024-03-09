@@ -1,8 +1,7 @@
-
 /* 480px 以下的樣式 */
 @media screen and (max-width: 480px) {
-  .home-page{
-    .form{
+  .home-page {
+    .form {
       flex-direction: column-reverse;
     }
   }
@@ -17,8 +16,8 @@
 @media screen and (min-width: 1081px) {
   .home-page {
 
-      .form {
-        display: flex;
-      }
+    .form {
+      display: flex;
     }
+  }
 }

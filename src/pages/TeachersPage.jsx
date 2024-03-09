@@ -67,8 +67,8 @@ const TeachersPage = () => {
   return ( 
       <div>
     
-      <div className="div-container col col-12" >
-        <div className="form-left col col-9" >
+      <div className="div-container col-12 d-flex" >
+        <div className="form-left col-12 col-md-9 col-lg-9" >
 
               
 
@@ -94,8 +94,14 @@ const TeachersPage = () => {
       ))}
                     </div>
                 </div>
-       <div className="reserve-button" style={{marginTop:'3.8rem'}}>
-        <Button style={{background:'linear-gradient(#1AEAEA,#3652E3)',border:'none'}} onClick={() => handleReserveOpen()}>
+               
+
+             </div>
+
+              </div> 
+
+       <div className="reserve-button">
+        <Button className="btn-reserve" style={{background:'linear-gradient(#1AEAEA,#3652E3)',border:'none'}} onClick={() => handleReserveOpen()}>
           <div style={{fontSize:'0.875rem'}}>
             預約上課
           </div>
@@ -108,12 +114,7 @@ const TeachersPage = () => {
           handleClose={handleReserveClose}
          />
          }
-      </div>                
-
-             </div>
-
-              </div> 
-
+      </div> 
 
 
 
@@ -238,7 +239,7 @@ const TeachersPage = () => {
     </div>
         </div>
 
-        <div className="form-right col col-3" >
+        <div className="form-right col-12 col-md-3 col-lg-3" >
           
   
            <div>

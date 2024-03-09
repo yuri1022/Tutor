@@ -13,45 +13,26 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
     const calender_block = useRef(null);
     const [courseList, setCourseList] = useState([]);
+    const { state } = useContext(AppContext);
 
-     const { state } = useContext(AppContext);
     const api = 'http://34.125.232.84:3000';
 
 
    useEffect(() => {
     const fetchTeacherData = async () => {
       try {
-        const teacherId = state.logindata.data.id;
-        const response = await axios.get(`${api}/teacher/${teacherId}`);
-
-     
-        const teacherData = response.data;
-
-        console.log('Teacher Data:', teacherData);
-
-        if (teacherData.data.Courses) {
-        
-           const courses = teacherData.data.Courses.map(course => {
-          const startDate = new Date(course.startAt);
-            return {
-            year: startDate.getFullYear(),
-            month: startDate.getMonth() + 1,
-            day: startDate.getDate(),
-            subject: course.name,
-             student: '學生一號',
-             time: course.duration,
-             isattend: true,
-             timestamp: startDate.getTime(),
-            date: course.startAt,
-            };
-          });
-
-          setCourseList(courses);
-          console.log('Coursedata',courses);
-        }else{
-            console.log('No courses data available.');
-        }
-        
+      const teacherId = state.logindata.data.id;
+      const response = await axios.get(`${api}/teacher/${teacherId}`);
+      const teacherData = response.data;
+      console.log('Teacher Data:', teacherData);
+  if (teacherData.data.Courses) {
+        const courseIds = teacherData.data.Courses.map(course => course.id);
+        console.log(courseIds);
+        fetchCourseData(courseIds);
+      } else {
+        console.log('No courses data available.');
+      }
+        return teacherData;
 
       } catch (error) {
         console.error('Error fetching teacher data:', error);
@@ -63,6 +44,43 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
     }
 
   }, [state.logindata]);
+
+const fetchCourseData = async (courseIds) => {
+  try {
+  const token = localStorage.getItem('token');
+
+  for (const courseId of courseIds) {
+      const response = await axios.get(`${api}/register/${courseId}`,
+      {headers: { Authorization: `Bearer ${token}` }});
+      const courseData = response.data.data;
+      console.log(`Course Data for Course ID ${courseId}:`, courseData);
+
+      const startDate = new Date(courseData.startAt);
+      // 將每個課程的資料添加到陣列中
+      allCourseData.push({
+        year: startDate.getFullYear(),
+        month: startDate.getMonth() + 1,
+        day: startDate.getDate(),
+        subject: courseData.Course.name,
+        student: courseData.User.name,
+        time: courseData.Course.duration,
+        isattend: true,
+        timestamp: startDate.getTime(),
+        date: courseData.Course.startAt,
+      });
+    }
+
+    // 一次性返回所有課程資料
+    return allCourseData;
+  } catch (error) {
+    console.error('Error fetching course data:', error);
+  }
+};
+
+
+
+
+
 
     const months = ["January",
     "February",
@@ -96,8 +114,8 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
     const get_days_in_month = (year,month)=>{
         let days_arr = [31,28,31,30,31,30,31,31,30,31,30,31];
         let is_lunar = true;
-        console.log(month);
-        console.log(is_lunar);
+        // console.log(month);
+        // console.log(is_lunar);
         if(month ===1){
              is_lunar = check_lunar_year(year);
             if(is_lunar===true){

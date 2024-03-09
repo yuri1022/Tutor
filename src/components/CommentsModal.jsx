@@ -14,13 +14,16 @@ const [selectedRatings, setSelectedRatings] = useState({
   1: true,
 });
 
+const [selectedCategory, setSelectedCategory] = useState("allCategories");
+
+console.log(selectedCategory)
+
 const handleRatingToggle = (rating) => {
   setSelectedRatings((prev) => ({
     ...prev,
     [rating]: !prev[rating],
   }));
 };
-
 
     const ratingCounts = {
     5: 0, 
@@ -53,7 +56,23 @@ const handleRatingToggle = (rating) => {
   }
 
   const ratingKeys = Object.keys(ratingPercentages);
-  console.log(ratingPercentages)
+
+    const handleCategoryToggle = (category) => {
+    if (category === "allCategories") {
+      setSelectedCategory(["allCategories"]);
+    } else {
+      setSelectedCategory((prev) => {
+        const index = prev.indexOf(category);
+        if (index !== -1) {
+          // 如果已經選擇了該類別，則刪除該類別
+          return prev.filter((c) => c !== category);
+        } else {
+          // 如果尚未選擇該類別，則添加該類別
+          return [...prev, category];
+        }
+      });
+    }
+  };
 
   return (
     <Modal size="xl" show={show} onHide={handleClose}>
@@ -102,13 +121,24 @@ const handleRatingToggle = (rating) => {
           <div className="modal-category">
 
             <div className="modal-category-title">課程類別</div>
-            <div className="modal-category-detail">
-             {[...new Set(teacherDetails.Courses.map(course => course.category).flat())]
-           .map((category, index) => (
-        <span className="modal-category-item" key={index}>{category}</span>
-        
-      ))}
-            </div>
+       <div className="modal-category-detail">
+          <span
+            className={`modal-category-item ${selectedCategory.includes("allCategories") ? "selected" : ""}`}
+            onClick={() => handleCategoryToggle("allCategories")}
+          >
+            所有類別
+          </span>
+
+          {[...new Set(teacherDetails.Courses.map((course) => course.category).flat())].map((category, index) => (
+            <span
+              key={index}
+              className={`modal-category-item ${selectedCategory.includes(category) ? "selected" : ""}`}
+              onClick={() => handleCategoryToggle(category)}
+            >
+              {category}
+            </span>
+          ))}
+        </div>
             
           </div>
 
@@ -119,7 +149,11 @@ const handleRatingToggle = (rating) => {
 
           <div className="modal-comment-detail "> 
           {teacherDetails.Courses
-          .filter((course) => selectedRatings[course.Registrations[0]?.rating])
+          .filter(
+            (course) =>
+            (selectedCategory === "allCategories" || selectedCategory === course.category ) && 
+            selectedRatings[course.Registrations[0]?.rating]
+            )
           .map((course,index)=>(
              course.Registrations[0].rating !== null && course.Registrations[0].comment !== null && (
             <Card key={index} className="class-comment-info-card">
