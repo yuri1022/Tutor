@@ -14,6 +14,7 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
     const calender_block = useRef(null);
     const [courseList, setCourseList] = useState([]);
     const { state } = useContext(AppContext);
+    const allCourseData = [];
 
     const api = 'http://34.125.232.84:3000';
 
@@ -76,8 +77,6 @@ const fetchCourseData = async (courseIds) => {
     console.error('Error fetching course data:', error);
   }
 };
-
-
 
 
 
@@ -211,13 +210,13 @@ for (let i = 0; i < 5; i++) {
         currentDay++;
       } else {
         render_day_arr.push(
-          <div className="col calender_block bg-deep" key={'calender' + key}></div>
+          <div className="calender_block bg-deep" key={'calender' + key}></div>
         );
       }
       key++;
     }
     render_week_array.push(
-      <div className="d-flex " key={i}>
+      <div className="coures-week-item d-flex" key={i}>
         {render_day_arr}
       </div>
     );
@@ -229,7 +228,7 @@ for (let i = 0; i < 5; i++) {
 
     return(
          <>
-      <div className="d-flex justify-between mb-20px">
+      <div className="course-calendar-title d-flex justify-between mb-1">
         <select
           className="month-selection"
           name="months"
@@ -248,7 +247,7 @@ for (let i = 0; i < 5; i++) {
             );
           })}
         </select>
-        <div className="d-flex items-center">
+        <div className="course-calendar-year d-flex items-center">
           <img
             className="btn"
             src={arrow_left}
@@ -267,21 +266,22 @@ for (let i = 0; i < 5; i++) {
         </div>
       </div>
 
-      <div className="d-flex flex-reverse mb-10px">
+      <div className="course-state d-flex flex-reverse mb-1">
         <div className="d-flex items-center ">
-          <div className="circle-icon bg-finsh mr-10px"></div>
+          <div className="circle-icon-finished mr-1 mt-1"></div>
           <div className="">已完課</div>
         </div>
-        <div className="d-flex items-center mr-10px">
-          <div className="circle-icon bg-not-seat mr-10px"></div>
+        <div className="d-flex items-center mr-1">
+          <div className="circle-icon-notattended mr-1 mt-1"></div>
           <div className="">缺席</div>
         </div>
-        <div className="d-flex items-center mr-10px">
-          <div className="circle-icon bg-o-not-l mr-10px"></div>
-          <div className="">已預約未聽課</div>
+        <div className="d-flex items-center mr-1">
+          <div className="circle-icon-reserved mr-1 mt-1"></div>
+          <div className="">已預約</div>
         </div>
       </div>
-      <div className="d-flex">
+
+      <div className="course-body d-flex">
         {weeks_arr.map((week, key) => {
           return (
             <div className="col" key={week}>
@@ -290,7 +290,7 @@ for (let i = 0; i < 5; i++) {
           );
         })}
       </div>
-      <div id="calender-block" className="calender_table">
+      <div id="calender-block" className="calender-table">
         {render_week_array}
       </div>
     </>
