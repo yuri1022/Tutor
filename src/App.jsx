@@ -57,7 +57,7 @@ function App() {
         <Route path="course" element={<TeacherCalendarPage />} />    
           <Route path="teacher/:id" element={<TeachersPage />} />
           <Route path="teacher/:id/personal" element={<TeacherSelfPage />} />
-          <Route path="student" element={<Students_profile/>} />
+          <Route path="student/:id" element={<Students_profile/>} />
           <Route path="home/*" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
           <Route path="apply" element={<ApplyTeacher />}/>

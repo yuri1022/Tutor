@@ -1,79 +1,20 @@
-import { useState,useEffect,useRef } from 'react';
+import { useState,useEffect,useRef,useContext } from 'react';
 import arrow_right from './../assets/images/svg/arrow-right.svg';
 import arrow_left from './../assets/images/svg/arrow-left.svg';
+import axios from 'axios';
+import { AppContext } from '../App';
 const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const today = new Date();
     const today_month = today.getMonth();
     const today_year = today.getFullYear();
     const [currentMonth,setCurrentMonth] = useState(today.getMonth());
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
-    console.log(currentMonth);
-    console.log(currentYear);
+    const [courseList, setCourseList] = useState([]);
     const calender_block = useRef(null);
+    const { state } = useContext(AppContext);
+    const api = 'http://34.125.232.84:3000';
 
-    const course_list = [{
-        
-        year:2024,
-        month:2,
-        day:2,
-        subject:'多益',
-        teacher:'Grace',
-        time: `17:00-17:30`,
-        isreview:false,
-        isattend:false,
-        timestamp: new Date(currentYear, currentMonth, 2).getTime(),
-        date: new Date(currentYear, currentMonth, 2)
-        
-    },
-    {
-        year:2024,
-        month:2,
-        day:2,
-        subject:'多益',
-        teacher:'Gracsse',
-        time: `21:00-22:30`,
-        isreview:true,
-        isattend:true,
-        timestamp: new Date(currentYear, currentMonth, 2).getTime(),
-        date: new Date(currentYear, currentMonth, 2)
-    },
-    {
-        year:2024,
-        month:2,
-        day:2,
-        subject:'多益',
-        teacher:'Gracsse',
-        time: `23:00-24:00`,
-        isreview:true,
-        isattend:true,
-        timestamp: new Date(currentYear, currentMonth, 2).getTime(),
-        date: new Date(currentYear, currentMonth, 2)
-    },
-    {
-        year:2024,
-        month:2,
-        day:5,
-        subject:'睡覺',
-        teacher:'Kspsss',
-        time: `22:00-24:00`,
-        isreview:false,
-        isattend:true,
-        timestamp: new Date(currentYear, currentMonth, 5).getTime(),
-        date: new Date(currentYear, currentMonth, 5)
-    },
-    {
-        year:2024,
-        month:2,
-        day:29,
-        subject:'睡覺',
-        teacher:'Kspsss',
-        time: `22:00-24:00`,
-        isreview:false,
-        isattend:false,
-        timestamp: new Date(currentYear, currentMonth, 29).getTime(),
-        date: new Date(currentYear, currentMonth, 29)
-    }
-    ]
+
     const months = ["January",
     "February",
     "March",
@@ -106,8 +47,8 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const get_days_in_month = (year,month)=>{
         let days_arr = [31,28,31,30,31,30,31,31,30,31,30,31];
         let is_lunar = true;
-        console.log(month);
-        console.log(is_lunar);
+        //console.log(month);
+        //console.log(is_lunar);
         if(month ===1){
              is_lunar = check_lunar_year(year);
             if(is_lunar===true){
@@ -136,44 +77,55 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     let key = 0 ;
     const show_course=(course,index)=>{
         let course_block = ``
-
-        if( course.isattend ===false && course.timestamp < today.getTime()){
+        let course_date = new Date(course.timestamp);
+        // if( course.isattend ===false && course.timestamp < today.getTime()){
+        //     course_block =
+        //     <div className="course-block bg-absent" key={index}>
+        //         <div className="title-bar absent">{course_list[index].subject}</div>
+        //         <div>{course_list[index].teacher}</div>
+        //         <div>{course_list[index].time}</div>
+        //     </div>
+        // }
+        if( course.timestamp > today.getTime()){
             course_block =
-            <div className="course-block bg-absent" key={index}>
-                <div className="title-bar absent">{course_list[index].subject}</div>
-                <div>{course_list[index].teacher}</div>
-                <div>{course_list[index].time}</div>
+            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.name,course.date,course.time)} }>
+                <div className="title-bar reserve">{course.subject}</div>
+                <div>{course.name}</div>
+                {course.time===30 ? 
+                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
+                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
+                }
             </div>
         }
-        else if( course.timestamp > today.getTime()){
-            course_block =
-            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course_list[index].teacher,course_list[index].date,course_list[index].time)} }>
-                <div className="title-bar reserve">{course_list[index].subject}</div>
-                <div>{course_list[index].teacher}</div>
-                <div>{course_list[index].time}</div>
-            </div>
-        }
-        else if ( course.isattend === true && course.isreview === false){
+        else if ( course.rating===null){
             course_block =             
             <div className="course-block bg-not-review" key={index} onClick={openRatingModal}>
-                <div className="title-bar notreview">{course_list[index].subject}</div>
-                <div>{course_list[index].teacher}</div>
-                <div>{course_list[index].time}</div>
+                <div className="title-bar notreview">{course.subject}</div>
+                <div>{course.name}</div>
+                {course.time===30 ? 
+                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
+                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
+                }
             </div>
         }
-        else if ( course.isattend === true && course.isreview === true ){
+        else if ( course.rating!==0 ){
             course_block =
             <div className="course-block bg-finish" key={index}>
-                <div className="title-bar finish">{course_list[index].subject}</div>
-                <div>{course_list[index].teacher}</div>
-                <div>{course_list[index].time}</div>
+                <div className="title-bar finish">{course.subject}</div>
+                <div>{course.name}</div>
+                {course.time===30 ? 
+                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
+                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
+                }
             </div>
         }
 
         return(course_block);
     }
+
     for(let i = 0 ; i < 5; i++)
     {
+
         const render_day_arr = [];
         for (let j=1 ; j < 8; j++){
             if(i===0 && j < firstDayOfMonth ){
@@ -182,10 +134,12 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
             else if(currentDay <= dayInMonth){
                 let newDiv = [];
                 let count_course = 0;
-                for( let z=0; z<course_list.length; z++){
-                    //console.log(course_list[z].day);
+                for( let z=0; z<courseList.length; z++){
                     //console.log(currentDay)
-                    if(course_list[z].day ===currentDay && course_list[z].month-1 === currentMonth && course_list[z].year === currentYear){
+                    if( courseList[z].day === currentDay &&
+                        courseList[z].month - 1 === currentMonth &&
+                        courseList[z].year === currentYear){
+
                         if(count_course >= 2){
                             newDiv.push(
                                 <button className="btn-more" key={'btn-more'+key}>More</button>
@@ -193,7 +147,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                             z = course_list.length;
                         }
                         else{
-                        let inner = show_course(course_list[z],z);
+                        let inner = show_course(courseList[z],z);
                         newDiv.push(
                         inner)
                         }
@@ -210,9 +164,56 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
         }
         render_week_array.push(<div className="d-flex " key={i}>{render_day_arr}</div>)
     }
+    useEffect(() => {
+        const fetchStudentData = async () => {
+          try {
+            const studentId = state.logindata.data.id;
+            const response = await axios.get(`${api}/student/${studentId}`);
+    
+         
+            const studentData = response.data;
+    
+            console.log('Student Data:', studentData);
+    
+            if (studentData.data.Registrations) {
+            
+               const courses = studentData.data.Registrations.map(course => {
+                const startDate = new Date(course.Course.startAt);
+                return {
+                year: startDate.getFullYear(),
+                month: startDate.getMonth() + 1,
+                hour: startDate.getHours(),
+                day: startDate.getDate(),
+                min:startDate.getMinutes(),
+                name: course.Course.name,
+                subject: course.Course.category[0],
+                 time: course.Course.duration,
+                 isattend: true,
+                 timestamp: startDate.getTime(),
+                date: course.Course.startAt,
+                rating: course.rating,
+                comment: course.comment,
+                };
+              });
+              setCourseList(courses);
+              console.log('Coursedata',courses);
+            }else{
+                console.log('No courses data available.');
+            }
+          } catch (error) {
+            console.error('Error fetching teacher data:', error);
+          }
+        };
+    
+        if (state.logindata && state.logindata.data) {
+          fetchStudentData();
+        }
+    
+      }, [state.logindata]);
     useEffect(()=>{
 
-    },[])
+    },[]);
+
 
     useEffect(()=>{  
     },[currentMonth,currentYear])
@@ -220,7 +221,6 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
         <>
         <div className="d-flex justify-between mb-20px">
             <select className="month-selection" name="months" value={currentMonth} onChange={(e)=>{
-                console.log(parseInt(e.target.value));
                 setCurrentMonth(parseInt(e.target.value))}}>
             {
                 months.map((month,key)=>{
