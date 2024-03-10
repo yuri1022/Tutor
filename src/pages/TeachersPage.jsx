@@ -170,7 +170,7 @@ const TeachersPage = () => {
       </div>
       
           {/* 日曆待修改 */}
-      <div className="self-class-time-calendar">
+      <div className="self-class-time-calendar" style={{width:'100%'}}>
           <p className={`self-class-time-description ${
         isCalendarExpanded ? "expanded" : "collapsed"
       }`}> {isCalendarExpanded && (

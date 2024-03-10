@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { AppContext } from "../App";
 import axios from "axios";
 
-const Teacher_profile_Calender = ({openGoClassModal}) =>{
+const Teacher_profile_Calender = () =>{
     const today = new Date();
     const today_month = today.getMonth();
     const today_year = today.getFullYear();
@@ -65,7 +65,6 @@ const fetchCourseData = async (courseIds) => {
         subject: courseData.Course.name,
         student: courseData.User.name,
         time: courseData.Course.duration,
-        isattend: true,
         timestamp: startDate.getTime(),
         date: courseData.Course.startAt,
       });
@@ -144,26 +143,18 @@ const fetchCourseData = async (courseIds) => {
     const show_course=(course,index)=>{
         let course_block = ``
 
-        if( course.isattend ===false && course.timestamp < today.getTime()){
+        if( course.timestamp < today.getTime()){
             course_block =
-            <div className="course-block bg-absent" key={index}>
-                <div className="title-bar absent">{course.subject}</div>
+            <div className="course-block bg-finish" key={index}>
+                <div className="title-bar finish">{course.subject}</div>
                 <div>{course.student}</div>
                 <div>{course.date}</div>
             </div>
         }
         else if( course.timestamp > today.getTime()){
             course_block =
-            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.student,course.date,course.time)} }>
+            <div className="course-block bg-reserve" key={index} onClick={(e)=>{TeacherGoClassModal(course.student,course.date,course.time)} }>
                 <div className="title-bar reserve">{course.subject}</div>
-                <div>{course.student}</div>
-                <div>{course.time}</div>
-            </div>
-        }
-        else if ( course.isattend === true ){
-            course_block =
-            <div className="course-block bg-finish" key={index}>
-                <div className="title-bar finish">{course.subject}</div>
                 <div>{course.student}</div>
                 <div>{course.time}</div>
             </div>
@@ -270,10 +261,6 @@ for (let i = 0; i < 5; i++) {
         <div className="d-flex items-center ">
           <div className="circle-icon-finished mr-1 mt-1"></div>
           <div className="">已完課</div>
-        </div>
-        <div className="d-flex items-center mr-1">
-          <div className="circle-icon-notattended mr-1 mt-1"></div>
-          <div className="">缺席</div>
         </div>
         <div className="d-flex items-center mr-1">
           <div className="circle-icon-reserved mr-1 mt-1"></div>
