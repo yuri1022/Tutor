@@ -106,12 +106,13 @@ const Navbar = (props) =>{
             (
                 <>
                 <LoginModal closeLoginModal={closeLoginModal} onNavbar={handleLogin}></LoginModal>
-                <nav className="Navtop navbar navbar-expand-lg ">
-                    <div className="d-flex ">
+                <nav className="Navtop navbar navbar-expand-xl">
+                    <div className="navbar-container d-flex col-12">
+                    <div className="d-flex">
                         <Link className="logo-img" to = '/'>
                             <img src={LogoIcon} alt="tutor" />
                         </Link>
-                        <ul className="navbar-nav ">
+                        <ul className="navbar-nav d-flex" style={{justifyContent:'center',alignItems:'center'}}>
                             <li className="nav-item">
                                 {
                                     isTeacher===1 ?
@@ -146,6 +147,9 @@ const Navbar = (props) =>{
                             }
                         </div>
                     </div>
+                    </div>
+
+
                 </nav> 
                 </>
             )
