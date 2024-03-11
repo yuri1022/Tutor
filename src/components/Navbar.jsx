@@ -64,7 +64,7 @@ const Navbar = (props) =>{
             const teacherData = await axios.get(`${api}/teacher/${id}`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
-                console.log(`teacher data${res.data.data.teachStyle}`);
+                // console.log(`teacher data${res.data.data.teachStyle}`);
                 dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:1,isLogin:true} });
             }).catch(
                 err=>{
@@ -74,12 +74,11 @@ const Navbar = (props) =>{
             console.log(isTeacher);
             return teacherData;
             
-        }
-        else{
+        } else if (isTeacher===0) {
             const studentData = await axios.get(`${api}/student/${id}`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
-                console.log(`student data ${res.data.data.selfIntro}`);
+                // console.log(`student data ${res.data.data.selfIntro}`);
                 dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isLogin:true} });
             }).catch(
                 err=>{
@@ -88,6 +87,20 @@ const Navbar = (props) =>{
             )
             
             return studentData;
+            } else if (isTeacher===undefined){
+            const adminData = await axios.get(`${api}/admin/users`,{
+                headers: { Authorization: `Bearer ${token}` }
+            }).then((res)=>{
+                console.log('Admin data' ,res.data);
+                const isAdmin = true;  
+                dispatch({type:"LOGIN",payload:{logindata:res.data,isAdmin:isAdmin,isLogin:true} });
+                navigate('/admin');    
+            }).catch(
+                err=>{
+                    console.log(err);
+                }
+            )    
+        
         }
     }
     useEffect(()=>{

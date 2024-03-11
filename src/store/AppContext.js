@@ -8,6 +8,7 @@ export default function AppReducer(state, action ){
                 isLogin: action.payload.isLogin,
                 isTeacher:action.payload.isTeacher,
                 isApply:state.isApply,
+                isAdmin:action.payload.isAdmin,
 
             }
         case 'LOGOUT':
@@ -16,6 +17,7 @@ export default function AppReducer(state, action ){
                 isLogin: "false",
                 isTeacher: 0,
                 isApply:state.isApply,
+                isAdmin:false,
             }
         case 'APPLYTEACHER':
             return{
@@ -23,6 +25,7 @@ export default function AppReducer(state, action ){
                 isLogin:state.isLogin,
                 isTeacher:0,
                 isApply:true,
+                isAdmin:false,
             }
         case 'APPLYTEACHER_BACK':
             return{
@@ -30,6 +33,7 @@ export default function AppReducer(state, action ){
                 isLogin:state.isLogin,
                 isTeacher:0,
                 isApply:false,
+                isAdmin:false,
             }
         default:
             return state;

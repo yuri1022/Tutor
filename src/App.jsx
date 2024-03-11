@@ -36,6 +36,7 @@ function App() {
     isTeacher: 0,
     isLogin: false,
     isApply: false,
+    isAdmin:false,
   }
   const [searchTerm, setSearchTerm] = useState("");
   const [state, dispatch ] = useReducer( AppReducer,initial_data);

@@ -20,14 +20,14 @@ const BestStudents = () => {
 
 
   useEffect(() => {
-    console.log(bestStudent);
+    // console.log(bestStudent);
   }, [bestStudent]);
 
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
         const studentId = state.logindata.data.id;
-        console.log(state.logindata.data.id) 
+        // console.log(state.logindata.data.id) 
         const token = localStorage.getItem('token');
         const response = await axios.get(`${api}/student/${studentId}`, { headers: { Authorization: `Bearer ${token}` } });
         setstudentRank(response.data.data)
@@ -51,8 +51,8 @@ const BestStudents = () => {
 
 useEffect(() => {
   if (studentRank) {
-    console.log(studentRank.studyRank);
-    console.log(studentRank.studyHours);
+    // console.log(studentRank.studyRank);
+    // console.log(studentRank.studyHours);
     // 其他相關操作
   }
 }, [studentRank]);
