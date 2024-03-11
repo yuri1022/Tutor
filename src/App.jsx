@@ -10,7 +10,8 @@ import Students_profile from './pages/students/Students_profile';
 import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 import TeacherSelfPage from './pages/TeacherSelfPage';
 import AppReducer from './store/AppContext.js';
-import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx'
+import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
+import AdminPage from './pages/AdminPage.jsx';
 
 
 export const AppContext = createContext();
@@ -61,6 +62,7 @@ function App() {
           <Route path="home/*" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
           <Route path="apply" element={<ApplyTeacher />}/>
+          <Route path="admin" element={<AdminPage />}/>
       </Routes>
     </AppContext.Provider>
   </div>

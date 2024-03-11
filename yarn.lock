@@ -2434,10 +2434,10 @@ queue-microtask@^1.2.2:
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-react-big-calendar@^1.10.1:
-  version "1.10.2"
-  resolved "https://registry.npmjs.org/react-big-calendar/-/react-big-calendar-1.10.2.tgz"
-  integrity sha512-GfOgbJiDFJNF/HwA5NitPW3K2kPLYu0JraLbFuRKwEuZkG3658CUKf2s7sNGI9OHpFh/WsEOzD5BkP9DAaU70A==
+react-big-calendar@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/react-big-calendar/-/react-big-calendar-1.11.1.tgz#33dad51f576dd677acb343fa0e1e4c36ff5404d2"
+  integrity sha512-7GWxQjXo+ByJdouz8oJq51g1hhjCftmDqQmQYL5Loy2m0ibebF9hIGV5L/14ItRywSWQF9GpfCI7kJxPEISzjA==
   dependencies:
     "@babel/runtime" "^7.20.7"
     clsx "^1.2.1"

@@ -6,7 +6,7 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 import '../assets/scss/teacherpage.scss';
 import { Modal } from 'react-bootstrap';
-import { Calendar,momentLocalizer } from 'react-big-calendar';
+import { Calendar,momentLocalizer,Views } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import { useState,useEffect } from 'react';
@@ -48,7 +48,8 @@ const events = teacherDetails.Courses.flatMap(course => {
     id:course.id,
     reserved: isReserved,
     duration:course.duration,  
-    date:course.startAt
+    date:course.startAt,
+    allDay:true
   };
 });
 
@@ -139,13 +140,13 @@ useEffect(() => {
 
 const CustomToolbar = (toolbar) => {
   const goToBack = () => {
-    const newDate = moment(toolbar.date).subtract(11, 'month');
+    const newDate = moment(toolbar.date).subtract(1, 'week');
     toolbar.onNavigate('PREV', newDate);
     setDisableMonthNavigation(false);
   };
 
   const goToNext = () => {
-    const newDate = moment(toolbar.date).add(11, 'month');
+    const newDate = moment(toolbar.date).add(1, 'week');
     toolbar.onNavigate('NEXT', newDate);
     setDisableMonthNavigation(false);
   };
@@ -191,8 +192,6 @@ const currentDate = moment(toolbar.date).toDate();
         <button type="button" className="year-control" onClick={goToBack}>
           <img src={LeftArrow} alt="" />
         </button>
-
-        <span className="year">{toolbar.date.getFullYear()} {/* 這裡顯示年份 */}</span>
            
         <button type="button" className="year-control" onClick={goToNext}>
           <img src={RightArrow} alt="" />
@@ -214,10 +213,9 @@ const currentDate = moment(toolbar.date).toDate();
 
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
-    const end = moment(event.end).format('HH:mm');
     return (
       <div className={event.reserved ? 'reserved' : 'not-reserved' }  onClick={() => handleEventClick(event)}>
-        {`${start}-${end}`}    </div>
+        {`${start}`}    </div>
     );
   };
 
@@ -235,18 +233,20 @@ EventComponent.propTypes = {
   return (
     <Modal show={show} onHide={handleClose} size='sm'>
     <Modal.Body>  
-     <div className="class-reserve">
+     <div className="class-reserve" style={{ width:'100%' }}>
       <div className="calendar">
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: '30rem',width:'30rem' }}
+        style={{ minHeight: '8rem',width:'100%' }}
         components={{
           toolbar: CustomToolbar,
             event: EventComponent,
         }}
+        defaultView={Views.WEEK} // 將預設視圖設為 Week
+        allDayMaxRows='3'
       />
 
 
