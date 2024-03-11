@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react'; 
-import headshot01 from './../../assets/images/svg/user大頭貼學生.svg';
 import { AppContext } from '../../App';
 import { edit_student_data } from '../../api/student';
 const Students_profile_Edit = ({closeEditModal})=>{
@@ -38,7 +37,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
             <div className="modal-body">
                 <div className="row">
                     <div className="col-4 d-flex flex-column items-center">
-                        <div className="mb-10px"><img className="w-100" src={headshot01}></img></div>
+                        <div className="mb-10px"><img className="w-100" src={studentData?.avatar}></img></div>
                         <button className="btn btn-primary" onClick={()=>{handleChangeheadshot()}}>更換大頭貼</button>
                         {
                             ischangePhoto &&

@@ -1,14 +1,14 @@
 import { useRef,useState,useEffect,useContext } from 'react';
-import Navbar from "../../components/Navbar";
 import Students_profile_Calender from "../../components/Student_profile_Calender";
 import Students_profile_Edit from "../../components/students/Student_profile_Edit";
 import Students_profile_Rating from "../../components/students/Student_profile_Rating";
 import Students_profile_Go_Class from "../../components/students/Student_profile_Go_Class";
-import headshot01 from './../../assets/images/svg/user大頭貼學生.svg';
+import { useParams } from "react-router-dom";
 import { Modal } from 'bootstrap';
 import { AppContext } from './../../App';
 const Students_profile = () =>{
     const editModal = useRef(null);
+    const { id } = useParams();
     const ratingModal = useRef(null);
     const goclassModal = useRef(null);
     const userdata = useContext(AppContext).state.logindata;
@@ -33,8 +33,8 @@ const Students_profile = () =>{
     const openGoClassModal = (teacher,date,time) =>{
         setObj_goclass({
             'teacher': teacher,
-            'date': date,
-            'time': time,
+            'date': new Date(date),
+            'time':time,
         });
         goclassModal.current.show();
     }
@@ -61,8 +61,8 @@ const Students_profile = () =>{
                 <div className="row">
                     <div className="col-3">
                         <div className="left-profile-stu-container">
-                            <div className="img-profile"><img className="img-profile" src={headshot01}></img></div>
-                            <div className="text-title mb-40px">{userdata.name}</div>
+                            <div className="img-profile"><img className="img-profile" src={userdata?.data?.avatar}></img></div>
+                            <div className="text-title mb-40px">{userdata?.data?.name}</div>
                             <div>
                                 <div>
                                     <div className="text-title mb-10px">我的學習名次</div>
@@ -74,7 +74,7 @@ const Students_profile = () =>{
                                 <div className="intro-block mb-40px">
                                     <div className="text-title mb-10px">自我介紹</div>
                                     <div className="intro">
-                                        <p>{userdata.selfIntro}</p>
+                                        <p>{userdata?.data?.selfIntro}</p>
                                     </div>
                                 </div>
                             </div>    

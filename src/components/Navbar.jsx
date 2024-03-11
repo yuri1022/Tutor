@@ -134,7 +134,7 @@ const Navbar = (props) =>{
                                         {
                                             state.isTeacher===1 ?
                                             (<div className="avatar-block"><Link to={`/teacher/${state.logindata.data.id}`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>):
-                                            (<div className="avatar-block"><Link to='/student'><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>)
+                                            (<div className="avatar-block"><Link to={`/student/${state.logindata?.data?.id}`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>)
                                         }
                                         <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
                                     </div>
