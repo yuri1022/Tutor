@@ -27,7 +27,7 @@ const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass}) =>{
                             </div>
                             <div className="reserve-bar">
                                 <img className="mr-10px"  src={icon_time}/>
-                                <div>{obj_goclass.time}</div>
+                                <div>{obj_goclass.time}分鐘</div>
                             </div>
                             <div className="reserve-button-list">
                                 <button type="button" className="btn btn-decline-regisiter" data-dismiss="modal" onClick={closeGoClassModal}>取消預約</button>

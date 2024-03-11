@@ -1,8 +1,57 @@
-# React + Vite
+# Tutor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 家教平台網站
+Tutor是一個旨在提供學生和家教之間的配對服務的網站
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 使用技術：
+前端:React、React Bootstrap、React Flag Select、React Calendar、React Time Picker、React Router DOM
+
+### 功能:
+學生和老師的註冊和登錄功能
+學生可以搜索和篩選可用的家教跟選擇要研習的課程
+學生預約課程
+上完課後的課程評分與評論
+
+
+# Tutor
+
+## Introduction
+Tutor is a website ,  prefer English teachers and students matchmaker service.
+
+## Function
+
+At Tutor , you can do diffrent things when you are in different identities:
+1. Unregistered:
+You can see our teacher's brief introduction at homepage.
+
+3. Student:
+You can click to see teacher's integral information , and reserve a course with your favorite teacher ! 
+
+4. Teacher:
+You can create courses on Tutor website , and students will reserve your class. 
+   
+6. Admin:
+You can see member list at backstage.
+
+
+## How To Use
+
+1. At Homepage , You can register and Login by your E-mail.
+2. After login , you will be 'student' . You can press 'apply teacher' to get a 'teacher' indentity. 
+3. If you have 'teacher' identity , you can press button to switch your 'student' and 'teacher' indentity.
+
+## Tools
+
+- React
+- React Bootstrap
+- SCSS
+
+
+## Contributer
+
+-Front-End : @kspsss @yuri1022
+
+-Back-End :
+
+-UI/UX :
