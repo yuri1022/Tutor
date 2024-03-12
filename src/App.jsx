@@ -9,7 +9,6 @@ import './main.scss';
 import Students_profile from './pages/students/Students_profile';
 import TeacherSelfPage from './pages/TeacherSelfPage';
 import AppReducer from './store/AppContext.js';
-import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 import AdminPage from './pages/AdminPage.jsx';
 
 
@@ -36,6 +35,7 @@ function App() {
     isTeacher: 0,
     isLogin: false,
     isApply: false,
+    isAdmin:false,
   }
   const [searchTerm, setSearchTerm] = useState("");
   const [state, dispatch ] = useReducer( AppReducer,initial_data);

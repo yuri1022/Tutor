@@ -8,12 +8,15 @@ import MyCalendar from "../components/Teacher_profile_Calendar";
 import PropTypes from 'prop-types';
 import ClassComments from "../components/ClassComments";
 import TeacherEditInfo from "../components/TeacherEditModal";
-import { useState ,useEffect } from "react";
+import { useState ,useEffect,useContext, useRef } from "react";
 import '../assets/scss/teacher.scss';
 import { Button } from "react-bootstrap";
 import axios from "axios";
-import { useContext } from 'react';
 import { AppContext } from "../App";
+import LoginModal from "../components/LoginModal.jsx";
+import { Modal } from 'bootstrap';
+import { useNavigate } from "react-router-dom";
+
 
 
 const fetchTeacherData = async (api,id) => {
@@ -41,17 +44,19 @@ const TeacherSelfPage = () => {
   const [teacherDetails, setTeacherDetails] = useState(null);
   const { id } = useParams();
   const { state } = useContext(AppContext);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const loginModal = useRef(null);
+  const navigate = useNavigate();
+
   const api = 'http://34.125.232.84:3000';
 
 
 
  useEffect(() => {
-    // 在组件内调用外部定义的 fetchTeacherData 函数
-   
     const fetchData = async () => {
       try{
       const data = await fetchTeacherData(api, id);
-      console.log(state.logindata)
+      // console.log(state.logindata)
       setTeacherDetails(data);
       }catch(error){
         console.error(error)
@@ -61,6 +66,36 @@ const TeacherSelfPage = () => {
 
     fetchData();
   }, [id, state]);
+
+  const openLoginModal = () => {
+    loginModal.current.show();
+  };
+
+  const closeLoginModal = () => {
+    loginModal.current.hide();  
+  };
+
+  useEffect(()=>{
+        loginModal.current = new Modal('#login_Modal',{
+            backdrop: 'static'
+        });
+    },[])
+
+
+    if (state.isLogin===false) {
+    return (
+    <div>
+      <div>
+        請登入以查看個人檔案
+      </div>
+      <Button onClick={openLoginModal}>登入</Button>
+       <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
+      </div>)
+  } else if (state.logindata.id!==id){
+    navigate('/home');   
+    console.log('你不是這個人，請你離開');
+  }
+
 
 
   
@@ -97,8 +132,8 @@ const TeacherSelfPage = () => {
 
 const handleSave = async (updatedData,editedData, section) => {
 
-   console.log("從 TeacherEditInfo 收到的 updatedData：", updatedData)
-   console.log('我在編輯intro嗎',isEditInfo)
+  //  console.log("從 TeacherEditInfo 收到的 updatedData：", updatedData)
+  //  console.log('我在編輯intro嗎',isEditInfo)
 
   try {
     const token = localStorage.getItem('token');

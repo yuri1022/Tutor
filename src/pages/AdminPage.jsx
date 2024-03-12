@@ -1,37 +1,42 @@
-import axios from "axios";
-import { useState, useEffect  } from "react";
+import { useState, useEffect,useContext  } from "react";
+import { AppContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const AdminPage = () => {
   const [adminData,setAdminData] = useState('');
+  const { state } = useContext(AppContext);
+  const navigate = useNavigate();
 
-  const fetchAdminData = async () => {
+useEffect(() => {
+     const fetchAdminData = async () => {
     try {
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzA4NTg3NjE2LCJleHAiOjE3MTExNzk2MTZ9.AzfDo0YoyfxqT6OMK36oWedaod3cYUv2tbew6w1wM48'; 
-      const api = 'http://34.125.232.84:3000';
-      const response = await axios.get(
-        `${api}/admin/users`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-      console.log('Admin data response:', response.data);
-      setAdminData(response.data);
-      return response.data;
+      const isAdmin = state.isAdmin; 
+      const adminData = state.logindata;
+      // console.log(state);
+      // console.log('Admin data response:', adminData);
+ 
+     if(isAdmin){
+       setAdminData(adminData);
+       }else{
+        console.log('You are not admin'); 
+        navigate('/home');   
+      }
+    return adminData;
     } catch (error) {
       console.error('Admin data fetching error:', error.message);
 
     }
   };
-
-useEffect(() => {
-    fetchAdminData();
-  }, []); // 空的依賴數組表示僅在組件第一次渲染時調用
-
-  console.log(adminData);
+      if (state.logindata && state.logindata.data) {
+      fetchAdminData();
+    }
+  }, [state]);
 
   return (
+
+    <>
+
+    {adminData?(
     <div className="admin-page-container col-12">
     <table className="admin-container col-11" style={{margin:'1rem 3.75rem 1rem 3.75rem',textAlign:'center',borderCollapse: 'collapse', borderSpacing: '0',lineHeight:'2rem'}}>
        <thead>
@@ -59,7 +64,15 @@ useEffect(() => {
 
 
       </table>
-      </div>
+      </div>):(
+      <div>
+        Hi Admin, please login
+        </div>
+        
+        )}
+
+      </>
+    
   );
 };
 

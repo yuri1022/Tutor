@@ -11,6 +11,8 @@ import LoginModal from './../components/LoginModal';
 import { Modal } from 'bootstrap';
 import AppReducer from '../store/AppContext';
 import { AppContext } from '../App';
+import { Dropdown } from 'react-bootstrap';
+
 
 const Navbar = (props) =>{
     const [isHome,setIsHome]= useState(true);
@@ -64,7 +66,7 @@ const Navbar = (props) =>{
             const teacherData = await axios.get(`${api}/teacher/${id}`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
-                console.log(`teacher data${res.data.data.teachStyle}`);
+                // console.log(`teacher data${res.data.data.teachStyle}`);
                 dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:1,isLogin:true} });
             }).catch(
                 err=>{
@@ -74,12 +76,11 @@ const Navbar = (props) =>{
             console.log(isTeacher);
             return teacherData;
             
-        }
-        else{
+        } else if (isTeacher===0) {
             const studentData = await axios.get(`${api}/student/${id}`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
-                console.log(`student data ${res.data.data.selfIntro}`);
+                // console.log(`student data ${res.data.data.selfIntro}`);
                 dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isLogin:true} });
             }).catch(
                 err=>{
@@ -88,6 +89,22 @@ const Navbar = (props) =>{
             )
             
             return studentData;
+            } else if (isTeacher===undefined){
+            const adminData = await axios.get(`${api}/admin/users`,{
+                headers: { Authorization: `Bearer ${token}` }
+            }).then((res)=>{
+                console.log('Admin data' ,res.data);
+                const isAdmin = true;  
+                dispatch({
+                    type:"LOGIN",
+                    payload:{logindata:res.data,isAdmin:isAdmin,isLogin:true} 
+                });
+            }).catch(
+                err=>{
+                    console.log(err);
+                }
+            )    
+        navigate('/admin');    
         }
     }
     useEffect(()=>{
@@ -106,12 +123,13 @@ const Navbar = (props) =>{
             (
                 <>
                 <LoginModal closeLoginModal={closeLoginModal} onNavbar={handleLogin}></LoginModal>
-                <nav className="Navtop navbar navbar-expand-lg ">
-                    <div className="d-flex ">
+                <nav className="Navtop navbar navbar-expand-xl">
+                    <div className="navbar-container d-flex col-12">
+                    <div className="d-flex">
                         <Link className="logo-img" to = '/'>
                             <img src={LogoIcon} alt="tutor" />
                         </Link>
-                        <ul className="navbar-nav ">
+                        <ul className="navbar-nav d-flex" style={{justifyContent:'center',alignItems:'center'}}>
                             <li className="nav-item">
                                 {
                                     isTeacher===1 ?
@@ -129,15 +147,33 @@ const Navbar = (props) =>{
                                 <img className="search-icon" src={searchIcon} onClick={handleSearch}></img>
                             </div>
                             {
-                                localStorage.getItem("islogin")==="true" ? (
-                                    <div className="d-flex">
-                                        {
-                                            state.isTeacher===1 ?
-                                            (<div className="avatar-block"><Link to={`/teacher/${state.logindata.data.id}`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>):
-                                            (<div className="avatar-block"><Link to={`/student/${state.logindata?.data?.id}`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>)
-                                        }
-                                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
-                                    </div>
+                        localStorage.getItem("islogin")==="true" ? (
+                        <div className="d-flex">
+                            <Dropdown >
+                            <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
+                            <img className="avatar-img" src={state.logindata?.data?.avatar}/>
+                            </Dropdown.Toggle>
+                            {state.isTeacher===1 ?
+                            (    
+                            <Dropdown.Menu>
+                            <Dropdown.Item href={`/teacher/${state.logindata?.data?.id}/personal`}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href={`/course`}>我的課程</Dropdown.Item>
+                            <Dropdown.Item href="#">登出</Dropdown.Item>
+                            </Dropdown.Menu>
+                            ):
+                            (                            
+                            <Dropdown.Menu>
+                            <Dropdown.Item href={`/student/${state.logindata?.data?.id}`}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href="#">我的課程</Dropdown.Item>
+                            <Dropdown.Item href="#">登出</Dropdown.Item>
+                            </Dropdown.Menu>
+                            )}
+
+
+                            </Dropdown>   
+
+                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
+                            </div>
                                     
                                 ):
                                 ( 
@@ -146,6 +182,9 @@ const Navbar = (props) =>{
                             }
                         </div>
                     </div>
+                    </div>
+
+
                 </nav> 
                 </>
             )

@@ -1,5 +1,4 @@
 import { Card } from 'react-bootstrap';
-import { useEffect } from 'react';
 import '../assets/scss/studentsrank.scss'
 import RankingImg from '../assets/images/svg/ranking.svg';
 import Rank1 from '../assets/images/svg/rank1.svg';
@@ -7,8 +6,7 @@ import Rank2 from '../assets/images/svg/rank2.svg';
 import Rank3 from '../assets/images/svg/rank3.svg';
 import { useTeacherContext } from './teachercontext';
 import axios from 'axios';
-import { useState } from 'react';
-import { useContext } from 'react';
+import { useState,useContext,useEffect } from 'react';
 import { AppContext } from "../App";
 
 const BestStudents = () => {
@@ -20,14 +18,14 @@ const BestStudents = () => {
 
 
   useEffect(() => {
-    console.log(bestStudent);
+    // console.log(bestStudent);
   }, [bestStudent]);
 
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
         const studentId = state.logindata.data.id;
-        console.log(state.logindata.data.id) 
+        // console.log(state.logindata.data.id) 
         const token = localStorage.getItem('token');
         const response = await axios.get(`${api}/student/${studentId}`, { headers: { Authorization: `Bearer ${token}` } });
         setstudentRank(response.data.data)
@@ -51,8 +49,8 @@ const BestStudents = () => {
 
 useEffect(() => {
   if (studentRank) {
-    console.log(studentRank.studyRank);
-    console.log(studentRank.studyHours);
+    // console.log(studentRank.studyRank);
+    // console.log(studentRank.studyHours);
     // 其他相關操作
   }
 }, [studentRank]);
@@ -62,7 +60,7 @@ useEffect(() => {
     
   <div className="container-ranking-list d-flex col-12">
 
-  <Card>
+  <Card style={{width:'90%'}}>
     <div className="ranking-list-title">
       <img className="card-rank-img" src={RankingImg} alt="" />
       <h3 className="card-title">學習時數總排行</h3>
