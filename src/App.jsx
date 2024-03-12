@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import TeachersPage from "./pages/TeachersPage";
 import ApplyTeacher from './pages/ApplyTeacher';
+import ApplyTeacherFormMobile from './components/applyTeacher/mobile/ApplyTeacherForm.jsx';
 import './main.scss';
 import Students_profile from './pages/students/Students_profile';
 import TeacherSelfPage from './pages/TeacherSelfPage';
@@ -61,7 +62,8 @@ function App() {
           <Route path="student/:id" element={<Students_profile/>} />
           <Route path="home/*" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
-          <Route path="apply" element={<ApplyTeacher />}/>
+          <Route path="apply" element={<ApplyTeacher />}/>      
+          <Route path="apply/apply_teacher_form" element={<ApplyTeacherFormMobile/>}/>
           <Route path="admin" element={<AdminPage />}/>
       </Routes>
     </AppContext.Provider>

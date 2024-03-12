@@ -1,11 +1,11 @@
 import { useState,useEffect,useContext } from 'react';
 import { useNavigate} from 'react-router-dom';
 import ReactFlagsSelect from "react-flags-select";
-import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext';
-import { AppContext } from '../../App';
-import { applyTeacher } from '../../api/teacher';
-import countries from './data/country';
-const ApplyTeacherForm = () =>{
+import { AppContext } from '../../../App.jsx';
+import { applyTeacher } from '../../../api/teacher.js';
+import { ApplyTeacherContext, ApplyTeacherProvider } from "../sotre/ApplyTeacherCotext.jsx";
+import countries from '../data/country.js';
+const ApplyFormInner = () =>{
     const {page,page_add} = useContext(ApplyTeacherContext);
     const userdata = useContext(AppContext).state.logindata.data;
     const navigate = useNavigate();
@@ -25,6 +25,7 @@ const ApplyTeacherForm = () =>{
       const weekdayforstr = ()=>{
         let c= JSON.parse(JSON.stringify(weekdays));
         for (let key in c) {
+            // 检查对象是否拥有该属性，避免从原型链继承的属性
             c[key]= c[key].toString();
         }
         console.log(c);
@@ -108,8 +109,8 @@ const ApplyTeacherForm = () =>{
         setIntroTxt(userdata?.selfIntro);
     },[])
         return(
-            <div>
-                <form className=" h-100 applyForm " action=''>
+            <div className="apply-mobile-container">
+                <form className=" h-100 applyFormMobile" action=''>
                 {
                     page===1 &&
                    (<>
@@ -221,14 +222,23 @@ const ApplyTeacherForm = () =>{
                         >上一步</button>
                         {
                             page===4 ? (<button type="button" className="btn btn-form" onClick={()=>{handleApplyTeacher()}}>完成表單</button>): 
-                            (<button type="button" className="btn btn-form" onClick={()=>{
+                            (<button type="button" className="btn btn-form" 
+                            onClick={()=>{
                                 page_add(1);
                             }}>下一步</button>)
                         }             
                     </div>
                 </form>
             </div>
-        )
-}
 
+        )
+
+}
+const ApplyTeacherForm = () =>{
+    return(
+        <ApplyTeacherProvider>
+            <ApplyFormInner></ApplyFormInner>
+        </ApplyTeacherProvider>
+    )
+}
 export default ApplyTeacherForm;

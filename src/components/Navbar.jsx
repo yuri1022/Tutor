@@ -129,13 +129,13 @@ const Navbar = (props) =>{
     return(
         <>
         {
-            state.isApply ?
-            (<div className="apply-Nav">
-                <div className="topbar d-flex flex-row-reverse" onClick={()=>{apply_to_homepage()}}>
-                    X
-                </div>
-            </div>
-            ):
+            // state.isApply ?
+            // (<div className="apply-Nav">
+            //     <div className="topbar d-flex flex-row-reverse" onClick={()=>{apply_to_homepage()}}>
+            //         X
+            //     </div>
+            // </div>
+            // ):
             (
                 <>
                 <LoginModal closeLoginModal={closeLoginModal} onNavbar={handleLogin}></LoginModal>

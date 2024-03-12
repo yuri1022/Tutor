@@ -1,37 +1,39 @@
 
-
 .apply-teacher-context{
+    .mt-10px{
+        margin-top: 10px;
+    }
+}
 
+/* 480px 以下的樣式 */
+@media screen and (max-width: 480px) {
     .items-center{
         align-items: center;
     }
     .justify-space-between{
         justify-content: space-between;
     }
-    .mr-10px{
-        margin-right: 10px;
-    }
-    .mb-10px{
-         margin-bottom: 10px;
-    }
-    .mb-22px{
-        margin-bottom: 22px;
-    }
-    .title{
-        font-size: 20px;
-        font-weight: 500;
+    .apply-teacher-context{
+        padding-right:28px;
+        padding-left:28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .clearout{
+            display: none;
+        }
     }
     .applyContainer {
-        padding: 0px 7vh 30px 7vh;
-
+        margin-bottom: 27px;
+        width:100%;
         .icon-circle{
             width: 20px;
-            height: 20px;
             border-radius: 10px;
             text-align: center;
             background-color: #3652E3;
             color: white;
             font-size: 12px;
+            margin-right: 23px;
         }
         .process-bar{
             width: 100%;
@@ -41,14 +43,11 @@
             padding:5px 15px;
             border-radius: 10px;
             border: 1px solid #3652E3;
-        }
-        .active{
-            color:white;
-            background-color:#3652E3;
-            border-radius: 10px;
+            
         }
         .process-line{
             position: relative;
+            margin-bottom: 30px;
         }
         .process-line::before{
             content: "";
@@ -63,35 +62,216 @@
             position: relative;
         }
         .left-container{
-            padding: 15px;
-            min-height: 500px;
-            box-shadow: 3px 3px 2px #C7C7C7;
+            padding: 20px 20px 40px 20px;
+            box-shadow: 2px 2px 5px #C7C7C7, -2px 2px 5px #C7C7C7, 0px 5px 10px #C7C7C7;
+            width: 100%;
             border: 1px black;
-        }
-        .right-container{
-            padding: 20px 20px 0px 20px;
-            height: 100%;
-            position: relative;
         }
         .applyForm{
             min-height: 500px;
             display:flex;
             flex-direction: column;
         }
-        .button-list{
-            width:100%;
-            display:flex;
-            margin-top:auto;
-            // position: absolute;
-            // bottom: 0px;
-            // right: 20px;
-        }
-        .btn-form{
-            background-color: #9B9C9E;
-            color:white
-        }
-        .btn-form:hover{
-            background-color: #3652E3;
+  
+    }
+    //apply form mobile
+
+
+  }
+  
+  /* 480px 到 1080px 之間的樣式 */
+  @media screen and (min-width: 481px) and (max-width: 1080px) {
+    .items-center{
+        align-items: center;
+    }
+    .justify-space-between{
+        justify-content: space-between;
+    }
+    .apply-teacher-context{
+        padding-right:28px;
+        padding-left:28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .clearout{
+            display: none;
         }
     }
-}
+    .applyContainer {
+        margin-bottom: 27px;
+        width:100%;
+        .icon-circle{
+            width: 20px;
+            border-radius: 10px;
+            text-align: center;
+            background-color: #3652E3;
+            color: white;
+            font-size: 12px;
+            margin-right: 23px;
+        }
+        .process-bar{
+            width: 100%;
+            color:#3652E3;
+            background-color:white;
+            text-align: center;
+            padding:5px 15px;
+            border-radius: 10px;
+            border: 1px solid #3652E3;
+            
+        }
+        .process-line{
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .process-line::before{
+            content: "";
+            text-align: center;
+            height: 30px;
+            width:10px;
+            border-right: 1px #D9D9D9 solid;
+            position: absolute;
+            top: 30px;
+        }
+        .process-line-end{
+            position: relative;
+        }
+        .left-container{
+            padding: 20px 20px 40px 20px;
+            box-shadow: 2px 2px 5px #C7C7C7, -2px 2px 5px #C7C7C7, 0px 5px 10px #C7C7C7;
+            width: 100%;
+            border: 1px black;
+        }
+        .applyForm{
+            min-height: 500px;
+            display:flex;
+            flex-direction: column;
+        }
+  
+    }
+    //apply form mobile
+            .apply-mobile-container{
+            padding: 20px 24px 0px 24px;
+
+            .button-list{
+                width:100%;
+                display:flex;
+                margin-top:auto;
+                // position: absolute;
+                // bottom: 0px;
+                // right: 20px;
+            }  
+            .btn-form{
+                background-color: #9B9C9E;
+                color:white
+            }
+            .btn-form:hover{
+                background-color: #3652E3;
+            }
+
+        }
+    /* 在這裡添加 480px 到 1080px 之間的樣式 */
+  }
+  
+  /* 1080px 以上的樣式 */
+  @media screen and (min-width: 1081px) {
+    .apply-teacher-context{
+
+        .items-center{
+            align-items: center;
+        }
+        .justify-space-between{
+            justify-content: space-between;
+        }
+        .mr-10px{
+            margin-right: 10px;
+        }
+        .mb-10px{
+             margin-bottom: 10px;
+        }
+        .mb-22px{
+            margin-bottom: 22px;
+        }
+        .title{
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .display-none-latop{
+            display:none;
+        }
+        .applyContainer {
+            padding: 0px 7vh 30px 7vh;
+    
+            .icon-circle{
+                width: 20px;
+                height: 20px;
+                border-radius: 10px;
+                text-align: center;
+                background-color: #3652E3;
+                color: white;
+                font-size: 12px;
+            }
+            .process-bar{
+                width: 100%;
+                color:#3652E3;
+                background-color:white;
+                text-align: center;
+                padding:5px 15px;
+                border-radius: 10px;
+                border: 1px solid #3652E3;
+            }
+            .active{
+                color:white;
+                background-color:#3652E3;
+                border-radius: 10px;
+            }
+            .process-line{
+                position: relative;
+            }
+            .process-line::before{
+                content: "";
+                text-align: center;
+                height: 30px;
+                width:10px;
+                border-right: 1px #D9D9D9 solid;
+                position: absolute;
+                top: 30px;
+            }
+            .process-line-end{
+                position: relative;
+            }
+            .left-container{
+                padding: 15px;
+                min-height: 500px;
+                box-shadow: 3px 3px 2px #C7C7C7;
+                border: 1px black;
+                width:30%;
+            }
+            .right-container{
+                padding: 20px 20px 0px 20px;
+                height: 100%;
+                position: relative;
+                width:70%;
+            }
+            .applyForm{
+                min-height: 500px;
+                display:flex;
+                flex-direction: column;
+            }
+            .button-list{
+                width:100%;
+                display:flex;
+                margin-top:auto;
+                // position: absolute;
+                // bottom: 0px;
+                // right: 20px;
+            }
+            .btn-form{
+                background-color: #9B9C9E;
+                color:white
+            }
+            .btn-form:hover{
+                background-color: #3652E3;
+            }
+        }
+    }
+  }
