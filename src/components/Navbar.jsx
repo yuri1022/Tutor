@@ -156,7 +156,7 @@ const Navbar = (props) =>{
                             {state.isTeacher===1 ?
                             (    
                             <Dropdown.Menu>
-                            <Dropdown.Item href={`/teacher/${state.logindata?.data?.id}`}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href={`/teacher/${state.logindata?.data?.id}/personal`}>個人檔案</Dropdown.Item>
                             <Dropdown.Item href={`/course`}>我的課程</Dropdown.Item>
                             <Dropdown.Item href="#">登出</Dropdown.Item>
                             </Dropdown.Menu>
