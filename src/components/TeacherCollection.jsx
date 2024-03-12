@@ -125,7 +125,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
   return (
 
     
-  <div className="div-container__home col col-11" >
+  <div className="div-container__home col col-12" >
 
       <div className='category-buttons-container d-flex'>
         <div className="category-buttons">
@@ -144,13 +144,10 @@ const handleCategoryChange = (selectedCategoryItemId) => {
       </div>
 
 
-      {/* {filteredTeachersByCategory.map((teacher) => (
-        <TeacherItem key={teacher.id} teacher={teacher} />
-      ))} */}
-
+<div className="div-container d-flex">
     {teacherData.teachers && teacherData.teachers.map((teacher) => (
 
-      <div className="div-container__info col-12 col-md-4 col-lg-4" key={teacher.id}>
+      <div className="div-container__info col-12 col-md-3 col-lg-3" key={teacher.id}>
         <Card className="card">
         <Card.Body >
         <div className="teacher-top">
@@ -218,6 +215,8 @@ const handleCategoryChange = (selectedCategoryItemId) => {
    </Card>
    </div>
     ))}
+</div>
+
 
       <div className="pagination col-12">
 

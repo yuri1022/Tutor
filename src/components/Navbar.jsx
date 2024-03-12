@@ -52,6 +52,7 @@ const Navbar = (props) =>{
         setIsTeacher(isTeacher);
     }
     const handleLogout = ()=>{
+        localStorage.clear();
         localStorage.setItem("islogin",false);
         navigate('/');
 
@@ -67,6 +68,7 @@ const Navbar = (props) =>{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
                 // console.log(`teacher data${res.data.data.teachStyle}`);
+                localStorage.setItem('userdata',JSON.stringify(res.data));
                 dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:1,isLogin:true} });
             }).catch(
                 err=>{
@@ -82,6 +84,7 @@ const Navbar = (props) =>{
             }).then((res)=>{
                 // console.log(`student data ${res.data.data.selfIntro}`);
                 dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isLogin:true} });
+                localStorage.setItem('userdata',JSON.stringify(res.data));
             }).catch(
                 err=>{
                     console.log(err);
@@ -99,6 +102,7 @@ const Navbar = (props) =>{
                     type:"LOGIN",
                     payload:{logindata:res.data,isAdmin:isAdmin,isLogin:true} 
                 });
+                
             }).catch(
                 err=>{
                     console.log(err);
@@ -107,6 +111,18 @@ const Navbar = (props) =>{
         navigate('/admin');    
         }
     }
+    useEffect(()=>{
+        const getUpdate = async()=>{
+            const userdata = await getData(
+                parseInt(localStorage.getItem('user_id')),
+                parseInt(localStorage.getItem('isTeacher'))
+            );
+            console.log(userdata);
+        }
+        if(localStorage.getItem("islogin")==='true'){
+            getUpdate()
+        }
+    },[])
     useEffect(()=>{
 
     },[localStorage.getItem("islogin")])
