@@ -35,8 +35,9 @@ const Student_profile_Rating = ({closeRatingModal,obj_rating}) =>{
         //update student data
         const student_data =await get_student_data(studentData.id);
         console.log(student_data);
+        localStorage.setItem('userdata',JSON.stringify(student_data));
         closeRatingModal();
-        dispatch({type:"LOGIN",payload:{logindata:student_data,isTeacher:0,isLogin:true} });
+        
 
     }
     return(

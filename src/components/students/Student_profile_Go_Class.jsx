@@ -1,4 +1,4 @@
-import { useContext} from 'react';
+import { useContext,useState,useEffect} from 'react';
 import icon_teacher from './../../assets/images/svg/icon_teacher.svg';
 import icon_calender from './../../assets/images/svg/icon_calender.svg';
 import icon_time from './../../assets/images/svg/icon_time.svg';
@@ -8,17 +8,17 @@ import { delete_register_course } from '../../api/register';
 import PropTypes from 'prop-types'
 const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass}) =>{
     const {dispatch} = useContext(AppContext);
-    const studentData = useContext(AppContext).state.logindata.data;
+    const student_data = JSON.parse(localStorage.getItem("userdata")).data;
     const handle_delete_register = async(courseId)=>{
         const delete_res = await delete_register_course(courseId);
         console.log(courseId);
         console.log(delete_res);
         //update data
-        const student_data =await get_student_data(studentData.id);
-        dispatch({type:"LOGIN",payload:{logindata:student_data,isTeacher:0,isLogin:true} });
-
+        const student_data =await get_student_data(student_data.id);
+        localStorage.setItem('userdata',JSON.stringify(student_data));
         closeGoClassModal();
     }
+
     return(
         <div className="modal fade" id="goclassStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">

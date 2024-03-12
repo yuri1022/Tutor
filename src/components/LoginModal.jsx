@@ -58,6 +58,8 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         console.log(token);
         localStorage.setItem("token",loginRes.data.token);
         localStorage.setItem("islogin",true);
+        localStorage.setItem("user_id",loginRes.data.id);
+        localStorage.setItem("isTeacher",isTeacher);
         //handle Login 
         if(token){
             onNavbar(id,isTeacher);

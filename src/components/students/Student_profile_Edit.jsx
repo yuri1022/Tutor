@@ -6,8 +6,9 @@ import PropTypes from 'prop-types'
 const Students_profile_Edit = ({closeEditModal})=>{
     const api = 'http://34.125.232.84:3000';
     const studentData = useContext(AppContext).state.logindata.data;
-    const [nameTxt,setNameTxt] = useState(studentData?.name);
-    const [introTxt,setIntroTxt ] = useState(studentData?.selfIntro);
+    const student_data = JSON.parse(localStorage.getItem("userdata")).data;
+    const [nameTxt,setNameTxt] = useState(student_data.name);
+    const [introTxt,setIntroTxt ] = useState(student_data.selfIntro);
     const [ imageurl,setImageurl] = useState('');
     const [ ischangePhoto,setIschangePhoto] = useState(false);
     const {dispatch} = useContext(AppContext);
@@ -24,6 +25,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
             headers: { Authorization: `Bearer ${token}` }
         }).then((res)=>{
             console.log(`student data ${res}`);
+            localStorage.setItem('userdata',JSON.stringify(res.data));
             dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isLogin:true} });
         }).catch(
             err=>{
@@ -49,7 +51,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
             <div className="modal-body">
                 <div className="row">
                     <div className="col-4 d-flex flex-column items-center">
-                        <div className="mb-10px"><img className="w-100" src={studentData?.avatar}></img></div>
+                        <div className="mb-10px"><img className="w-100" src={student_data.avatar}></img></div>
                         <button className="btn btn-primary" onClick={()=>{handleChangeheadshot()}}>更換大頭貼</button>
                         {
                             ischangePhoto &&
@@ -75,7 +77,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
             </div>
             <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={closeEditModal}>取消</button>
-                <button type="button" className="btn btn-primary" onClick={()=>{handleEdit(studentData.id)}}>確定</button>
+                <button type="button" className="btn btn-primary" onClick={()=>{handleEdit(student_data.id)}}>確定</button>
             </div>
             </div>
         </div>

@@ -9,12 +9,12 @@ const Students_profile = () =>{
     const editModal = useRef(null);
     const ratingModal = useRef(null);
     const goclassModal = useRef(null);
-    const userdata = useContext(AppContext).state.logindata;
-    
+    const student_data = JSON.parse(localStorage.getItem("userdata")).data;
+    console.log(student_data);
     const [obj_goclass, setObj_goclass] = useState({
         teacher: '',
         date: new Date(),
-        time: '',
+        time: 0,
         courseId: 0,
     })
     const [obj_rating,setObj_rating] = useState({
@@ -71,8 +71,8 @@ const Students_profile = () =>{
                 <div className="row">
                     <div className="col-3">
                         <div className="left-profile-stu-container">
-                            <div className="img-profile"><img className="img-profile" src={userdata?.data?.avatar}></img></div>
-                            <div className="text-title mb-40px">{userdata?.data?.name}</div>
+                            <div className="img-profile"><img className="img-profile" src={student_data.avatar}></img></div>
+                            <div className="text-title mb-40px">{student_data.name}</div>
                             <div>
                                 <div>
                                     <div className="text-title mb-10px">我的學習名次</div>
@@ -84,7 +84,7 @@ const Students_profile = () =>{
                                 <div className="intro-block mb-40px">
                                     <div className="text-title mb-10px">自我介紹</div>
                                     <div className="intro">
-                                        <p>{userdata?.data?.selfIntro}</p>
+                                        <p>{student_data.selfIntro}</p>
                                     </div>
                                 </div>
                             </div>    

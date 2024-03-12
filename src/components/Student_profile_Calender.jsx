@@ -11,6 +11,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
     const [courseList, setCourseList] = useState([]);
     const calender_block = useRef(null);
+    const student_data = JSON.parse(localStorage.getItem("userdata")).data;
     const { state } = useContext(AppContext);
     const api = 'http://34.125.232.84:3000';
 
@@ -167,10 +168,9 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     useEffect(() => {
         const fetchStudentData = async () => {
           try {
-            const studentId = state.logindata.data.id;
+            const studentId = JSON.parse(localStorage.getItem("userdata")).data.id;
             const response = await axios.get(`${api}/student/${studentId}`);
     
-         
             const studentData = response.data;
     
             console.log('Student Data:', studentData);
@@ -206,11 +206,11 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
           }
         };
     
-        if (state.logindata && state.logindata.data) {
+        if (JSON.parse(localStorage.getItem("userdata")).data) {
           fetchStudentData();
         }
     
-      }, [state.logindata]);
+      }, []);
     useEffect(()=>{
 
     },[]);
