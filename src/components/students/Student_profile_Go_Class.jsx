@@ -1,9 +1,24 @@
-import { useEffect} from 'react';
+import { useContext} from 'react';
 import icon_teacher from './../../assets/images/svg/icon_teacher.svg';
 import icon_calender from './../../assets/images/svg/icon_calender.svg';
 import icon_time from './../../assets/images/svg/icon_time.svg';
+import { AppContext } from '../../App';
+import { get_student_data } from '../../api/student';
+import { delete_register_course } from '../../api/register';
+import PropTypes from 'prop-types'
 const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass}) =>{
+    const {dispatch} = useContext(AppContext);
+    const studentData = useContext(AppContext).state.logindata.data;
+    const handle_delete_register = async(courseId)=>{
+        const delete_res = await delete_register_course(courseId);
+        console.log(courseId);
+        console.log(delete_res);
+        //update data
+        const student_data =await get_student_data(studentData.id);
+        dispatch({type:"LOGIN",payload:{logindata:student_data,isTeacher:0,isLogin:true} });
 
+        closeGoClassModal();
+    }
     return(
         <div className="modal fade" id="goclassStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -30,8 +45,8 @@ const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass}) =>{
                                 <div>{obj_goclass.time}分鐘</div>
                             </div>
                             <div className="reserve-button-list">
-                                <button type="button" className="btn btn-decline-regisiter" data-dismiss="modal" onClick={closeGoClassModal}>取消預約</button>
-                                <button type="button" className="btn btn-goclass">開始上課</button>
+                                <button type="button" className="btn btn-decline-regisiter" data-dismiss="modal" onClick={()=>{handle_delete_register(obj_goclass.courseId)}}>取消預約</button>
+                                <button type="button" className="btn btn-goclass" onClick={closeGoClassModal}>開始上課</button>
                             </div>
                         </div>
                     </div>
@@ -43,3 +58,13 @@ const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass}) =>{
 
 }
 export default Students_profile_Go_Class;
+
+Students_profile_Go_Class.propTypes = {
+    closeGoClassModal: PropTypes.func.isRequired,
+    obj_goclass: PropTypes.shape({
+       teacher: PropTypes.string.isRequired,
+       date: PropTypes.any.isRequired,
+       time: PropTypes.number.isRequired,
+       courseId: PropTypes.number.isRequired,
+    })
+}

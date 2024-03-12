@@ -18,3 +18,18 @@ export const edit_student_data = async(id,formdata)=>{
         console.error('[Edit Student Data Error] ', error);
       }
 }
+
+export const get_student_data = async(id)=>{
+  const token = localStorage.getItem("token");
+    try{
+      const res = await axios.get(`${baseUrl}/${id}`,{
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    console.log('API Response:', res);
+    const studentData =await  res.data;
+    return studentData;
+    } catch (error) {
+      console.error('[Edit Student Data Error] ', error);
+    }
+}
+

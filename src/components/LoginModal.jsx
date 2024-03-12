@@ -2,9 +2,7 @@ import { useState, } from 'react';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import icon_google from './../assets/images/svg/icon_google.svg';
-import AppContext from './../App';
-import AppReducer from './../store/AppContext';
-
+import PropTypes from 'prop-types';
 const LoginModal = ({closeLoginModal,onNavbar}) =>{
     const [mode ,setMode] = useState('signup');
     const [ email,setEmail ] = useState('');
@@ -18,8 +16,8 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         },
         mode: 'onTouched'
     });
-    const watchEmail = watch("email");
-    const watchCode = watch("password");
+    // const watchEmail = watch("email");
+    // const watchCode = watch("password");
     const api = 'http://34.125.232.84:3000';
     const onSubmit = async(data)=>{
         const formData={
@@ -74,7 +72,6 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         closeLoginModal();
     }
     return(
-
         <div className="modal fade" id="login_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
             <div className="login_modal_content modal-content">
@@ -158,3 +155,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
 }
 
 export default LoginModal;
+LoginModal.propTypes = {
+    closeLoginModal: PropTypes.func.isRequired,
+    onNavbar: PropTypes.func.isRequired,
+}

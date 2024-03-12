@@ -3,12 +3,10 @@ import Students_profile_Calender from "../../components/Student_profile_Calender
 import Students_profile_Edit from "../../components/students/Student_profile_Edit";
 import Students_profile_Rating from "../../components/students/Student_profile_Rating";
 import Students_profile_Go_Class from "../../components/students/Student_profile_Go_Class";
-import { useParams } from "react-router-dom";
 import { Modal } from 'bootstrap';
 import { AppContext } from './../../App';
 const Students_profile = () =>{
     const editModal = useRef(null);
-    const { id } = useParams();
     const ratingModal = useRef(null);
     const goclassModal = useRef(null);
     const userdata = useContext(AppContext).state.logindata;
@@ -17,6 +15,12 @@ const Students_profile = () =>{
         teacher: '',
         date: new Date(),
         time: '',
+        courseId: 0,
+    })
+    const [obj_rating,setObj_rating] = useState({
+        teacher: '',
+        date: new Date(),
+        courseId:0,
     })
     const openEditModal = () =>{
         editModal.current.show();
@@ -24,17 +28,23 @@ const Students_profile = () =>{
     const closeEditModal = () =>{
         editModal.current.hide();
     }
-    const openRatingModal = () =>{
+    const openRatingModal = (teacher,date,courseId) =>{
+        setObj_rating({
+            'teacher': teacher,
+            'date': new Date(date),
+            'courseId':courseId,
+        });
         ratingModal.current.show();
     }
     const closeRatingModal = () =>{
         ratingModal.current.hide();
     }
-    const openGoClassModal = (teacher,date,time) =>{
+    const openGoClassModal = (teacher,date,time,courseId) =>{
         setObj_goclass({
             'teacher': teacher,
             'date': new Date(date),
             'time':time,
+            'courseId':courseId,
         });
         goclassModal.current.show();
     }
@@ -55,7 +65,7 @@ const Students_profile = () =>{
     return(
         <div>
             <Students_profile_Go_Class obj_goclass={obj_goclass} closeGoClassModal={closeGoClassModal}/>
-            <Students_profile_Rating closeRatingModal={closeRatingModal}/>
+            <Students_profile_Rating obj_rating={obj_rating} closeRatingModal={closeRatingModal} />
             <Students_profile_Edit closeEditModal={closeEditModal}/>
             <div className="Profile_container_stu">
                 <div className="row">

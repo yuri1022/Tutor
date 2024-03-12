@@ -29,24 +29,6 @@ const ApplyTeacher = () => {
             </div>
         </div>
       </ApplyTeacherProvider>
-
-      {/* <div className="reserve-date" style={{ display: "flex" }}>
-            {Object.keys(reserveDays).map((day) => (
-              <div className="form-check" key={day}>
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id={`flexCheck${day}`}
-                  checked={reserveDays[day]}
-                  onChange={() => handleCheckboxChange(day)}
-                />
-                <label className="form-check-label" htmlFor={`flexCheck${day}`}>
-                  {day}
-                </label>
-              </div>
-            ))}
-      </div> */}
     </div>
   );
 };

@@ -1,13 +1,18 @@
-import { useState, useEffect, useContext } from 'react'; 
+import { useState,useContext } from 'react'; 
 import { AppContext } from '../../App';
 import { edit_student_data } from '../../api/student';
+import axios from 'axios';
+import PropTypes from 'prop-types'
 const Students_profile_Edit = ({closeEditModal})=>{
+    const api = 'http://34.125.232.84:3000';
     const studentData = useContext(AppContext).state.logindata.data;
     const [nameTxt,setNameTxt] = useState(studentData?.name);
     const [introTxt,setIntroTxt ] = useState(studentData?.selfIntro);
     const [ imageurl,setImageurl] = useState('');
     const [ ischangePhoto,setIschangePhoto] = useState(false);
+    const {dispatch} = useContext(AppContext);
     const handleEdit = async(id)=>{
+        const token = localStorage.getItem("token");
         const formData = {
             name: nameTxt,
             nickname: '',
@@ -15,15 +20,22 @@ const Students_profile_Edit = ({closeEditModal})=>{
             avatar: imageurl,
         }
         const edit_res =await edit_student_data(id,formData);
+        const studentData = await axios.get(`${api}/student/${id}`,{
+            headers: { Authorization: `Bearer ${token}` }
+        }).then((res)=>{
+            console.log(`student data ${res}`);
+            dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isLogin:true} });
+        }).catch(
+            err=>{
+                console.log(err);
+            }
+        )
         console.log(edit_res);
+        closeEditModal();
     }
     const handleChangeheadshot = ()=>{
         setIschangePhoto(true);
     }
-    // useEffect(()=>{
-    //     setNameTxt(studentData?.name);
-    //     setIntroTxt(studentData?.selfIntro);
-    // },[])
     return(
         <div className="modal fade" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-lg" role="document">
@@ -72,3 +84,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
 }
 
 export default Students_profile_Edit;
+
+Students_profile_Edit.propTypes = {
+    closeEditModal: PropTypes.func.isRequired,
+}
