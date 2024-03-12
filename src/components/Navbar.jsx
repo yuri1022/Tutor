@@ -11,6 +11,8 @@ import LoginModal from './../components/LoginModal';
 import { Modal } from 'bootstrap';
 import AppReducer from '../store/AppContext';
 import { AppContext } from '../App';
+import { Dropdown } from 'react-bootstrap';
+
 
 const Navbar = (props) =>{
     const [isHome,setIsHome]= useState(true);
@@ -93,14 +95,16 @@ const Navbar = (props) =>{
             }).then((res)=>{
                 console.log('Admin data' ,res.data);
                 const isAdmin = true;  
-                dispatch({type:"LOGIN",payload:{logindata:res.data,isAdmin:isAdmin,isLogin:true} });
-                navigate('/admin');    
+                dispatch({
+                    type:"LOGIN",
+                    payload:{logindata:res.data,isAdmin:isAdmin,isLogin:true} 
+                });
             }).catch(
                 err=>{
                     console.log(err);
                 }
             )    
-        
+        navigate('/admin');    
         }
     }
     useEffect(()=>{
@@ -143,15 +147,33 @@ const Navbar = (props) =>{
                                 <img className="search-icon" src={searchIcon} onClick={handleSearch}></img>
                             </div>
                             {
-                                localStorage.getItem("islogin")==="true" ? (
-                                    <div className="d-flex">
-                                        {
-                                            state.isTeacher===1 ?
-                                            (<div className="avatar-block"><Link to={`/teacher/${state.logindata.data.id}`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>):
-                                            (<div className="avatar-block"><Link to={`/student/${state.logindata?.data?.id}`}><img className="avatar-img" src={state.logindata?.data?.avatar}/></Link></div>)
-                                        }
-                                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
-                                    </div>
+                        localStorage.getItem("islogin")==="true" ? (
+                        <div className="d-flex">
+                            <Dropdown >
+                            <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
+                            <img className="avatar-img" src={state.logindata?.data?.avatar}/>
+                            </Dropdown.Toggle>
+                            {state.isTeacher===1 ?
+                            (    
+                            <Dropdown.Menu>
+                            <Dropdown.Item href={`/teacher/${state.logindata?.data?.id}`}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href={`/course`}>我的課程</Dropdown.Item>
+                            <Dropdown.Item href="#">登出</Dropdown.Item>
+                            </Dropdown.Menu>
+                            ):
+                            (                            
+                            <Dropdown.Menu>
+                            <Dropdown.Item href={`/student/${state.logindata?.data?.id}`}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href="#">我的課程</Dropdown.Item>
+                            <Dropdown.Item href="#">登出</Dropdown.Item>
+                            </Dropdown.Menu>
+                            )}
+
+
+                            </Dropdown>   
+
+                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
+                            </div>
                                     
                                 ):
                                 ( 
