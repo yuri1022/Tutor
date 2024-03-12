@@ -126,6 +126,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
     
   <div className="div-container__home col col-11" >
 
+      <div className='category-buttons-container d-flex'>
         <div className="category-buttons">
           {/* 動態生成按鈕 */}
           {uniqueCategories.map((category) => (
@@ -139,6 +140,8 @@ const handleCategoryChange = (selectedCategoryItemId) => {
             </Button>
           ))}
         </div>
+      </div>
+
 
       {/* {filteredTeachersByCategory.map((teacher) => (
         <TeacherItem key={teacher.id} teacher={teacher} />
@@ -146,7 +149,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
 
     {teacherData.teachers && teacherData.teachers.map((teacher) => (
 
-      <div className="div-container__info col col-4" key={teacher.id}>
+      <div className="div-container__info col-12 col-md-4 col-lg-4" key={teacher.id}>
         <Card className="card">
         <Card.Body >
         <div className="teacher-top">
@@ -213,7 +216,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
    </div>
     ))}
 
-      <div className="pagination">
+      <div className="pagination col-12">
 
         <div className="pagination-control">
 

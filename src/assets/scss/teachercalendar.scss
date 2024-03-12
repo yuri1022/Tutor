@@ -69,8 +69,8 @@
 }
 
 .reserve span:first-child::before {
-  background-color: var(--white);
-  border: 0.1rem solid var(--main-blue);
+  background-color: var(--main-blue25);
+  border: 0.1rem solid var(--main-blue25);
 }
 
 .reserve span:last-child::before {
@@ -126,8 +126,8 @@
           border-radius: 0.3125rem;
         }
       .not-reserved{
-         border: 1px solid var(--main-blue);
-         background-color: transparent;
+         border: none;
+         background-color: var(--main-blue25);
          color: var(--main-blue);
          border-radius: 0.3125rem;
       }

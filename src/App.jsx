@@ -7,10 +7,9 @@ import TeachersPage from "./pages/TeachersPage";
 import ApplyTeacher from './pages/ApplyTeacher';
 import './main.scss';
 import Students_profile from './pages/students/Students_profile';
-import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 import TeacherSelfPage from './pages/TeacherSelfPage';
 import AppReducer from './store/AppContext.js';
-
+import AdminPage from './pages/AdminPage.jsx';
 
 
 export const AppContext = createContext();
@@ -36,6 +35,7 @@ function App() {
     isTeacher: 0,
     isLogin: false,
     isApply: false,
+    isAdmin:false,
   }
   const [searchTerm, setSearchTerm] = useState("");
   const [state, dispatch ] = useReducer( AppReducer,initial_data);
@@ -61,6 +61,7 @@ function App() {
           <Route path="home/*" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
           <Route path="apply" element={<ApplyTeacher />}/>
+          <Route path="admin" element={<AdminPage />}/>
       </Routes>
     </AppContext.Provider>
   </div>

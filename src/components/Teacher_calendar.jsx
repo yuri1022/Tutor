@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { AppContext } from "../App";
 import axios from "axios";
 
-const Teacher_profile_Calender = ({openGoClassModal}) =>{
+const Teacher_profile_Calender = () =>{
     const today = new Date();
     const today_month = today.getMonth();
     const today_year = today.getFullYear();
@@ -13,45 +13,27 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
     const calender_block = useRef(null);
     const [courseList, setCourseList] = useState([]);
-
     const { state } = useContext(AppContext);
+    const allCourseData = [];
+
     const api = 'http://34.125.232.84:3000';
 
 
    useEffect(() => {
     const fetchTeacherData = async () => {
       try {
-        const teacherId = state.logindata.data.id;
-        const response = await axios.get(`${api}/teacher/${teacherId}`);
-
-     
-        const teacherData = response.data;
-
-        console.log('Teacher Data:', teacherData);
-
-        if (teacherData.data.Courses) {
-        
-           const courses = teacherData.data.Courses.map(course => {
-          const startDate = new Date(course.startAt);
-            return {
-            year: startDate.getFullYear(),
-            month: startDate.getMonth() + 1,
-            day: startDate.getDate(),
-            subject: course.name,
-             student: '學生一號',
-             time: course.duration,
-             isattend: true,
-             timestamp: startDate.getTime(),
-            date: course.startAt,
-            };
-          });
-
-          setCourseList(courses);
-          console.log('Coursedata',courses);
-        }else{
-            console.log('No courses data available.');
-        }
-        
+      const teacherId = state.logindata.data.id;
+      const response = await axios.get(`${api}/teacher/${teacherId}`);
+      const teacherData = response.data;
+      console.log('Teacher Data:', teacherData);
+  if (teacherData.data.Courses) {
+        const courseIds = teacherData.data.Courses.map(course => course.id);
+        console.log(courseIds);
+        fetchCourseData(courseIds);
+      } else {
+        console.log('No courses data available.');
+      }
+        return teacherData;
 
       } catch (error) {
         console.error('Error fetching teacher data:', error);
@@ -63,6 +45,40 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
     }
 
   }, [state.logindata]);
+
+const fetchCourseData = async (courseIds) => {
+  try {
+  const token = localStorage.getItem('token');
+
+  for (const courseId of courseIds) {
+      const response = await axios.get(`${api}/register/${courseId}`,
+      {headers: { Authorization: `Bearer ${token}` }});
+      const courseData = response.data.data;
+      console.log(`Course Data for Course ID ${courseId}:`, courseData);
+
+      const startDate = new Date(courseData.startAt);
+      // 將每個課程的資料添加到陣列中
+      allCourseData.push({
+        year: startDate.getFullYear(),
+        month: startDate.getMonth() + 1,
+        day: startDate.getDate(),
+        subject: courseData.Course.name,
+        student: courseData.User.name,
+        time: courseData.Course.duration,
+        timestamp: startDate.getTime(),
+        date: courseData.Course.startAt,
+      });
+    }
+
+    // 一次性返回所有課程資料
+    return allCourseData;
+  } catch (error) {
+    console.error('Error fetching course data:', error);
+  }
+};
+
+
+
 
     const months = ["January",
     "February",
@@ -96,8 +112,8 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
     const get_days_in_month = (year,month)=>{
         let days_arr = [31,28,31,30,31,30,31,31,30,31,30,31];
         let is_lunar = true;
-        console.log(month);
-        console.log(is_lunar);
+        // console.log(month);
+        // console.log(is_lunar);
         if(month ===1){
              is_lunar = check_lunar_year(year);
             if(is_lunar===true){
@@ -127,26 +143,18 @@ const Teacher_profile_Calender = ({openGoClassModal}) =>{
     const show_course=(course,index)=>{
         let course_block = ``
 
-        if( course.isattend ===false && course.timestamp < today.getTime()){
+        if( course.timestamp < today.getTime()){
             course_block =
-            <div className="course-block bg-absent" key={index}>
-                <div className="title-bar absent">{course.subject}</div>
+            <div className="course-block bg-finish" key={index}>
+                <div className="title-bar finish">{course.subject}</div>
                 <div>{course.student}</div>
                 <div>{course.date}</div>
             </div>
         }
         else if( course.timestamp > today.getTime()){
             course_block =
-            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.student,course.date,course.time)} }>
+            <div className="course-block bg-reserve" key={index} onClick={(e)=>{TeacherGoClassModal(course.student,course.date,course.time)} }>
                 <div className="title-bar reserve">{course.subject}</div>
-                <div>{course.student}</div>
-                <div>{course.time}</div>
-            </div>
-        }
-        else if ( course.isattend === true ){
-            course_block =
-            <div className="course-block bg-finish" key={index}>
-                <div className="title-bar finish">{course.subject}</div>
                 <div>{course.student}</div>
                 <div>{course.time}</div>
             </div>
@@ -193,13 +201,13 @@ for (let i = 0; i < 5; i++) {
         currentDay++;
       } else {
         render_day_arr.push(
-          <div className="col calender_block bg-deep" key={'calender' + key}></div>
+          <div className="calender_block bg-deep" key={'calender' + key}></div>
         );
       }
       key++;
     }
     render_week_array.push(
-      <div className="d-flex " key={i}>
+      <div className="coures-week-item d-flex" key={i}>
         {render_day_arr}
       </div>
     );
@@ -211,7 +219,7 @@ for (let i = 0; i < 5; i++) {
 
     return(
          <>
-      <div className="d-flex justify-between mb-20px">
+      <div className="course-calendar-title d-flex justify-between mb-1">
         <select
           className="month-selection"
           name="months"
@@ -230,7 +238,7 @@ for (let i = 0; i < 5; i++) {
             );
           })}
         </select>
-        <div className="d-flex items-center">
+        <div className="course-calendar-year d-flex items-center">
           <img
             className="btn"
             src={arrow_left}
@@ -249,21 +257,18 @@ for (let i = 0; i < 5; i++) {
         </div>
       </div>
 
-      <div className="d-flex flex-reverse mb-10px">
+      <div className="course-state d-flex flex-reverse mb-1">
         <div className="d-flex items-center ">
-          <div className="circle-icon bg-finsh mr-10px"></div>
+          <div className="circle-icon-finished mr-1 mt-1"></div>
           <div className="">已完課</div>
         </div>
-        <div className="d-flex items-center mr-10px">
-          <div className="circle-icon bg-not-seat mr-10px"></div>
-          <div className="">缺席</div>
-        </div>
-        <div className="d-flex items-center mr-10px">
-          <div className="circle-icon bg-o-not-l mr-10px"></div>
-          <div className="">已預約未聽課</div>
+        <div className="d-flex items-center mr-1">
+          <div className="circle-icon-reserved mr-1 mt-1"></div>
+          <div className="">已預約</div>
         </div>
       </div>
-      <div className="d-flex">
+
+      <div className="course-body d-flex">
         {weeks_arr.map((week, key) => {
           return (
             <div className="col" key={week}>
@@ -272,7 +277,7 @@ for (let i = 0; i < 5; i++) {
           );
         })}
       </div>
-      <div id="calender-block" className="calender_table">
+      <div id="calender-block" className="calender-table">
         {render_week_array}
       </div>
     </>

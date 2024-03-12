@@ -1,6 +1,6 @@
 import { memo } from 'react'
-import { useState } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { useState} from 'react';
+import { Calendar, momentLocalizer,Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Select from 'react-select';
@@ -11,9 +11,11 @@ import RightArrow from '../assets/images/svg/arrow-right.svg'
 
 const localizer = momentLocalizer(moment);
 
+
 const MyCalendar = memo(({teacherDetails}) => {
   
 const [disableMonthNavigation, setDisableMonthNavigation] = useState(false);
+
 
 const reservedDates = Array.isArray(teacherDetails.Courses)
   ? teacherDetails.Courses.map(course => course.startAt)
@@ -31,20 +33,21 @@ const events = teacherDetails.Courses.flatMap(course => {
     start: start.toDate(),
     end: end.toDate(),
     title: course.name,
-    reserved: isReserved,  
+    reserved: isReserved,
+    allDay:true,  
   };
 });
 
 
 const CustomToolbar = (toolbar) => {
   const goToBack = () => {
-    const newDate = moment(toolbar.date).subtract(11, 'month');
+    const newDate = moment(toolbar.date).subtract(1, 'week');
     toolbar.onNavigate('PREV', newDate);
     setDisableMonthNavigation(false);
   };
 
   const goToNext = () => {
-    const newDate = moment(toolbar.date).add(11, 'month');
+    const newDate = moment(toolbar.date).add(1, 'week');
     toolbar.onNavigate('NEXT', newDate);
     setDisableMonthNavigation(false);
   };
@@ -71,6 +74,7 @@ const currentDate = moment(toolbar.date).toDate();
   }));
 
 
+
   return (
     <div className="rbc-toolbar" >
 
@@ -89,10 +93,7 @@ const currentDate = moment(toolbar.date).toDate();
       <span className="rbc-btn-group-year">
         <button type="button" className="year-control" onClick={goToBack}>
           <img src={LeftArrow} alt="" />
-        </button>
-
-        <span className="year">{toolbar.date.getFullYear()} {/* 這裡顯示年份 */}</span>
-           
+        </button>           
         <button type="button" className="year-control" onClick={goToNext}>
           <img src={RightArrow} alt="" />
         </button>
@@ -113,10 +114,9 @@ const currentDate = moment(toolbar.date).toDate();
 
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
-    const end = moment(event.end).format('HH:mm');
     return (
       <div className={event.reserved ? 'reserved' : 'not-reserved' } >
-        {`${start}-${end}`}    </div>
+        {`${start}`}    </div>
     );
   };
 
@@ -129,6 +129,7 @@ EventComponent.propTypes = {
   }).isRequired,
 };
 
+
   return (
     <>
       <Calendar
@@ -136,12 +137,13 @@ EventComponent.propTypes = {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: '42rem',width:'54rem' }}
         components={{
           toolbar: CustomToolbar,
             event: EventComponent,
         }}
-      />
+      defaultView={Views.WEEK} // 將預設視圖設為 Week
+      allDayMaxRows='3'
+           />
     </>
   );
 });

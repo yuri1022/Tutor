@@ -1,3 +1,9 @@
+
+.rbc-calendar{
+  width: 100%;
+  min-height: 8rem;
+}
+
 .rbc-toolbar {
 
   display: flex;
@@ -79,7 +85,20 @@
 }
 
 
-.rbc-month-view {
+.rbc-time-view{
+  .rbc-time-header{
+    min-height: 8rem;
+    .rbc-label{
+      display: none;
+    }
+  }
+  .rbc-time-content{
+    display: none;
+  }
+}
+
+.rbc-month-view .rbc-row{
+
 
   .rbc-month-header {
     background-color: var(--main-blue);
@@ -94,16 +113,17 @@
 
   }
 
+
   .rbc-month-row {
-
     .rbc-row-bg {
-
+  
       .rbc-day-bg {
         border: 1px solid var(--main-blue25)
       }
 
     }
   }
+
 }
 
 .rbc-event.rbc-selected {

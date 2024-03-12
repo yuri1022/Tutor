@@ -7,10 +7,13 @@ import MyCalendar from "../components/Teacher_profile_Calendar";
 import PropTypes from 'prop-types';
 import ClassComments from "../components/ClassComments";
 import ClassReserve from '../components/ClassReserve.jsx';
-import { useState ,useEffect } from "react";
+import { useState ,useEffect , useContext ,useRef } from "react";
+import { AppContext } from "../App.jsx";
 import '../assets/scss/teacher.scss';
 import axios from "axios";
 import { Button } from 'react-bootstrap';
+import LoginModal from "../components/LoginModal.jsx";
+import { Modal } from 'bootstrap';
 
 
 
@@ -21,6 +24,11 @@ const TeachersPage = () => {
   const [isCalendarExpanded, setIsCalendarExpanded] = useState(true);
   const [isNoticeExpanded, setIsNoticeExpanded] = useState(true);
   const [reserveModalOpen,setIsReserveModalOpen]= useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const loginModal = useRef(null);
+
+
+  const { state } = useContext(AppContext);
 
 
   const { id } = useParams();
@@ -49,9 +57,40 @@ const TeachersPage = () => {
 
     fetchTeacherData();
   }, [id]);
+
+    const openLoginModal = () => {
+    loginModal.current.show();
+  };
+
+  const closeLoginModal = () => {
+    loginModal.current.hide();  
+  };
+
+  useEffect(()=>{
+        loginModal.current = new Modal('#login_Modal',{
+            backdrop: 'static'
+        });
+    },[])
+
   
-    if (!teacherDetails) {
-    return null; // 或者你可以渲染加载中的 UI
+    if (state.isLogin===false) {
+    return (
+    <div>
+      <div>
+        請登入以查看完整教師資訊
+      </div>
+      <Button onClick={openLoginModal}>登入</Button>
+       <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
+      </div>)
+     ;
+  }
+
+      if (!teacherDetails) {
+    return (
+    <div>
+      正在加載中...
+    </div>)
+     ;
   }
 
 
@@ -67,8 +106,8 @@ const TeachersPage = () => {
   return ( 
       <div>
     
-      <div className="div-container col col-12" >
-        <div className="form-left col col-9" >
+      <div className="div-container col-12 d-flex" >
+        <div className="form-left col-12 col-md-9 col-lg-9" >
 
               
 
@@ -94,8 +133,14 @@ const TeachersPage = () => {
       ))}
                     </div>
                 </div>
-       <div className="reserve-button" style={{marginTop:'3.8rem'}}>
-        <Button style={{background:'linear-gradient(#1AEAEA,#3652E3)',border:'none'}} onClick={() => handleReserveOpen()}>
+               
+
+             </div>
+
+              </div> 
+
+       <div className="reserve-button">
+        <Button className="btn-reserve" style={{background:'linear-gradient(#1AEAEA,#3652E3)',border:'none'}} onClick={() => handleReserveOpen()}>
           <div style={{fontSize:'0.875rem'}}>
             預約上課
           </div>
@@ -108,12 +153,7 @@ const TeachersPage = () => {
           handleClose={handleReserveClose}
          />
          }
-      </div>                
-
-             </div>
-
-              </div> 
-
+      </div> 
 
 
 
@@ -169,7 +209,7 @@ const TeachersPage = () => {
       </div>
       
           {/* 日曆待修改 */}
-      <div className="self-class-time-calendar">
+      <div className="self-class-time-calendar" style={{width:'100%'}}>
           <p className={`self-class-time-description ${
         isCalendarExpanded ? "expanded" : "collapsed"
       }`}> {isCalendarExpanded && (
@@ -238,7 +278,7 @@ const TeachersPage = () => {
     </div>
         </div>
 
-        <div className="form-right col col-3" >
+        <div className="form-right col-12 col-md-3 col-lg-3" >
           
   
            <div>

@@ -6,10 +6,10 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 import '../assets/scss/teacherpage.scss';
 import { Modal } from 'react-bootstrap';
-import { Calendar,momentLocalizer } from 'react-big-calendar';
+import { Calendar,momentLocalizer,Views } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import LeftArrow from '../assets/images/svg/arrow-left.svg';
 import RightArrow from '../assets/images/svg/arrow-right.svg';
 import '../assets/scss/teachercalendar.scss';
@@ -29,9 +29,11 @@ const [disableMonthNavigation, setDisableMonthNavigation] = useState(false);
 const [selectedCourse, setSelectedCourse] = useState('');
 const [selectedDuration, setSelectedDuration] = useState('');
 const [selectedCourseId, setSelectedCourseId] = useState('');
-
 const [showSuccessModal, setShowSuccessModal] = useState(false);
 const [showFailModal, setShowFailModal] = useState(false);
+
+const [successReservationData, setSuccessReservationData] = useState(null);
+
  
   // 根據已預約名單標識是否已預約
 const events = teacherDetails.Courses.flatMap(course => {
@@ -46,6 +48,8 @@ const events = teacherDetails.Courses.flatMap(course => {
     id:course.id,
     reserved: isReserved,
     duration:course.duration,  
+    date:course.startAt,
+    allDay:true
   };
 });
 
@@ -69,6 +73,10 @@ const handleInputCourse = (event) =>{
     setSelectedCourseId(events.id);
   };
 
+
+
+
+
 const handleSubmit = async () => {
  try {
 
@@ -77,6 +85,9 @@ const handleSubmit = async () => {
       console.error('請選擇課程');
       return;
     }
+  const selectedEvent = events.find(event => event.id === selectedCourseId);
+  const { title, date, start, end } = selectedEvent;
+
     const token = localStorage.getItem('token');
     const courseId = selectedCourseId
 
@@ -95,9 +106,12 @@ const handleSubmit = async () => {
 
     // Check the response and show success or fail modal
     if (response.data.status=== 'success') {
-
-    //   const updatedTeacherDetails = await fetchTeacherData(); // 這裡請替換為你的獲取教師詳細資訊的邏輯
-    //  fetchTeacherData(updatedTeacherDetails);
+      
+       setSuccessReservationData({
+        courseName: title,
+        date: `${moment(date).format('YYYY-MM-DD')}`,
+        time: `${moment(start).format('HH:mm')}-${moment(end).format('HH:mm')}`,
+      });
 
       setShowSuccessModal(true);
     } else {
@@ -108,6 +122,9 @@ const handleSubmit = async () => {
     setShowFailModal(true);
   }
 };
+useEffect(() => {
+  
+}, [successReservationData]);
 
 
   const handleCloseSuccessModal = () => {
@@ -123,13 +140,13 @@ const handleSubmit = async () => {
 
 const CustomToolbar = (toolbar) => {
   const goToBack = () => {
-    const newDate = moment(toolbar.date).subtract(11, 'month');
+    const newDate = moment(toolbar.date).subtract(1, 'week');
     toolbar.onNavigate('PREV', newDate);
     setDisableMonthNavigation(false);
   };
 
   const goToNext = () => {
-    const newDate = moment(toolbar.date).add(11, 'month');
+    const newDate = moment(toolbar.date).add(1, 'week');
     toolbar.onNavigate('NEXT', newDate);
     setDisableMonthNavigation(false);
   };
@@ -175,8 +192,6 @@ const currentDate = moment(toolbar.date).toDate();
         <button type="button" className="year-control" onClick={goToBack}>
           <img src={LeftArrow} alt="" />
         </button>
-
-        <span className="year">{toolbar.date.getFullYear()} {/* 這裡顯示年份 */}</span>
            
         <button type="button" className="year-control" onClick={goToNext}>
           <img src={RightArrow} alt="" />
@@ -198,10 +213,9 @@ const currentDate = moment(toolbar.date).toDate();
 
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
-    const end = moment(event.end).format('HH:mm');
     return (
       <div className={event.reserved ? 'reserved' : 'not-reserved' }  onClick={() => handleEventClick(event)}>
-        {`${start}-${end}`}    </div>
+        {`${start}`}    </div>
     );
   };
 
@@ -219,18 +233,20 @@ EventComponent.propTypes = {
   return (
     <Modal show={show} onHide={handleClose} size='sm'>
     <Modal.Body>  
-     <div className="class-reserve">
+     <div className="class-reserve" style={{ width:'100%' }}>
       <div className="calendar">
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: '30rem',width:'30rem' }}
+        style={{ minHeight: '8rem',width:'100%' }}
         components={{
           toolbar: CustomToolbar,
             event: EventComponent,
         }}
+        defaultView={Views.WEEK} // 將預設視圖設為 Week
+        allDayMaxRows='3'
       />
 
 
@@ -271,7 +287,7 @@ EventComponent.propTypes = {
          </div>
 
     <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
-     <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} teacherDetails={teacherDetails} />        
+     {successReservationData&& <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} successReservationData={successReservationData}/>        }
         
       </div>
   
