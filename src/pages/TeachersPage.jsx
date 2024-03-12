@@ -1,7 +1,6 @@
 //teacherpage
 
 import { useParams } from "react-router-dom";
-import NationImg from '../assets/images/svg/canada.svg';
 import '../assets/scss/teacherpage.scss'
 import MyCalendar from "../components/Teacher_profile_Calendar";
 import PropTypes from 'prop-types';
@@ -14,6 +13,8 @@ import axios from "axios";
 import { Button } from 'react-bootstrap';
 import LoginModal from "../components/LoginModal.jsx";
 import { Modal } from 'bootstrap';
+import Flag from 'react-world-flags';
+
 
 
 
@@ -120,8 +121,8 @@ const TeachersPage = () => {
               <div className="self-info-container" >
 
               <div className="self-name-nation-container" >
-              <div className="self-nation" >
-               <img src={NationImg} alt={teacherDetails.nation} />
+              <div className="self-nation d-flex" style={{alignItems:'center'}}>
+              <Flag code={teacherDetails.nation} height="16" fallback={ <span>Unknown</span> }/>
                 <h6 className="self-name">{teacherDetails.name}</h6>
               </div>
               </div>

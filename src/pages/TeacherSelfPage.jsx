@@ -1,7 +1,6 @@
 //teacherselfpage
 
 import { useParams } from "react-router-dom";
-import NationImg from '../assets/images/svg/canada.svg';
 import EditImg from '../assets/images/svg/edit.svg';
 import '../assets/scss/teacherpage.scss'
 import MyCalendar from "../components/Teacher_profile_Calendar";
@@ -16,6 +15,8 @@ import { AppContext } from "../App";
 import LoginModal from "../components/LoginModal.jsx";
 import { Modal } from 'bootstrap';
 import { useNavigate } from "react-router-dom";
+import Flag from 'react-world-flags';
+
 
 
 
@@ -91,9 +92,10 @@ const TeacherSelfPage = () => {
       <Button onClick={openLoginModal}>登入</Button>
        <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
       </div>)
-  } else if (state.logindata.id!==id){
-    navigate('/home');   
+  } else if (state.logindata.data.id !== parseInt(id, 10)){
+    navigate('/home');
     console.log('你不是這個人，請你離開');
+    return null; 
   }
 
 
@@ -222,8 +224,8 @@ const handleCancel = () => {
       <div className="self-info-container">
 
       <div className="self-name-nation-container">
-      <div className="self-nation">
-        <img src={NationImg} alt={teacherDetails.nation} />
+      <div className="self-nation d-flex" style={{alignItems:'center'}}>
+        <Flag code={teacherDetails.nation} height="16" fallback={ <span>Unknown</span> } />
         <h6 className="self-name">{teacherDetails.name}</h6>
       </div>
 

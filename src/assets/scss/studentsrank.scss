@@ -1,23 +1,78 @@
 @media screen and (max-width: 480px){
   .container-ranking-list{
     justify-content: center;
+    margin: 0 0 0 1rem;
       .card{
-        width: 90%;
-
-            .best-rank-container {
+        width: 85%;
+        
+        .best-rank-container {
             max-height: 15rem;
             overflow-y: scroll;
-                .student-container {}
+                .student-container {
+                   display: flex;
+                   align-items: center;
+                   height:3.5rem;
+                   padding-left:0.5rem;
+                   padding-right:0.5rem;
+                   justify-content:space-between;
+                }
               }
         }
   }
 }
 
 @media screen and (min-width: 481px) and (max-width: 1080px) {
-
+  .container-ranking-list {
+      justify-content: center;
+      margin: 0 0 0 1rem;
+  
+      .card {
+        width: 85%;
+  
+        .best-rank-container {
+          height: 100%;
+  
+          .student-container {
+            display: flex;
+            align-items: center;
+            height: 3.5rem;
+            padding-left: 1.125rem;
+            padding-right: 1.125rem;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
 }
 
 @media screen and (min-width: 1081px){
+
+  .container-ranking-list {
+      justify-content: center;
+      margin: 0.3125rem 0 0 1rem;
+  
+      .card {
+        width: 100%;
+        .best-rank-container {
+          height: 100%;         
+          .student-container {
+            display: flex;
+            align-items: center;
+            height: 3.5rem;
+            padding-left: 1.125rem;
+            padding-right: 1.125rem;
+            justify-content: space-between;
+
+          }
+           &::after {
+             position: absolute;
+             content: '';
+             width: 100%;
+             border: 0.05rem dashed var(--main-blue);
+          }
+        }
+      }
+    }
   
 }
 
@@ -54,19 +109,11 @@
         font-weight: 700;
       }
     }
-        .best-rank-container {
-          .student-container {}
 
-    &::after {
-      position: absolute;
-      content: '';
-      width: 100%;
-      border: 0.05rem dashed var(--main-blue);
-     }
+
     }
 
 
   }
 
-    
-}
+  

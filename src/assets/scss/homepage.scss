@@ -9,14 +9,14 @@
     padding-bottom: 10px;
 
     .category-buttons-container ::-webkit-scrollbar {
-        height: 20px;
+        height: 1rem;
         /* 設定捲動條寬度 */
       }
     .category-buttons-item{
       
       display: inline-block; // 讓按鈕在同一行
       box-shadow: none;
-        -webkit-box-shadow: none !important; 
+        -webkit-box-shadow: none ; 
         -moz-box-shadow: none;
         -o-box-shadow: none;
     }
@@ -30,20 +30,34 @@
                 max-width: 23.875rem;
                 height: 100%;
                 max-height: 21rem;
-                box-shadow: 0px 3px 2px 1px var(--main-blue25);
-                -webkit-box-shadow: 0px 3px 5px 1px var(--main-blue25);
-                -moz-box-shadow: 1px 3px 5px 1px var(--main-blue25);
-                -o-box-shadow: 0px 3px 5px 1px var(--main-blue25);
+                box-shadow: 0px 4px 4px 2px var(--main-blue25);
+                -webkit-box-shadow: 0px 4px 4px 2px var(--main-blue25);
+                -moz-box-shadow: 0px 4px 4px 2px var(--main-blue25);
+                -o-box-shadow: 0px 4px 4px 2px var(--main-blue25);
                 border: none;
+
+                .card-body{
+                }
+                
       
                 .teacher-top {
                   display: flex;
                   align-items: center;
-                  height: 7.5rem;
+                  height: 50%;
+                  .teacher-img{
+                    height: 100%;
+                    min-width: 8.4rem;
+                    width: 40.5%;
+                    img{
+                    border-radius: 0.625rem;
+                    }
+                    
+                  }
       
                   .teacher-basic-info {
                     height: 100%;
-                    margin: 0.6rem;
+                    width: 55%;
+                    margin: 0.6rem 0 0 0.8rem;
       
                     .teacher-title {
                       display: flex;
@@ -51,9 +65,11 @@
       
                       .teacher-nation {
                         margin-top: -0.3rem;
+                    
                         .teacher-nation-img {
                           width: 1.5rem;
                           height: 1.125rem;
+                         
                         }
                       }
       
@@ -85,7 +101,7 @@
                       .teacher-reserve-button {
                         display: flex;
                         justify-content: center;
-      
+                        margin-top: 0.5rem;
                         .btn-reserve {
                           width: 100%;
                           height: 2.375rem;
@@ -108,14 +124,15 @@
                   .teacher-category {
                     display: flex;
                     justify-content: left;
-                    flex-wrap: wrap;
-                    font-size: 0.8rem;
+                    flex-wrap: wrap;                  
                     margin: 0.8rem 0 0.2rem 0;
-      
+                    
                     .teacher-item {
                       padding: 0 0.268rem 0 0.268rem;
                       margin: 0 0.268rem 0.268rem 0;
                       border-radius: 3px;
+                      font-size: 0.785rem;
+                      font-weight: 400;
                       background-color: var(--main-blue25);
                     }
                   }
@@ -166,6 +183,197 @@
 
 
 @media screen and (min-width: 481px) and (max-width: 1080px) {
+.div-container__home {
+    margin: 0 3.375rem 0 3.375rem;
+
+    .category-buttons {
+
+      .category-buttons-item {
+        font-weight: 900;
+        width: 6rem;
+        height: 2.25rem;
+        padding: 5px;
+        margin: 5px;
+        border: none;
+        color: var(--grey-light);
+
+        box-shadow: 1px 3px 5px 1px var(--grey-light);
+        -webkit-box-shadow: 1px 3px 5px 1px var(--grey-light);
+        -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
+        -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
+
+        &.selected {
+          color: black;
+
+        }
+
+      }
+    }
+
+    .pagination {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 4rem 0rem 4rem 0rem;
+
+      .pagination-control {
+        display: flex;
+        align-items: center;
+
+        .pagination-control-first,
+        .pagination-control-prev,
+        .pagination-control-page,
+        .pagination-control-next,
+        .pagination-control-last {
+          margin: 0.5rem
+        }
+      }
+    }
+  }
+
+  .div-container__info {
+
+    .card {
+      width: 90%;
+      height: 17.8rem;
+      box-shadow: 0px 3px 2px 1px var(--main-blue25);
+      -webkit-box-shadow: 0px 3px 5px 1px var(--main-blue25);
+      -moz-box-shadow: 1px 3px 5px 1px var(--main-blue25);
+      -o-box-shadow: 0px 3px 5px 1px var(--main-blue25);
+      border: none;
+
+      .teacher-top {
+        display: flex;
+        align-items: center;
+        height: 50%;
+
+        .teacher-img {
+          height: 100%;
+          min-width: 7.5rem;
+          width: 40.5%;
+
+          img {
+            border-radius: 0.625rem;
+          }
+
+        }
+
+        .teacher-basic-info {
+          height: 100%;
+          margin: 0.6rem;
+
+          .teacher-title {
+            display: flex;
+            flex-direction: column;
+
+            .teacher-nation {
+              .teacher-nation-img {
+                width: 1.5rem;
+                height: 1.125rem;
+              }
+            }
+
+            .teacher-name {
+              font-weight: 700;
+              font-size: 1rem;
+              margin-top: 3%
+            }
+
+            .teacher-rating {
+              display: flex;
+              margin-top: 6.5%;
+
+              .teacher-rating-img {
+                width: 0.85rem;
+                height: 0.85rem;
+
+              }
+
+              .teacher-rating-num {
+                margin-left: 0.2rem;
+                text-align: end;
+                font-size: 0.8rem;
+
+              }
+
+            }
+
+            .teacher-reserve-button {
+              display: flex;
+              justify-content: center;
+
+              .btn-reserve {
+                width: 6rem;
+                height: 2.25rem;
+                font-size: 0.8rem;
+                background: linear-gradient(to bottom, rgba(26, 234, 234, 1) 0%, rgba(54, 82, 227, 1) 100%);
+                border: none;
+                color: #FFFFFF;
+              }
+            }
+
+          }
+
+        }
+
+      }
+
+      .teacher-category-container {
+        min-height: 3rem;
+
+        .teacher-category {
+          display: flex;
+          justify-content: left;
+          flex-wrap: wrap;
+          font-size: 0.8rem;
+          margin: 0.8rem 0 0.2rem 0;
+
+          .teacher-item {
+            padding: 0 0.268rem 0 0.268rem;
+            margin: 0 0.268rem 0.268rem 0;
+            border-radius: 3px;
+            background-color: var(--main-blue25);
+          }
+        }
+      }
+
+      .teacher-info {
+        height: 3.2rem;
+
+        .teacher-info-text {
+          font-size: 0.8rem;
+        }
+      }
+
+      .button-see-more {
+        display: flex;
+        justify-content: end;
+        margin: 0;
+
+        .btn-see-more {
+          margin: 0 0 0.1rem 0;
+          border: none;
+          font-size: 0.8rem;
+          position: relative;
+          color: var(--main-blue);
+
+          &::after {
+            content: '';
+            position: absolute;
+            width: 85%;
+            height: 1px;
+            border-bottom: 1px dashed var(--main-blue);
+            bottom: 0.3rem;
+            left: 0.35rem;
+
+          }
+
+        }
+      }
+
+    }
+  }
+
 }
 
 /* 1080px 以上的樣式 */
@@ -230,9 +438,20 @@
       border: none;
 
       .teacher-top {
-        display: flex;
-        align-items: center;
-        height: 7.5rem;
+          display: flex;
+          align-items: center;
+          height: 50%;
+                
+          .teacher-img {
+            height: 100%;
+            width: 40.5%;
+            min-width: 7.5rem;
+                
+            img {
+            border-radius: 0.625rem;
+            }
+                
+          }
 
         .teacher-basic-info {
           height: 100%;
@@ -364,10 +583,6 @@
       border:none;
       color: var(--grey-light);
 
-    box-shadow: 1px 3px 5px 1px var(--grey-light);
-    -webkit-box-shadow: 1px 3px 5px 1px var(--grey-light);
-    -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
-    -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
     &.selected{
       color: black;
       
@@ -408,23 +623,13 @@
               align-items: center;
               height: 7.5rem;
 
-              .teacher-img{
-                border-radius: 0.5rem;
-              }
-
             .teacher-basic-info{
               height: 100%;
               margin: 0.6rem;
               .teacher-title {
                   display: flex;
                   flex-direction: column;
-              
-                  .teacher-nation {
-                    .teacher-nation-img {
-                      width: 1.5rem;
-                      height: 1.125rem;
-                    }
-                  }
+            
               
                   .teacher-name {
                     font-weight: 700;
@@ -456,7 +661,6 @@
                     justify-content: center;
                     
                     .btn-reserve {
-                      width: 6rem;
                       height: 2.25rem;
                       font-size: 0.8rem;
                       background: linear-gradient(to bottom, rgba(26, 234, 234, 1) 0%, rgba(54, 82, 227, 1) 100%);
