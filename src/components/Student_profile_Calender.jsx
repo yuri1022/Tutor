@@ -11,6 +11,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
     const [courseList, setCourseList] = useState([]);
     const calender_block = useRef(null);
+    const student_data = JSON.parse(localStorage.getItem("userdata")).data;
     const { state } = useContext(AppContext);
     const api = 'http://34.125.232.84:3000';
 
@@ -88,7 +89,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
         // }
         if( course.timestamp > today.getTime()){
             course_block =
-            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.name,course.date,course.time)} }>
+            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.name,course.date,course.time,course.courseId)} }>
                 <div className="title-bar reserve">{course.subject}</div>
                 <div>{course.name}</div>
                 {course.time===30 ? 
@@ -97,9 +98,9 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                 }
             </div>
         }
-        else if ( course.rating===null){
+        else if ( course.rating!==0){
             course_block =             
-            <div className="course-block bg-not-review" key={index} onClick={openRatingModal}>
+            <div className="course-block bg-not-review" key={index} onClick={()=>{openRatingModal(course.name,course.date,course.courseId)}}>
                 <div className="title-bar notreview">{course.subject}</div>
                 <div>{course.name}</div>
                 {course.time===30 ? 
@@ -108,17 +109,17 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                 }
             </div>
         }
-        else if ( course.rating!==0 ){
-            course_block =
-            <div className="course-block bg-finish" key={index}>
-                <div className="title-bar finish">{course.subject}</div>
-                <div>{course.name}</div>
-                {course.time===30 ? 
-                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
-                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
-                }
-            </div>
-        }
+        // else if ( course.rating!==0 ){
+        //     course_block =
+        //     <div className="course-block bg-finish" key={index}>
+        //         <div className="title-bar finish">{course.subject}</div>
+        //         <div>{course.name}</div>
+        //         {course.time===30 ? 
+        //         (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
+        //         (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
+        //         }
+        //     </div>
+        // }
 
         return(course_block);
     }
@@ -167,10 +168,9 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     useEffect(() => {
         const fetchStudentData = async () => {
           try {
-            const studentId = state.logindata.data.id;
+            const studentId = JSON.parse(localStorage.getItem("userdata")).data.id;
             const response = await axios.get(`${api}/student/${studentId}`);
     
-         
             const studentData = response.data;
     
             console.log('Student Data:', studentData);
@@ -180,6 +180,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                const courses = studentData.data.Registrations.map(course => {
                 const startDate = new Date(course.Course.startAt);
                 return {
+                courseId: course.courseId,
                 year: startDate.getFullYear(),
                 month: startDate.getMonth() + 1,
                 hour: startDate.getHours(),
@@ -205,11 +206,11 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
           }
         };
     
-        if (state.logindata && state.logindata.data) {
+        if (JSON.parse(localStorage.getItem("userdata")).data) {
           fetchStudentData();
         }
     
-      }, [state.logindata]);
+      }, []);
     useEffect(()=>{
 
     },[]);

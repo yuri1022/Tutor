@@ -3,20 +3,24 @@ import Students_profile_Calender from "../../components/Student_profile_Calender
 import Students_profile_Edit from "../../components/students/Student_profile_Edit";
 import Students_profile_Rating from "../../components/students/Student_profile_Rating";
 import Students_profile_Go_Class from "../../components/students/Student_profile_Go_Class";
-import { useParams } from "react-router-dom";
 import { Modal } from 'bootstrap';
 import { AppContext } from './../../App';
 const Students_profile = () =>{
     const editModal = useRef(null);
-    const { id } = useParams();
     const ratingModal = useRef(null);
     const goclassModal = useRef(null);
-    const userdata = useContext(AppContext).state.logindata;
-    
+    const student_data = JSON.parse(localStorage.getItem("userdata")).data;
+    console.log(student_data);
     const [obj_goclass, setObj_goclass] = useState({
         teacher: '',
         date: new Date(),
-        time: '',
+        time: 0,
+        courseId: 0,
+    })
+    const [obj_rating,setObj_rating] = useState({
+        teacher: '',
+        date: new Date(),
+        courseId:0,
     })
     const openEditModal = () =>{
         editModal.current.show();
@@ -24,17 +28,23 @@ const Students_profile = () =>{
     const closeEditModal = () =>{
         editModal.current.hide();
     }
-    const openRatingModal = () =>{
+    const openRatingModal = (teacher,date,courseId) =>{
+        setObj_rating({
+            'teacher': teacher,
+            'date': new Date(date),
+            'courseId':courseId,
+        });
         ratingModal.current.show();
     }
     const closeRatingModal = () =>{
         ratingModal.current.hide();
     }
-    const openGoClassModal = (teacher,date,time) =>{
+    const openGoClassModal = (teacher,date,time,courseId) =>{
         setObj_goclass({
             'teacher': teacher,
             'date': new Date(date),
             'time':time,
+            'courseId':courseId,
         });
         goclassModal.current.show();
     }
@@ -55,14 +65,14 @@ const Students_profile = () =>{
     return(
         <div>
             <Students_profile_Go_Class obj_goclass={obj_goclass} closeGoClassModal={closeGoClassModal}/>
-            <Students_profile_Rating closeRatingModal={closeRatingModal}/>
+            <Students_profile_Rating obj_rating={obj_rating} closeRatingModal={closeRatingModal} />
             <Students_profile_Edit closeEditModal={closeEditModal}/>
             <div className="Profile_container_stu">
                 <div className="row">
                     <div className="col-3">
                         <div className="left-profile-stu-container">
-                            <div className="img-profile"><img className="img-profile" src={userdata?.data?.avatar}></img></div>
-                            <div className="text-title mb-40px">{userdata?.data?.name}</div>
+                            <div className="img-profile"><img className="img-profile" src={student_data.avatar}></img></div>
+                            <div className="text-title mb-40px">{student_data.name}</div>
                             <div>
                                 <div>
                                     <div className="text-title mb-10px">我的學習名次</div>
@@ -74,7 +84,7 @@ const Students_profile = () =>{
                                 <div className="intro-block mb-40px">
                                     <div className="text-title mb-10px">自我介紹</div>
                                     <div className="intro">
-                                        <p>{userdata?.data?.selfIntro}</p>
+                                        <p>{student_data.selfIntro}</p>
                                     </div>
                                 </div>
                             </div>    
