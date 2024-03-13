@@ -41,13 +41,13 @@ const events = teacherDetails.Courses.flatMap(course => {
 
 const CustomToolbar = (toolbar) => {
   const goToBack = () => {
-    const newDate = moment(toolbar.date).subtract(1, 'week');
+    const newDate = moment(toolbar.date);
     toolbar.onNavigate('PREV', newDate);
     setDisableMonthNavigation(false);
   };
 
   const goToNext = () => {
-    const newDate = moment(toolbar.date).add(1, 'week');
+    const newDate = moment(toolbar.date);
     toolbar.onNavigate('NEXT', newDate);
     setDisableMonthNavigation(false);
   };

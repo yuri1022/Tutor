@@ -82,6 +82,7 @@ const TeacherSelfPage = () => {
         });
     },[])
 
+    const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
 
     if (state.isLogin===false) {
     return (
@@ -92,8 +93,9 @@ const TeacherSelfPage = () => {
       <Button onClick={openLoginModal}>登入</Button>
        <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
       </div>)
-  } else if (state.logindata.data.id !== parseInt(id, 10)){
+  } else if (userId !== parseInt(id, 10)){
     navigate('/home');
+    console.log(userId)
     console.log('你不是這個人，請你離開');
     return null; 
   }
@@ -139,22 +141,24 @@ const handleSave = async (updatedData,editedData, section) => {
 
   try {
     const token = localStorage.getItem('token');
+    const originalCategory = (teacherDetails.teaching_categories.map(categories => categories.categoryId))
+    console.log(originalCategory)
+    console.log(updatedData.category)
 
    const requestData = {
   "name": updatedData.name || teacherDetails.name,
   "nation": updatedData.nation || teacherDetails.nation,
-  "nickname": updatedData.nickname || teacherDetails.nickname,
+  "category": updatedData.category || originalCategory,
   "avatar": updatedData.avatar || teacherDetails.avatar,
-  "category": [1,2,3,4,5],
   "teachStyle": isEditTeachingStyle ? updatedData.teachStyle : teacherDetails.teachStyle,
   "selfIntro": isEditInfo ? updatedData.selfIntro : teacherDetails.selfIntro,
-  "mon": true,
-  "tue": true,
-  "wed": true,
-  "thu": true,
-  "fri": false,
-  "sat": false,
-  "sun": false,
+  "mon": teacherDetails.mon.toString(),
+  "tue": teacherDetails.tue.toString(),
+  "wed": teacherDetails.wed.toString(),
+  "thu": teacherDetails.thu.toString(),
+  "fri": teacherDetails.fri.toString(),
+  "sat": teacherDetails.sat.toString(),
+  "sun": teacherDetails.sun.toString(),
 };
     // 检查哪些数据发生了更改
     const changedData = {};
@@ -170,7 +174,7 @@ const handleSave = async (updatedData,editedData, section) => {
     }
     const requestBody = JSON.stringify(requestData)
     console.log('reqeustBody:', requestBody);  
-    const response = await axios.put(`${api}/teacher/${id}`, requestBody, {
+    const response = await axios.put(`${api}/teacher/${id}`, requestData, {
       headers: { Authorization: `Bearer ${token}` },
       
     });

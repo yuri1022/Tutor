@@ -11,8 +11,6 @@ import TeacherSelfPage from './pages/TeacherSelfPage';
 import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 import AppReducer from './store/AppContext.js';
 import AdminPage from './pages/AdminPage.jsx';
-import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx'
-
 
 export const AppContext = createContext();
 const initial_login = ()=>{
