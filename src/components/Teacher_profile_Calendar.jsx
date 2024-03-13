@@ -1,21 +1,23 @@
 import { memo } from 'react'
-import { useState} from 'react';
+import { useRef,useEffect } from 'react';
 import { Calendar, momentLocalizer,Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import Select from 'react-select';
 import PropTypes from 'prop-types';
-import '../assets/scss/reservecalendar.scss'
-import LeftArrow from '../assets/images/svg/arrow-left.svg'
-import RightArrow from '../assets/images/svg/arrow-right.svg'
+import '../assets/scss/reservecalendar.scss';
+import LeftArrow from '../assets/images/svg/arrow-left.svg';
+import RightArrow from '../assets/images/svg/arrow-right.svg';
 
 const localizer = momentLocalizer(moment);
 
 
 const MyCalendar = memo(({teacherDetails}) => {
   
-const [disableMonthNavigation, setDisableMonthNavigation] = useState(false);
+// const [disableMonthNavigation, setDisableMonthNavigation] = useState(false);
 
+ const dayFormat = (date, culture, localizer) =>
+    localizer.format(date, 'ddd', culture); // 格式化日期为星期几的缩写
+  
 
 const reservedDates = Array.isArray(teacherDetails.Courses)
   ? teacherDetails.Courses.map(course => course.startAt)
@@ -43,52 +45,28 @@ const CustomToolbar = (toolbar) => {
   const goToBack = () => {
     const newDate = moment(toolbar.date);
     toolbar.onNavigate('PREV', newDate);
-    setDisableMonthNavigation(false);
   };
 
   const goToNext = () => {
     const newDate = moment(toolbar.date);
     toolbar.onNavigate('NEXT', newDate);
-    setDisableMonthNavigation(false);
   };
 
-const handleMonthChange = (selectedOption) => {
-  console.log('Selected Month:', selectedOption);
-  
-  // 確保 toolbar.date 是 Date 物件
-const currentDate = moment(toolbar.date).toDate();
-
-
-  if (!isNaN(currentDate.getTime())) {
-    const newDate = moment(currentDate).set('month', selectedOption.value);
-    toolbar.onNavigate('DATE', newDate.toDate());
-    setDisableMonthNavigation(true);
-  }
-
-  setDisableMonthNavigation(false);
-};
-
-  const monthOptions = moment.months().map((month, index) => ({
-    value: index,
-    label: month,
-  }));
-
+useEffect(() => {
+  const dateCells = document.querySelectorAll('.rbc-day-bg');
+  const startDate =  moment(toolbar.date).startOf('week');
+ dateCells.forEach((cell, index) => {
+      const formattedDate = startDate.clone().add(index, 'days').format('DD');
+      cell.setAttribute('data-date', formattedDate);
+    });
+    
+}, [toolbar.date]);
 
 
   return (
     <div className="rbc-toolbar" >
 
       <div className="rbc-toolbar-top" >
-      
-      <span className="rbc-btn-group-month-option" style={{zIndex:'10'}}>
-        <Select
-          options={monthOptions}
-          onChange={handleMonthChange}
-          defaultValue={monthOptions.find((opt) => opt.value === toolbar.date.getMonth())}
-          isDisabled={disableMonthNavigation}
-        />
-  
-      </span>
 
       <span className="rbc-btn-group-year">
         <button type="button" className="year-control" onClick={goToBack}>
@@ -112,6 +90,7 @@ const currentDate = moment(toolbar.date).toDate();
   );
 };
 
+
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
     return (
@@ -133,10 +112,9 @@ EventComponent.propTypes = {
   return (
     <>
       <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
+      localizer={localizer}
+      events={events}
+      formats={{ dayFormat }}
         components={{
           toolbar: CustomToolbar,
             event: EventComponent,

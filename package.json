@@ -28,7 +28,8 @@
     "react-time-picker": "^6.6.0",
     "react-world-flags": "^1.6.0",
     "sass": "^1.70.0",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "sweetalert2": "^11.10.6"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

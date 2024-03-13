@@ -4,13 +4,13 @@
 
     .form-left {
       .card-container {
-        margin: 1rem;
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         .self-card-container {
           display: flex;
-          height: 12rem;
+          min-height: 12rem;
           width: 100%;
           
           box-shadow: 1px 3px 5px 1px var(--grey-light);
@@ -19,8 +19,8 @@
           -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
 
           .self-card-img {
-            height: 9.7rem;
-            width: 9.7rem;
+            height: 80%;
+            width: 50%;
             margin: 1rem 2rem 1rem 1rem;
             border-radius: 0.625rem;
           }
@@ -236,11 +236,10 @@
 
     .form-right {
       width: 100%;
-      margin: 1rem;
       
       .self-comment {
         width: 100%;
-        margin: 1rem ;
+        margin: 0 1rem 0 1rem;
         .self-comment-title-rating {
           display: flex;
 
@@ -263,7 +262,7 @@
         .class-comment-info {
           display: flex;
           flex-direction: column;
-          width: 95%;
+          width: 90%;
 
           .class-comment-info-card {
             margin: 1rem 0 0 0;
@@ -581,38 +580,9 @@
         }
         .form-right {
     
-          .class-reserve {
-            width: 100%;
-            margin: 4rem 0 0 -1rem;
-    
-            .calendar {
-              width: 18rem;
-            }
-    
-            .timepicker {
-              margin-top: 1rem;
-              width: 18rem;
-            }
-    
-            .select-option {
-              margin-top: 1rem;
-              width: 18rem;
-            }
-    
-            .btn-submit {
-              .submit {
-                margin-top: 1rem;
-                width: 18rem;
-                background: linear-gradient(to bottom, rgba(26, 234, 234, 1) 0%, rgba(54, 82, 227, 1) 100%);
-                font-size: 0.8rem;
-                color: white;
-              }
-            }
-          }
-    
           .self-comment {
             width: 18rem;
-            margin: 3.8rem 0 2rem -1rem;
+            margin: 1rem 0 2rem -1rem;
     
             .self-comment-title-rating {
               display: flex;
@@ -620,17 +590,17 @@
               .self-comment-title {
                 font-size: 1rem;
                 font-weight: 900;
+                align-items: center;
+                .title{
+                  font-size: 1rem;
+                }
               }
     
               .rating-img {
-                margin: 0 0.9rem 1rem 0.9rem;
+                margin: 0 0.5rem 0.8rem 0.5rem;
     
               }
-    
-              .title {
-                font-size: 0.8rem;
-                margin: 0.05rem 0 0 0;
-              }
+  
             }
     
             .class-comment-info {

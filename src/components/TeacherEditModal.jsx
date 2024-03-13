@@ -100,7 +100,7 @@ const handleSaveClick = () => {
   handleSave(updatedData, editingSection);
 
   handleClose();
-
+  console.log(editedData.avatar);
   console.log("保存后的 updatedData：", updatedData);
 
   

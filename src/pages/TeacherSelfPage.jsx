@@ -16,7 +16,7 @@ import LoginModal from "../components/LoginModal.jsx";
 import { Modal } from 'bootstrap';
 import { useNavigate } from "react-router-dom";
 import Flag from 'react-world-flags';
-
+import Swal from "sweetalert2";
 
 
 
@@ -82,23 +82,38 @@ const TeacherSelfPage = () => {
         });
     },[])
 
-    const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
+const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
 
-    if (state.isLogin===false) {
-    return (
+useEffect(()=>{
+
+if (localStorage.getItem("islogin") !== "true") {
+  return (
     <div>
       <div>
         請登入以查看個人檔案
       </div>
       <Button onClick={openLoginModal}>登入</Button>
-       <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
-      </div>)
-  } else if (userId !== parseInt(id, 10)){
-    navigate('/home');
-    console.log(userId)
-    console.log('你不是這個人，請你離開');
-    return null; 
-  }
+      <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
+    </div>
+  );
+} else if (userId !== parseInt(id, 10)) {
+  // 用户已登录，但ID不匹配，弹出警告并执行页面跳转
+  Swal.fire({
+    title: '警告',
+    text: '你不是這個人，請你離開',
+    icon: 'warning',
+    confirmButtonText: '確定'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // 用户点击了确认按钮，执行页面跳转
+      navigate('/home');
+    }
+  });
+  return null; 
+}
+
+},[]);
+
 
 
 
@@ -353,7 +368,7 @@ const handleCancel = () => {
     <div className="form-right col-12 col-md-3 col-lg-3">
 
 
-     <div>
+     <div className="card-container">
       <ClassComments teacherDetails={teacherDetails} />
       </div>
  
