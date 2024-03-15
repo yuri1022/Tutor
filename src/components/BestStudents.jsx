@@ -60,7 +60,7 @@ useEffect(() => {
     
   <div className="container-ranking-list d-flex col-12">
 
-  <Card style={{width:'90%'}}>
+  <Card >
     <div className="ranking-list-title">
       <img className="card-rank-img" src={RankingImg} alt="" />
       <h3 className="card-title">學習時數總排行</h3>

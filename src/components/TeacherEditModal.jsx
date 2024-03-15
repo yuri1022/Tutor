@@ -11,7 +11,15 @@ const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editi
   const [nation, setNation] = useState(editedData.nation);
   const [uploadImageModal, setUploadImageModal] = useState(false);
 
-  const AllCategories = ["多益", "托福", "雅思","日常會話","旅遊英文","新聞英文","商用英文"]; // 根据实际情况添加类别
+const AllCategories = [
+  { label: "多益", value: 1 },
+  { label: "托福", value: 2 },
+  { label: "雅思", value: 3 },
+  { label: "生活會話", value: 5 },
+  { label: "旅遊英文", value: 6 },
+  { label: "新聞英文", value: 7 },
+  { label: "商用英文", value: 4 }
+];
 
 useEffect(() => {
   // 当传递给组件的 teacher 属性发生变化时，更新内部状态
@@ -26,7 +34,7 @@ useEffect(() => {
   
   // 將教師的分類轉換為字符串陣列
   const initialCategories = teacherDetails.teaching_categories
-    ? teacherDetails.teaching_categories.map(category => category.Category.name)
+    ? teacherDetails.teaching_categories.map(category => category.categoryId)
     : [];
 
   setCategory(initialCategories);
@@ -92,7 +100,7 @@ const handleSaveClick = () => {
   handleSave(updatedData, editingSection);
 
   handleClose();
-
+  console.log(editedData.avatar);
   console.log("保存后的 updatedData：", updatedData);
 
   
@@ -141,20 +149,20 @@ const handleSaveClick = () => {
                
             </div>
 
-            {/* 之後改下拉式選單 */}
+
             <div className="edit-category">
           <Form.Label>類別</Form.Label>    
             <div className="edit-category-items">
           
-          {AllCategories.map((cat) => (
-         <Form.Check
-           key={cat}
-          type="checkbox"
-         id={`cat-${cat}`}
-          label={cat}
-         checked={category.includes(cat)}
-          onChange={() => handleCategoryChange(cat)}
-          />
+          {AllCategories.map((cat,) => (
+     <Form.Check
+       key={cat.value}
+        type="checkbox"
+       id={`cat-${cat.value}`}
+       label={cat.label}
+       checked={category.includes(cat.value)}
+        onChange={() => handleCategoryChange(cat.value)}
+       />
            ))}
           </div>
 

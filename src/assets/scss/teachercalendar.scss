@@ -1,14 +1,15 @@
-
+.rbc-calendar{
+  border: none;
+}
 
 .rbc-toolbar{
   
   display: flex;
   flex-direction:column;
-  align-items: normal;
 
   .rbc-toolbar-top{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 
     .rbc-btn-group-month-option{
       color: var(--main-blue);
@@ -80,29 +81,33 @@
 
 }
 
+.rbc-time-view{
+  border: none;
+}
 
-.rbc-month-view {
- 
-  .rbc-month-header {
-      background-color: var(--main-blue);
-      color: var(--white);
-      height: 2rem;
-      font-size: 12px;
-      align-items: center;
-  
-      .rbc-header {
-        border: none;
-      }
-  
+.rbc-time-header-content{
+  .rbc-row{
+    .rbc-header{
+      border: none;
     }
-  .rbc-month-row{
-    
+  }
+  .rbc-allday-cell{
     .rbc-row-bg{
-
-      .rbc-day-bg{
-      border: 1px solid var(--main-blue25)
+      height: 8rem;
+      
+      .rbc-day-bg{        
+      position: relative;
+      border: 0.05rem solid var(--main-blue25);
+        &::after {
+        content: attr(data-date);            
+        z-index: 2;
+            position: absolute;
+            top: 0.2rem;
+            right: 0.6rem;
+            font-size: 12px;
+            color: black;
+          }
       }
-
     }
   }
 }
@@ -119,6 +124,7 @@
       text-align: center;
       width: 100%;
       font-size: 1rem;
+      margin-top: 1rem;
       .reserved {
         border: none;
           background-color:var(--grey-300);

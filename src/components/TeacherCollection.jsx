@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import '../main.scss'
 import { Card , Button } from 'react-bootstrap';
 import RatingStar from '../assets/images/svg/rating.svg';
-import Nation from '../assets/images/svg/canada.svg';
 import FirstPageArrow from '../assets/images/svg/arrow-first.svg';
 import LastPageArrow from '../assets/images/svg/arrow-last.svg';
 import PrePageArrow from '../assets/images/svg/previouspage.svg';
@@ -15,6 +14,8 @@ import '../assets/scss/homepage.scss';
 import { useTeacherContext } from './teachercontext';
 import ClassReserve from './ClassReserve';
 import axios from 'axios';
+import Flag from 'react-world-flags';
+
 const api = 'http://34.125.232.84:3000';
 
 
@@ -124,7 +125,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
   return (
 
     
-  <div className="div-container__home col col-11" >
+  <div className="div-container__home col col-12" >
 
       <div className='category-buttons-container d-flex'>
         <div className="category-buttons">
@@ -143,17 +144,14 @@ const handleCategoryChange = (selectedCategoryItemId) => {
       </div>
 
 
-      {/* {filteredTeachersByCategory.map((teacher) => (
-        <TeacherItem key={teacher.id} teacher={teacher} />
-      ))} */}
-
+<div className="div-container d-flex">
     {teacherData.teachers && teacherData.teachers.map((teacher) => (
 
-      <div className="div-container__info col-12 col-md-4 col-lg-4" key={teacher.id}>
+      <div className="div-container__info col-12 col-md-3 col-lg-3" key={teacher.id}>
         <Card className="card">
         <Card.Body >
         <div className="teacher-top">
-        <div className="teacher-img" style={{width: '7.5rem',height:'7.5rem'}}>
+        <div className="teacher-img">
         <img src={teacher.avatar} alt={teacher.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
         </div>
         <div className="teacher-basic-info">
@@ -161,7 +159,9 @@ const handleCategoryChange = (selectedCategoryItemId) => {
           
         <div className="teacher-title" >
           <div className="teacher-nation">
-            <img className="teacher-nation-img" src={Nation} alt={teacherData.nation} /></div>
+            <Flag code={teacher.nation} height="16" fallback={ <span>Unknown</span> }/>
+
+            </div>
         <h5 className="teacher-name" >{teacher.name}</h5>
         
 
@@ -215,6 +215,8 @@ const handleCategoryChange = (selectedCategoryItemId) => {
    </Card>
    </div>
     ))}
+</div>
+
 
       <div className="pagination col-12">
 

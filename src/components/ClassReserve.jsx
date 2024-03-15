@@ -2,7 +2,6 @@
 
 import { Button } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
-import Select from 'react-select';
 import PropTypes from 'prop-types';
 import '../assets/scss/teacherpage.scss';
 import { Modal } from 'react-bootstrap';
@@ -31,8 +30,10 @@ const [selectedDuration, setSelectedDuration] = useState('');
 const [selectedCourseId, setSelectedCourseId] = useState('');
 const [showSuccessModal, setShowSuccessModal] = useState(false);
 const [showFailModal, setShowFailModal] = useState(false);
-
 const [successReservationData, setSuccessReservationData] = useState(null);
+
+ const dayFormat = (date, culture, localizer) =>
+  localizer.format(date, 'ddd', culture); // 格式化日期为星期几的缩写
 
  
   // 根據已預約名單標識是否已預約
@@ -140,59 +141,38 @@ useEffect(() => {
 
 const CustomToolbar = (toolbar) => {
   const goToBack = () => {
-    const newDate = moment(toolbar.date).subtract(1, 'week');
+    const newDate = moment(toolbar.date);
     toolbar.onNavigate('PREV', newDate);
-    setDisableMonthNavigation(false);
   };
 
   const goToNext = () => {
-    const newDate = moment(toolbar.date).add(1, 'week');
+    const newDate = moment(toolbar.date);
     toolbar.onNavigate('NEXT', newDate);
-    setDisableMonthNavigation(false);
   };
 
-const handleMonthChange = (selectedOption) => {
-  console.log('Selected Month:', selectedOption);
-  
-  // 確保 toolbar.date 是 Date 物件
-const currentDate = moment(toolbar.date).toDate();
+useEffect(() => {
+  const parentElements = document.querySelectorAll('.rbc-row-bg');
 
+  parentElements.forEach(parent => {
+    const dateCells = parent.querySelectorAll('.rbc-day-bg');
+    const startDate = moment(toolbar.date).startOf('week');
 
-  if (!isNaN(currentDate.getTime())) {
-    const newDate = moment(currentDate).set('month', selectedOption.value);
-    toolbar.onNavigate('DATE', newDate.toDate());
-    setDisableMonthNavigation(true);
-  }
-
-  setDisableMonthNavigation(false);
-};
-
-  const monthOptions = moment.months().map((month, index) => ({
-    value: index,
-    label: month,
-  }));
-
+    dateCells.forEach((cell, i) => {
+      const formattedDate = startDate.clone().add(i, 'days').format('DD');
+      cell.setAttribute('data-date', formattedDate);
+    });
+  });
+}, [toolbar.date]);
 
   return (
-    <div className="rbc-toolbar" >
+    <div  className="rbc-toolbar" >
 
       <div className="rbc-toolbar-top" >
-      
-      <span className="rbc-btn-group-month-option" style={{zIndex:'10'}}>
-        <Select
-          options={monthOptions}
-          onChange={handleMonthChange}
-          defaultValue={monthOptions.find((opt) => opt.value === toolbar.date.getMonth())}
-          isDisabled={disableMonthNavigation}
-        />
-  
-      </span>
 
       <span className="rbc-btn-group-year">
         <button type="button" className="year-control" onClick={goToBack}>
           <img src={LeftArrow} alt="" />
-        </button>
-           
+        </button>           
         <button type="button" className="year-control" onClick={goToNext}>
           <img src={RightArrow} alt="" />
         </button>
@@ -240,14 +220,14 @@ EventComponent.propTypes = {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ minHeight: '8rem',width:'100%' }}
+       formats={{ dayFormat }}
         components={{
           toolbar: CustomToolbar,
             event: EventComponent,
         }}
-        defaultView={Views.WEEK} // 將預設視圖設為 Week
-        allDayMaxRows='3'
-      />
+      defaultView={Views.WEEK} // 將預設視圖設為 Week
+      allDayMaxRows='3'
+           />
 
 
       </div>
