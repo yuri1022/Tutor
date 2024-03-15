@@ -87,6 +87,7 @@ const ApplyFormInner = () =>{
         const weekday_obj = weekdayforstr();
         const category_list = categoryToList();
         const country_name = changeCountryISO();
+        
         const formdata = {
             name:teachername,
             email:userdata?.email,
@@ -110,6 +111,33 @@ const ApplyFormInner = () =>{
     },[])
         return(
             <div className="apply-mobile-container">
+              <div className="process-shower mb-22px">
+                <div className="process-line d-flex items-center">
+                  <div className={`icon-circle ${page===1 ? "active":""}`}>1</div>
+                  <div className="line-container">
+                    <div className="line"></div>
+                  </div>
+
+                </div>
+                <div className="process-line d-flex items-center">
+                  <div className={`icon-circle ${page===2 ? "active":""}`}>2</div>
+                  <div className="line-container">
+                    <div className="line"></div>
+                  </div>
+
+                </div>
+                <div className="process-line d-flex items-center">
+                  <div className={`icon-circle ${page===3 ? "active":""}`}>3</div>
+                  <div className="line-container">
+                    <div className="line"></div>
+                  </div>
+
+                </div>
+                <div className="process-line-end d-flex items-center">
+                  <div className={`icon-circle ${page===4 ? "active":""}`}>4</div>
+                  
+                </div>
+              </div>
                 <form className=" h-100 applyFormMobile" action=''>
                 {
                     page===1 &&
@@ -135,7 +163,7 @@ const ApplyFormInner = () =>{
                             searchPlaceholder="搜尋國家"
                             
                         />
-                        <div className="mb-auto"></div>
+                        <div className="mb-40px"></div>
                     </>)
                 }
                 {
@@ -145,7 +173,7 @@ const ApplyFormInner = () =>{
                             <div className="mb-22px">
                             <textarea value={introTxt}
                             onChange={(e)=>{setIntroTxt(e.target.value)}}
-                            className={`form-control`} rows={10}   placeholder="請輸入簡介"/>
+                            className={`form-control mb-40px`} rows={10}   placeholder="請輸入簡介"/>
                             {/* {introTxt && <div id="validationServerusernameFeedback" className="invalid-feedback">
                                 請輸入內容
                             </div>} */}
@@ -177,7 +205,7 @@ const ApplyFormInner = () =>{
                         </div>
 
                         <label className="title mb-22px">教學風格</label>
-                        <div className="mb-22px">
+                        <div className="mb-40px">
                             <textarea type="text" value={teachStyle} 
                             onChange={(e)=>{setTeachStyle(e.target.value)}}
                             className={`form-control`} rows={5}   
@@ -191,7 +219,7 @@ const ApplyFormInner = () =>{
                     page===4 && (
                         <>
                         <label className="title mb-22px">授課時間1</label>
-                        <div className="row">
+                        <div className="row mb-40px">
                         {
                             Object.keys(weekdays).map((day)=>(                             
                                 <div className="col-3" key={day}>

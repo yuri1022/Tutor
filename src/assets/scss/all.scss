@@ -1,9 +1,10 @@
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap/scss/functions";
 
-@import "../node_modules/bootstrap/scss/mixins";
+@import "bootstrap/scss/mixins";
 @import "/src/assets/scss/navbar.scss";
 @import "/src/assets/scss/students.scss";
+@import "/src/assets/scss/student_course.scss";
 
 @import "/src/assets/scss/commentmodal.scss";
 @import "/src/assets/scss/homepage.scss";

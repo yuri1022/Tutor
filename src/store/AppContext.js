@@ -16,7 +16,7 @@ export default function AppReducer(state, action ){
                 logindata:'',
                 isLogin: "false",
                 isTeacher: 0,
-                isApply:state.isApply,
+                isApply:false,
                 isAdmin:false,
             }
         case 'APPLYTEACHER':

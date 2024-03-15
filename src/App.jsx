@@ -8,6 +8,7 @@ import ApplyTeacher from './pages/ApplyTeacher';
 import ApplyTeacherFormMobile from './components/applyTeacher/mobile/ApplyTeacherForm.jsx';
 import './main.scss';
 import Students_profile from './pages/students/Students_profile';
+import Students_course from './pages/students/Students_course.jsx';
 import TeacherSelfPage from './pages/TeacherSelfPage';
 import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 import AppReducer from './store/AppContext.js';
@@ -60,6 +61,7 @@ function App() {
           <Route path="teacher/:id" element={<TeachersPage />} />
           <Route path="teacher/:id/personal" element={<TeacherSelfPage />} />
           <Route path="student/:id" element={<Students_profile/>} />
+          <Route path="student/:id/course" element={<Students_course/>}/>
           <Route path="home/*" element={<HomePage />} />
           <Route path="*" element={<HomePage />} />
           <Route path="apply" element={<ApplyTeacher />}/>      

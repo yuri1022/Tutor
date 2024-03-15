@@ -90,36 +90,36 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
         if( course.timestamp > today.getTime()){
             course_block =
             <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.name,course.date,course.time,course.courseId)} }>
-                <div className="title-bar reserve">{course.subject}</div>
-                <div>{course.name}</div>
+                <div className="title-bar reserve display-none">{course.subject}</div>
+                <div className="display-none">{course.name}</div>
                 {course.time===30 ? 
-                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
-                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
+                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
+                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
                 }
             </div>
         }
         else if ( course.rating!==0){
             course_block =             
             <div className="course-block bg-not-review" key={index} onClick={()=>{openRatingModal(course.name,course.date,course.courseId)}}>
-                <div className="title-bar notreview">{course.subject}</div>
-                <div>{course.name}</div>
+                <div className="title-bar notreview display-none">{course.subject}</div>
+                <div className="display-none">{course.name}</div>
                 {course.time===30 ? 
-                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
-                (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
+                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
+                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
                 }
             </div>
         }
-        // else if ( course.rating!==0 ){
-        //     course_block =
-        //     <div className="course-block bg-finish" key={index}>
-        //         <div className="title-bar finish">{course.subject}</div>
-        //         <div>{course.name}</div>
-        //         {course.time===30 ? 
-        //         (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
-        //         (<div>{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
-        //         }
-        //     </div>
-        // }
+        else if ( course.rating===0 ){
+            course_block =
+            <div className="course-block bg-finish" key={index}>
+                <div className="title-bar finish display-none">{course.subject}</div>
+                <div className="display-none">{course.name}</div>
+                {course.time===30 ? 
+                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
+                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
+                }
+            </div>
+        }
 
         return(course_block);
     }

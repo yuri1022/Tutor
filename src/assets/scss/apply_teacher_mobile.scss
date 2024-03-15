@@ -1,10 +1,68 @@
 .mr-10px{
     margin-right:10px;
 }
+.mb-22px{
+    margin-bottom: 22px;
+}
+.mb-40px{
+    margin-bottom: 40px;
+}
+.apply-mobile-container{
+    .process-shower{
+        display:flex;
+        width:100%;
+        align-items: center;
+        
+    }
+    .icon-circle{
+        width: 20px;
+        border-radius: 10px;
+        text-align: center;
+        background-color:#D9D9D9 ;;
+        color: white;
+        font-size: 12px;
+    }
+
+    .process-bar{
+        width: 100%;
+        color:#3652E3;
+        background-color:white;
+        text-align: center;
+        padding:5px 15px;
+        border-radius: 10px;
+        border: 1px solid #3652E3;
+        
+    }
+    .active{
+        color:white;
+        background-color:#3652E3;
+        border-radius: 10px;
+    }
+    .line-container{
+        width:100%;
+        display:flex;
+        justify-content: center;
+        align-items:center;
+    }
+    .line{
+        width: 90%; /* 設定寬度 */
+        height: 2px; /* 設定高度 */
+        background-color: #D9D9D9; /* 設定顏色 */
+    }
+    .process-line{
+        position: relative;
+        flex: 1;
+    }
+
+    .process-line-end{
+        position: relative;
+        flex: 0;
+    }
+}
+
 @media screen and (max-width: 480px){
     .apply-mobile-container{
         padding: 20px 24px 0px 24px;
-
         .button-list{
             width:100%;
             display:flex;

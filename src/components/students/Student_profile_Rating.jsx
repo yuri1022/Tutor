@@ -41,8 +41,8 @@ const Student_profile_Rating = ({closeRatingModal,obj_rating}) =>{
 
     }
     return(
-        <div className="modal fade" id="ratingStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-lg" role="document">
+        <div className="modal fade studentModal" id="ratingStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-sm modal-lg modal-xl" role="document">
             <div className="ratingStuModal_content modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel"></h5>
@@ -57,10 +57,10 @@ const Student_profile_Rating = ({closeRatingModal,obj_rating}) =>{
                         <div className="mb-10px">
                             <div className="modal-rating-toptitle mb-10px">{obj_rating.teacher}老師{obj_rating.date.getFullYear()}年{obj_rating.date.getMonth()+1}月{obj_rating.date.getDate()}日的課程評分</div> 
                             <div className="title mb-10px">星等</div>
-                            <div className="d-flex">
+                            <div className="rating-list">
                                 {
                                     starArr.map((star,key)=>(
-                                        <div className="form-check" key={key}>
+                                        <div className="form-check " key={key}>
                                             <div className="d-flex items-center">
                                                 <input
                                                 type="radio"
@@ -68,6 +68,7 @@ const Student_profile_Rating = ({closeRatingModal,obj_rating}) =>{
                                                 value={star}
                                                 checked={rating === star}
                                                 onChange={() => handleChange(star)}
+                                                className="text-center"
                                                 />
                                                 <label className="form-check-label text-radio" >{star}</label>
                                             </div>

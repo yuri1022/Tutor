@@ -20,8 +20,8 @@ const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass}) =>{
     }
 
     return(
-        <div className="modal fade" id="goclassStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog" role="document">
+        <div className="modal studentModal fade" id="goclassStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog modal-sm modal-lg" role="document">
                 <div className="go_classStuModal_content modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLabel"></h5>

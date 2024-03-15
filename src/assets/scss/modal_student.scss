@@ -1,3 +1,30 @@
+
+
+.studentModal{
+    .modal-dialog{
+        min-width: 300px;
+    }
+
+} 
+@media screen and (max-width: 480px){
+    .ratingStuModal_content{
+        .rating-list{
+            display: flex;
+            flex-direction: column
+        }
+    }
+
+}
+@media screen and (min-width: 1081px){
+    .ratingStuModal_content{
+        .rating-list{
+            display: flex;
+            flex-direction: row;
+        }
+    }
+}
+
+
 .editStuModal_content{
     padding-left: 20px;
     padding-right: 20px;
@@ -43,7 +70,9 @@
 .ratingStuModal_content{
     padding-left: 20px;
     padding-right: 20px;
-
+    .text-center{
+        text-align: center;
+    }
     .title {
         font-size: 20px;
         line-height: 30px;
@@ -79,7 +108,6 @@
         margin-right: 5px;
         border-radius: 0px;
     }
-
     input[type="radio"] {
         -webkit-appearance: none;
         -moz-appearance: none;

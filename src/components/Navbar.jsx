@@ -12,8 +12,6 @@ import { Modal } from 'bootstrap';
 import AppReducer from '../store/AppContext';
 import { AppContext } from '../App';
 import { Dropdown } from 'react-bootstrap';
-
-
 const Navbar = (props) =>{
     const [isHome,setIsHome]= useState(true);
     const [ isTeacher,setIsTeacher] = useState(0);
@@ -42,6 +40,9 @@ const Navbar = (props) =>{
 
         }
     }
+    const handleGooutApply =()=>{
+        dispatch({type:'APPLYTEACHER_BACK'});
+    }
     useEffect(()=>{
         loginModal.current = new Modal('#login_Modal',{
             backdrop: 'static'
@@ -59,7 +60,7 @@ const Navbar = (props) =>{
     }
     const apply_to_homepage = ()=>{
         dispatch({type:"APPLYTEACHER_BACK"});
-        navigate('/')
+        
     }
     const getData = async(id,isTeacher)=>{
         const token = localStorage.getItem('token');
@@ -142,20 +143,28 @@ const Navbar = (props) =>{
                 <nav className="Navtop navbar navbar-expand-xl">
                     <div className="navbar-container d-flex col-12">
                     <div className="d-flex">
-                        <Link className="logo-img" to = '/'>
+                        <Link className="logo-img" to = '/' onClick={()=>{apply_to_homepage ()}}>
                             <img src={LogoIcon} alt="tutor" />
                         </Link>
                         <ul className="navbar-nav d-flex" style={{justifyContent:'center',alignItems:'center'}}>
                             <li className="nav-item">
                                 {
-                                    isTeacher===1 ?
-                                    (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>):
-                                    (<button className={`nav-link  ${ state.logindata ? '':'disabled'}`}  onClick={()=>{handleGotoApply()}}>成為老師</button>)
+                                    (state.isApply===true && localStorage.getItem('isLogin')==="true")&&
+                                    (<div></div>)
                                 }
+                                {
+                                    (isTeacher===1&& state.isApply===false) &&
+                                    (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>)
+          
+                                }
+                                {
+                                    (isTeacher===0 && state.isApply===false) &&
+                                    ((<button className={`nav-link  ${ state.logindata ? '':'disabled'}`}  onClick={()=>{handleGotoApply()}}>成為老師</button>))
+                                }
+
                             </li>
                         </ul>
                     </div>
-    
                     <div className="NavCollapse" >
                         <div className="navbar-right">
                             <div className="navbar-search">
@@ -174,21 +183,19 @@ const Navbar = (props) =>{
                             <Dropdown.Menu>
                             <Dropdown.Item href={`/teacher/${state.logindata?.data?.id}/personal`}>個人檔案</Dropdown.Item>
                             <Dropdown.Item href={`/course`}>我的課程</Dropdown.Item>
-                            <Dropdown.Item href="#">登出</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             ):
                             (                            
                             <Dropdown.Menu>
                             <Dropdown.Item href={`/student/${state.logindata?.data?.id}`}>個人檔案</Dropdown.Item>
-                            <Dropdown.Item href="#">我的課程</Dropdown.Item>
-                            <Dropdown.Item href="#">登出</Dropdown.Item>
+                            <Dropdown.Item href={`/student/${state.logindata?.data?.id}/course`}>我的課程</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             )}
-
-
                             </Dropdown>   
 
-                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={handleLogout}>登出</button>
+                        {/* <button className="btn btn-outline-success my-2 my-sm-0" >登出</button> */}
                             </div>
                                     
                                 ):

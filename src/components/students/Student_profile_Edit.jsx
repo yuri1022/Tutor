@@ -1,6 +1,7 @@
 import { useState,useContext } from 'react'; 
 import { AppContext } from '../../App';
 import { edit_student_data } from '../../api/student';
+import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import PropTypes from 'prop-types'
 const Students_profile_Edit = ({closeEditModal})=>{
@@ -39,8 +40,9 @@ const Students_profile_Edit = ({closeEditModal})=>{
         setIschangePhoto(true);
     }
     return(
-        <div className="modal fade" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-lg" role="document">
+        <div className="modal fade studentModal" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div className=" modal-dialog modal-sm modal-lg">
             <div className="editStuModal_content modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel"></h5>
