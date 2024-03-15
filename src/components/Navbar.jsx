@@ -43,14 +43,10 @@ const Navbar = (props) =>{
     const handleGooutApply =()=>{
         dispatch({type:'APPLYTEACHER_BACK'});
     }
-    useEffect(()=>{
-        loginModal.current = new Modal('#login_Modal',{
-            backdrop: 'static'
-        });
-    },[])
+
+
     const handleLogin = (id,isTeacher)=>{
         const user_data = getData(id,isTeacher);
-        setIsTeacher(isTeacher);
     }
     const handleLogout = ()=>{
         localStorage.clear();
@@ -60,7 +56,6 @@ const Navbar = (props) =>{
     }
     const apply_to_homepage = ()=>{
         dispatch({type:"APPLYTEACHER_BACK"});
-        
     }
     const getData = async(id,isTeacher)=>{
         const token = localStorage.getItem('token');
@@ -70,6 +65,7 @@ const Navbar = (props) =>{
             }).then((res)=>{
                 // console.log(`teacher data${res.data.data.teachStyle}`);
                 localStorage.setItem('userdata',JSON.stringify(res.data));
+
                 dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:1,isLogin:true} });
             }).catch(
                 err=>{
@@ -113,6 +109,11 @@ const Navbar = (props) =>{
         }
     }
     useEffect(()=>{
+        loginModal.current = new Modal('#login_Modal',{
+            backdrop: 'static'
+        });
+    },[])
+    useEffect(()=>{
         const getUpdate = async()=>{
             const userdata = await getData(
                 parseInt(localStorage.getItem('user_id')),
@@ -153,12 +154,16 @@ const Navbar = (props) =>{
                                     (<div></div>)
                                 }
                                 {
-                                    (isTeacher===1&& state.isApply===false) &&
+                                    (parseInt(localStorage.getItem("isTeacher"))===1 && state.isApply===false) &&
                                     (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>)
           
                                 }
                                 {
-                                    (isTeacher===0 && state.isApply===false) &&
+                                    (parseInt(localStorage.getItem("isTeacher"))===1 && localStorage.getItem("changeMode")==="student") &&
+                                    (<Link className="nav-link" to = '/homepage'>切換回老師頁面</Link>)
+                                }
+                                {
+                                    (parseInt(localStorage.getItem("isTeacher"))===0 && state.isApply===false) &&
                                     ((<button className={`nav-link  ${ state.logindata ? '':'disabled'}`}  onClick={()=>{handleGotoApply()}}>成為老師</button>))
                                 }
 

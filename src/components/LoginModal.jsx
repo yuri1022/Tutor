@@ -136,11 +136,11 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
                             <div className="btn btn-primary w-100 mb-20px" onClick={apiLoginSubmit}>
                                 登入
                             </div>
-                            <div className="mb-10px">使用其他方式登入</div>
+                            {/* <div className="mb-10px">使用其他方式登入</div>
                             <button className="btn">
                                 <img src={icon_google}></img>
                                 google帳戶
-                            </button>
+                            </button> */}
                         </form>
                         </>
                     )

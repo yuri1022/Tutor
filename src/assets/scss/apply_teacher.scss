@@ -4,7 +4,9 @@
         margin-top: 10px;
     }
 }
-
+.txt-is-invalid{
+    color: #e66772;
+}
 /* 480px 以下的樣式 */
 @media screen and (max-width: 480px) {
     .items-center{

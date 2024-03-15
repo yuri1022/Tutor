@@ -7,10 +7,6 @@ import ApplyTeacherForm from "../components/applyTeacher/ApplyTeacherForm";
 import { ApplyTeacherContext, ApplyTeacherProvider } from "../components/applyTeacher/sotre/ApplyTeacherCotext";
 import PropTypes from 'prop-types';
 const ApplyTeacher = () => {
-  const [introduction, setIntroduction] = useState('');
-  const [teachingStyle, setTeachingStyle] = useState('');
-  const [videoLink, setVideoLink] = useState('');
-  const [country,setCountry] = useState('');
   // 處理表單提交的函式
   return (
     <div className="apply-teacher-context">
