@@ -1,45 +1,44 @@
-import { useEffect} from 'react';
 import icon_teacher from '../assets/images/svg/icon_teacher.svg';
 import icon_calender from '../assets/images/svg/icon_calender.svg';
 import icon_time from '../assets/images/svg/icon_time.svg';
-const TeacherGoClassModal = ({closeGoClassModal}) =>{
+import '../assets/scss/goclassmodal.scss';
+import { Modal , Button } from 'react-bootstrap';
 
-    return(
-        <div className="modal fade" id="goclassStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog" role="document">
-                <div className="go_classStuModal_content modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel"></h5>
-                        <button type="button" className="close-btn close" data-dismiss="modal" aria-label="Close" onClick={closeGoClassModal}>
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <div className="reserve-contents">
-                            <div className="reserve-bar">
-                                <img className="mr-10px" src={icon_teacher}/>
-                                <div>{obj_goclass.teacher}</div>
-                            </div>
-                            <div className="reserve-bar">
-                                <img src={icon_calender}/>
-                                <div>{obj_goclass.date.getFullYear()}年{obj_goclass.date.getMonth()+1}月{obj_goclass.date.getDate()}日</div>
-                                
-                            </div>
-                            <div className="reserve-bar">
-                                <img className="mr-10px"  src={icon_time}/>
-                                <div>{obj_goclass.time}</div>
-                            </div>
-                            <div className="reserve-button-list">
-                                <button type="button" className="btn btn-decline-regisiter" data-dismiss="modal" onClick={closeGoClassModal}>取消預約</button>
-                                <button type="button" className="btn btn-goclass">開始上課</button>
-                            </div>
+const TeacherGoClassModal = ({ show, handleCourseClose,selectedCourse }) => {
+    return (
+        <Modal show={show} onHide={handleCourseClose} size="custom" centered > 
+            <Modal.Header closeButton>
+                <Modal.Title></Modal.Title>
+            </Modal.Header>
+            <Modal.Body style={{margin:'1rem'}}>
+                    <div className="reserve-contents d-flex" style={{flexDirection:'column',alignItems:'flex-start',margin:'1rem 0 1rem 0'}}>
+                        <div className="reserve-info d-flex" style={{flexDirection:'column',justifyContent:'center'}}>
+                        <div className="reserve-bar d-flex mb-2">
+                            <img src={icon_teacher} alt="Teacher Icon"/>
+                            <div>{selectedCourse.student}</div>
+                        </div>
+                        <div className="reserve-bar d-flex mb-2">
+                            <img src={icon_calender} alt="Calendar Icon" />
+                            <div>{selectedCourse.year}年{selectedCourse.month}月{selectedCourse.day}日</div>
+                        </div>
+                        <div className="reserve-bar d-flex mb-2">
+                            <img className="mr-10px" src={icon_time} alt="Time Icon" />
+                            <div>{selectedCourse.startTime}~{selectedCourse.endTime}</div>
+                        </div>
+                        </div>
+
+
+
+                        <div className="reserve-button-list">
+                            <Button type="button" className="btn btn-decline-regisiter" onClick={handleCourseClose} style={{marginRight:'1rem'}}>取消預約</Button>
+                            <Button type="button" className="btn btn-goclass">開始上課</Button>
                         </div>
                     </div>
 
-                </div>
-            </div>
-        </div>
-    )
+            </Modal.Body>
 
-}
+        </Modal>
+    );
+};
+
 export default TeacherGoClassModal;
