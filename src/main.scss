@@ -93,6 +93,18 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+
+}
+
+button {
+  &:hover {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+}
+
+button[style*="background-color: transparent;"]:hover {
+  box-shadow: 0px 4px 4px rgba(59, 38, 220, 0.789);
+  border: none;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -1677,4 +1689,3 @@ body[data-theme=dark] section.progress-control-container section.button-group bu
   color: #FFFFFF;
 }
 
-/*# sourceMappingURL=main.css.map */
