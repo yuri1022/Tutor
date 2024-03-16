@@ -319,9 +319,10 @@ for (let i = 0; i < 5; i++) {
       {courseList.length > 0  && isCourseOpen && (
            <TeacherGoClassModal 
            show={isCourseOpen} 
-           handleClose={handleCourseClose} 
+           handleCourseClose={handleCourseClose} 
            selectedCourse={selectedCourse}
           setSelectedCourse={setSelectedCourse}
+          
         />
          )}
     </>
