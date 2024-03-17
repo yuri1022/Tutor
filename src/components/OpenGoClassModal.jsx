@@ -6,7 +6,7 @@ import { Modal , Button } from 'react-bootstrap';
 
 const TeacherGoClassModal = ({ show, handleCourseClose,selectedCourse }) => {
     return (
-        <Modal show={show} onHide={handleCourseClose} centered > 
+        <Modal show={show} onHide={handleCourseClose} centered className="teacher-goclass-modal"> 
             <Modal.Header closeButton>
                 <Modal.Title></Modal.Title>
             </Modal.Header>

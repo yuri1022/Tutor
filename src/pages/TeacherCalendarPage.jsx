@@ -5,7 +5,7 @@
 
 
   return (
-    <div className="course-page-container "> 
+    <div className="course-page-container"> 
     <Teacher_profile_Calender/>
     </div>
 

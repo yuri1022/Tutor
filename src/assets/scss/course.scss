@@ -1,0 +1,123 @@
+@media screen and (max-width: 480px){
+
+      .course-title {
+          margin-bottom: 2rem;
+      
+      .title {
+            font-weight: 700;
+            font-size: 1.125rem;
+          }
+        }
+
+
+        .calendar-table {
+                  width: 100%;
+        }
+
+
+      .course-block{
+        .title-bar-subject,
+        .title-bar-student,
+        .title-bar-time{
+          display: none;
+        }
+      }
+  
+}
+
+@media screen and (min-width: 481px) and (max-width: 1080px) {
+
+      .course-title {
+          margin-bottom: 2rem;
+      
+          .title {
+            font-weight: 700;
+            font-size: 1.125rem;
+          }
+        }
+
+              .course-block{
+        .title-bar-subject{
+
+        }
+        .title-bar-student{
+
+        }
+        .title-bar-time{
+        }
+      }
+
+}
+
+@media screen and (min-width: 1081px) {
+
+      .course-title {
+          margin-bottom: 2rem;
+      
+          .title {
+            font-weight: 700;
+            font-size: 1.125rem;
+          }
+        }
+
+}
+
+.course-page-container{
+  .course-calendar-title{
+    
+    .course-title{
+      margin-bottom: 2rem;
+    .title{
+     font-weight: 700;
+     font-size: 1.125rem;
+    }
+    }
+  }
+  .course-date-selector{
+    justify-content: space-between;
+    .month-selection{
+      font-family: 'Inter', sans-serif;
+      border: none;
+      color: var(--main-blue);
+      font-weight: 700;
+      position: relative;
+      
+      option{
+        font-weight: 500;
+        font-size: 0.875rem;
+        max-width: 7rem;
+      }
+    }
+    .course-calendar-year{
+      align-items: center;
+      .text-primary{
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      }
+    }
+  }
+  .course-state{
+    margin-right: 0.5rem;
+  }
+
+      .course-block{
+        padding:0.2rem;
+        border-radius: 0.3125rem;
+        .title-bar-subject{
+          background-color: var(--main-blue25);
+          color: black;
+          width: 100%;
+          text-align: center;
+          border-radius: 0.1875rem;
+          font-size: 0.875rem;
+          margin-bottom: 0.3125rem;
+        }
+        .title-bar-student{
+          font-size: 0.75rem;
+        }
+        .title-bar-time{
+          font-size: 0.75rem;
+        }
+      }
+
+}

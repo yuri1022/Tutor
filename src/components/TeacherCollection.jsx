@@ -1,6 +1,6 @@
 //teachercollection.jsx
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams,useLocation } from 'react-router-dom';
 import { useEffect,useState } from 'react';
 import PropTypes from 'prop-types';
 import '../main.scss'
@@ -20,16 +20,22 @@ const api = 'http://34.125.232.84:3000';
 
 
 const TeacherCollection = () => {
- const { page, categoryId } = useParams();
+ const { page } = useParams();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const categoryId = queryParams.get('categoryId');
+  const [categoryItemId, setCategoryItemId] = useState(categoryId);
+
   const [currentPageState, setCurrentPage] = useState(1);
-  const [categoryItemId, setCategoryItemId] = useState(null);
   const navigate = useNavigate();
   const { teacherData } = useTeacherContext();
   const { currentPage, totalPages } = teacherData;
   const [reserveModalOpen,setIsReserveModalOpen]= useState(false);
   const [reserveTeacher, setReserveTeacher] = useState('');
 
-
+  useEffect(() => {
+    setCategoryItemId(categoryId);
+  }, [categoryId]);
 
  useEffect(() => {
     console.log('Current categoryId:', categoryItemId);
@@ -44,6 +50,7 @@ const TeacherCollection = () => {
   }
     window.scrollTo(0, 0);
   };
+
 
    const handlePreviousPage = () => {
     const newPage = currentPage > 1 ? currentPage - 1 : 1;
@@ -144,7 +151,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
       </div>
 
 
-<div className="div-container d-flex">
+    <div className="div-container d-flex">
     {teacherData.teachers && teacherData.teachers.map((teacher) => (
 
       <div className="div-container__info col-12 col-md-3 col-lg-3" key={teacher.id}>

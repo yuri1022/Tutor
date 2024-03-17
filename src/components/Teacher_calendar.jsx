@@ -4,7 +4,8 @@ import arrow_left from './../assets/images/svg/arrow-left.svg';
 import { useContext } from 'react';
 import { AppContext } from "../App";
 import axios from "axios";
-import TeacherGoClassModal from './OpenGoClassModal'
+import TeacherGoClassModal from './OpenGoClassModal';
+import '../assets/scss/course.scss';
 
 const Teacher_profile_Calender = () =>{
     const today = new Date();
@@ -181,17 +182,17 @@ useEffect(() => {
         if( courseList.date < today.getTime()){
             course_block =
             <div className="course-block bg-finish" key={index}>
-                <div className="title-bar finish">{courseList.subject}</div>
-                <div>{courseList.student}</div>
-                <div>{courseList.startTime}~{courseList.endTime}</div>
+                <div className="title-bar-subject finish">{courseList.subject}</div>
+                <div className="title-bar-student">{courseList.student}</div>
+                <div className="title-bar-time">{courseList.startTime}~{courseList.endTime}</div>
             </div>
         }
         else if( courseList.date > today.getTime()){
             course_block =
             <div className="course-block bg-reserve" key={index} onClick={() => handleCourseClick(courseList)}>
-                <div className="title-bar reserve">{courseList.subject}</div>
-                <div>{courseList.student}</div>
-                <div>{courseList.startTime}~{courseList.endTime}</div>
+                <div className="title-bar-subject">{courseList.subject}</div>
+                <div className="title-bar-student">{courseList.student}</div>
+                <div className="title-bar-time">{courseList.startTime}~{courseList.endTime}</div>
             </div>
         }
         return(course_block);
@@ -254,8 +255,12 @@ for (let i = 0; i < 5; i++) {
 
     return(
          <>
-      <div className="course-calendar-title d-flex justify-between mb-1">
-        <select
+      <div className="course-calendar-title justify-between mb-1">
+        <div className="course-title">
+          <h5 className="title">我的課程行事曆</h5>
+          </div>
+        <div className="course-date-selector d-flex">
+              <select
           className="month-selection"
           name="months"
           value={currentMonth}
@@ -273,7 +278,7 @@ for (let i = 0; i < 5; i++) {
             );
           })}
         </select>
-        <div className="course-calendar-year d-flex items-center">
+        <div className="course-calendar-year d-flex">
           <img
             className="btn"
             src={arrow_left}
@@ -290,15 +295,18 @@ for (let i = 0; i < 5; i++) {
             }}
           />
         </div>
+
+        </div>
+
       </div>
 
-      <div className="course-state d-flex flex-reverse mb-1">
-        <div className="d-flex items-center ">
-          <div className="circle-icon-finished mr-1 mt-1"></div>
+      <div className="course-state d-flex flex-reverse mb-1 ml-1">
+        <div className="course-state-item d-flex items-center">
+          <div className="circle-icon-finished mt-1" style={{marginRight:'0.2rem'}}></div>
           <div className="">已完課</div>
         </div>
-        <div className="d-flex items-center mr-1">
-          <div className="circle-icon-reserved mr-1 mt-1"></div>
+        <div className="course-state-item d-flex items-center">
+          <div className="circle-icon-reserved mt-1" style={{marginRight:'0.2rem'}}></div>
           <div className="">已預約</div>
         </div>
       </div>
