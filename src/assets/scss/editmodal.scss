@@ -1,114 +1,492 @@
-.modal-dialog{
-  min-width: 40rem;
-  min-height: 30rem;
+@media screen and (max-width: 480px) {
+  .edit-modal {
+      .modal-dialog {
+        .modal-content {
+          .modal-body {
+            margin: 1rem;
+            .edit-form{
+              flex-direction: column;
+            }
+            .container-left {
 
-  .container-left {
-      width: 40%;
-      padding: 2rem;
-  
-      .edit-img {
-        width: 10rem;
-  
-        .img {
-          width: 100%;
-        }
-  
-        .edit {
-          margin-top: 0.7rem;
-          border-radius: 0.625rem;
-          border:0.08rem solid var(--main-blue);
-          width: 100%;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: var(--main-blue);
+              .edit-img{
+                justify-content: center;
+              .edit-img-container {
+                  width: 9rem;
+                  height: 9rem;
+                  overflow: hidden;
+                                 
+              .img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                  }
+                }
 
-        }
-      }
-    }
-  
-    .container-right {
-      width: 60%;
-      padding: 2rem 1rem 1rem 0;
-      .edit-name{
-        .edit-name-title{
-          font-size: 1.03rem;
-          font-family: "Inter", sans-serif;
-          font-optical-sizing: auto;
-          font-weight: 900;
-        }
-        .edit-name-input{
-          margin-bottom: 1.6rem;
-          font-size: 0.8rem;
-          border-color: var(--main-blue25);
-          font-weight: 500;
-          width: 20rem;
-        }
-      }
-      .edit-nation{
-        .edit-nation-title{
-          font-size: 1.03rem;
-          font-weight: 700;
-        }
-        .edit-nation-input{
-          margin-bottom: 1.6rem;
-          font-size: 0.8rem;
-          border-color: var(--main-blue25);
-          font-weight: 500;
-          width: 20rem;
-        }
-      }
-  
+              }
+              .edit-img-name{
+                justify-content: center;
+              }
 
   
-      .edit-category {
-        font-size: 1.03rem;
-        font-weight: 700;
-        
-        .edit-category-items {
-          display: flex;
-          flex-wrap: wrap;
-          font-size: 0.8rem;
-          font-weight: 600;
-          
-          
-          .form-check{
-            display: flex;
-            align-items: center;
-            padding-right: 0.8rem;
-            input{
-              border: 0.15rem solid var(--main-blue);
-              width: 1.3rem;
-              height: 1.3rem;
-              margin-right: 0.8rem;
+                .edit {
+                  margin-top: 0.7rem;
+                  border-radius: 0.625rem;
+                  border: 0.08rem solid var(--main-blue);
+                  width: 100%;
+                  font-size: 0.8rem;
+                  font-weight: 600;
+                  color: var(--main-blue);
+  
+                }
+              
+            }
+  
+            .container-right {
+              margin-top:1rem;
+              .edit-name {
+                .edit-name-title {
+                  font-size: 1.03rem;
+                  font-optical-sizing: auto;
+                  font-weight: 900;
+                }
+  
+                .edit-name-input {
+                  margin-bottom: 1rem;
+                  font-size: 0.8rem;
+                  border-color: var(--main-blue25);
+                  font-weight: 500;
+                }
+              }
+  
+              .edit-nation {
+                .edit-nation-title {
+                  font-size: 1.03rem;
+                  font-weight: 700;
+                }
+                
+
+                .edit-nation-input{
+              .ReactFlagsSelect-module_flagsSelect__2pfa2 {
+               
+                  .ReactFlagsSelect-module_selectBtn__19wW7{
+                    margin-bottom: 1rem;
+                    border-color: var(--main-blue25);
+                    border-radius: 0.3125rem;
+                    .ReactFlagsSelect-module_selectValue__152eS{
+                    font-size: 0.8rem;
+                     font-weight: 500;
+                    }
+                  }
+                }
+                }
+
+
+              }
+  
+  
+  
+              .edit-category {
+                font-size: 1.03rem;
+                font-weight: 700;
+  
+                .edit-category-items {
+                  display: flex;
+                  flex-wrap: wrap;
+                  font-size: 0.8rem;
+                  font-weight: 600;
+  
+  
+                  .form-check {
+                    display: flex;
+                    align-items: center;
+  
+                    input {
+                      border: 0.15rem solid var(--main-blue);
+                      width: 1.3rem;
+                      height: 1.3rem;
+                      margin-right: 0.8rem;
+                    }
+                  }
+                }
+  
+              }
+            }
+          }
+  
+  
+          .footer {
+            margin: 0 2rem 1.5rem 2rem;
+  
+            .footer-item {
+              width: 100%;
+              justify-content: space-around;
+              .close,
+              .save {
+                border: none;
+                font-size: 0.8rem;
+                width: 40%;
+                height: 2rem;
+                border-radius: 0.5rem;
+              }
+  
+              .close {
+                background-color: var(--grey-300);
+              }
+  
+              .save {
+                background-color: var(--main-blue);
+  
+              }
             }
           }
         }
   
       }
     }
-
-    .footer{
-      display: flex;
-      justify-content: end;
-      margin: 1rem 3.5rem 2.8rem 0;
-      .footer-item{
-
-        .close,
-        .save{
-          border: none;
-          font-size: 0.8rem;
-          width: 4.3rem;
-          height: 2rem;
-          border-radius: 0.5rem;
-          margin-left: 0.6rem;
-        }
-       .close{
-        background-color: var(--grey-300);        
-       }
-       .save{
-        background-color: var(--main-blue);
-       
-       }
+  .pic-upload-modal{
+    .pic-upload-button{
+      width: 90%;
+      margin: 0.8rem;
+      justify-content: center;
+      .pic-upload-btn{
+        width: 50%;
+        border-color: var(--main-blue);
+        color: var(--main-blue);
+        font-size: 0.8rem;
+        font-weight: 500;
       }
     }
+  }
 }
+
+@media screen and (min-width: 481px) and (max-width:1080px){
+  .edit-modal {
+      .modal-dialog {
+        .modal-content {
+          .modal-body {
+            margin: 1rem;
+  
+            .container-left {
+              .edit-img {
+  
+                .img {
+                  width: 100%;
+                }
+  
+                .edit {
+                  margin-top: 0.7rem;
+                  border-radius: 0.625rem;
+                  border: 0.08rem solid var(--main-blue);
+                  width: 100%;
+                  font-size: 0.8rem;
+                  font-weight: 600;
+                  color: var(--main-blue);
+  
+                }
+              }
+            }
+  
+            .container-right {
+              margin: 1rem;
+  
+              .edit-name {
+                .edit-name-title {
+                  font-size: 1.03rem;
+                  font-family: "Inter", sans-serif;
+                  font-optical-sizing: auto;
+                  font-weight: 900;
+                }
+  
+                .edit-name-input {
+                  margin-bottom: 1.6rem;
+                  font-size: 0.8rem;
+                  border-color: var(--main-blue25);
+                  font-weight: 500;
+                }
+              }
+  
+              .edit-nation-input{
+              .ReactFlagsSelect-module_flagsSelect__2pfa2 {
+               
+                  .ReactFlagsSelect-module_selectBtn__19wW7{
+                    margin-bottom: 1rem;
+                    border-color: var(--main-blue25);
+                    border-radius: 0.3125rem;
+                    .ReactFlagsSelect-module_selectValue__152eS{
+                    font-size: 0.8rem;
+                     font-weight: 500;
+                    }
+                  }
+                }
+                }
+  
+  
+  
+              .edit-category {
+                font-size: 1.03rem;
+                font-weight: 700;
+  
+                .edit-category-items {
+                  display: flex;
+                  flex-wrap: wrap;
+                  font-size: 0.8rem;
+                  font-weight: 600;
+  
+  
+                  .form-check {
+                    display: flex;
+                    align-items: center;
+  
+                    input {
+                      border: 0.15rem solid var(--main-blue);
+                      width: 1.3rem;
+                      height: 1.3rem;
+                      margin-right: 0.8rem;
+                    }
+                  }
+                }
+  
+              }
+            }
+          }
+  
+  
+          .footer {
+            display: flex;
+            justify-content: end;
+            margin: 1rem 3.5rem 2.8rem 0;
+  
+            .footer-item {
+  
+              .close,
+              .save {
+                border: none;
+                font-size: 0.8rem;
+                width: 4.3rem;
+                height: 2rem;
+                border-radius: 0.5rem;
+                margin-left: 0.6rem;
+              }
+  
+              .close {
+                background-color: var(--grey-300);
+              }
+  
+              .save {
+                background-color: var(--main-blue);
+  
+              }
+            }
+          }
+        }
+  
+      }
+    }
+        .pic-upload-modal {
+          .pic-upload-button {
+            width: 90%;
+            margin: 0.8rem;
+            justify-content: center;
+    
+            .pic-upload-btn {
+              width: 50%;
+              border-color: var(--main-blue);
+              color: var(--main-blue);
+              font-size: 0.8rem;
+              font-weight: 500;
+            }
+          }
+        }
+}
+
+@media screen and (min-width: 1081px) {
+  .edit-modal {
+      .modal-dialog {
+        .modal-content {
+          .modal-body {
+            margin: 1rem;
+  
+            .container-left {
+              .edit-img {
+                  justify-content: center;
+              
+                  .edit-img-container {
+                    width: 9rem;
+                    height: 9rem;
+                    overflow: hidden;
+              
+                    .img {
+                      width: 100%;
+                      height: 100%;
+                      object-fit: cover;
+                    }
+                  }
+              
+                }
+              
+                .edit-img-name {
+                justify-content: center;
+                }
+              
+              
+                .edit {
+                  margin-top: 0.7rem;
+                  border-radius: 0.625rem;
+                  border: 0.08rem solid var(--main-blue);
+                  width: 100%;
+                  font-size: 0.8rem;
+                  font-weight: 600;
+                  color: var(--main-blue);
+              
+                }
+            }
+  
+            .container-right {
+              margin: 1rem;
+  
+              .edit-name {
+                .edit-name-title {
+                  font-size: 1.03rem;
+                  font-family: "Inter", sans-serif;
+                  font-optical-sizing: auto;
+                  font-weight: 900;
+                }
+  
+                .edit-name-input {
+                  margin-bottom: 1.6rem;
+                  font-size: 0.8rem;
+                  border-color: var(--main-blue25);
+                  font-weight: 500;
+                }
+              }
+  
+                .edit-nation-input{
+              .ReactFlagsSelect-module_flagsSelect__2pfa2 {
+               
+                  .ReactFlagsSelect-module_selectBtn__19wW7{
+                    margin-bottom: 1rem;
+                    border-color: var(--main-blue25);
+                    border-radius: 0.3125rem;
+                    .ReactFlagsSelect-module_selectValue__152eS{
+                    font-size: 0.8rem;
+                     font-weight: 500;
+                    }
+                  }
+                }
+                }
+  
+  
+  
+              .edit-category {
+                font-size: 1.03rem;
+                font-weight: 700;
+  
+                .edit-category-items {
+                  display: flex;
+                  flex-wrap: wrap;
+                  font-size: 0.8rem;
+                  font-weight: 600;
+  
+  
+                  .form-check {
+                    display: flex;
+                    align-items: center;
+  
+                    input {
+                      border: 0.15rem solid var(--main-blue);
+                      width: 1.3rem;
+                      height: 1.3rem;
+                      margin-right: 0.8rem;
+                    }
+                  }
+                }
+  
+              }
+            }
+          }
+  
+  
+          .footer {
+            display: flex;
+            justify-content: end;
+            margin: 1rem 3.5rem 2.8rem 0;
+  
+            .footer-item {
+  
+              .close,
+              .save {
+                border: none;
+                font-size: 0.8rem;
+                width: 4.3rem;
+                height: 2rem;
+                border-radius: 0.5rem;
+                margin-left: 0.6rem;
+              }
+  
+              .close {
+                background-color: var(--grey-300);
+              }
+  
+              .save {
+                background-color: var(--main-blue);
+  
+              }
+            }
+          }
+        }
+  
+      }
+    }
+        .pic-upload-modal {
+          .pic-upload-button {
+            width: 90%;
+            margin: 0.8rem;
+            justify-content: center;
+    
+            .pic-upload-btn {
+              width: 50%;
+              border-color: var(--main-blue);
+              color: var(--main-blue);
+              font-size: 0.8rem;
+              font-weight: 500;
+            }
+          }
+        }
+}
+
+.edit-modal {
+  font-family: "Inter", sans-serif;
+  .modal-dialog {
+    .modal-content {
+      .modal-body {
+        margin: 1rem;
+
+        .container-left {
+          .edit-img {
+
+            .img {
+              width: 100%;
+            }
+
+            .edit {
+              margin-top: 0.7rem;
+              border-radius: 0.625rem;
+              border: 0.08rem solid var(--main-blue);
+              width: 100%;
+              font-size: 0.8rem;
+              font-weight: 600;
+              color: var(--main-blue);
+
+            }
+          }
+        }
+
+
+      }
+    }
+
+  }
+}
+
+

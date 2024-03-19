@@ -6,12 +6,12 @@ import { Modal , Button } from 'react-bootstrap';
 
 const TeacherGoClassModal = ({ show, handleCourseClose,selectedCourse }) => {
     return (
-        <Modal show={show} onHide={handleCourseClose} centered > 
+        <Modal show={show} onHide={handleCourseClose} centered className="teacher-goclass-modal"> 
             <Modal.Header closeButton>
                 <Modal.Title></Modal.Title>
             </Modal.Header>
             <Modal.Body style={{margin:'1rem'}}>
-                    <div className="reserve-contents d-flex" style={{flexDirection:'column',alignItems:'flex-start',margin:'1rem 0 1rem 0',width:'70%'}}>
+                    <div className="reserve-contents d-flex" style={{flexDirection:'column',alignItems:'flex-start',margin:'1rem 0 1rem 0'}}>
                         <div className="reserve-info d-flex" style={{flexDirection:'column',justifyContent:'center',margin:'0 2.5rem 0 2.5rem'}}>
                         <div className="reserve-bar d-flex mb-3" style={{alignItems:'center'}}>
                     <img src={icon_teacher} alt="Teacher Icon" style={{marginRight:'1rem'}}/>

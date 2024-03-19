@@ -1,7 +1,41 @@
-.modal-dialog{
-  justify-content: center;
-  .modal-content{
-  max-width: 28.25rem;
-  }
-
+@media screen and (max-width: 480px) {
+  .teacher-goclass-modal {
+      .modal-dialog {
+        .modal-content {
+          max-width: 90%;
+          .modal-body{
+            .reserve-contents{
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
 }
+
+@media screen and (min-width: 481px) and (max-width:1080px) {
+  .teacher-goclass-modal {
+    .modal-dialog {
+      justify-content: center;
+
+      .modal-content {
+        max-width: 28.25rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1081px) {
+.teacher-goclass-modal {
+    .modal-dialog {
+      justify-content: center;
+
+      .modal-content {
+        max-width: 28.25rem;
+      }
+    }
+  }
+}
+
+
+
