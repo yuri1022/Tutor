@@ -1,12 +1,13 @@
-
-
 .studentModal{
     .modal-dialog{
         min-width: 300px;
     }
 
 } 
+
+
 @media screen and (max-width: 480px){
+
     .ratingStuModal_content{
         .rating-list{
             display: flex;
@@ -16,6 +17,7 @@
 
 }
 @media screen and (min-width: 1081px){
+
     .ratingStuModal_content{
         .rating-list{
             display: flex;

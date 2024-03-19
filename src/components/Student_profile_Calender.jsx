@@ -98,7 +98,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                 }
             </div>
         }
-        else if ( course.rating!==0){
+        else if ( course.rating===0){
             course_block =             
             <div className="course-block bg-not-review" key={index} onClick={()=>{openRatingModal(course.name,course.date,course.courseId)}}>
                 <div className="title-bar notreview display-none">{course.subject}</div>
@@ -109,7 +109,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                 }
             </div>
         }
-        else if ( course.rating===0 ){
+        else if ( course.rating!==0 ){
             course_block =
             <div className="course-block bg-finish" key={index}>
                 <div className="title-bar finish display-none">{course.subject}</div>
