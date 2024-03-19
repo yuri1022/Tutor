@@ -108,25 +108,29 @@ const handleSaveClick = () => {
 };
 
   return (
-    <Modal className="edit-modal" show={show} onHide={handleClose}>
+    <Modal className="edit-modal" show={show} onHide={handleClose} size="md" centered>
       <Modal.Header closeButton>
       </Modal.Header>
 
       <Modal.Body>
           {/* 在這裡顯示教師資料和提供編輯功能 */}
         <Form>
-          <Form.Group controlId="formName" style={{display:'flex'}}>
+          <Form.Group className="edit-form" controlId="formName" style={{display:'flex'}}>
 
-            <div className="container-left">
+            <div className="container-left col-12 col-md-4 col-lg-4">
 
-            <div className="edit-img">
-            <img className="img" src={editedData.avatar} alt="avatar" />
-            <Button className="edit" variant="outline-primary" onClick={handleImageChange}>更換大頭貼</Button>              
-            </div>      
+            <div className="edit-img d-flex">
+              <div className="edit-img-container">
+              <img className="img" src={editedData.avatar} alt="avatar" />
 
+              </div>
+                   
+            </div>
+            <div className="edit-img-name d-flex">{editedData.name}</div>      
+            <Button className="edit" variant="outline-primary" onClick={handleImageChange}>更換大頭貼</Button>     
             </div>
 
-            <div className="container-right">
+            <div className="container-right col-12 col-md-8 col-lg-8">
             <div className="edit-name">
             <Form.Label className="edit-name-title">姓名</Form.Label>
             <Form.Control className="edit-name-input" type="text" name="name" 
@@ -137,7 +141,7 @@ const handleSaveClick = () => {
             <div className="edit-nation">
              <Form.Label className="edit-nation-title">國籍</Form.Label>
                
-            <div>
+            <div className="edit-nation-input">
            <ReactFlagsSelect
             selected={nation}
             onSelect={handleNationChange}
@@ -178,7 +182,7 @@ const handleSaveClick = () => {
 
       <div className="footer">
 
-        <div className="footer-item">
+        <div className="footer-item d-flex">
       <Button className="close" variant="secondary" onClick={() => { setUploadImageModal(false); handleClose(); }}>
           取消
         </Button>     
@@ -194,16 +198,20 @@ const handleSaveClick = () => {
 
      
 
-      <Modal show={uploadImageModal} onHide={() => setUploadImageModal(false)}>
-    <Modal.Header closeButton>
-       <Modal.Title>更換大頭貼</Modal.Title>
+      <Modal className="pic-upload-modal"show={uploadImageModal} onHide={() => setUploadImageModal(false)}>
+    <Modal.Header className="pic-upload-header" closeButton>
+       <Modal.Title className="pic-upload-title">請上傳圖片</Modal.Title>
   </Modal.Header>
-  <Modal.Body>
+  <Modal.Body  className="pic-upload-body">
     <Form.Control type="file" name="avatar" onChange={handleImageChange} />
   </Modal.Body>
-  <Button variant="secondary" onClick={() => { setUploadImageModal(false) }}>
+  <div className="pic-upload-button d-flex">
+  <Button className="pic-upload-btn" variant="outline-secondary" onClick={() => { setUploadImageModal(false) }}>
    關閉
 </Button>
+
+  </div>
+
 </Modal>
     </Modal>
 

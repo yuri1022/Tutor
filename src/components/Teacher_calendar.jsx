@@ -4,6 +4,8 @@ import arrow_left from './../assets/images/svg/arrow-left.svg';
 import { useContext } from 'react';
 import { AppContext } from "../App";
 import axios from "axios";
+import TeacherGoClassModal from './OpenGoClassModal';
+import '../assets/scss/course.scss';
 
 const Teacher_profile_Calender = () =>{
     const today = new Date();
@@ -14,7 +16,10 @@ const Teacher_profile_Calender = () =>{
     const calender_block = useRef(null);
     const [courseList, setCourseList] = useState([]);
     const { state } = useContext(AppContext);
-    const allCourseData = [];
+    const [isCourseOpen, setIsCourseModalOpen] = useState(false);
+    const [selectedCourse , setSelectedCourse] = useState('');
+
+    const allCourseData = []; 
 
     const api = 'http://34.125.232.84:3000';
 
@@ -46,6 +51,8 @@ const Teacher_profile_Calender = () =>{
 
   }, [state.logindata]);
 
+
+
 const fetchCourseData = async (courseIds) => {
   try {
   const token = localStorage.getItem('token');
@@ -53,11 +60,23 @@ const fetchCourseData = async (courseIds) => {
   for (const courseId of courseIds) {
       const response = await axios.get(`${api}/register/${courseId}`,
       {headers: { Authorization: `Bearer ${token}` }});
-      const courseData = response.data.data;
+      const courseData = response.data.data[0];
       console.log(`Course Data for Course ID ${courseId}:`, courseData);
 
-      const startDate = new Date(courseData.startAt);
-      // 將每個課程的資料添加到陣列中
+      const startDate = new Date(courseData.Course.startAt);
+
+    const courseDuration = courseData.Course.duration;
+    const startTime = new Date(courseData.Course.startAt);
+    const endTime = new Date(startTime.getTime() + courseDuration * 60000); // 计算结束时间的毫秒数
+
+// 获取开始时间的小时和分钟
+const startHours = startTime.getHours();
+const startMinutes = startTime.getMinutes();
+
+// 计算结束时间的小时和分钟
+const endHours = endTime.getHours();
+const endMinutes = endTime.getMinutes();
+
       allCourseData.push({
         year: startDate.getFullYear(),
         month: startDate.getMonth() + 1,
@@ -65,19 +84,29 @@ const fetchCourseData = async (courseIds) => {
         subject: courseData.Course.name,
         student: courseData.User.name,
         time: courseData.Course.duration,
-        timestamp: startDate.getTime(),
-        date: courseData.Course.startAt,
+        startTime: `${startHours}:${startMinutes}`,
+        endTime: `${endHours}:${endMinutes}`, 
+        date: startDate,
       });
     }
 
-    // 一次性返回所有課程資料
-    return allCourseData;
+      setCourseList(allCourseData); 
   } catch (error) {
     console.error('Error fetching course data:', error);
   }
 };
 
+useEffect(() => {
+    console.log('Course List:', courseList);
+  }, [courseList]);
 
+  const handleCourseOpen = () => {
+    setIsCourseModalOpen(true);
+  };
+
+  const handleCourseClose = () => {
+    setIsCourseModalOpen(false);
+  };
 
 
     const months = ["January",
@@ -140,27 +169,34 @@ const fetchCourseData = async (courseIds) => {
     const render_week_array = [];
     let currentDay = 1;
     let key = 0 ;
-    const show_course=(course,index)=>{
+    const show_course=(courseList,index)=>{
         let course_block = ``
+        console.log(courseList);
+         
+        const handleCourseClick = () => {
+        setSelectedCourse(courseList);
+        console.log(selectedCourse);
+        handleCourseOpen();
+    };
 
-        if( course.timestamp < today.getTime()){
+        if( courseList.date < today.getTime()){
             course_block =
             <div className="course-block bg-finish" key={index}>
-                <div className="title-bar finish">{course.subject}</div>
-                <div>{course.student}</div>
-                <div>{course.date}</div>
+                <div className="title-bar-subject finish">{courseList.subject}</div>
+                <div className="title-bar-student">{courseList.student}</div>
+                <div className="title-bar-time">{courseList.startTime}~{courseList.endTime}</div>
             </div>
         }
-        else if( course.timestamp > today.getTime()){
+        else if( courseList.date > today.getTime()){
             course_block =
-            <div className="course-block bg-reserve" key={index} onClick={(e)=>{TeacherGoClassModal(course.student,course.date,course.time)} }>
-                <div className="title-bar reserve">{course.subject}</div>
-                <div>{course.student}</div>
-                <div>{course.time}</div>
+            <div className="course-block bg-reserve" key={index} onClick={() => handleCourseClick(courseList)}>
+                <div className="title-bar-subject">{courseList.subject}</div>
+                <div className="title-bar-student">{courseList.student}</div>
+                <div className="title-bar-time">{courseList.startTime}~{courseList.endTime}</div>
             </div>
         }
-
         return(course_block);
+        
     }
 for (let i = 0; i < 5; i++) {
     const render_day_arr = [];
@@ -219,8 +255,12 @@ for (let i = 0; i < 5; i++) {
 
     return(
          <>
-      <div className="course-calendar-title d-flex justify-between mb-1">
-        <select
+      <div className="course-calendar-title justify-between mb-1">
+        <div className="course-title">
+          <h5 className="title">我的課程行事曆</h5>
+          </div>
+        <div className="course-date-selector d-flex">
+              <select
           className="month-selection"
           name="months"
           value={currentMonth}
@@ -238,7 +278,7 @@ for (let i = 0; i < 5; i++) {
             );
           })}
         </select>
-        <div className="course-calendar-year d-flex items-center">
+        <div className="course-calendar-year d-flex">
           <img
             className="btn"
             src={arrow_left}
@@ -255,15 +295,18 @@ for (let i = 0; i < 5; i++) {
             }}
           />
         </div>
+
+        </div>
+
       </div>
 
-      <div className="course-state d-flex flex-reverse mb-1">
-        <div className="d-flex items-center ">
-          <div className="circle-icon-finished mr-1 mt-1"></div>
+      <div className="course-state d-flex flex-reverse mb-1 ml-1">
+        <div className="course-state-item d-flex items-center">
+          <div className="circle-icon-finished mt-1" style={{marginRight:'0.2rem'}}></div>
           <div className="">已完課</div>
         </div>
-        <div className="d-flex items-center mr-1">
-          <div className="circle-icon-reserved mr-1 mt-1"></div>
+        <div className="course-state-item d-flex items-center">
+          <div className="circle-icon-reserved mt-1" style={{marginRight:'0.2rem'}}></div>
           <div className="">已預約</div>
         </div>
       </div>
@@ -280,6 +323,16 @@ for (let i = 0; i < 5; i++) {
       <div id="calender-block" className="calender-table">
         {render_week_array}
       </div>
+
+      {courseList.length > 0  && isCourseOpen && (
+           <TeacherGoClassModal 
+           show={isCourseOpen} 
+           handleCourseClose={handleCourseClose} 
+           selectedCourse={selectedCourse}
+          setSelectedCourse={setSelectedCourse}
+          
+        />
+         )}
     </>
     )
 }

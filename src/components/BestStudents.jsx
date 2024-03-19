@@ -68,7 +68,7 @@ useEffect(() => {
 
   <div className="best-rank-container">
   {bestStudent.map((student,index) => (
-          <div className="student-container" key={student.studentId} style={{ display: 'flex', alignItems: 'center',height:'3.5rem',paddingLeft:'1.125rem',paddingRight:'1.125rem',justifyContent:'space-between'}}>
+          <div className="student-container" key={student.studentId} >
         
         <div className="student-rank" style={{width:'2.625rem',textAlign:'center',marginRight:'1rem'}}> {index === 0 ? (
         <img src={Rank1} alt={`Rank ${index + 1}`} />
