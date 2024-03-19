@@ -112,11 +112,11 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
                             <button className="btn btn-primary w-100 mb-20px"  type="submit">
                                 註冊
                             </button>
-                            <div className="mb-10px">使用其他方式註冊</div>
+                            {/* <div className="mb-10px">使用其他方式註冊</div>
                             <button className="btn">
                                 <img src={icon_google}></img>
                                 google帳戶
-                            </button>
+                            </button> */}
                         </form>
                     )
                 }

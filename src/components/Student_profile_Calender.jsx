@@ -145,7 +145,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                             newDiv.push(
                                 <button className="btn-more" key={'btn-more'+key}>More</button>
                             )
-                            z = course_list.length;
+                            z = courseList.length;
                         }
                         else{
                         let inner = show_course(courseList[z],z);
