@@ -1,10 +1,13 @@
 @media screen and (max-width: 480px) {
   .teacher-goclass-modal {
       .modal-dialog {
-        justify-content: center;
-  
         .modal-content {
-          max-width: 16rem;
+          max-width: 90%;
+          .modal-body{
+            .reserve-contents{
+              width: 100%;
+            }
+          }
         }
       }
     }

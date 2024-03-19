@@ -3,7 +3,6 @@
 import { Button } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from 'prop-types';
-import '../assets/scss/teacherpage.scss';
 import { Modal } from 'react-bootstrap';
 import { Calendar,momentLocalizer,Views } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -12,6 +11,7 @@ import { useState,useEffect } from 'react';
 import LeftArrow from '../assets/images/svg/arrow-left.svg';
 import RightArrow from '../assets/images/svg/arrow-right.svg';
 import '../assets/scss/teachercalendar.scss';
+import '../assets/scss/reservemodal.scss'
 import axios from 'axios';
 import SuccessModal from './SuccessModal.jsx';
 import FailModal from './FailModal.jsx';
@@ -211,7 +211,7 @@ EventComponent.propTypes = {
 
 
   return (
-    <Modal show={show} onHide={handleClose} size='sm'>
+    <Modal className="reserve-modal" centered show={show} onHide={handleClose} size='md'>
     <Modal.Body>  
      <div className="class-reserve" style={{ width:'100%' }}>
       <div className="calendar">
@@ -239,29 +239,29 @@ EventComponent.propTypes = {
 
 
 
-        <div style={{background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程名稱</div>
+        <div className="select-name" style={{background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程名稱</div>
           <input style={{width:'20.5rem',fontSize:'0.875rem',borderRadius:'0 0.5rem 0.5rem 0',border:'none',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}
       onChange={(selectedCourse) => handleInputCourseChange (selectedCourse)}
         value={selectedCourse}
-        placeholder="Please Click Date To Check Course Name"
+        placeholder="Please Click Date To Check"
         readOnly
       />  
 
         </div>
         <div className="select-item d-flex" style={{marginBottom:'1rem',justifyContent:'center'}}>
           
-        <div style={{background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程時長</div>
+        <div className="select-time" style={{background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程時長</div>
       <input style={{width:'20.5rem',fontSize:'0.875rem',borderRadius:'0 0.5rem 0.5rem 0',border:'none',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}
       onChange={(selectedDuration) => handleInputDurationChange (selectedDuration)}
       value={selectedDuration}
-       placeholder="Please Click Date To Check Course Duration"
+       placeholder="Please Click Date To Check"
         readOnly
       />
       
         </div>  
         <div className="btn-submit" >
 
-      <Button className="submit btn-light" style={{width:'25rem',background:'linear-gradient(#1AEAEA,#3652E3)',border:'none',color:'var(--white)'}} onClick={handleSubmit}>
+      <Button className="submit btn-light" style={{background:'linear-gradient(#1AEAEA,#3652E3)',border:'none',color:'var(--white)'}} onClick={handleSubmit}>
         預約課程
       </Button>
          </div>

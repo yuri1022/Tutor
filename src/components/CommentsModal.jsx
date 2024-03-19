@@ -75,14 +75,14 @@ const handleRatingToggle = (rating) => {
   };
 
   return (
-    <Modal size="xl" show={show} onHide={handleClose}>
+    <Modal className="comment-modal" size="lg" show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
       </Modal.Header>
 
       <Modal.Body>
-        <div className="modal-container col col -12">
+        <div className="modal-container col-12">
 
-        <div className="modal-container-left col col -4" >
+        <div className="modal-container-left col-12 col-md-5 col-lg-5" >
 
           <div className="modal-comment-counts">
 
@@ -145,9 +145,9 @@ const handleRatingToggle = (rating) => {
         </div>
 
         
-        <div className="modal-container-right col col -8">
+        <div className="modal-container-right col-12 col-md-7 col-lg-7">
 
-          <div className="modal-comment-detail "> 
+          <div className="modal-comment-detail"> 
           {teacherDetails.Courses
           .filter(
             (course) =>
@@ -212,11 +212,6 @@ const handleRatingToggle = (rating) => {
         
       </Modal.Body>
 
-      <Modal.Footer>
-        <button className="btn btn-secondary" onClick={handleClose}>
-          Close
-        </button>
-      </Modal.Footer>
     </Modal>
   );
 };
