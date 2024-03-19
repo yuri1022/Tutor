@@ -31,7 +31,12 @@
         cursor: pointer;
     }
     .bg-reserve:hover{
-        background-color: RGB(66 39 164);
+        background-color: #3652E3;
+        opacity: 70%;
+    }
+    .bg-not-review:hover{
+        background-color: #e1e1e1;
+        opacity: 30%;
     }
 
 }

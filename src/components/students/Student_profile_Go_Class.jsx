@@ -15,8 +15,9 @@ const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass}) =>{
         console.log(delete_res);
         //update data
         const student_data =await get_student_data(student_data.id);
-        localStorage.setItem('userdata',JSON.stringify(student_data));
         closeGoClassModal();
+        localStorage.setItem('userdata',JSON.stringify(student_data));
+        
     }
 
     return(
