@@ -63,9 +63,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   width: 20px;
-  /* 调整根据需要的圆形大小 */
   height: 20px;
-  /* 调整根据需要的圆形大小 */
   border-radius: 50%;
 }
 
@@ -134,8 +132,8 @@
           }
         }
       .not-reserved{
-         border: none;
-         background-color: var(--main-blue25);
+         border: none !important;
+         background-color: var(--main-blue25) !important;
          color: var(--main-blue);
          border-radius: 0.3125rem;
           &:hover {

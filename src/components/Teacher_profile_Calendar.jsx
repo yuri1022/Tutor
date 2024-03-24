@@ -172,7 +172,7 @@ useEffect(() => {
         {`${start}`}{' '}
       {isEditCourse && (
         <>
-          <img className="edit-course" src={EditIcon} alt="edit" onClick={handlePutClick} />
+          <img className="edit-course" style={{width:'1rem',height:'1rem'}}src={EditIcon} alt="edit" onClick={handlePutClick} />
           {showPutModal&&<PutCourse showPutModal={showPutModal} onHide={handleClosePut} event={eventWithCategoryId}
 />}
         </>
@@ -207,9 +207,9 @@ EventComponent.propTypes = {
       allDayMaxRows='3'
            />
 
-        <div className='check-buttons' style={{marginTop:'3rem'}}>
-        <Button onClick={handleSaveCourse}>確認</Button>
-        <Button onClick={handleCancelEdit}>取消</Button>
+        <div className='check-buttons d-flex' style={{marginTop:'3rem',justifyContent:'end'}}>
+        <Button style={{fontSize:'0.875rem',border:'1px solid var(--main-blue)',backgroundColor:'transparent',width:'8%',height:'2.2rem',color:'var(--main-blue)',marginRight:'1rem'}} onClick={handleCancelEdit}>取消</Button>
+        <Button style={{fontSize:'0.875rem',border:'none',backgroundColor:'var(--main-blue)',width:'8%',height:'2.2rem'}} onClick={handleSaveCourse}>確定</Button>
         </div>
            </>
            ):(

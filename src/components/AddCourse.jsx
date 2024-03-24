@@ -47,8 +47,8 @@ const teacherId = state.logindata.data.id;
   const updatedFormData = {
     ...formData,
     category: [parseInt(formData.category, 10)],
-    startAt:moment(formData.startAt).format('YYYY-MM-DD HH:mm:ss'),
-    duration:parseInt(formData.duration, 10)
+    startAt:moment(formData.startAt),
+    duration:parseInt(formData.duration, 10),
   };
 
 

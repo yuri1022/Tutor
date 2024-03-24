@@ -16,6 +16,8 @@ const [courseId ,setCourseId]= useState({
   courseId:event.courseId,
 })
 
+console.log(courseId.courseId);
+
   const [formData, setFormData] = useState({
     teacherId: teacherId,
     category: event.categoryId,
@@ -45,13 +47,13 @@ const [courseId ,setCourseId]= useState({
     const updatedFormData = {
     ...formData,
     category: [parseInt(formData.category, 10)],
-    startAt:moment(formData.startAt).format('YYYY-MM-DD HH:mm:ss'),
-    teacherId: state.logindata.data.id, 
+    startAt:moment(formData.startAt),
+    duration:parseInt(formData.duration, 10),
   };
 
 
     try {
-    await putCourse(updatedFormData,courseId);
+    await putCourse(updatedFormData,courseId.courseId);
       onHide(); 
       // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
     } catch (error) {
@@ -74,6 +76,10 @@ const [courseId ,setCourseId]= useState({
             value={formData.startAtTime}
              onChange={handleTimeChange} />
           </Form.Group>
+          
+          <Button variant="primary" onClick={onHide}>
+            取消
+          </Button>
 
           <Button variant="primary" type="submit">
             確認修改
