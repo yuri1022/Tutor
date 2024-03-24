@@ -1,17 +1,23 @@
 import { Modal,Form,Button } from "react-bootstrap";
-import {putCourse} from '../api/course.js';
-import TimePicker from 'react-time-picker';
-import { useState } from "react";
+import { putCourse } from '../api/course.js';
+import { useEffect, useState } from "react";
 import moment from 'moment';
 import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
-
+import { useContext } from 'react';
+import { AppContext } from "../App";
 
 const PutCourse = ({ showPutModal, onHide, event }) => {
+const { state } = useContext(AppContext);
+const teacherId = state.logindata.data.id;
+const [courseId ,setCourseId]= useState({
+  courseId:event.courseId,
+})
 
   const [formData, setFormData] = useState({
+    teacherId: teacherId,
     category: event.categoryId,
     name: event.title,
     intro: event.intro,
@@ -20,8 +26,10 @@ const PutCourse = ({ showPutModal, onHide, event }) => {
     startAt: event.start
   });
 
-  console.log(formData)
 
+  useEffect(()=>{
+    
+  },[state])
 
  const handleTimeChange = (value) => {
   setFormData({
@@ -37,15 +45,13 @@ const PutCourse = ({ showPutModal, onHide, event }) => {
     const updatedFormData = {
     ...formData,
     category: [parseInt(formData.category, 10)],
-    startAt:moment(formData.startAt).format('YYYY-MM-DD HH:mm:ss')
+    startAt:moment(formData.startAt).format('YYYY-MM-DD HH:mm:ss'),
+    teacherId: state.logindata.data.id, 
   };
 
 
     try {
-    const requestBody = JSON.stringify(updatedFormData)
-
-    await putCourse(requestBody);
-    console.log(requestBody);
+    await putCourse(updatedFormData,courseId);
       onHide(); 
       // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
     } catch (error) {

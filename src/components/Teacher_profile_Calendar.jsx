@@ -48,6 +48,7 @@ const events = teacherDetails.Courses.flatMap(course => {
     link:course.link,
     reserved: isReserved,
     allDay:true,  
+    courseId:course.id,
   };
 });
 

@@ -47,15 +47,14 @@ const teacherId = state.logindata.data.id;
   const updatedFormData = {
     ...formData,
     category: [parseInt(formData.category, 10)],
-    startAt:moment(formData.startAt).format('YYYY-MM-DD HH:mm:ss')
+    startAt:moment(formData.startAt).format('YYYY-MM-DD HH:mm:ss'),
+    duration:parseInt(formData.duration, 10)
   };
 
 
     try {
-    const requestBody = JSON.stringify(updatedFormData)
-
-      await createCourse(requestBody);
-      console.log(requestBody);
+      await createCourse(updatedFormData);
+      console.log(updatedFormData);
       onHide(); 
       // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
     } catch (error) {
