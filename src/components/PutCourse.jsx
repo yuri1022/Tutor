@@ -3,7 +3,10 @@ import {putCourse} from '../api/course.js';
 import TimePicker from 'react-time-picker';
 import { useState } from "react";
 import moment from 'moment';
-import '../assets/scss/timepicker.scss'
+import DateTimePicker from 'react-datetime-picker';
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
 
 
 const PutCourse = ({ showPutModal, onHide, event }) => {
@@ -14,35 +17,35 @@ const PutCourse = ({ showPutModal, onHide, event }) => {
     intro: event.intro,
     link: event.link,
     duration: event.duration,
-    startAt: moment(event.start).format('YYYY-MM-DD HH:mm:ss'),
-    startAtTime:moment(event.start).format('HH:mm'),
+    startAt: event.start
   });
 
   console.log(formData)
 
 
-  const handleTimeChange = (value) => {
-    const selectedTime = moment(value, 'HH:mm'); // value 是时间选择器的选择值
-    const startAtDate = moment(formData.startAtDate).set({
-      hour: selectedTime.hours(),
-      minute: selectedTime.minutes(),
-      second: selectedTime.seconds(),
-    });
-    
-    setFormData((prevData) => ({
-      ...prevData,
-      startAt: startAtDate._d, // 更新完整的日期时间
-    }));
-  };
+ const handleTimeChange = (value) => {
+  setFormData({
+    ...formData,
+    startAt: value,
+  });
+};
+
   console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-    const { startAtTime, ...formDataWithoutTime } = formData;
+    const updatedFormData = {
+    ...formData,
+    category: [parseInt(formData.category, 10)],
+    startAt:moment(formData.startAt).format('YYYY-MM-DD HH:mm:ss')
+  };
 
-    await putCourse(formDataWithoutTime);
-    console.log(formDataWithoutTime);
+
+    try {
+    const requestBody = JSON.stringify(updatedFormData)
+
+    await putCourse(requestBody);
+    console.log(requestBody);
       onHide(); 
       // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
     } catch (error) {
@@ -61,7 +64,7 @@ const PutCourse = ({ showPutModal, onHide, event }) => {
           <Form.Group controlId="startAt">
             <Form.Label>修改課程時間</Form.Label>
             <div>{event.start.toLocaleString()}</div>
-            <TimePicker
+            <DateTimePicker
             value={formData.startAtTime}
              onChange={handleTimeChange} />
           </Form.Group>

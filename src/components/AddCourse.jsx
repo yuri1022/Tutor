@@ -1,11 +1,22 @@
 import { Modal,Form,Button } from "react-bootstrap";
 import {createCourse} from '../api/course.js';
 import { useState } from "react";
-import TimePicker from 'react-time-picker';
+import DateTimePicker from 'react-datetime-picker';
 import moment from "moment";
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
+import { useContext } from 'react';
+import { AppContext } from "../App";
+
 
 const AddCourse = ({ showAddModal, onHide ,teacherDetails}) => {
+
+const { state } = useContext(AppContext);
+const teacherId = state.logindata.data.id;
+
  const [formData, setFormData] = useState({
+    teacherId:teacherId,
     category: '',
     name: '',
     intro: '',
@@ -22,27 +33,29 @@ const AddCourse = ({ showAddModal, onHide ,teacherDetails}) => {
     }));
   };
 
-    const handleTimeChange = (value) => {
-    const selectedTime = moment(value, 'HH:mm'); // value 是时间选择器的选择值
-    const startAtDate = moment(formData.startAtDate).set({
-      hour: selectedTime.hours(),
-      minute: selectedTime.minutes(),
-      second: selectedTime.seconds(),
-    });
-    
-    setFormData((prevData) => ({
-      ...prevData,
-      startAt: startAtDate._d, // 更新完整的日期时间
-    }));
-  };
+ const handleTimeChange = (value) => {
+  setFormData({
+    ...formData,
+    startAt: value,
+  });
+};
 
   
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();  
+  const updatedFormData = {
+    ...formData,
+    category: [parseInt(formData.category, 10)],
+    startAt:moment(formData.startAt).format('YYYY-MM-DD HH:mm:ss')
+  };
+
+
     try {
-      await createCourse(formData);
-      console.log(formData);
+    const requestBody = JSON.stringify(updatedFormData)
+
+      await createCourse(requestBody);
+      console.log(requestBody);
       onHide(); 
       // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
     } catch (error) {
@@ -50,11 +63,12 @@ const AddCourse = ({ showAddModal, onHide ,teacherDetails}) => {
     }
   };
 
-const categoryOption = teacherDetails.teaching_categories
-  .flatMap(categories => categories.Category.name)
-  .map((category, index) => (
-    <span className="self-teacher-item" key={index}>{category}</span>
-  ));
+const categoryOption = teacherDetails.teaching_categories.map(category => (
+  <option key={category.categoryId} value={category.Category.name}>
+    {category.Category.name}
+  </option>
+));
+// console.log(categoryOption)
 
   return (
     <Modal show={showAddModal} onHide={onHide}>
@@ -93,9 +107,11 @@ const categoryOption = teacherDetails.teaching_categories
     onChange={handleChange}
   >
     <option value="">請選擇類別</option>
-    {categoryOption.map((category, index) => (
-      <option key={index} value={category}>{category}</option>
-    ))}
+  {categoryOption.map((category, index) => (
+    <option key={category.key} value={category.key}> {/* 修改这里 */}
+      {category.props.children}
+    </option>
+  ))}
   </Form.Select>
           </Form.Group>
 
@@ -126,8 +142,8 @@ const categoryOption = teacherDetails.teaching_categories
 
         <Form.Group controlId="startAt">
             <Form.Label>時段</Form.Label>
-            <TimePicker
-            value={formData.startAtTime}
+            <DateTimePicker
+            defaultValue={formData.startAt}
              onChange={handleTimeChange} />
           </Form.Group>
 
