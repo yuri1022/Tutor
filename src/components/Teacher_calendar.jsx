@@ -3,7 +3,8 @@ import arrow_right from './../assets/images/svg/arrow-right.svg';
 import arrow_left from './../assets/images/svg/arrow-left.svg';
 import { useContext } from 'react';
 import { AppContext } from "../App";
-import axios from "axios";
+import { getCourse } from '../api/course';
+import { getTeacher } from '../api/teacher';
 import TeacherGoClassModal from './OpenGoClassModal';
 import '../assets/scss/course.scss';
 
@@ -21,18 +22,15 @@ const Teacher_profile_Calender = () =>{
 
     const allCourseData = []; 
 
-    const api = 'http://34.125.232.84:3000';
-
-
    useEffect(() => {
     const fetchTeacherData = async () => {
       try {
       const teacherId = state.logindata.data.id;
-      const response = await axios.get(`${api}/teacher/${teacherId}`);
+      const response = await getTeacher(teacherId);
       const teacherData = response.data;
       console.log('Teacher Data:', teacherData);
-  if (teacherData.data.Courses) {
-        const courseIds = teacherData.data.Courses.map(course => course.id);
+  if (teacherData.Courses) {
+        const courseIds = teacherData.Courses.map(course => course.id);
         console.log(courseIds);
         fetchCourseData(courseIds);
       } else {
@@ -55,18 +53,16 @@ const Teacher_profile_Calender = () =>{
 
 const fetchCourseData = async (courseIds) => {
   try {
-  const token = localStorage.getItem('token');
-
   for (const courseId of courseIds) {
-      const response = await axios.get(`${api}/register/${courseId}`,
-      {headers: { Authorization: `Bearer ${token}` }});
-      const courseData = response.data.data[0];
+      const response = await getCourse(courseId);
+      const courseData = response.data;
       console.log(`Course Data for Course ID ${courseId}:`, courseData);
+      
 
-      const startDate = new Date(courseData.Course.startAt);
+      const startDate = new Date(courseData.startAt);
 
-    const courseDuration = courseData.Course.duration;
-    const startTime = new Date(courseData.Course.startAt);
+    const courseDuration = courseData.duration;
+    const startTime = new Date(courseData.startAt);
     const endTime = new Date(startTime.getTime() + courseDuration * 60000); // 计算结束时间的毫秒数
 
 // 获取开始时间的小时和分钟
@@ -81,9 +77,9 @@ const endMinutes = endTime.getMinutes();
         year: startDate.getFullYear(),
         month: startDate.getMonth() + 1,
         day: startDate.getDate(),
-        subject: courseData.Course.name,
-        student: courseData.User.name,
-        time: courseData.Course.duration,
+        subject: courseData.name,
+        student: courseData.Registrations[0]?.User?.name,
+        time: courseData.duration,
         startTime: `${startHours}:${startMinutes}`,
         endTime: `${endHours}:${endMinutes}`, 
         date: startDate,
