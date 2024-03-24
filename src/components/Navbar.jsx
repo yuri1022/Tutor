@@ -15,15 +15,18 @@ import { Dropdown } from 'react-bootstrap';
 const Navbar = (props) =>{
     const [isHome,setIsHome]= useState(true);
     const [ isTeacher,setIsTeacher] = useState(0);
+    const [ isOpen,setIsOpen] = useState(false);
     const [searchTxt, setSearchTxt]= useState('');
     const {state,dispatch} = useContext(AppContext);
     const loginModal = useRef(null);
     const api = 'http://34.125.232.84:3000';
     const navigate = useNavigate();
     const openLoginModal = () =>{
+        setIsOpen(true);
         loginModal.current.show();
     }
     const closeLoginModal = ()=>{
+        setIsOpen(false);
         loginModal.current.hide();
     }
     const handleSearch = () =>{
@@ -174,7 +177,8 @@ const Navbar = (props) =>{
                         <div className="navbar-right">
                             <div className="navbar-search">
                                 <input  id="search" className="form-control" placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
-                                <img className="search-icon" src={searchIcon} onClick={handleSearch}></img>
+                                <img className="search-icon" src={searchIcon} onClick={handleSearch}>
+                                </img>
                             </div>
                             {
                         localStorage.getItem("islogin")==="true" ? (
@@ -205,7 +209,7 @@ const Navbar = (props) =>{
                                     
                                 ):
                                 ( 
-                                    <button  className="btn btn-outline-primary my-2 my-sm-0" onClick={openLoginModal}>登入/註冊</button>
+                                    <button  className={`btn btn-outline-primary my-2 my-sm-0 ${isOpen ? ('active'):('')}`} onClick={openLoginModal}>登入/註冊</button>
                                     )
                             }
                         </div>

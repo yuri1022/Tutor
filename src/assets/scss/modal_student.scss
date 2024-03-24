@@ -1,12 +1,27 @@
-
-
 .studentModal{
     .modal-dialog{
         min-width: 300px;
     }
-
+    .close-btn {
+        border: 0px;
+        background-color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1;
+        color: black;
+        text-shadow: 0 1px 0 #fff;
+        transition: background-color 0.5s;
+    }
+    .close-btn:hover {
+        color:#3652E3;
+        border: 0px;
+        animation: rotate 0.5s linear ;
+    }
 } 
+
+
 @media screen and (max-width: 480px){
+
     .ratingStuModal_content{
         .rating-list{
             display: flex;
@@ -16,6 +31,7 @@
 
 }
 @media screen and (min-width: 1081px){
+
     .ratingStuModal_content{
         .rating-list{
             display: flex;
@@ -39,15 +55,7 @@
     }
 
     /*modal-header*/
-    .close-btn {
-        border: 0px;
-        background-color: white;
-        font-size: 1.5rem;
-        font-weight: 700;
-        line-height: 1;
-        color: #3652E3;
-        text-shadow: 0 1px 0 #fff;
-    }
+
 
     /*modal-body*/
     .input-name {
@@ -83,15 +91,7 @@
     }
 
     /*modal-header*/
-    .close-btn {
-        border: 0px;
-        background-color: white;
-        font-size: 1.5rem;
-        font-weight: 700;
-        line-height: 1;
-        color: #3652E3;
-        text-shadow: 0 1px 0 #fff;
-    }
+
 
     /*modal-body*/
 
@@ -165,15 +165,7 @@
     }
 
     /*modal-header*/
-    .close-btn {
-        border: 0px;
-        background-color: white;
-        font-size: 1.5rem;
-        font-weight: 700;
-        line-height: 1;
-        color: #3652E3;
-        text-shadow: 0 1px 0 #fff;
-    }
+
 
     /*modal-body*/
     .reserve-contents {
@@ -202,6 +194,11 @@
         background-color: #F43C2E;
         opacity: 70%;
         margin-right: 25px;
+        transition: background-color 0.5s;
+    }
+    .btn-decline-register:hover{
+        background-color: #F43C2E;
+        opacity: 0.5;
     }
 
     .btn-goclass {

@@ -101,7 +101,15 @@
         align-items: center;
         width: 20px;
         margin-bottom: 0;
+        
+        transition: stroke 0.4s linear;
         cursor: pointer;
+    }
+    .search-stroke{
+        stroke:#B6B6B6;
+    }
+    .search-stroke:hover{
+        stroke:#3652E3;
     }
     .avatar-block{
         display:flex;
