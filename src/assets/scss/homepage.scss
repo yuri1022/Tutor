@@ -58,9 +58,9 @@
                   align-items: center;
                   height: 50%;
                   .teacher-img{
-                    height: 100%;
-                    min-width: 8.4rem;
-                    width: 40.5%;
+                    height:8.4rem;
+                    width: 8.4rem;
+                    object-fit: cover;
                     img{
                     border-radius: 0.625rem;
                     }
@@ -266,9 +266,9 @@
         height: 50%;
 
         .teacher-img {
-          height: 100%;
-          width: 50%;
-          min-width: 7rem;
+          height: 9rem;
+          width: 9rem;
+          object-fit: cover;
 
           img {
             border-radius: 0.625rem;
@@ -468,9 +468,9 @@
           height: 50%;
   
           .teacher-img {
-            height: 100%;
-            width: 50%;
-            min-width: 7rem;
+            height: 7rem;
+            width: 7rem;
+            object-fit: cover;
   
             img {
               border-radius: 0.625rem;

@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { useRef,useEffect } from 'react';
+import { useRef,useEffect,useState } from 'react';
 import { Calendar, momentLocalizer,Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -7,25 +7,32 @@ import PropTypes from 'prop-types';
 import '../assets/scss/reservecalendar.scss';
 import LeftArrow from '../assets/images/svg/arrow-left.svg';
 import RightArrow from '../assets/images/svg/arrow-right.svg';
+import { Button } from 'react-bootstrap';
+import EditIcon from '../assets/images/svg/edit.svg';
+import AddCourse from './AddCourse';
+import PutCourse from './PutCourse';
 
 const localizer = momentLocalizer(moment);
 
 
-const MyCalendar = memo(({teacherDetails}) => {
-  
-// const [disableMonthNavigation, setDisableMonthNavigation] = useState(false);
+const MyCalendar = memo(({ teacherDetails, isEditCourse, handleEditCourse, closeEditCourse }) => {
+const [editedCourse, setEditedCourse] = useState(null);
+const [showPlusButton, setShowPlusButton] = useState(false);
 
+
+ const handleSaveCourse = () => {
+    handleEditCourse(editedCourse);
+    closeEditCourse();
+  };
+
+  const handleCancelEdit = () => {
+    closeEditCourse();
+  };
+
+ 
  const dayFormat = (date, culture, localizer) =>
-    localizer.format(date, 'ddd', culture); // 格式化日期为星期几的缩写
-  
+    localizer.format(date, 'ddd', culture); 
 
-const reservedDates = Array.isArray(teacherDetails.Courses)
-  ? teacherDetails.Courses.map(course => course.startAt)
-  : [];
-
-  console.log(reservedDates)
-
-  // 根據已預約名單標識是否已預約
 const events = teacherDetails.Courses.flatMap(course => {
   const start = moment(course.startAt)
   const end = moment(course.startAt).add(course.duration, 'minutes'); 
@@ -34,14 +41,42 @@ const events = teacherDetails.Courses.flatMap(course => {
   return {
     start: start.toDate(),
     end: end.toDate(),
+    duration:course.duration,
+    category:course.category,
     title: course.name,
+    intro:course.intro,
+    link:course.link,
     reserved: isReserved,
     allDay:true,  
+    courseId:course.id,
   };
 });
 
+const categoryMap = {};
+teacherDetails.teaching_categories.forEach(category => {
+  categoryMap[category.Category.name] = category.categoryId;
+});
+
+const eventsWithCategoryId = events.map(event => ({
+  ...event,
+  categoryId: categoryMap[event.category],
+}));
+
 
 const CustomToolbar = (toolbar) => {
+const [showAddModal, setShowAddModal] = useState(false);
+
+
+ const handlePlusClick = () => {
+    setShowAddModal(true);
+  };
+
+  const handleCloseAdd = () => {
+    setShowAddModal(false);
+  };
+
+
+
   const goToBack = () => {
     const newDate = moment(toolbar.date);
     toolbar.onNavigate('PREV', newDate);
@@ -54,13 +89,34 @@ const CustomToolbar = (toolbar) => {
 
 useEffect(() => {
   const dateCells = document.querySelectorAll('.rbc-day-bg');
-  const startDate =  moment(toolbar.date).startOf('week');
- dateCells.forEach((cell, index) => {
-      const formattedDate = startDate.clone().add(index, 'days').format('DD');
-      cell.setAttribute('data-date', formattedDate);
-    });
-    
-}, [toolbar.date]);
+  const startDate = moment(toolbar.date).startOf('week');
+
+  dateCells.forEach((cell, index) => {
+    const formattedDate = startDate.clone().add(index, 'days').format('DD');
+    cell.setAttribute('data-date', formattedDate);
+
+    const existingButton = cell.querySelector('.create-course');
+    if (existingButton) {
+      cell.removeChild(existingButton);
+    }
+
+    if (isEditCourse) {
+      const addButton = document.createElement('button');
+      addButton.textContent = '+';
+      addButton.classList.add('create-course');
+      addButton.addEventListener('click', handlePlusClick);
+
+      cell.appendChild(addButton);
+    }
+  });
+}, [toolbar.date, isEditCourse]);
+
+  useEffect(() => {
+  }, [showAddModal]);
+
+  useEffect(() => {
+    setShowPlusButton(true); 
+  }, [isEditCourse]); 
 
 
   return (
@@ -85,6 +141,8 @@ useEffect(() => {
         <span>不可預約</span>
       </div>
 
+      {showAddModal&&<AddCourse showAddModal={showAddModal} onHide={handleCloseAdd} teacherDetails={teacherDetails} />}
+
     </div>
 
   );
@@ -93,9 +151,33 @@ useEffect(() => {
 
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
+    const [showPutModal, setShowPutModal] = useState(false);
+     const eventWithCategoryId = eventsWithCategoryId.find(
+    (item) => item.title === event.title
+  );
+//  console.log(eventWithCategoryId);
+
+
+    const handlePutClick = () => {
+    setShowPutModal(true);
+  };
+
+     const handleClosePut = () => {
+    setShowPutModal(false);
+  };
+
+
     return (
-      <div className={event.reserved ? 'reserved' : 'not-reserved' } >
-        {`${start}`}    </div>
+      <div className={event.reserved ? 'reserved' : 'not-reserved'}>
+        {`${start}`}{' '}
+      {isEditCourse && (
+        <>
+          <img className="edit-course" style={{width:'1rem',height:'1rem'}}src={EditIcon} alt="edit" onClick={handlePutClick} />
+          {showPutModal&&<PutCourse showPutModal={showPutModal} onHide={handleClosePut} event={eventWithCategoryId}
+/>}
+        </>
+      )}
+      </div>
     );
   };
 
@@ -111,7 +193,9 @@ EventComponent.propTypes = {
 
   return (
     <>
-      <Calendar
+    {isEditCourse?(
+      <>
+    <Calendar
       localizer={localizer}
       events={events}
       formats={{ dayFormat }}
@@ -122,6 +206,28 @@ EventComponent.propTypes = {
       defaultView={Views.WEEK} // 將預設視圖設為 Week
       allDayMaxRows='3'
            />
+
+        <div className='check-buttons d-flex' style={{marginTop:'3rem',justifyContent:'end'}}>
+        <Button style={{fontSize:'0.875rem',border:'1px solid var(--main-blue)',backgroundColor:'transparent',width:'8%',height:'2.2rem',color:'var(--main-blue)',marginRight:'1rem'}} onClick={handleCancelEdit}>取消</Button>
+        <Button style={{fontSize:'0.875rem',border:'none',backgroundColor:'var(--main-blue)',width:'8%',height:'2.2rem'}} onClick={handleSaveCourse}>確定</Button>
+        </div>
+           </>
+           ):(
+            <>
+            <Calendar
+      localizer={localizer}
+      events={events}
+      formats={{ dayFormat }}
+        components={{
+          toolbar: CustomToolbar,
+            event: EventComponent,
+        }}
+      defaultView={Views.WEEK} // 將預設視圖設為 Week
+      allDayMaxRows='3'
+           />
+           </>
+           )}
+      
     </>
   );
 });
@@ -134,7 +240,7 @@ MyCalendar.propTypes = {
     avatar: PropTypes.string.isRequired,
     selfIntro: PropTypes.string.isRequired,
     teachStyle: PropTypes.string.isRequired,
-   ratingAverage: PropTypes.string.isRequired,
+    ratingAverage: PropTypes.string.isRequired,
     teaching_categories: PropTypes.arrayOf(PropTypes.shape({
       categoryId: PropTypes.number.isRequired,
       Category: PropTypes.shape({
@@ -144,13 +250,12 @@ MyCalendar.propTypes = {
 
     Courses: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
-      duration:PropTypes.number.isRequired,
-      startAt:PropTypes.instanceOf(Date).isRequired,
-      category: PropTypes.shape({
-      }).isRequired,
+      duration: PropTypes.number.isRequired,
+      startAt: PropTypes.instanceOf(Date).isRequired,
+      category: PropTypes.shape({}).isRequired,
       Registrations: PropTypes.shape({
-        rating:PropTypes.number.isRequired,
-        comment:PropTypes.string.isRequired,
+        rating: PropTypes.number.isRequired,
+        comment: PropTypes.string.isRequired,
       }).isRequired,
     })).isRequired,
   }),

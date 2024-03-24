@@ -20,6 +20,11 @@
 
       .modal-content {
         max-width: 28.25rem;
+        .modal-body {
+                      .reserve-contents {
+                        width: 70%;
+                      }
+          }
       }
     }
   }
@@ -32,6 +37,12 @@
 
       .modal-content {
         max-width: 28.25rem;
+
+       .modal-body {
+                      .reserve-contents {
+                        width: 70%;
+                      }
+               }
       }
     }
   }
