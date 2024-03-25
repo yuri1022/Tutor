@@ -25,13 +25,18 @@ const TeacherCollection = () => {
   const queryParams = new URLSearchParams(search);
   const categoryId = queryParams.get('categoryId');
   const [categoryItemId, setCategoryItemId] = useState(categoryId);
-
   const [currentPageState, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const { teacherData } = useTeacherContext();
   const { currentPage, totalPages } = teacherData;
   const [reserveModalOpen,setIsReserveModalOpen]= useState(false);
   const [reserveTeacher, setReserveTeacher] = useState('');
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+const categoryOptions = teacherData?.categories?.map(category => ({
+  id: category.id,
+  name: category.name
+}));
 
   useEffect(() => {
     setCategoryItemId(categoryId);
@@ -111,24 +116,30 @@ const handleReserveOpen = async (teacher) => {
   };
 
   
-const uniqueCategories = ['所有類別', ...(teacherData.categories ? new Set(teacherData.categories.map(category => category.name)) : [])];
+const uniqueCategories = categoryOptions
+  ? ['所有類別', ...categoryOptions.map(category => category.name)]
+  : ['所有類別'];
+
 
 const handleCategoryChange = (selectedCategoryItemId) => {
-    setCategoryItemId(selectedCategoryItemId);
+  // 根據選中的類別 ID 設定 selectedCategoryId 狀態
+  setSelectedCategoryId(selectedCategoryItemId);
 
-   // 從所有的 teaching_categories 中找到對應的 categoryId
+  // 從所有的 teaching_categories 中找到對應的 categoryId
   const categoryIdFromTeachingCategories = selectedCategoryItemId
-  ? teacherData.categories
-      .find((category) => category.name === selectedCategoryItemId)?.id
-  : null;
+    ? teacherData.categories.find(category => category.name === selectedCategoryItemId)?.id
+    : null;
 
-    const categoryIdParam = categoryIdFromTeachingCategories
-      ? `&categoryId=${categoryIdFromTeachingCategories}`
-      : '';
+  const categoryIdParam = categoryIdFromTeachingCategories
+    ? `&categoryId=${categoryIdFromTeachingCategories}`
+    : '';
 
-    navigate(`/home?page=${currentPageState}${categoryIdParam}`);
+  // 更新 URL 參數，包含頁碼和類別 ID
+  navigate(`/home?page=${currentPageState}${categoryIdParam}`);
+
+  // 設定當前頁面狀態為 1，因為類別切換後應該回到第 1 頁
+  setCurrentPage(1);
 };
-
   return (
 
     
@@ -137,16 +148,16 @@ const handleCategoryChange = (selectedCategoryItemId) => {
       <div className='category-buttons-container d-flex'>
         <div className="category-buttons">
           {/* 動態生成按鈕 */}
-          {uniqueCategories.map((category) => (
-            <Button
-              className={`category-buttons-item ${category === categoryItemId || (category === '所有類別' && !categoryItemId) ? 'selected' : ''}`}
-              key={category}
-              variant="outline-light"
-              onClick={() => handleCategoryChange(category === '所有類別' ? null : category)}
-            >
-              {category}
-            </Button>
-          ))}
+      {categoryOptions && uniqueCategories.map((category) => (
+      <Button
+ className={`category-buttons-item ${category === (selectedCategoryId === null ? '所有類別' : selectedCategoryId) ? 'selected' : ''}`}
+        key={category}
+        variant="outline-light"
+        onClick={() => handleCategoryChange(category === '所有類別' ? null : category)}
+       >
+    {category}
+  </Button>
+))}
         </div>
       </div>
 
@@ -154,7 +165,7 @@ const handleCategoryChange = (selectedCategoryItemId) => {
     <div className="div-container d-flex">
     {teacherData.teachers && teacherData.teachers.map((teacher) => (
 
-      <div className="div-container__info col-12 col-md-3 col-lg-3" key={teacher.id}>
+      <div className="div-container__info col-12 col-md-4 col-lg-4" key={teacher.id}>
         <Card className="card">
         <Card.Body >
         <div className="teacher-top">

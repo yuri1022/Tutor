@@ -23,8 +23,8 @@
 @media screen and (min-width: 481px) and (max-width: 1080px) {
   .container-ranking-list {
       justify-content: center;
-      margin: 0 0 0 1rem;
-  
+      margin: 0.3125rem 0 0 0;
+      padding-right: 2rem;
       .card {
         width: 85%;
   
@@ -48,8 +48,8 @@
 
   .container-ranking-list {
       justify-content: center;
-      margin: 0.3125rem 0 0 1rem;
-  
+      margin: 0.3125rem 0 0 0;
+      padding-right: 2rem;
       .card {
         width: 100%;
         .best-rank-container {
