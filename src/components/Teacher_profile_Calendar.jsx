@@ -8,7 +8,6 @@ import '../assets/scss/reservecalendar.scss';
 import LeftArrow from '../assets/images/svg/arrow-left.svg';
 import RightArrow from '../assets/images/svg/arrow-right.svg';
 import { Button } from 'react-bootstrap';
-import EditIcon from '../assets/images/svg/edit.svg';
 import AddCourse from './AddCourse';
 import PutCourse from './PutCourse';
 
@@ -18,7 +17,7 @@ const localizer = momentLocalizer(moment);
 const MyCalendar = memo(({ teacherDetails, isEditCourse, handleEditCourse, closeEditCourse }) => {
 const [editedCourse, setEditedCourse] = useState(null);
 const [showPlusButton, setShowPlusButton] = useState(false);
-
+const [reloadCoursesFlag, setReloadCoursesFlag] = useState(false);
 
  const handleSaveCourse = () => {
     handleEditCourse(editedCourse);
@@ -33,10 +32,12 @@ const [showPlusButton, setShowPlusButton] = useState(false);
  const dayFormat = (date, culture, localizer) =>
     localizer.format(date, 'ddd', culture); 
 
+
+
 const events = teacherDetails.Courses.flatMap(course => {
   const start = moment(course.startAt)
   const end = moment(course.startAt).add(course.duration, 'minutes'); 
-    const isReserved = course.Registrations.some(registration => registration.rating !== null);
+  const isReserved = course.Registrations && course.Registrations.length > 0;
 
   return {
     start: start.toDate(),
@@ -71,11 +72,9 @@ const [showAddModal, setShowAddModal] = useState(false);
     setShowAddModal(true);
   };
 
-  const handleCloseAdd = () => {
+  const handleClose = () => {
     setShowAddModal(false);
   };
-
-
 
   const goToBack = () => {
     const newDate = moment(toolbar.date);
@@ -118,6 +117,20 @@ useEffect(() => {
     setShowPlusButton(true); 
   }, [isEditCourse]); 
 
+  const reloadCourses = () => {
+    // 在这里添加重新加载课程列表的逻辑
+    // console.log('重新加载课程列表');
+    // 更新 reloadCoursesFlag 以触发 useEffect
+    setReloadCoursesFlag(prevState => !prevState);
+  };
+
+    useEffect(() => {
+  if (!showAddModal) {
+    // PutCourse Modal 关闭后执行重新加载课程列表的逻辑
+    reloadCourses();
+  }
+}, [showAddModal]);
+
 
   return (
     <div className="rbc-toolbar" >
@@ -141,7 +154,7 @@ useEffect(() => {
         <span>不可預約</span>
       </div>
 
-      {showAddModal&&<AddCourse showAddModal={showAddModal} onHide={handleCloseAdd} teacherDetails={teacherDetails} />}
+      {showAddModal&&<AddCourse showAddModal={showAddModal} onHide={handleClose} teacherDetails={teacherDetails} reloadCoursesFlag={reloadCoursesFlag}/>}
 
     </div>
 
@@ -152,32 +165,36 @@ useEffect(() => {
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
     const [showPutModal, setShowPutModal] = useState(false);
+
      const eventWithCategoryId = eventsWithCategoryId.find(
     (item) => item.title === event.title
   );
 //  console.log(eventWithCategoryId);
 
-
     const handlePutClick = () => {
     setShowPutModal(true);
   };
 
-     const handleClosePut = () => {
+     const handleClose = () => {
     setShowPutModal(false);
   };
 
+      
+  const reloadCourses = () => {
+    setReloadCoursesFlag(prevState => !prevState);
+  };
+
+    useEffect(() => {
+  if (!showPutModal) {
+    reloadCourses();
+  }
+}, [showPutModal]);
 
     return (
-      <div className={event.reserved ? 'reserved' : 'not-reserved'}>
-        {`${start}`}{' '}
-      {isEditCourse && (
-        <>
-          <img className="edit-course" style={{width:'1rem',height:'1rem'}}src={EditIcon} alt="edit" onClick={handlePutClick} />
-          {showPutModal&&<PutCourse showPutModal={showPutModal} onHide={handleClosePut} event={eventWithCategoryId}
-/>}
-        </>
-      )}
-      </div>
+  <div className={event.reserved ? 'reserved' : 'not-reserved'} onClick={isEditCourse ? handlePutClick : null}>
+    {`${start}`}{' '}
+    {isEditCourse && showPutModal && <PutCourse showPutModal={showPutModal} onHide={handleClose} event={eventWithCategoryId} reloadCoursesFlag={reloadCoursesFlag}/>}
+  </div>
     );
   };
 

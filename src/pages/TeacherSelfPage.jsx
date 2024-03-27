@@ -293,9 +293,8 @@ const handleCancel = () => {
         <div className="self-introduction-title">
           <h6 className="title">簡介</h6>
         {isEditInfo ? (
-          <div className="edit-button" style={{position:'absolute',top:'9.5rem',right:'2rem'}}>
-        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('selfIntro')}>取消</Button>
-        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ selfIntro: editingContent }, 'selfIntro')}>保存</Button>        
+                     <div className="edit-icon">
+                    <img src={EditImg} alt="edit" style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>                      
                     </div>
                   ) : (
                     <div className="edit-icon">
@@ -309,12 +308,19 @@ const handleCancel = () => {
       </div>
       
       {isEditInfo ? (
+        <>
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
                   onBlur={() => handleSave({ selfIntro: editingContent }, 'selfIntro')}
-                  style={{width:'95%',height:'60%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
+                  style={{width:'95%',height:'40%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
                 />
+         <div className="edit-button">
+        <Button className="btn-cancel" variant="secondary" onClick={() => handleCancel('selfIntro')}>取消</Button>
+        <Button className="btn-save" variant="primary" onClick={() => handleSave({ selfIntro: editingContent }, 'selfIntro')}>確定</Button>        
+                    </div>
+                    </>
+
               ) : (
                 <p className="self-info-description">{teacherDetails.selfIntro}</p>
               )}
@@ -327,10 +333,8 @@ const handleCancel = () => {
           <h6 className="title">教學風格</h6>
 
           {isEditTeachingStyle ? (
-          <div className="edit-button" style={{position:'absolute',top:'16rem',right:'2rem'}}>
-        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('teachStyle')}>取消</Button>            
-        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ teachStyle: editingContent }, 'teachStyle')}>保存</Button>
-
+                    <div className="edit-icon" >
+                    <img src={EditImg} alt="edit" style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>
                     </div>
                   ) : (
                     <div className="edit-icon" >
@@ -343,13 +347,21 @@ const handleCancel = () => {
       </div>
       
       {isEditTeachingStyle ? (
+        <>
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
                   onBlur={() => handleSave({ teachStyle: editingContent }, 'teachStyle')}
-                  style={{width:'95%',height:'80%',fontSize:'0.8rem',margin:'0.5rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
+                  style={{width:'95%',height:'40%',fontSize:'0.8rem',margin:'0.5rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
                  
                 />
+                    <div className="edit-button">
+        <Button className="btn-cancel" variant="secondary" onClick={() => handleCancel('teachStyle')}>取消</Button>            
+        <Button className="btn-save" variant="primary" onClick={() => handleSave({ teachStyle: editingContent }, 'teachStyle')}>確定</Button>
+
+                    </div>
+                    </>
+                
               ) : (
                 <p className="self-teaching-style-description">{teacherDetails.teachStyle}</p>
               )}

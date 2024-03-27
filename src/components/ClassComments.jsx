@@ -11,7 +11,11 @@ import PropTypes from 'prop-types'
 const ClassComments = ({teacherDetails}) =>{
   const [isModalOpen, setIsModalOpen] = useState(false);
   const roundedRating = parseFloat(teacherDetails.ratingAverage).toFixed(1);
-  const courseLength = teacherDetails.Courses.length;
+const filteredCourses = teacherDetails.Courses.filter(course => {
+  return course.Registrations.length>0 && course.Registrations.every(registration => registration.rating !== null);
+});
+
+ const courseLength = filteredCourses.length;
 
 
 

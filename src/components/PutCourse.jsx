@@ -5,9 +5,10 @@ import moment from 'moment';
 import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
-import 'react-clock/dist/Clock.css';
 import { useContext } from 'react';
 import { AppContext } from "../App";
+import PropTypes from 'prop-types';
+
 
 const PutCourse = ({ showPutModal, onHide, event }) => {
 const { state } = useContext(AppContext);
@@ -16,7 +17,7 @@ const [courseId ,setCourseId]= useState({
   courseId:event.courseId,
 })
 
-console.log(courseId.courseId);
+// console.log(courseId.courseId);
 
   const [formData, setFormData] = useState({
     teacherId: teacherId,
@@ -40,7 +41,7 @@ console.log(courseId.courseId);
   });
 };
 
-  console.log(formData);
+  // console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,14 +56,13 @@ console.log(courseId.courseId);
     try {
     await putCourse(updatedFormData,courseId.courseId);
       onHide(); 
-      // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
     } catch (error) {
       console.error('Create course failed:', error);
     }
   };
 
   return (
-    <Modal show={showPutModal} onHide={onHide}>
+    <Modal show={showPutModal} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title className="modal-head-title"></Modal.Title>
       </Modal.Header>
@@ -73,11 +73,11 @@ console.log(courseId.courseId);
             <Form.Label>修改課程時間</Form.Label>
             <div>{event.start.toLocaleString()}</div>
             <DateTimePicker
-            value={formData.startAtTime}
-             onChange={handleTimeChange} />
+            value={formData.startAt}
+            onChange={handleTimeChange}/>
           </Form.Group>
           
-          <Button variant="primary" onClick={onHide}>
+          <Button variant="primary" type="cancel" onClick={onHide}>
             取消
           </Button>
 
@@ -96,5 +96,10 @@ console.log(courseId.courseId);
     </Modal>
   );
 };
+
+PutCourse.propTypes = {
+  showPutModal: PropTypes.bool.isRequired,  
+};
+
 
 export default PutCourse;

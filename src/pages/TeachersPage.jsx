@@ -134,7 +134,21 @@ const TeachersPage = () => {
       ))}
                     </div>
                 </div>
-               
+          <div className="pc-reserve-button">
+           <Button className="btn-reserve" style={{background:'linear-gradient(#1AEAEA,#3652E3)',border:'none'}} onClick={() => handleReserveOpen()}>
+          <div style={{fontSize:'0.875rem'}}>
+            預約上課
+          </div>
+          
+          </Button>
+        {reserveModalOpen&&        
+        <ClassReserve
+          teacherDetails={teacherDetails}
+          show={reserveModalOpen} 
+          handleClose={handleReserveClose}
+         />
+         }
+      </div>    
 
              </div>
 

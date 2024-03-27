@@ -62,15 +62,24 @@ const teacherId = state.logindata.data.id;
     }
   };
 
-const categoryOption = teacherDetails.teaching_categories.map(category => (
-  <option key={category.categoryId} value={category.Category.name}>
-    {category.Category.name}
+const categorySet = new Set();
+
+teacherDetails.teaching_categories.forEach(category => {
+  categorySet.add(category.Category.name);
+});
+
+// 将Set转换为数组
+const uniqueCategories = Array.from(categorySet);
+
+const categoryOption = uniqueCategories.map(categoryName => (
+  <option key={categoryName} value={categoryName}>
+    {categoryName}
   </option>
 ));
 // console.log(categoryOption)
 
   return (
-    <Modal show={showAddModal} onHide={onHide}>
+    <Modal show={showAddModal} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title className="modal-head-title"></Modal.Title>
       </Modal.Header>
@@ -142,9 +151,13 @@ const categoryOption = teacherDetails.teaching_categories.map(category => (
         <Form.Group controlId="startAt">
             <Form.Label>時段</Form.Label>
             <DateTimePicker
-            defaultValue={formData.startAt}
+            value={formData.startAt}
              onChange={handleTimeChange} />
           </Form.Group>
+
+          <Button variant="primary" type="cancel" onClick={onHide}>
+            取消
+          </Button>
 
           <Button variant="primary" type="submit">
             創建課程
