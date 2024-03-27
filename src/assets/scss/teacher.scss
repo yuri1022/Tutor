@@ -219,8 +219,7 @@
       }
       .reserve-button{
         margin-top: 0.75rem;
-        width:90%;
-        .btn-reserve{
+         .btn-reserve{
           width: 100%;
           height: 2.5rem;
         }
@@ -269,12 +268,10 @@
 
               .card-container {
                 display: flex;
-
+                justify-content: space-between;
                 .card-img {
                   width: 3.75rem;
                   height: 2.5rem;
-                  width: 20%;
-
                   .class-comment {
                     border-radius: 50%;
                     height: 2.5rem;
@@ -283,8 +280,7 @@
                 }
 
                 .card-title {
-                  margin: 0 1.5rem 0.3rem 0;
-                  width: 70%;
+                  margin: 0 0 0.3rem 0;
                   .title {
                     font-size: 1rem;
                     font-weight: 700;
@@ -344,355 +340,387 @@
 }
 
 @media screen and (min-width: 481px) and (max-width: 1080px) {
-.div-container {
-    flex-direction: row;
+    .div-container {
+      flex-direction: row;
 
-    .self-info-container {
-      width: 100%;
+      .self-info-container {
+        width: 100%;
+      }
+
+      .reserve-button {
+        display: none;
+      }
     }
 
-    .reserve-button {
-      display: none;
-    }
-  }
-
-  .form-left {
-    .card-container {
-      padding: 1rem 3.5rem 1rem 2.5rem;
-      display: flex;
-      flex-direction: column;
-
-      .self-card-container {
-        display: flex;
-        height: 12rem;
-        width: 100%;
-        border-radius: 0.625rem;
-        box-shadow: 1px 3px 5px 1px var(--grey-light);
-        -webkit-box-shadow: 1px 3px 5px 1px var(--main-blue25);
-        -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
-        -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
-
-        .self-card-img {
-          width: 9.7rem;
-          object-fit: cover;
-          margin: 1rem 2rem 1rem 1rem;
-          border-radius: 0.625rem;
-        }
-
-        .self-info-container {
-          margin: 1rem 0 1rem 0;
-          display: flex;
-          flex-direction: column;
-
-          .self-name-nation-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-
-            .self-nation {
-              display: flex;
-
-              .self-name {
-                padding-left: 0.5rem;
-                padding-top: 0.5rem;
-                font-weight: 700;
-              }
-            }
-          }
-
-          .self-category-container {
-            .self-category {
-              display: flex;
-
-              .self-teacher-item {
-                padding: 0 0.268rem 0 0.268rem;
-                margin: 0 0.268rem 0.268rem 0;
-                border-radius: 3px;
-                background-color: var(--main-blue25);
-                font-size: 0.8rem;
-                font-weight: 600;
-              }
-            }
-          }
-        }
-
-      }
-
-      .introduction-container {
-        margin: 2rem 0 2rem 0;
-        width: 100%;
-        border: none;
-
-        .self-introduction {
-          padding: 0.5rem 0 0.5rem 0.5rem;
-
-          .self-introduction-title {
-            position: relative;
-            height: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-
-            &::after {
-              content: '';
-              position: absolute;
-              width: 100%;
-              background-color: var(--main-blue);
-              height: 0.2rem;
-              top: 1.5rem;
-              right: 0rem;
-            }
-
-            .title {
-              font-weight: 700;
-              font-size: 1rem;
-            }
-
-          }
-        }
-
-        .self-info-description {
-          margin: 0.5rem 0.5rem 0 0.5rem;
-          font-size: 0.8rem;
-        }
-
-      }
-
-      .teacherstyle-container {
-        width: 100%;
-        margin: 0 0 2rem 0;
-
-        .self-teaching-style {
-          padding: 0.5rem 0 0.5rem 0.5rem;
-
-          .self-teaching-style-title {
-            position: relative;
-            height: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-
-            &::after {
-              content: '';
-              position: absolute;
-              width: 100%;
-              background-color: var(--main-blue);
-              height: 0.2rem;
-              top: 1.5rem;
-              right: 0rem;
-            }
-
-            .title {
-              font-weight: 700;
-              font-size: 1rem;
-            }
-          }
-        }
-
-        .self-teaching-style-description {
-          margin: 0.5rem 1rem 0 1rem;
-          font-size: 0.8rem;
-        }
-
-      }
-
-      .classtime-container {
-        width: 100%;
-        margin: 0 0 2rem 0;
-
-        .self-class-time {
-          padding: 0.5rem 0 0.5rem 0.5rem;
-
-          .self-class-time-title {
-            position: relative;
-            height: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-
-            &::after {
-              content: '';
-              position: absolute;
-              width: 100%;
-              background-color: var(--main-blue);
-              height: 0.2rem;
-              top: 1.5rem;
-              right: 0rem;
-            }
-
-            .title {
-              font-weight: 700;
-              font-size: 1rem;
-            }
-          }
-
-          .self-class-time-calendar {
-            margin-top: 2rem;
-            width: 20rem;
-          }
-        }
-      }
-
-      .notice-container {
-        width: 100%;
-        margin: 0 0 0.5rem 0;
-
-        .teacher-notice {
-          padding: 0.5rem 0 0.5rem 0.5rem;
-
-          .teacher-notice-title {
-            position: relative;
-            height: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-
-            &::after {
-              content: '';
-              position: absolute;
-              width: 100%;
-              background-color: var(--main-blue);
-              height: 0.2rem;
-              top: 1.5rem;
-              right: 0rem;
-            }
-
-            .title {
-              font-weight: 700;
-              font-size: 1rem;
-            }
-          }
-
-          .teacher-notice-description {
-            margin: 1rem 0 0 -1.8rem;
-            font-size: 0.8rem;
-
-            .teacher-notice-description-item {
-              .item {
-                list-style-type: disc;
-                margin-left: -0.8rem;
-              }
-
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .form-right {
-
-    .self-comment {
-      width: 100%;
-      padding: 1rem 2.5rem 1rem 0;
-
-      .self-comment-title-rating {
-        display: flex;
-
-        .self-comment-title {
-          font-size: 1rem;
-          font-weight: 900;
-          align-items: center;
-
-          .title {
-            font-size: 1rem;
-          }
-        }
-
-        .rating-img {
-          margin: 0 0.5rem 0.8rem 0.5rem;
-
-        }
-
-      }
-
-      .class-comment-info {
+    .form-left {
+      .card-container {
+        padding: 1rem 3.5rem 1rem 2.5rem;
         display: flex;
         flex-direction: column;
-        width: 100%;
 
-        .class-comment-info-card {
-          margin: 1rem 0 0 0;
+        .self-card-container {
+          display: flex;
+          height: 12rem;
+          width: 100%;
+          border-radius: 0.625rem;
+          box-shadow: 1px 3px 5px 1px var(--grey-light);
+          -webkit-box-shadow: 1px 3px 5px 1px var(--main-blue25);
+          -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
+          -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
 
-          border: none;
-
-          .class-comment-info-card-body {
-            box-shadow: 0px 3px 2px 1px var(--main-blue);
-            -webkit-box-shadow: 0px 3px 5px 1px var(--grey-light);
-            -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
-            -o-box-shadow: 0px 3px 5px 1px var(--grey-light);
+          .self-card-img {
+            width: 9.7rem;
+            object-fit: cover;
+            margin: 1rem 2rem 1rem 1rem;
             border-radius: 0.625rem;
+          }
 
-            .card-container {
+          .self-info-container {
+            margin: 1rem 0 1rem 0;
+            display: flex;
+            flex-direction: column;
+
+            .self-name-nation-container {
               display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
 
-              .card-img {
-                width: 3.75rem;
-                height: 2.5rem;
-
-                .class-comment {
-                  border-radius: 50%;
-                  height: 2.5rem;
-                  width: 2.5rem;
-                }
-              }
-
-              .card-title {
-                margin: 0 1.5rem 0.3rem 0;
-
-                .title {
-                  font-size: 1rem;
-                  font-weight: 700;
-                }
-
-                .date {
-                  font-size: 0.7rem;
-                  font-weight: 400;
-                }
-              }
-
-              .card-rating {
-
+              .self-nation {
                 display: flex;
 
-                .rating {
-                  height: 0.7rem;
-                  width: 0.7rem;
+                .self-name {
+                  padding-left: 0.5rem;
+                  padding-top: 0.5rem;
+                  font-weight: 700;
                 }
-
-                .rating-num {
-                  font-size: 0.7rem;
-                  margin-left: 0.2rem;
-                }
-
               }
             }
 
-            .card-description {
-              .class-comment-description {
-                font-size: 0.8rem;
+            .self-category-container {
+              .self-category {
+                display: flex;
+
+                .self-teacher-item {
+                  padding: 0 0.268rem 0 0.268rem;
+                  margin: 0 0.268rem 0.268rem 0;
+                  border-radius: 3px;
+                  background-color: var(--main-blue25);
+                  font-size: 0.8rem;
+                  font-weight: 600;
+                }
+              }
+            }
+          }
+
+        }
+
+        .introduction-container {
+          margin: 2rem 0 2rem 0;
+          width: 100%;
+          border: none;
+
+          .self-introduction {
+            padding: 0.5rem 0 0.5rem 0.5rem;
+
+            .self-introduction-title {
+              position: relative;
+              height: 1.5rem;
+              display: flex;
+              justify-content: space-between;
+
+              &::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                background-color: var(--main-blue);
+                height: 0.2rem;
+                top: 1.5rem;
+                right: 0rem;
+              }
+
+              .title {
+                font-weight: 700;
+                font-size: 1rem;
+              }
+
+            }
+          }
+
+          .self-info-description {
+            margin: 0.5rem 0.5rem 0 0.5rem;
+            font-size: 0.8rem;
+            min-height: 5.3rem;
+          }
+
+        }
+
+        .teacherstyle-container {
+          width: 100%;
+          margin: 0 0 2rem 0;
+
+          .self-teaching-style {
+            padding: 0.5rem 0 0.5rem 0.5rem;
+
+            .self-teaching-style-title {
+              position: relative;
+              height: 1.5rem;
+              display: flex;
+              justify-content: space-between;
+
+              &::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                background-color: var(--main-blue);
+                height: 0.2rem;
+                top: 1.5rem;
+                right: 0rem;
+              }
+
+              .title {
+                font-weight: 700;
+                font-size: 1rem;
+              }
+            }
+          }
+
+          .self-teaching-style-description {
+            margin: 0.5rem 1rem 0 1rem;
+            font-size: 0.8rem;
+            min-height: 5.3rem;
+          }
+
+        }
+
+        .classtime-container {
+          width: 100%;
+          margin: 0 0 2rem 0;
+
+          .self-class-time {
+            padding: 0.5rem 0 0.5rem 0.5rem;
+
+            .self-class-time-title {
+              position: relative;
+              height: 1.5rem;
+              display: flex;
+              justify-content: space-between;
+
+              &::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                background-color: var(--main-blue);
+                height: 0.2rem;
+                top: 1.5rem;
+                right: 0rem;
+              }
+
+              .title {
+                font-weight: 700;
+                font-size: 1rem;
               }
             }
 
+            .self-class-time-calendar {
+              margin-top: 2rem;
+              width: 20rem;
+            }
           }
         }
-      }
 
-      .card-link {
-        margin-top: 1rem;
-        width: 18rem;
+        .notice-container {
+          width: 100%;
+          margin: 0 0 0.5rem 0;
 
-        .link {
-          width: 18rem;
-          font-size: 0.8rem;
-          border-color: var(--main-blue);
-          color: var(--main-blue);
+          .teacher-notice {
+            padding: 0.5rem 0 0.5rem 0.5rem;
+
+            .teacher-notice-title {
+              position: relative;
+              height: 1.5rem;
+              display: flex;
+              justify-content: space-between;
+
+              &::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                background-color: var(--main-blue);
+                height: 0.2rem;
+                top: 1.5rem;
+                right: 0rem;
+              }
+
+              .title {
+                font-weight: 700;
+                font-size: 1rem;
+              }
+            }
+
+            .teacher-notice-description {
+              margin: 1rem 0 0 -1.8rem;
+              font-size: 0.8rem;
+
+              .teacher-notice-description-item {
+                .item {
+                  list-style-type: disc;
+                  margin-left: -0.8rem;
+                }
+
+              }
+            }
+          }
         }
       }
     }
 
-  }
+    .form-right {
 
-     .edit-button {
-       margin-right: 2rem;
-     }
-}
+      .self-comment {
+        width: 100%;
+        padding: 1rem 2.5rem 1rem 0;
+
+        .self-comment-title-rating {
+          display: flex;
+
+          .self-comment-title {
+            font-size: 1rem;
+            font-weight: 900;
+            align-items: center;
+
+            .title {
+              font-size: 1rem;
+            }
+          }
+
+          .rating-img {
+            margin: 0 0.5rem 0.8rem 0.5rem;
+
+          }
+
+        }
+
+        .class-comment-info {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+
+          .class-comment-info-card {
+            margin: 1rem 0 0 0;
+
+            border: none;
+
+            .class-comment-info-card-body {
+              box-shadow: 0px 3px 2px 1px var(--main-blue);
+              -webkit-box-shadow: 0px 3px 5px 1px var(--grey-light);
+              -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
+              -o-box-shadow: 0px 3px 5px 1px var(--grey-light);
+              border-radius: 0.625rem;
+
+              .card-container {
+                display: flex;
+                justify-content: space-between;
+
+                .card-img {
+                  width: 3.75rem;
+                  height: 2.5rem;
+
+                  .class-comment {
+                    border-radius: 50%;
+                    height: 2.5rem;
+                    width: 2.5rem;
+                  }
+
+                }
+
+                .card-title {
+                  margin: 0 0 0.3rem 0;
+
+                  .title {
+                    font-size: 1rem;
+                    font-weight: 700;
+                  }
+
+                  .date {
+                    font-size: 0.7rem;
+                    font-weight: 400;
+                  }
+                }
+
+                .card-rating {
+                  display: flex;
+
+                  .rating {
+                    height: 0.7rem;
+                    width: 0.7rem;
+                  }
+
+                  .rating-num {
+                    font-size: 0.7rem;
+                    margin-left: 0.2rem;
+                  }
+
+                }
+              }
+
+              .card-description {
+                .class-comment-description {
+                  font-size: 0.8rem;
+                }
+              }
+
+            }
+          }
+        }
+
+        .card-link {
+          margin-top: 1rem;
+          width: 100%;
+
+          .link {
+            width: 100%;
+            font-size: 0.8rem;
+            border-color: var(--main-blue);
+            color: var(--main-blue);
+
+            &:hover {
+              background-color: transparent;
+            }
+          }
+        }
+      }
+
+    }
+
+    .edit-button {
+
+      .btn-cancel,
+      .btn-save {
+        font-size: 0.875rem;
+        width: 8%;
+        height: 2.2rem;
+      }
+
+      .btn-cancel {
+        background-color: transparent;
+        color: var(--main-blue);
+        border-color: var(--main-blue);
+        margin-right: 1rem;
+
+        &:hover {
+          box-shadow: 0px 4px 4px rgba(59, 38, 220, 0.789);
+          background-color: transparent;
+          color: var(--main-blue);
+          border-color: var(--main-blue);
+        }
+      }
+
+      .btn-save {
+        background-color: var(--main-blue);
+        border: none;
+      }
+    }
+  }
 
 @media screen and (min-width: 1081px) {
 .div-container {
@@ -947,7 +975,7 @@
         
                       .rating-img {
                         margin: 0 0.5rem 0.8rem 0.5rem;
-        
+                        
                       }
         
                     }
@@ -971,7 +999,7 @@
         
                           .card-container {
                             display: flex;
-        
+                            justify-content: space-between;
                             .card-img {
                               width: 3.75rem;
                               height: 2.5rem;
@@ -981,10 +1009,11 @@
                                 height: 2.5rem;
                                 width: 2.5rem;
                               }
+
                             }
-        
-                            .card-title {
-                              margin: 0 1.5rem 0.3rem 0;
+
+                           .card-title {
+                              margin: 0 0 0.3rem 0;
         
                               .title {
                                 font-size: 1rem;
@@ -995,12 +1024,11 @@
                                 font-size: 0.7rem;
                                 font-weight: 400;
                               }
-                            }
-        
+                            }       
+
                             .card-rating {
-        
                               display: flex;
-        
+
                               .rating {
                                 height: 0.7rem;
                                 width: 0.7rem;
@@ -1041,6 +1069,7 @@
                   }
         
                 }
+
   .edit-button {
     .btn-cancel,
     .btn-save{

@@ -209,11 +209,11 @@ const handleCategoryChange = (selectedCategoryItemId) => {
 
         <div className="teacher-category-container" >
          <div className="teacher-category" >
-      {teacher.teaching_categories.map((category,index) => (
-      <div className="teacher-item" key={`${category.categoryId}-${index}`}>
-          {category.Category.name}
-                </div>
-              ))}
+ {[...new Set(teacher.teaching_categories.map(category => category.Category.name))].map((category, index) => (
+      <div className="teacher-item" key={index}>
+        {category}
+      </div>
+    ))}
               
 </div>
 

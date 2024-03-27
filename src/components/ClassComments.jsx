@@ -50,14 +50,19 @@ const filteredCourses = teacherDetails.Courses.filter(course => {
                <Card key={index} className="class-comment-info-card">
             <Card.Body className="class-comment-info-card-body">
               <div className="card-container">
-                <div className="card-img">
-                  <CardImg className="class-comment" src={course.image} alt={course.name} />
-                </div>
+                <div className="card-img-title d-flex">
+                  <div className='card-img'>
+                <CardImg className="class-comment" src={course.image} alt={course.name} />
+
+                  </div>
 
                 <div className="card-title">
                   <Card.Title className="title">{course.name}</Card.Title>
                   <Card.Title className="date">{course.startAt}</Card.Title>
                 </div>
+                </div>
+
+
 
                 <div className="card-rating">
                   <img className="rating" src={Rating} alt="rating" />

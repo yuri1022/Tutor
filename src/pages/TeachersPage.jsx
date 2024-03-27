@@ -25,7 +25,8 @@ const TeachersPage = () => {
   const [isCalendarExpanded, setIsCalendarExpanded] = useState(true);
   const [isNoticeExpanded, setIsNoticeExpanded] = useState(true);
   const [reserveModalOpen,setIsReserveModalOpen]= useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [ isOpen,setIsOpen] = useState(false);
+
   const loginModal = useRef(null);
 
 
@@ -61,10 +62,12 @@ const TeachersPage = () => {
 
     const openLoginModal = () => {
     loginModal.current.show();
+    setIsOpen(true);
   };
 
   const closeLoginModal = () => {
-    loginModal.current.hide();  
+    loginModal.current.hide();
+    setIsOpen(false);
   };
 
   useEffect(()=>{
@@ -77,11 +80,15 @@ const TeachersPage = () => {
     if (state.isLogin===false) {
     return (
     <div>
-      <div>
+      <div className="teacher-redirect d-flex col-12">
+      <div className="title" style={{padding:'1rem'}}>
         請登入以查看完整教師資訊
       </div>
-      <Button onClick={openLoginModal}>登入</Button>
-       <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
+        <Button onClick={openLoginModal}>登入</Button>
+       <LoginModal show={openLoginModal} onHide={closeLoginModal} />
+      </div>
+
+
       </div>)
      ;
   }
