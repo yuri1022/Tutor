@@ -34,44 +34,60 @@
   .rbc-toolbar-top {
     display: flex;
     justify-content: space-between;
-
-    .rbc-btn-group-month-option {
+    .rbc-btn-group-month {
+      select{
       color: var(--main-blue);
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 700;
-      font-size: 18px;
-      line-height: 22px;
-
-
-    }
-
-    .rbc-btn-group-year {
-
-      .year-control {
-        border: 0;
-      }
-
-      .year {
         font-family: 'Inter';
         font-style: normal;
         font-weight: 700;
         font-size: 18px;
         line-height: 22px;
-        /* identical to box height */
-        color: var(--main-blue);
-        /* Inside auto layout */
-        flex: none;
-        order: 1;
-        flex-grow: 0;
+        background-color: transparent;
+        border: none;
+        option{
+          background-color: var(--white);
+          color: black;
+        }
       }
+
     }
+
+    .rbc-btn-group-year {
+       select {
+          color: var(--main-blue);
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 22px;
+          background-color: transparent;
+          border: none;
+        option {
+            background-color: var(--white);
+            color: black;
+          }
+        }
+        
+      }
+
+
+
 
   }
 
+  .control-states {
+    .week-control {
+      .rbc-btn-group-year {
+      .year-control {
+          border: none;
+          }
+        }
+      }
+    }
+
   .reserve {
     display: flex;
-    justify-content: flex-end;
+    align-items: end;
     background-color: transparent;
   }
 

@@ -234,7 +234,7 @@ useEffect(() => {
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
     return (
-    <div className={event.reserved ? 'reserved' : 'not-reserved'}>
+    <div className={event.reserved ? 'reserved' : 'not-reserved'} onClick={() => handleEventClick(event)}>
       {`${start}`}
     </div>
 

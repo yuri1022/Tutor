@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import icon_google from './../assets/images/svg/icon_google.svg';
 import PropTypes from 'prop-types';
+import { Modal } from 'react-bootstrap';
+
 const LoginModal = ({closeLoginModal,onNavbar}) =>{
     const [mode ,setMode] = useState('signup');
     const [ email,setEmail ] = useState('');

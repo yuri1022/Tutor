@@ -67,6 +67,19 @@ const eventsWithCategoryId = events.map(event => ({
 const CustomToolbar = (toolbar) => {
 const [showAddModal, setShowAddModal] = useState(false);
 
+ const handleYearChange = (event) => {
+    const newYear = parseInt(event.target.value, 10);
+    const newDate = moment(toolbar.date).set('year', newYear);
+    toolbar.onNavigate('DATE', newDate);
+  };
+
+  const handleMonthChange = (event) => {
+    const newMonth = parseInt(event.target.value, 10);
+    const newDate = moment(toolbar.datel).set('month', newMonth);
+    toolbar.onNavigate('DATE', newDate);
+  };
+
+
 
  const handlePlusClick = () => {
     setShowAddModal(true);
@@ -137,22 +150,45 @@ useEffect(() => {
 
       <div className="rbc-toolbar-top" >
 
-      <span className="rbc-btn-group-year">
+       <span className="rbc-btn-group-month">
+        <select value={moment(toolbar.date).month()} onChange={handleMonthChange}>
+          {moment.months().map((month, index) => (
+            <option key={index} value={index}>{month}</option>
+          ))}
+        </select>
+        </span>
+        <span className="rbc-btn-group-year">
+        <select value={moment(toolbar.date).year()} onChange={handleYearChange}>
+          {Array.from({ length: 10 }, (_, i) => moment(toolbar.date).year() - 5 + i).map((year) => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
+        </span>
+  
+
+      </div>
+            <div className="control-states d-flex" style={{justifyContent:'space-between'}}>
+      <div className="week-control">
+
+        <span className="rbc-btn-group-year">
         <button type="button" className="year-control" onClick={goToBack}>
           <img src={LeftArrow} alt="" />
         </button>           
         <button type="button" className="year-control" onClick={goToNext}>
           <img src={RightArrow} alt="" />
         </button>
-      </span>
-
+      </span>   
 
       </div>
+   
 
       <div className="reserve">
         <span style={{marginRight:'1rem'}}>可預約</span>
-        <span>不可預約</span>
+        <span>已有預約</span>
       </div>
+            </div>
+
+
 
       {showAddModal&&<AddCourse showAddModal={showAddModal} onHide={handleClose} teacherDetails={teacherDetails} reloadCoursesFlag={reloadCoursesFlag}/>}
 

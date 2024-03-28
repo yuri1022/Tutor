@@ -17,13 +17,12 @@ import { Modal } from 'bootstrap';
 import { useNavigate } from "react-router-dom";
 import Flag from 'react-world-flags';
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 
 
 const fetchTeacherData = async (api,id) => {
   try {
-    
-
     const token = localStorage.getItem('token');
     const response = await axios.get(`${api}/teacher/${id}/personal`, { headers: { Authorization: `Bearer ${token}` } });
     return response.data.data;
@@ -42,7 +41,6 @@ const TeacherSelfPage = () => {
   const [isEditInfo, setIsEditInfo] = useState(false);
   const [isEditTeachingStyle, setIsEditTeachingStyle] = useState(false);
   const [isEditCourse, setIsEditCourse] = useState(false);
-
   const [editingContent, setEditingContent] = useState('');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const { id } = useParams();
@@ -52,8 +50,6 @@ const TeacherSelfPage = () => {
   const navigate = useNavigate();
 
   const api = 'http://34.125.232.84:3000';
-
-
 
  useEffect(() => {
     const fetchData = async () => {
@@ -71,53 +67,64 @@ const TeacherSelfPage = () => {
   }, [id, state]);
 
   const openLoginModal = () => {
-    loginModal.current.show();
+    loginModal.current?.show();
   };
 
   const closeLoginModal = () => {
-    loginModal.current.hide();  
+    loginModal.current?.hide();  
   };
 
   useEffect(()=>{
         loginModal.current = new Modal('#login_Modal',{
             backdrop: 'static'
         });
-    },[])
+    },[loginModal.current])
 
 const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
 
-useEffect(()=>{
-
-if (localStorage.getItem("islogin") !== "true") {
-  return (
-    <div>
-      <div>
-        請登入以查看個人檔案
+ if (localStorage.getItem("islogin") === "false") {
+    return (
+ <div className="teacher-redirect-container d-flex" style={{justifyContent:'center'}}>
+      <div className="teacher-redirect col-12 col-md-3 col-lg-3" style={{padding:'1rem'}}>
+        <div className="teacher-redirect d-flex" style={{flexDirection:'column',boxShadow:'1px 3px 5px 1px var(--main-blue25)',height:'12rem',textAlign:'center',borderRadius:'0.625rem'}}>
+        <div className="line"></div>
+        <div className="top" style={{marginTop:'5%'}}>
+          <h3 style={{color:'var(--red)'}}>Notice</h3>
+        </div>
+      <div className="title">
+        <h5>請登入以查看完整個人資訊</h5> 
       </div>
-      <Button onClick={openLoginModal}>登入</Button>
-      <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
-    </div>
-  );
-} else if (userId !== parseInt(id, 10)) {
-  // 用户已登录，但ID不匹配，弹出警告并执行页面跳转
-  Swal.fire({
-    title: '警告',
-    text: '你不是這個人，請你離開',
-    icon: 'warning',
-    confirmButtonText: '確定'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // 用户点击了确认按钮，执行页面跳转
-      navigate('/home');
-    }
-  });
-  return null; 
-}
+      <div className="btn-login-back">
+      <Link to={"/home"}>
+        <Button className="close-button btn btn-light" style={{margin:'0.5rem',color:'var(--main-blue)',border:'1px solid var(--main-blue)',backgroundColor:'transparent'}}>
+          返回首頁
+        </Button>
+        </Link>
 
-},[]);
-
-
-
+       <Button onClick={openLoginModal}  style={{margin:'0.5rem'}}>登入</Button>
+      {showLoginModal&& <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />}
+      </div>
+        </div>
+      </div>
+      </div>
+    );
+  }
+  
+  if (localStorage.getItem("islogin") === "true" && userId === parseInt(id, 10)) {
+    closeLoginModal();
+  } else if (localStorage.getItem("islogin") === "true" && userId !== parseInt(id, 10)) {
+    closeLoginModal();
+    Swal.fire({
+      title: '警告',
+      text: '你不是這個人，請你離開',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 用户点击了确认按钮，执行页面跳转
+        navigate('/home');      }
+    });
+  }
 
   
   const handleEditModal = (section) => {
@@ -224,7 +231,6 @@ const handleSave = async (updatedData,editedData, section) => {
 };
 
 
-
 const handleCancel = () => {
      if (isEditInfo) {
     setEditingContent(teacherDetails.selfIntro); // 將編輯內容還原為原始內容
@@ -236,7 +242,11 @@ const handleCancel = () => {
   };
 
     if (!teacherDetails) {
-    return null; // 或者你可以渲染加载中的 UI
+    return (
+    <div>
+      正在加載中...
+    </div>)
+     ;
   }
 
   return ( 
