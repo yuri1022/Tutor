@@ -8,6 +8,8 @@ import 'react-calendar/dist/Calendar.css';
 import { useContext } from 'react';
 import { AppContext } from "../App";
 import PropTypes from 'prop-types';
+import '../assets/scss/editCourseModal.scss';
+import CalendarIcon from '../assets/images/svg/icon_calender.svg'
 
 
 const PutCourse = ({ showPutModal, onHide, event }) => {
@@ -55,6 +57,7 @@ const [courseId ,setCourseId]= useState({
 
     try {
     await putCourse(updatedFormData,courseId.courseId);
+    console.log(updatedFormData);
       onHide(); 
     } catch (error) {
       console.error('Create course failed:', error);
@@ -62,7 +65,7 @@ const [courseId ,setCourseId]= useState({
   };
 
   return (
-    <Modal show={showPutModal} onHide={onHide} centered>
+    <Modal className="show-put-modal" show={showPutModal} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title className="modal-head-title"></Modal.Title>
       </Modal.Header>
@@ -70,25 +73,32 @@ const [courseId ,setCourseId]= useState({
       <Modal.Body className="modal-body">
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="startAt">
-            <Form.Label>修改課程時間</Form.Label>
-            <div>{event.start.toLocaleString()}</div>
+            <Form.Label><h4>修改課程時間</h4></Form.Label>
+            <div className="time-container">
+              <img src={CalendarIcon} alt="時間" />
+              {event.start.toLocaleString()}
+              </div>
+              <div className="timepicker-container">
             <DateTimePicker
             value={formData.startAt}
             onChange={handleTimeChange}/>
+
+              </div>
+           
           </Form.Group>
+          <div className="btn-container d-flex">
           
-          <Button variant="primary" type="cancel" onClick={onHide}>
-            取消
+          <Button className="btn-cancel" variant="Light" type="cancel" onClick={onHide}>
+            取消更改
           </Button>
 
-          <Button variant="primary" type="submit">
+          <Button className="btn-submit" variant="primary" type="submit">
             確認修改
           </Button>
+          </div>
+
         </Form>
         
-
-        
-
 
       </Modal.Body>
 

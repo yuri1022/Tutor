@@ -123,8 +123,6 @@ useEffect(() => {
   });
 }, [toolbar.date, isEditCourse]);
 
-  useEffect(() => {
-  }, [showAddModal]);
 
   useEffect(() => {
     setShowPlusButton(true); 
@@ -139,7 +137,6 @@ useEffect(() => {
 
     useEffect(() => {
   if (!showAddModal) {
-    // PutCourse Modal 关闭后执行重新加载课程列表的逻辑
     reloadCourses();
   }
 }, [showAddModal]);
@@ -229,7 +226,7 @@ useEffect(() => {
     return (
   <div className={event.reserved ? 'reserved' : 'not-reserved'} onClick={isEditCourse ? handlePutClick : null}>
     {`${start}`}{' '}
-    {isEditCourse && showPutModal && <PutCourse showPutModal={showPutModal} onHide={handleClose} event={eventWithCategoryId} reloadCoursesFlag={reloadCoursesFlag}/>}
+    {showPutModal && <PutCourse showPutModal={showPutModal} onHide={handleClose} event={eventWithCategoryId} reloadCoursesFlag={reloadCoursesFlag}/>}
   </div>
     );
   };
