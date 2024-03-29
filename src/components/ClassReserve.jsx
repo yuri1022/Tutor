@@ -15,6 +15,7 @@ import '../assets/scss/reservemodal.scss'
 import axios from 'axios';
 import SuccessModal from './SuccessModal.jsx';
 import FailModal from './FailModal.jsx';
+import Swal from 'sweetalert2';
 
 const ClassReserve = ({ 
   teacherDetails,
@@ -51,7 +52,8 @@ const events = teacherDetails.Courses.flatMap(course => {
     reserved: isReserved,
     duration:course.duration,  
     date:course.startAt,
-    allDay:true
+    allDay:true,
+    teacherId:course.teacherId,
   };
 });
 
@@ -76,19 +78,40 @@ const handleInputCourse = (event) =>{
 
 const handleSubmit = async () => {
  try {
+const selectedEvent = events.find(event => event.id === selectedCourseId);
+  const { teacherId ,name, date, start, end } = selectedEvent;
+  console.log(teacherId);
+
+    const token = localStorage.getItem('token');
+    const courseId = selectedCourseId;
+
+    const api = 'http://34.125.232.84:3000';
 
     if (!selectedCourseId) {
       // 處理未選擇課程的情況
       console.error('請選擇課程');
       return;
     }
-  const selectedEvent = events.find(event => event.id === selectedCourseId);
-  const { name, date, start, end } = selectedEvent;
 
-    const token = localStorage.getItem('token');
-    const courseId = selectedCourseId
+     if (localStorage.getItem('changeMode') === 'teacher') {
+      Swal.fire({
+        title: '警告',
+        text: '老師身分不可預約課程',
+        icon: 'warning',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+      if (parseInt(localStorage.getItem('user_id')) === teacherId) {
+      Swal.fire({
+        title: '警告',
+        text: '你不能預約自己開的課程！',
+        icon: 'warning',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
 
-    const api = 'http://34.125.232.84:3000';
     // Make a POST request to the /course endpoint
     const response = await axios.post(
       `${api}/register/${courseId}`,{},

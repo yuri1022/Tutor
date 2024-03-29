@@ -2,10 +2,11 @@ import { useState, } from 'react';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import icon_google from './../assets/images/svg/icon_google.svg';
+import icon_fb from './../assets/images/svg/icon_facebook.svg';
 import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 
-const LoginModal = ({closeLoginModal,onNavbar}) =>{
+const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
     const [mode ,setMode] = useState('signup');
     const [ email,setEmail ] = useState('');
     const [ password,setPassword ] = useState('');
@@ -33,8 +34,21 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         ).then(res=>{
             console.log(res.data);
             setMode('login');
+            Swal.fire({
+            title: 'Success',
+            text: '註冊成功！您現在可以登入了',
+            icon: 'success',
+            confirmButtonText: '確定'
+      });
         }).catch(err=>{
             console.log(err);
+            const errorMessage= err.message;
+            Swal.fire({
+            title: 'Fail',
+            text: errorMessage,
+            icon: 'error',
+            confirmButtonText: '確定'
+      });
         })
     }
     const apiLoginSubmit = async ()=>{
@@ -62,11 +76,18 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         localStorage.setItem("islogin",true);
         localStorage.setItem("user_id",loginRes.data.id);
         localStorage.setItem("isTeacher",isTeacher);
+        localStorage.setItem("changeMode","teacher");
         //handle Login 
         if(token){
             onNavbar(id,isTeacher);
         }   
         //close modal
+        Swal.fire({
+        title: 'Success',
+        text: '登入成功！',
+        icon: 'success',
+        confirmButtonText: '確定'
+      });
         closeLoginModal();
     }
 
@@ -114,11 +135,16 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
                             <button className="btn btn-primary w-100 mb-20px"  type="submit">
                                 註冊
                             </button>
-                            {/* <div className="mb-10px">使用其他方式註冊</div>
-                            <button className="btn">
+                            <div className="mb-10px">使用其他方式註冊</div>
+                            <button className="btn" style={{border:'1px solid var(--main-blue25)',marginRight:'0.5rem'}}>
                                 <img src={icon_google}></img>
                                 google帳戶
-                            </button> */}
+                            </button>
+                            <button className="btn" style={{border:'1px solid var(--main-blue25)'}}>
+                                <img src={icon_fb}></img>
+                                Facebook帳戶
+                            </button>
+
                         </form>
                     )
                 }
@@ -138,11 +164,20 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
                             <div className="btn btn-primary w-100 mb-20px" onClick={apiLoginSubmit}>
                                 登入
                             </div>
-                            {/* <div className="mb-10px">使用其他方式登入</div>
-                            <button className="btn">
+                            <div className="mb-10px">使用其他方式登入</div>
+                            <div className="d-flex">
+                            <button className="btn" style={{border:'1px solid var(--main-blue25)',marginRight:'0.5rem'}}>
                                 <img src={icon_google}></img>
                                 google帳戶
-                            </button> */}
+                            </button>
+                            <button className="btn" style={{border:'1px solid var(--main-blue25)',marginLeft:'0.5rem'}}>
+                                <img src={icon_fb}></img>
+                                Facebook帳戶
+                            </button>
+                            </div>
+
+
+
                         </form>
                         </>
                     )

@@ -5,6 +5,8 @@ import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext';
 import { AppContext } from '../../App';
 import { applyTeacher } from '../../api/teacher';
 import countries from './data/country';
+import Swal from 'sweetalert2';
+
 const ApplyTeacherForm = () =>{
     const [validateName,setValidateName] = useState(false);
     const [ validateCountry,setValidateCountry] = useState(false);
@@ -19,6 +21,8 @@ const ApplyTeacherForm = () =>{
     const [country,setCountry] = useState('');
     const [introTxt, setIntroTxt] = useState('');
     const [teachStyle,setTeachStyle] = useState('');
+    const [reloadPage, setReloadPage] = useState(false);
+
     const [weekdays, setWeekdays] = useState({
         mon: false,
         tue: false,
@@ -87,10 +91,6 @@ const ApplyTeacherForm = () =>{
             count++;
         }
         return cg_list;
-    }
-    const changeCountryISO = ()=>{
-        const country_name = countries[country];
-        return country_name;
     }
     //checkbox
     const handleCheckboxChange_day = (e)=>{
@@ -163,14 +163,15 @@ const ApplyTeacherForm = () =>{
         }
     }
     const handleApplyTeacher = async()=>{
+     try{
         const weekday_obj = weekdayforstr();
         const category_list = categoryToList();
-        const country_name = changeCountryISO();
+        // const country_name = changeCountryISO();
         const formdata = {
             name:teachername,
             email:userdata?.email,
             password: localStorage.getItem("password"),
-            nation: country_name,
+            nation: country,
             selfIntro: introTxt,
             teachStyle:teachStyle,
             ...weekday_obj,
@@ -178,9 +179,29 @@ const ApplyTeacherForm = () =>{
         }
         console.log(formdata);
         const applyres= await applyTeacher(userdata.id,formdata);
-        navigate('/');
-
+        localStorage.setItem("isTeacher", "1"); 
+        Swal.fire({
+            title: 'Success',
+            text: '申請成功，您現在具有老師身分了！',
+            icon: 'success',
+            confirmButtonText: '確定'
+            }).then((result) => {
+        if (result.isConfirmed) {
+          setReloadPage(true);
+        }
+    });
+        
+    }catch (error) {
+    console.error('Error applying for teacher:', error);
+  }
+};
+    useEffect(()=>{
+    if (reloadPage) {
+      navigate('/home'); // 根据需要跳转到相应的页面
+      setReloadPage(false); // 重置 reloadPage 状态，避免重复触发
     }
+    },[reloadPage]);
+
     // console.log('errors:',errors);
     // console.log(errors.teachername);
     useEffect(()=>{
@@ -188,6 +209,8 @@ const ApplyTeacherForm = () =>{
         setTeachername(student_data.name);
         setIntroTxt(student_data.selfIntro);
     },[])
+
+
         return(
             <div>
                 <form  className=" h-100 applyForm" >

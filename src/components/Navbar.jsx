@@ -130,7 +130,13 @@ const Navbar = (props) =>{
     },[])
     useEffect(()=>{
 
-    },[localStorage.getItem("islogin")])
+    },[localStorage.getItem("islogin")]);
+
+    const handleModeChange = (mode) => {
+     // 将 changeMode 更新为传入的 mode 值
+     localStorage.setItem('changeMode', mode);
+    };
+
     return(
         <>
         {
@@ -157,13 +163,14 @@ const Navbar = (props) =>{
                                     (<div></div>)
                                 }
                                 {
-                                    (parseInt(localStorage.getItem("isTeacher"))===1 && state.isApply===false) &&
-                                    (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>)
+                                    (parseInt(localStorage.getItem("isTeacher"))===1 && state.isApply===false && localStorage.getItem("changeMode")==="teacher") &&
+                                    (<Link className="nav-link" to="/homepage" onClick={() => handleModeChange('student')}>切換回學生頁面</Link>
+)
           
                                 }
                                 {
                                     (parseInt(localStorage.getItem("isTeacher"))===1 && localStorage.getItem("changeMode")==="student") &&
-                                    (<Link className="nav-link" to = '/homepage'>切換回老師頁面</Link>)
+                                    (<Link className="nav-link" to = '/homepage' onClick={() => handleModeChange('teacher')}>切換回老師頁面</Link>)
                                 }
                                 {
                                     (parseInt(localStorage.getItem("isTeacher"))===0 && state.isApply===false) &&
@@ -187,7 +194,7 @@ const Navbar = (props) =>{
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
                             <img className="avatar-img" src={state.logindata?.data?.avatar}/>
                             </Dropdown.Toggle>
-                            {state.isTeacher===1 ?
+                            {state.isTeacher===1 && localStorage.getItem("changeMode")==="teacher" ?
                             (    
                             <Dropdown.Menu>
                             <Dropdown.Item href={`/teacher/${state.logindata?.data?.id}/personal`}>個人檔案</Dropdown.Item>
