@@ -35,8 +35,8 @@ const Students_profile = () =>{
                                 <div>
                                     <div className="text-title mb-10px">我的學習名次</div>
                                     <div className="rank-block">
-                                        <div>999</div>
-                                        <div>8700hr</div>
+                                        <div>{student_data.studyRank}</div>
+                                        <div>{student_data.studyHours}hr</div>
                                     </div>
                                 </div>
                                 <div className="intro-block mb-40px">

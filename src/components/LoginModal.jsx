@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import icon_google from './../assets/images/svg/icon_google.svg';
 import PropTypes from 'prop-types';
+import { Modal } from 'react-bootstrap';
+
 const LoginModal = ({closeLoginModal,onNavbar}) =>{
     const [mode ,setMode] = useState('signup');
     const [ email,setEmail ] = useState('');
@@ -102,12 +104,12 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
                                 })}  placeholder="請輸入信箱"/>
                             </div>
                             <div className="input-bar mb-10px">
-                                <label className={`form-control input-login-label ${errors.password && 'is-wrong'}`}>密碼</label>
-                                <input  className={`form-control input-login-right ${errors.password && 'is-invalid'}`} {...register("password",{required: true , maxLegnth: 20})}  placeholder="請輸入密碼"/>
+                                <label  className={`form-control input-login-label ${errors.password && 'is-wrong'}`}>密碼</label>
+                                <input type="password" className={`form-control input-login-right ${errors.password && 'is-invalid'}`} {...register("password",{required: true , maxLegnth: 20})}  placeholder="請輸入密碼"/>
                             </div>
                             <div className="input-bar mb-10px">
                                 <label className={`form-control input-login-label ${errors.repassword && 'is-wrong'}`}>確認</label>
-                                <input   className={`form-control input-login-right ${errors.repassword && 'is-invalid'}`} {...register("repassword",{required: true , maxLegnth: 20})}  placeholder="請再次輸入密碼"/>
+                                <input  type="password" className={`form-control input-login-right ${errors.repassword && 'is-invalid'}`} {...register("repassword",{required: true , maxLegnth: 20})}  placeholder="請再次輸入密碼"/>
                             </div>
                             <button className="btn btn-primary w-100 mb-20px"  type="submit">
                                 註冊
@@ -131,7 +133,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
                             </div>
                             <div className="input-bar mb-10px">
                                 <label className={`form-control input-login-label`}>密碼</label>
-                                <input value={password} onChange={(e)=>{setPassword(e.target.value)}}  className={`form-control input-login-right `}   placeholder="請輸入密碼"/>
+                                <input  type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}}  className={`form-control input-login-right `}   placeholder="請輸入密碼"/>
                             </div>
                             <div className="btn btn-primary w-100 mb-20px" onClick={apiLoginSubmit}>
                                 登入

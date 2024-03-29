@@ -30,7 +30,7 @@ const TeacherGoClassModal = ({ show, handleCourseClose,selectedCourse }) => {
 
 
                         <div className="reserve-button-list d-flex" style={{width:'100%',justifyContent:'space-between'}}>
-                            <Button type="button" className="btn btn-decline-regisiter" onClick={handleCourseClose} style={{width:'45%',backgroundColor:'var(--pink)',border:'none',height:'2.56rem'}}>取消預約</Button>
+                            <Button type="button" className="btn btn-decline-regisiter" onClick={handleCourseClose} style={{width:'45%',backgroundColor:'var(--pink)',border:'none',height:'2.56rem'}}>關閉視窗</Button>
                             <Button type="button" className="btn btn-goclass" style={{backgroundImage: 'linear-gradient(180deg, #1AEAEA 0%, #3652E3 100%)',border:'none',width:'45%',height:'2.56rem'}}>開始上課</Button>
                         </div>
                     </div>

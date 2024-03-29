@@ -8,6 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import { useContext } from 'react';
 import { AppContext } from "../App";
+import '../assets/scss/addCourseModal.scss'
 
 
 const AddCourse = ({ showAddModal, onHide ,teacherDetails}) => {
@@ -47,15 +48,13 @@ const teacherId = state.logindata.data.id;
   const updatedFormData = {
     ...formData,
     category: [parseInt(formData.category, 10)],
-    startAt:moment(formData.startAt).format('YYYY-MM-DD HH:mm:ss')
+    startAt:moment(formData.startAt),
+    duration:parseInt(formData.duration, 10),
   };
 
-
     try {
-    const requestBody = JSON.stringify(updatedFormData)
-
-      await createCourse(requestBody);
-      console.log(requestBody);
+      await createCourse(updatedFormData);
+      console.log(updatedFormData);
       onHide(); 
       // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
     } catch (error) {
@@ -63,24 +62,31 @@ const teacherId = state.logindata.data.id;
     }
   };
 
-const categoryOption = teacherDetails.teaching_categories.map(category => (
-  <option key={category.categoryId} value={category.Category.name}>
-    {category.Category.name}
+const categoryMap = {};
+
+teacherDetails.teaching_categories.forEach(category => {
+  categoryMap[category.categoryId] = category.Category.name;
+});
+
+console.log(categoryMap);
+
+const categoryOption = Object.entries(categoryMap).map(([categoryId, categoryName]) => (
+  <option key={categoryId} value={categoryId}>
+    {categoryName}
   </option>
 ));
-// console.log(categoryOption)
+console.log(categoryOption)
 
   return (
-    <Modal show={showAddModal} onHide={onHide}>
+    <Modal className="show-add-modal" show={showAddModal} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title className="modal-head-title"></Modal.Title>
       </Modal.Header>
 
- <Modal.Body className="modal-body">
-        <Form onSubmit={handleSubmit}>
+    <Modal.Body className="modal-body">
+        <Form className="create-form" onSubmit={handleSubmit}>
 
-
-        <Form.Group controlId="name">
+        <Form.Group className="create-name d-flex" controlId="name">
             <Form.Label>課程名稱</Form.Label>
             <Form.Control
               type="text"
@@ -89,7 +95,7 @@ const categoryOption = teacherDetails.teaching_categories.map(category => (
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="intro">
+          <Form.Group className="create-intro d-flex" controlId="intro">
             <Form.Label>課程介紹</Form.Label>
             <Form.Control
               type="text"
@@ -99,8 +105,8 @@ const categoryOption = teacherDetails.teaching_categories.map(category => (
             />
           </Form.Group>
 
-        <Form.Group controlId="category">
-            <Form.Label>類別</Form.Label>
+        <Form.Group className="create-category d-flex" controlId="category">
+            <Form.Label>課程類別</Form.Label>
   <Form.Select
     name="category"
     value={formData.category}
@@ -108,14 +114,14 @@ const categoryOption = teacherDetails.teaching_categories.map(category => (
   >
     <option value="">請選擇類別</option>
   {categoryOption.map((category, index) => (
-    <option key={category.key} value={category.key}> {/* 修改这里 */}
+    <option key={category.key} value={category.key}>
       {category.props.children}
     </option>
   ))}
   </Form.Select>
           </Form.Group>
 
-          <Form.Group controlId="link">
+          <Form.Group className="create-link d-flex" controlId="link">
             <Form.Label>課程連結</Form.Label>
             <Form.Control
               type="text"
@@ -125,8 +131,8 @@ const categoryOption = teacherDetails.teaching_categories.map(category => (
             />
           </Form.Group>
 
-          <Form.Group controlId="duration">
-            <Form.Label>時長</Form.Label>
+          <Form.Group className="create-duration d-flex" controlId="duration">
+            <Form.Label>課程時長</Form.Label>
   <Form.Select
   name="duration"
   value={formData.duration}
@@ -140,16 +146,23 @@ const categoryOption = teacherDetails.teaching_categories.map(category => (
 
           </Form.Group>
 
-        <Form.Group controlId="startAt">
-            <Form.Label>時段</Form.Label>
+        <Form.Group controlId="startAt" className="create-startat d-flex">
+            <Form.Label>課程時段</Form.Label>
             <DateTimePicker
-            defaultValue={formData.startAt}
+            value={formData.startAt}
              onChange={handleTimeChange} />
           </Form.Group>
+          <div className="btn-container d-flex">
 
-          <Button variant="primary" type="submit">
+          <Button className="btn-cancel" variant="Light" type="cancel" onClick={onHide}>
+            取消
+          </Button>
+
+          <Button className="btn-submit" variant="primary" type="submit">
             創建課程
           </Button>
+
+          </div>
         </Form>
       </Modal.Body>
 

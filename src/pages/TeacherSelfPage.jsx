@@ -17,13 +17,10 @@ import { Modal } from 'bootstrap';
 import { useNavigate } from "react-router-dom";
 import Flag from 'react-world-flags';
 import Swal from "sweetalert2";
-
-
+import { Link } from "react-router-dom";
 
 const fetchTeacherData = async (api,id) => {
   try {
-    
-
     const token = localStorage.getItem('token');
     const response = await axios.get(`${api}/teacher/${id}/personal`, { headers: { Authorization: `Bearer ${token}` } });
     return response.data.data;
@@ -35,25 +32,22 @@ const fetchTeacherData = async (api,id) => {
 };
 
 
-
 const TeacherSelfPage = () => {
   const [editingSection, setEditingSection] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isEditInfo, setIsEditInfo] = useState(false);
   const [isEditTeachingStyle, setIsEditTeachingStyle] = useState(false);
   const [isEditCourse, setIsEditCourse] = useState(false);
-
   const [editingContent, setEditingContent] = useState('');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const { id } = useParams();
   const { state } = useContext(AppContext);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [teacherDetailsChanged,setTeacherDetailsChanged]=useState(false);
   const loginModal = useRef(null);
   const navigate = useNavigate();
 
   const api = 'http://34.125.232.84:3000';
-
-
 
  useEffect(() => {
     const fetchData = async () => {
@@ -68,56 +62,71 @@ const TeacherSelfPage = () => {
     };
 
     fetchData();
-  }, [id, state]);
+
+    if (teacherDetailsChanged){
+      setTeacherDetailsChanged(false);
+    }
+  }, [id, state,setTeacherDetails,teacherDetailsChanged]);
 
   const openLoginModal = () => {
-    loginModal.current.show();
+    loginModal.current?.show();
   };
 
   const closeLoginModal = () => {
-    loginModal.current.hide();  
+    loginModal.current?.hide();  
   };
 
   useEffect(()=>{
         loginModal.current = new Modal('#login_Modal',{
             backdrop: 'static'
         });
-    },[])
+    },[loginModal.current])
 
 const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
 
-useEffect(()=>{
-
-if (localStorage.getItem("islogin") !== "true") {
-  return (
-    <div>
-      <div>
-        請登入以查看個人檔案
+ if (localStorage.getItem("islogin") === "false") {
+    return (
+ <div className="teacher-redirect-container d-flex" style={{justifyContent:'center'}}>
+      <div className="teacher-redirect col-12 col-md-3 col-lg-3" style={{padding:'1rem'}}>
+        <div className="teacher-redirect d-flex" style={{flexDirection:'column',boxShadow:'1px 3px 5px 1px var(--main-blue25)',height:'12rem',textAlign:'center',borderRadius:'0.625rem'}}>
+        <div className="line"></div>
+        <div className="top" style={{marginTop:'5%'}}>
+          <h3 style={{color:'var(--red)'}}>Notice</h3>
+        </div>
+      <div className="title">
+        <h5>請登入以查看完整個人資訊</h5> 
       </div>
-      <Button onClick={openLoginModal}>登入</Button>
-      <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
-    </div>
-  );
-} else if (userId !== parseInt(id, 10)) {
-  // 用户已登录，但ID不匹配，弹出警告并执行页面跳转
-  Swal.fire({
-    title: '警告',
-    text: '你不是這個人，請你離開',
-    icon: 'warning',
-    confirmButtonText: '確定'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // 用户点击了确认按钮，执行页面跳转
-      navigate('/home');
-    }
-  });
-  return null; 
-}
+      <div className="btn-login-back">
+      <Link to={"/home"}>
+        <Button className="close-button btn btn-light" style={{margin:'0.5rem',color:'var(--main-blue)',border:'1px solid var(--main-blue)',backgroundColor:'transparent'}}>
+          返回首頁
+        </Button>
+        </Link>
 
-},[]);
-
-
-
+       <Button onClick={openLoginModal}  style={{margin:'0.5rem'}}>登入</Button>
+      {showLoginModal&& <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />}
+      </div>
+        </div>
+      </div>
+      </div>
+    );
+  }
+  
+  if (localStorage.getItem("islogin") === "true" && userId === parseInt(id, 10)) {
+    closeLoginModal();
+  } else if (localStorage.getItem("islogin") === "true" && userId !== parseInt(id, 10)) {
+    closeLoginModal();
+    Swal.fire({
+      title: '警告',
+      text: '你不是這個人，請你離開',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 用户点击了确认按钮，执行页面跳转
+        navigate('/home');      }
+    });
+  }
 
   
   const handleEditModal = (section) => {
@@ -162,13 +171,10 @@ if (localStorage.getItem("islogin") !== "true") {
 
 const handleSave = async (updatedData,editedData, section) => {
 
-  //  console.log("從 TeacherEditInfo 收到的 updatedData：", updatedData)
-  //  console.log('我在編輯intro嗎',isEditInfo)
-
   try {
     const token = localStorage.getItem('token');
-    const originalCategory = (teacherDetails.teaching_categories.map(categories => categories.categoryId))
-    console.log(originalCategory)
+    const originalCategory =  [...new Set(teacherDetails.teaching_categories.map(category => category.categoryId))]
+
     console.log(updatedData.category)
 
    const requestData = {
@@ -210,9 +216,9 @@ const handleSave = async (updatedData,editedData, section) => {
       ...prevTeacher,
       [section]: response.data.data[section] || prevTeacher[section],
     }));
-      
     setEditingContent(editedData[section] || '');
-    
+    setTeacherDetailsChanged(true);
+    console.log(teacherDetailsChanged);
     closeEdit();
     setIsEditInfo(false);
     setIsEditTeachingStyle(false);
@@ -236,7 +242,11 @@ const handleCancel = () => {
   };
 
     if (!teacherDetails) {
-    return null; // 或者你可以渲染加载中的 UI
+    return (
+    <div>
+      正在加載中...
+    </div>)
+     ;
   }
 
   return ( 
@@ -293,9 +303,8 @@ const handleCancel = () => {
         <div className="self-introduction-title">
           <h6 className="title">簡介</h6>
         {isEditInfo ? (
-          <div className="edit-button" style={{position:'absolute',top:'9.5rem',right:'2rem'}}>
-        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('selfIntro')}>取消</Button>
-        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ selfIntro: editingContent }, 'selfIntro')}>保存</Button>        
+                     <div className="edit-icon">
+                    <img src={EditImg} alt="edit" style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>                      
                     </div>
                   ) : (
                     <div className="edit-icon">
@@ -309,12 +318,19 @@ const handleCancel = () => {
       </div>
       
       {isEditInfo ? (
+        <>
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
                   onBlur={() => handleSave({ selfIntro: editingContent }, 'selfIntro')}
-                  style={{width:'95%',height:'60%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
+                  style={{width:'95%',height:'40%',fontSize:'0.8rem',margin:'0.8rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
                 />
+         <div className="edit-button">
+        <Button className="btn-cancel" variant="secondary" onClick={() => handleCancel('selfIntro')}>取消</Button>
+        <Button className="btn-save" variant="primary" onClick={() => handleSave({ selfIntro: editingContent }, 'selfIntro')}>確定</Button>        
+                    </div>
+                    </>
+
               ) : (
                 <p className="self-info-description">{teacherDetails.selfIntro}</p>
               )}
@@ -327,10 +343,8 @@ const handleCancel = () => {
           <h6 className="title">教學風格</h6>
 
           {isEditTeachingStyle ? (
-          <div className="edit-button" style={{position:'absolute',top:'16rem',right:'2rem'}}>
-        <Button variant="secondary" style={{marginRight:'1rem',fontSize:'0.8rem',width:'4rem',backgroundColor:'var(--grey-300',border:'none'}} onClick={() => handleCancel('teachStyle')}>取消</Button>            
-        <Button variant="primary" style={{backgroundColor:'var(--main-blue)',fontSize:'0.8rem',width:'4rem',border:'none'}} onClick={() => handleSave({ teachStyle: editingContent }, 'teachStyle')}>保存</Button>
-
+                    <div className="edit-icon" >
+                    <img src={EditImg} alt="edit" style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>
                     </div>
                   ) : (
                     <div className="edit-icon" >
@@ -343,13 +357,21 @@ const handleCancel = () => {
       </div>
       
       {isEditTeachingStyle ? (
+        <>
                 <textarea
                   value={editingContent}
                   onChange={(e) => setEditingContent(e.target.value)}
                   onBlur={() => handleSave({ teachStyle: editingContent }, 'teachStyle')}
-                  style={{width:'95%',height:'80%',fontSize:'0.8rem',margin:'0.5rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
+                  style={{width:'95%',height:'40%',fontSize:'0.8rem',margin:'0.5rem 1rem 0 1rem',borderColor:'var(--main-blue25)',borderRadius:'0.625rem',resize:'none'}}
                  
                 />
+                    <div className="edit-button">
+        <Button className="btn-cancel" variant="secondary" onClick={() => handleCancel('teachStyle')}>取消</Button>            
+        <Button className="btn-save" variant="primary" onClick={() => handleSave({ teachStyle: editingContent }, 'teachStyle')}>確定</Button>
+
+                    </div>
+                    </>
+                
               ) : (
                 <p className="self-teaching-style-description">{teacherDetails.teachStyle}</p>
               )}
