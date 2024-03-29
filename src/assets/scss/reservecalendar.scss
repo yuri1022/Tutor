@@ -14,6 +14,10 @@
       }
       .rbc-row-segment{
         margin-top: 0.5rem;
+        .rbc-event,
+        .rbc-event &.rbc-selected{
+          height: 1.5rem;
+        }
       }
      
     }
@@ -130,17 +134,6 @@
 
   }
 
-
-  .rbc-month-row {
-    .rbc-row-bg {
-  
-      .rbc-day-bg {
-        border: 1px solid var(--main-blue25)
-      }
-
-    }
-  }
-
 }
 
 .rbc-event.rbc-selected {
@@ -178,6 +171,33 @@
     }
   }
 
+}
 
+.rbc-allday-cell {
+  .rbc-row-bg {
 
+    .rbc-day-bg {
+      border: 1px solid var(--main-blue25);
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: flex-end;
+      .create-course {
+        margin: 0 0.5rem 0.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        width: 0.5rem;
+        height: 1rem;
+        z-index: 10;
+        cursor: pointer;
+        color: var(--white);
+        background-color: var(--main-blue);
+        border: none;
+        border-radius: 0.125rem;
+      }
+
+    }
+
+  }
 }

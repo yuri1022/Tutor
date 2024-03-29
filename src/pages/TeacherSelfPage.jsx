@@ -41,6 +41,8 @@ const TeacherSelfPage = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isEditInfo, setIsEditInfo] = useState(false);
   const [isEditTeachingStyle, setIsEditTeachingStyle] = useState(false);
+  const [isEditCourse, setIsEditCourse] = useState(false);
+
   const [editingContent, setEditingContent] = useState('');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const { id } = useParams();
@@ -146,6 +148,15 @@ if (localStorage.getItem("islogin") !== "true") {
   
   
   };
+
+  const handleEditCourse = () =>{
+    setIsEditCourse(true);
+  };
+  const closeEditCourse = () => {
+    setIsEditCourse(false);
+    setIsEditOpen(false);
+  };
+
 
   
 
@@ -349,14 +360,24 @@ const handleCancel = () => {
         <div className="self-class-time-title">
           <h6 className="title">授課時間</h6>
           <div className="edit-icon">
-          <img src={EditImg} alt="edit" onClick={handleEdit} style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}}/>
+          <img src={EditImg} alt="edit" style={{width:'1.2rem',height:'1.2rem',marginRight:'0.5rem'}} onClick={() => handleEditCourse(true)}/>
         </div>
         </div>
       </div>
       
     {/* 日曆待修改 */}
       <div className="self-class-time-calendar">
-        <MyCalendar teacherDetails={teacherDetails}/>
+  {isEditCourse ? (
+    <MyCalendar
+      teacherDetails={teacherDetails}
+      isEditCourse={isEditCourse}
+      handleEditCourse={handleEditCourse}
+      closeEditCourse={closeEditCourse}
+    />
+
+  ) : (
+    <MyCalendar teacherDetails={teacherDetails} />
+  )}
       </div>
     </div>
 
