@@ -1,7 +1,7 @@
 
 .rbc-calendar{
   width: 100%;
-  min-height: 8rem;
+  min-height: 10rem;
   .rbc-time-header-content{
     .rbc-row{
       .rbc-header{
@@ -26,7 +26,7 @@
 }
 
 .rbc-toolbar {
-
+  padding: 1.5rem 0.5rem 0 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: normal;
@@ -35,8 +35,11 @@
     display: flex;
     justify-content: space-between;
     .rbc-btn-group-month {
+      margin-right: 0.6rem;
       select{
-      color: var(--main-blue);
+        width: 7.8rem;
+        text-align: center;
+        color: var(--main-blue);
         font-family: 'Inter';
         font-style: normal;
         font-weight: 700;
@@ -70,12 +73,10 @@
         
       }
 
-
-
-
   }
 
   .control-states {
+    margin-top: 1rem;
     .week-control {
       .rbc-btn-group-year {
       .year-control {
@@ -124,7 +125,7 @@
 
 .rbc-time-view{
   .rbc-time-header{
-    min-height: 8rem;
+    min-height: 12rem;
     .rbc-label{
       display: none;
     }
@@ -190,8 +191,8 @@
 }
 
 .rbc-allday-cell {
+  height: 12rem;
   .rbc-row-bg {
-
     .rbc-day-bg {
       border: 1px solid var(--main-blue25);
       display: flex;

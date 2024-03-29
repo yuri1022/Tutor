@@ -337,6 +337,35 @@
   .pc-reserve-button{
     display: none;
   }
+    .edit-button {
+  
+      .btn-cancel,
+      .btn-save {
+        font-size: 0.875rem;
+        width: 15%;
+        height: 2rem;
+      }
+  
+      .btn-cancel {
+        background-color: transparent;
+        color: var(--main-blue);
+        border-color: var(--main-blue);
+        margin-right: 1rem;
+  
+        &:hover {
+          box-shadow: 0px 4px 4px rgba(59, 38, 220, 0.789);
+          background-color: transparent;
+          color: var(--main-blue);
+          border-color: var(--main-blue);
+        }
+      }
+  
+      .btn-save {
+        background-color: var(--main-blue);
+        border: none;
+      }
+    }
+
 }
 
 @media screen and (min-width: 481px) and (max-width: 1080px) {

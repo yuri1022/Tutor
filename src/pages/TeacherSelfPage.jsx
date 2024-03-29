@@ -19,8 +19,6 @@ import Flag from 'react-world-flags';
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
-
-
 const fetchTeacherData = async (api,id) => {
   try {
     const token = localStorage.getItem('token');
@@ -34,7 +32,6 @@ const fetchTeacherData = async (api,id) => {
 };
 
 
-
 const TeacherSelfPage = () => {
   const [editingSection, setEditingSection] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -46,6 +43,7 @@ const TeacherSelfPage = () => {
   const { id } = useParams();
   const { state } = useContext(AppContext);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [teacherDetailsChanged,setTeacherDetailsChanged]=useState(false);
   const loginModal = useRef(null);
   const navigate = useNavigate();
 
@@ -64,7 +62,11 @@ const TeacherSelfPage = () => {
     };
 
     fetchData();
-  }, [id, state]);
+
+    if (teacherDetailsChanged){
+      setTeacherDetailsChanged(false);
+    }
+  }, [id, state,setTeacherDetails,teacherDetailsChanged]);
 
   const openLoginModal = () => {
     loginModal.current?.show();
@@ -169,13 +171,10 @@ const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
 
 const handleSave = async (updatedData,editedData, section) => {
 
-  //  console.log("從 TeacherEditInfo 收到的 updatedData：", updatedData)
-  //  console.log('我在編輯intro嗎',isEditInfo)
-
   try {
     const token = localStorage.getItem('token');
-    const originalCategory = (teacherDetails.teaching_categories.map(categories => categories.categoryId))
-    console.log(originalCategory)
+    const originalCategory =  [...new Set(teacherDetails.teaching_categories.map(category => category.categoryId))]
+
     console.log(updatedData.category)
 
    const requestData = {
@@ -217,9 +216,9 @@ const handleSave = async (updatedData,editedData, section) => {
       ...prevTeacher,
       [section]: response.data.data[section] || prevTeacher[section],
     }));
-      
     setEditingContent(editedData[section] || '');
-    
+    setTeacherDetailsChanged(true);
+    console.log(teacherDetailsChanged);
     closeEdit();
     setIsEditInfo(false);
     setIsEditTeachingStyle(false);
@@ -229,6 +228,7 @@ const handleSave = async (updatedData,editedData, section) => {
     console.error('Error updating teacher:', error);
   }
 };
+
 
 
 const handleCancel = () => {

@@ -32,6 +32,7 @@ const [reloadCoursesFlag, setReloadCoursesFlag] = useState(false);
  const dayFormat = (date, culture, localizer) =>
     localizer.format(date, 'ddd', culture); 
 
+const [eventsChanged, setEventsChanged] = useState(false);
 
 
 const events = teacherDetails.Courses.flatMap(course => {
@@ -52,6 +53,11 @@ const events = teacherDetails.Courses.flatMap(course => {
     courseId:course.id,
   };
 });
+
+  useEffect(() => {
+    console.log('Teacher details have changed:', teacherDetails);
+    // 这里可以处理需要重新渲染的逻辑，比如更新其他组件状态、执行其他操作等
+  }, [teacherDetails, eventsChanged]);
 
 const categoryMap = {};
 teacherDetails.teaching_categories.forEach(category => {
@@ -128,18 +134,6 @@ useEffect(() => {
     setShowPlusButton(true); 
   }, [isEditCourse]); 
 
-  const reloadCourses = () => {
-    // 在这里添加重新加载课程列表的逻辑
-    // console.log('重新加载课程列表');
-    // 更新 reloadCoursesFlag 以触发 useEffect
-    setReloadCoursesFlag(prevState => !prevState);
-  };
-
-    useEffect(() => {
-  if (!showAddModal) {
-    reloadCourses();
-  }
-}, [showAddModal]);
 
 
   return (
@@ -212,21 +206,11 @@ useEffect(() => {
     setShowPutModal(false);
   };
 
-      
-  const reloadCourses = () => {
-    setReloadCoursesFlag(prevState => !prevState);
-  };
-
-    useEffect(() => {
-  if (!showPutModal) {
-    reloadCourses();
-  }
-}, [showPutModal]);
 
     return (
   <div className={event.reserved ? 'reserved' : 'not-reserved'} onClick={isEditCourse ? handlePutClick : null}>
     {`${start}`}{' '}
-    {showPutModal && <PutCourse showPutModal={showPutModal} onHide={handleClose} event={eventWithCategoryId} reloadCoursesFlag={reloadCoursesFlag}/>}
+    {showPutModal && <PutCourse showPutModal={showPutModal} onHide={handleClose} event={eventWithCategoryId} setEventsChanged={setEventsChanged}/>}
   </div>
     );
   };
@@ -257,9 +241,9 @@ EventComponent.propTypes = {
       allDayMaxRows='3'
            />
 
-        <div className='check-buttons d-flex' style={{marginTop:'3rem',justifyContent:'end'}}>
-        <Button style={{fontSize:'0.875rem',border:'1px solid var(--main-blue)',backgroundColor:'transparent',width:'8%',height:'2.2rem',color:'var(--main-blue)',marginRight:'1rem'}} onClick={handleCancelEdit}>取消</Button>
-        <Button style={{fontSize:'0.875rem',border:'none',backgroundColor:'var(--main-blue)',width:'8%',height:'2.2rem'}} onClick={handleSaveCourse}>確定</Button>
+        <div className='edit-button d-flex' style={{marginTop:'3rem',justifyContent:'end'}}>
+        <Button className="btn-cancel" onClick={handleCancelEdit}>取消</Button>
+        <Button className="btn-save" onClick={handleSaveCourse}>確定</Button>
         </div>
            </>
            ):(

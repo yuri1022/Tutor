@@ -34,7 +34,7 @@ useEffect(() => {
   
   // 將教師的分類轉換為字符串陣列
   const initialCategories = teacherDetails.teaching_categories
-    ? teacherDetails.teaching_categories.map(category => category.categoryId)
+    ? [...new Set(teacherDetails.teaching_categories.map(category => category.categoryId))]
     : [];
 
   setCategory(initialCategories);

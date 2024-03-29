@@ -12,7 +12,7 @@ import '../assets/scss/editCourseModal.scss';
 import CalendarIcon from '../assets/images/svg/icon_calender.svg'
 
 
-const PutCourse = ({ showPutModal, onHide, event }) => {
+const PutCourse = ({ showPutModal, onHide, event, setEventsChanged }) => {
 const { state } = useContext(AppContext);
 const teacherId = state.logindata.data.id;
 const [courseId ,setCourseId]= useState({
@@ -30,11 +30,6 @@ const [courseId ,setCourseId]= useState({
     duration: event.duration,
     startAt: event.start
   });
-
-
-  useEffect(()=>{
-    
-  },[state])
 
  const handleTimeChange = (value) => {
   setFormData({
@@ -59,6 +54,7 @@ const [courseId ,setCourseId]= useState({
     await putCourse(updatedFormData,courseId.courseId);
     console.log(updatedFormData);
       onHide(); 
+      setEventsChanged(true);
     } catch (error) {
       console.error('Create course failed:', error);
     }
