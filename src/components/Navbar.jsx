@@ -12,6 +12,8 @@ import { Modal } from 'bootstrap';
 import AppReducer from '../store/AppContext';
 import { AppContext } from '../App';
 import { Dropdown } from 'react-bootstrap';
+import '../assets/scss/navbar.scss';
+
 const Navbar = (props) =>{
     const [isHome,setIsHome]= useState(true);
     const [ isTeacher,setIsTeacher] = useState(0);
@@ -96,11 +98,10 @@ const Navbar = (props) =>{
             const adminData = await axios.get(`${api}/admin/users`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
-                console.log('Admin data' ,res.data);
-                const isAdmin = true;  
+                console.log('Admin data',res.data);
                 dispatch({
                     type:"LOGIN",
-                    payload:{logindata:res.data,isAdmin:isAdmin,isLogin:true} 
+                    payload:{logindata:res.data,isLogin:true} 
                 });
                 
             }).catch(
@@ -182,11 +183,16 @@ const Navbar = (props) =>{
                     </div>
                     <div className="NavCollapse" >
                         <div className="navbar-right">
-                            <div className="navbar-search">
-                                <input  id="search" className="form-control" placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
+                            {localStorage.getItem("isTeacher")==="undefined"?
+                            (<>
+                            </>):
+                            (  <div className="navbar-search">
+                                <input id="search" className="form-control" placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
                                 <img className="search-icon" src={searchIcon} onClick={handleSearch}>
                                 </img>
-                            </div>
+                            </div>)
+                            }
+  
                             {
                         localStorage.getItem("islogin")==="true" ? (
                         <div className="d-flex">
@@ -216,7 +222,7 @@ const Navbar = (props) =>{
                                     
                                 ):
                                 ( 
-                                    <button  className={`btn btn-outline-primary my-2 my-sm-0 ${isOpen ? ('active'):('')}`} onClick={openLoginModal}>登入/註冊</button>
+                                    <button className={`navbar-login btn btn-outline-primary my-2 my-sm-0 ${isOpen ? ('active'):('')}`} onClick={openLoginModal}>登入/註冊</button>
                                     )
                             }
                         </div>

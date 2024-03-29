@@ -136,14 +136,19 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
                                 註冊
                             </button>
                             <div className="mb-10px">使用其他方式註冊</div>
-                            <button className="btn" style={{border:'1px solid var(--main-blue25)',marginRight:'0.5rem'}}>
-                                <img src={icon_google}></img>
+                            <div className="button-container d-flex">
+                            <button className="btn" style={{border:'1px solid var(--main-blue25)'}}>
+                                <img className="icon" src={icon_google}></img>
                                 google帳戶
                             </button>
                             <button className="btn" style={{border:'1px solid var(--main-blue25)'}}>
-                                <img src={icon_fb}></img>
+                                <img className="icon" src={icon_fb}></img>
                                 Facebook帳戶
                             </button>
+
+
+                            </div>
+
 
                         </form>
                     )
@@ -165,13 +170,13 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
                                 登入
                             </div>
                             <div className="mb-10px">使用其他方式登入</div>
-                            <div className="d-flex">
-                            <button className="btn" style={{border:'1px solid var(--main-blue25)',marginRight:'0.5rem'}}>
-                                <img src={icon_google}></img>
+                            <div className="button-container d-flex">
+                            <button className="btn" style={{border:'1px solid var(--main-blue25)'}}>
+                                <img src={icon_google} className="icon"></img>
                                 google帳戶
                             </button>
-                            <button className="btn" style={{border:'1px solid var(--main-blue25)',marginLeft:'0.5rem'}}>
-                                <img src={icon_fb}></img>
+                            <button className="btn" style={{border:'1px solid var(--main-blue25)'}}>
+                                <img src={icon_fb} className="icon"></img>
                                 Facebook帳戶
                             </button>
                             </div>
