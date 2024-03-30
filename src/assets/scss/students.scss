@@ -2,7 +2,48 @@
     padding: 20px 7vh 30px 7vh;
     background-color:white;
     position:relative;
+
+    .absent{
+        background-color: #f9d2cf;;
+    }
+    .finish{
+        background-color:#e8e9f4;
+    }
+    .notreview{
+        background-color: #f6f6f6;
+    }
+    .reserve{
+        background-color: #c2cbf7;
+    }
+    .bg-deep{
+        background-color: #D7D7D7;
+    }
+    .bg-absent{
+       background-color: #F43C2E; 
+    }
+    .bg-not-review{
+        background-color: #e1e1e1;
+        cursor: pointer;
+    }
+    .bg-finish{
+        background-color: #3652E3;
+        opacity: 25%;
+    }
+    .bg-reserve{
+        background-color: #3652E3;
+        transition: background-color 0.3s;
+        cursor: pointer;
+    }
+    .bg-reserve:hover{
+        background-color: #3652E3;
+        opacity: 70%;
+    }
+    .bg-not-review:hover{
+        background-color: #e1e1e1;
+        opacity: 30%;
+    }
 }
+
 
 .left-profile-stu-container{
     padding:20px 15px 0px 15px;
@@ -122,4 +163,20 @@
     }
 }
 /* Calender Part*/
+
+@media screen and (max-width: 582px){
+    .col-sm-12{
+        width:100%;
+    }
+    .Profile_container_stu{
+        .col-sm-none{
+            display:none;
+        }
+    }
+
+
+}
+@media screen and (min-width:481px) and (max-width: 1080px){
+
+}
 

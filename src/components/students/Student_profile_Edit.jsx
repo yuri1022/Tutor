@@ -1,7 +1,7 @@
 import { useState,useContext } from 'react'; 
 import { AppContext } from '../../App';
 import { edit_student_data } from '../../api/student';
-import { Modal } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import PropTypes from 'prop-types'
 const Students_profile_Edit = ({closeEditModal})=>{
@@ -10,17 +10,36 @@ const Students_profile_Edit = ({closeEditModal})=>{
     const student_data = JSON.parse(localStorage.getItem("userdata")).data;
     const [nameTxt,setNameTxt] = useState(student_data.name);
     const [introTxt,setIntroTxt ] = useState(student_data.selfIntro);
-    const [ imageurl,setImageurl] = useState('');
     const [ ischangePhoto,setIschangePhoto] = useState(false);
+    const [ editImage, setEditImage] = useState({avatar:student_data.avatar});
+    const [uploadImageModal, setUploadImageModal] = useState(false);
     const {dispatch} = useContext(AppContext);
+    const handleImageChange = (e) => {
+        setUploadImageModal(true);
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setEditImage(
+                {
+                    avatar: reader.result
+                }
+            );
+          };
+          reader.readAsDataURL(file);
+          setIschangePhoto(false);
+          
+        }
+      };
     const handleEdit = async(id)=>{
         const token = localStorage.getItem("token");
         const formData = {
             name: nameTxt,
             nickname: '',
             selfIntro: introTxt,
-            avatar: imageurl,
+            avatar: editImage.avatar,
         }
+        console.log(formData.avatar);
         const edit_res =await edit_student_data(id,formData);
         const studentData = await axios.get(`${api}/student/${id}`,{
             headers: { Authorization: `Bearer ${token}` }
@@ -53,16 +72,31 @@ const Students_profile_Edit = ({closeEditModal})=>{
             <div className="modal-body">
                 <div className="row">
                     <div className="col-4 d-flex flex-column items-center">
-                        <div className="mb-10px"><img className="w-100" src={student_data.avatar}></img></div>
-                        <button className="btn btn-primary" onClick={()=>{handleChangeheadshot()}}>更換大頭貼</button>
+                        <div className="mb-10px"><img className="w-100 h-100" src={editImage.avatar}></img></div>
+                        {ischangePhoto ?
+                        (    
+                        <div className="d-flex flex-reverse">            
+                        <button type="button" className="close-btn close" data-dismiss="modal" aria-label="Close" onClick={()=>{setIschangePhoto(false)}}>
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        ):
+                        (<button className="btn btn-primary mb-20px" onClick={()=>{handleChangeheadshot()}}>更換大頭貼</button>)
+                        }
+                        
                         {
                             ischangePhoto &&
                             (   <>
-                                <div className="title mb-10px">輸入圖片網址</div>
-                                <input type="text" className="input-imageurl" value={imageurl} onChange={(e)=>{setImageurl(e.target.value)}}/>
+                        <Form>
+                        <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Label>選取圖片上傳</Form.Label>
+                        <Form.Control type="file" name="avatar" onChange={handleImageChange} />
+                        </Form.Group>
+                        </Form>
                                 </>
                             )
                         }
+
                     </div>
                     <div className="col-8">
                         <div className="mb-10px">
@@ -79,7 +113,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
             </div>
             <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={closeEditModal}>取消</button>
-                <button type="button" className="btn btn-primary" onClick={()=>{handleEdit(student_data.id)}}>確定</button>
+                <button type="button" className="btn btn-primary" onClick={()=>{handleEdit(student_data.id)}} encType="multipart/form-data">確定</button>
             </div>
             </div>
         </div>

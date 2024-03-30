@@ -178,7 +178,9 @@ const ApplyTeacherForm = () =>{
         }
         console.log(formdata);
         const applyres= await applyTeacher(userdata.id,formdata);
+        localStorage.setItem('isHome',"true");
         navigate('/');
+        
 
     }
     // console.log('errors:',errors);

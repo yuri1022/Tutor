@@ -249,10 +249,10 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                     <div className="">未評論</div>
 
                 </div>
-                <div className="d-flex items-center mr-10px">
+                {/* <div className="d-flex items-center mr-10px">
                     <div className="circle-icon bg-not-seat mr-10px"></div>
                     <div className="">缺席</div>
-                </div>
+                </div> */}
                 <div className="d-flex items-center mr-10px">
                     <div className="circle-icon bg-o-not-l mr-10px"></div>
                     <div className="">已預約未聽課</div>

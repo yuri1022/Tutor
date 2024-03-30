@@ -13,8 +13,6 @@ import AppReducer from '../store/AppContext';
 import { AppContext } from '../App';
 import { Dropdown } from 'react-bootstrap';
 const Navbar = (props) =>{
-    const [isHome,setIsHome]= useState(true);
-    const [ isTeacher,setIsTeacher] = useState(0);
     const [ isOpen,setIsOpen] = useState(false);
     const [searchTxt, setSearchTxt]= useState('');
     const {state,dispatch} = useContext(AppContext);
@@ -38,6 +36,7 @@ const Navbar = (props) =>{
             console.log("You need to login");
         }
         else{
+            localStorage.setItem('isHome',"false");
             dispatch({type:"APPLYTEACHER"});
             navigate('/apply');
 
@@ -54,12 +53,18 @@ const Navbar = (props) =>{
     const handleLogout = ()=>{
         localStorage.clear();
         localStorage.setItem("islogin",false);
+        localStorage.setItem("isHome","true");
         navigate('/');
 
     }
+    const getOut_homepage=()=>{
+        localStorage.setItem('isHome',"false");
+    }
     const apply_to_homepage = ()=>{
+        localStorage.setItem('isHome',"true");
         dispatch({type:"APPLYTEACHER_BACK"});
     }
+
     const getData = async(id,isTeacher)=>{
         const token = localStorage.getItem('token');
         if(isTeacher===1){
@@ -69,7 +74,7 @@ const Navbar = (props) =>{
                 // console.log(`teacher data${res.data.data.teachStyle}`);
                 localStorage.setItem('userdata',JSON.stringify(res.data));
 
-                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:1,isLogin:true} });
+                dispatch({type:"LOGIN",payload:{logindata:res.data,isAdmin:false,isTeacher:1,isLogin:true} });
             }).catch(
                 err=>{
                     console.log(err);
@@ -83,7 +88,7 @@ const Navbar = (props) =>{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
                 // console.log(`student data ${res.data.data.selfIntro}`);
-                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isLogin:true} });
+                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isAdmin:false,isLogin:true} });
                 localStorage.setItem('userdata',JSON.stringify(res.data));
             }).catch(
                 err=>{
@@ -134,13 +139,13 @@ const Navbar = (props) =>{
     return(
         <>
         {
-            // state.isApply ?
-            // (<div className="apply-Nav">
-            //     <div className="topbar d-flex flex-row-reverse" onClick={()=>{apply_to_homepage()}}>
-            //         X
-            //     </div>
-            // </div>
-            // ):
+            state.isApply ?
+            (<div className="apply-Nav">
+                <Link className="topbar d-flex flex-row-reverse" to = '/' onClick={()=>{apply_to_homepage ()}}>
+                    Ｘ
+                </Link>
+            </div>
+            ):
             (
                 <>
                 <LoginModal closeLoginModal={closeLoginModal} onNavbar={handleLogin}></LoginModal>
@@ -158,12 +163,12 @@ const Navbar = (props) =>{
                                 }
                                 {
                                     (parseInt(localStorage.getItem("isTeacher"))===1 && state.isApply===false) &&
-                                    (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>)
+                                    (<Link className="nav-link" to = '/homepage' onClick={getOut_homepage}>切換回學生頁面</Link>)
           
                                 }
                                 {
                                     (parseInt(localStorage.getItem("isTeacher"))===1 && localStorage.getItem("changeMode")==="student") &&
-                                    (<Link className="nav-link" to = '/homepage'>切換回老師頁面</Link>)
+                                    (<Link className="nav-link" to = '/homepage' onClick={getOut_homepage}>切換回老師頁面</Link>)
                                 }
                                 {
                                     (parseInt(localStorage.getItem("isTeacher"))===0 && state.isApply===false) &&
@@ -175,17 +180,23 @@ const Navbar = (props) =>{
                     </div>
                     <div className="NavCollapse" >
                         <div className="navbar-right">
+                            { (localStorage.getItem('isHome')==="true" && state.isAdmin===false && localStorage.getItem("islogin")==="true") ?
+                            ( 
                             <div className="navbar-search">
-                                <input  id="search" className="form-control" placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
+                                <input  id="search" className="form-control " placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
                                 <img className="search-icon" src={searchIcon} onClick={handleSearch}>
                                 </img>
-                            </div>
+                            </div>)
+                            :
+                            (<div></div>)
+                            }
+
                             {
                         localStorage.getItem("islogin")==="true" ? (
                         <div className="d-flex">
                             <Dropdown >
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
-                            <img className="avatar-img" src={state.logindata?.data?.avatar}/>
+                            <img className="avatar-img" src={JSON.parse(localStorage.getItem("userdata"))?.data?.avatar}/>
                             </Dropdown.Toggle>
                             {state.isTeacher===1 ?
                             (    
@@ -197,8 +208,8 @@ const Navbar = (props) =>{
                             ):
                             (                            
                             <Dropdown.Menu>
-                            <Dropdown.Item href={`/student/${state.logindata?.data?.id}`}>個人檔案</Dropdown.Item>
-                            <Dropdown.Item href={`/student/${state.logindata?.data?.id}/course`}>我的課程</Dropdown.Item>
+                            <Dropdown.Item href={`/student/${state.logindata?.data?.id}`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href={`/student/${state.logindata?.data?.id}/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             )}
@@ -218,6 +229,17 @@ const Navbar = (props) =>{
 
 
                 </nav> 
+                {
+                    (localStorage.getItem('isHome')==='true'&& localStorage.getItem("islogin")==="true" && state.isAdmin===false)  && (                    
+                    <div className="searchbar-out">
+                    <div className="navbar-search">
+                        <input  id="search" className="form-control " placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
+                        <img className="search-icon" src={searchIcon} onClick={handleSearch}>
+                        </img>
+                    </div>
+                </div>)
+                }
+
                 </>
             )
         }

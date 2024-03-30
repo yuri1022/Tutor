@@ -7,27 +7,72 @@ import { Modal } from 'bootstrap';
 import { AppContext } from './../../App';
 const Students_profile = () =>{
     const editModal = useRef(null);
-
+    const ratingModal = useRef(null);
+    const goclassModal = useRef(null);
     const student_data = JSON.parse(localStorage.getItem("userdata")).data;
     console.log(student_data);
-
+    const [obj_goclass, setObj_goclass] = useState({
+        teacher: '',
+        date: new Date(),
+        time: 0,
+        courseId: 0,
+    })
+    const [obj_rating,setObj_rating] = useState({
+        teacher: '',
+        date: new Date(),
+        courseId:0,
+    })
     const openEditModal = () =>{
         editModal.current.show();
     }
     const closeEditModal = () =>{
         editModal.current.hide();
     }
+    const openRatingModal = (teacher,date,courseId) =>{
+        setObj_rating({
+            'teacher': teacher,
+            'date': new Date(date),
+            'courseId':courseId,
+        });
+        ratingModal.current.show();
+    }
+    const closeRatingModal = () =>{
+        ratingModal.current.hide();
+    }
+    const openGoClassModal = (teacher,date,time,courseId) =>{
+        setObj_goclass({
+            'teacher': teacher,
+            'date': new Date(date),
+            'time':time,
+            'courseId':courseId,
+        });
+        goclassModal.current.show();
+    }
+    const closeGoClassModal = () =>{
+        goclassModal.current.hide();
+    }
     useEffect(()=>{
         editModal.current = new Modal('#editStudent_Profile_Modal',{
+            backdrop: 'static',
+        });
+        ratingModal.current = new Modal('#ratingStudent_Profile_Modal',{
+            backdrop: 'static',
+        });
+        goclassModal.current = new Modal('#goclassStudent_Profile_Modal',{
             backdrop: 'static',
         });
     },[])
     return(
         <div>
+            <Students_profile_Go_Class obj_goclass={obj_goclass} closeGoClassModal={closeGoClassModal}/>
+            <Students_profile_Rating obj_rating={obj_rating} closeRatingModal={closeRatingModal} />
             <Students_profile_Edit closeEditModal={closeEditModal}/>
+
             <div className="Profile_container_stu">
                 <div className="row">
-                    <div className="col-12">
+
+                    <div className="col-sm-12 col-md-4 col-4 ">
+                        
                         <div className="left-profile-stu-container">
                             <div className="img-profile-container"><img className="img-profile" src={student_data.avatar}></img></div>
                             <div className="text-title mb-40px">{student_data.name}</div>
@@ -47,6 +92,11 @@ const Students_profile = () =>{
                                 </div>
                             </div>    
                             <button type="button" className="btn btn-primary w-100 mb-20px" onClick={openEditModal}>編輯個人檔案</button>
+                        </div>
+                    </div>
+                    <div className="col-sm-none col-md-8 col-8  ">
+                        <div className="right-profile-stu-container ">
+                            <Students_profile_Calender></Students_profile_Calender>
                         </div>
                     </div>
 

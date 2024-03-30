@@ -1,4 +1,11 @@
 .studentModal{
+    .mb-20px{
+        margin-bottom: 20px;
+    }
+    .flex-reverse{
+        display: flex;
+        flex-direction: row-reverse;
+    }
     .modal-dialog{
         min-width: 300px;
     }

@@ -62,6 +62,7 @@ const LoginModal = ({closeLoginModal,onNavbar}) =>{
         localStorage.setItem("islogin",true);
         localStorage.setItem("user_id",loginRes.data.id);
         localStorage.setItem("isTeacher",isTeacher);
+        localStorage.setItem("isHome","true");
         //handle Login 
         if(token){
             onNavbar(id,isTeacher);
