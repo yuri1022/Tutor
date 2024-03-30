@@ -5,18 +5,21 @@ import moment from 'moment';
 import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
-import 'react-clock/dist/Clock.css';
 import { useContext } from 'react';
 import { AppContext } from "../App";
+import PropTypes from 'prop-types';
+import '../assets/scss/editCourseModal.scss';
+import CalendarIcon from '../assets/images/svg/icon_calender.svg'
 
-const PutCourse = ({ showPutModal, onHide, event }) => {
+
+const PutCourse = ({ showPutModal, onHide, event, setEventsChanged }) => {
 const { state } = useContext(AppContext);
 const teacherId = state.logindata.data.id;
 const [courseId ,setCourseId]= useState({
   courseId:event.courseId,
 })
 
-console.log(courseId.courseId);
+// console.log(courseId.courseId);
 
   const [formData, setFormData] = useState({
     teacherId: teacherId,
@@ -28,11 +31,6 @@ console.log(courseId.courseId);
     startAt: event.start
   });
 
-
-  useEffect(()=>{
-    
-  },[state])
-
  const handleTimeChange = (value) => {
   setFormData({
     ...formData,
@@ -40,7 +38,7 @@ console.log(courseId.courseId);
   });
 };
 
-  console.log(formData);
+  // console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,15 +52,16 @@ console.log(courseId.courseId);
 
     try {
     await putCourse(updatedFormData,courseId.courseId);
+    console.log(updatedFormData);
       onHide(); 
-      // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
+      setEventsChanged(true);
     } catch (error) {
       console.error('Create course failed:', error);
     }
   };
 
   return (
-    <Modal show={showPutModal} onHide={onHide}>
+    <Modal className="show-put-modal" show={showPutModal} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title className="modal-head-title"></Modal.Title>
       </Modal.Header>
@@ -70,25 +69,32 @@ console.log(courseId.courseId);
       <Modal.Body className="modal-body">
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="startAt">
-            <Form.Label>修改課程時間</Form.Label>
-            <div>{event.start.toLocaleString()}</div>
+            <Form.Label><h4>修改課程時間</h4></Form.Label>
+            <div className="time-container">
+              <img src={CalendarIcon} alt="時間" />
+              {event.start.toLocaleString()}
+              </div>
+              <div className="timepicker-container">
             <DateTimePicker
-            value={formData.startAtTime}
-             onChange={handleTimeChange} />
+            value={formData.startAt}
+            onChange={handleTimeChange}/>
+
+              </div>
+           
           </Form.Group>
+          <div className="btn-container d-flex">
           
-          <Button variant="primary" onClick={onHide}>
-            取消
+          <Button className="btn-cancel" variant="Light" type="cancel" onClick={onHide}>
+            取消更改
           </Button>
 
-          <Button variant="primary" type="submit">
+          <Button className="btn-submit" variant="primary" type="submit">
             確認修改
           </Button>
+          </div>
+
         </Form>
         
-
-        
-
 
       </Modal.Body>
 
@@ -96,5 +102,10 @@ console.log(courseId.courseId);
     </Modal>
   );
 };
+
+PutCourse.propTypes = {
+  showPutModal: PropTypes.bool.isRequired,  
+};
+
 
 export default PutCourse;

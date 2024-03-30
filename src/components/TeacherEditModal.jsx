@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useState,useEffect } from 'react';
 import '../assets/scss/editmodal.scss';
 import ReactFlagsSelect from "react-flags-select";
+import axios from 'axios';
 
 
 const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editingSection }) => {
@@ -34,7 +35,7 @@ useEffect(() => {
   
   // 將教師的分類轉換為字符串陣列
   const initialCategories = teacherDetails.teaching_categories
-    ? teacherDetails.teaching_categories.map(category => category.categoryId)
+    ? [...new Set(teacherDetails.teaching_categories.map(category => category.categoryId))]
     : [];
 
   setCategory(initialCategories);
@@ -69,23 +70,53 @@ const handleCategoryChange = (selectedCategory) => {
 };
 
   // 处理图片上传变化
-    const handleImageChange = (e) => {
-    setUploadImageModal(true);
+const handleImageChange = (e) => {
+  setUploadImageModal(true);
 
-    const file = e.target.files[0];
-    // 在这里你可以执行上传逻辑，例如使用 FormData 将图片上传到服务器
-    // 这里只是简单地将图片转换成 Base64 格式并保存在 editedData 中
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setEditedData((prevData) => ({
-        ...prevData,
-        avatar: reader.result,
-      }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const file = e.target.files[0];
+  if (file) {
+    const formData = new FormData();
+        const originalCategory =  [...new Set(teacherDetails.teaching_categories.map(category => category.categoryId))]
+        const sortedCategory = originalCategory.slice().sort((a, b) => a - b); // 按照数字大小排序
+
+    const id = teacherDetails.id;
+
+    sortedCategory.forEach((element, index) => {
+  formData.append(`category[${index}]`, element);
+});
+
+    formData.append('avatar', file);
+    formData.append('name', teacherDetails.name);
+    formData.append('nation', teacherDetails.nation);
+    formData.append('teachStyle', teacherDetails.teachStyle);
+    formData.append('selfIntro', teacherDetails.selfIntro);
+    formData.append('mon', teacherDetails.mon.toString());
+    formData.append('tue', teacherDetails.tue.toString());
+    formData.append('wed', teacherDetails.wed.toString());
+    formData.append('thu', teacherDetails.thu.toString());
+    formData.append('fri', teacherDetails.fri.toString());
+    formData.append('sat', teacherDetails.sat.toString());
+    formData.append('sun', teacherDetails.sun.toString());
+
+    const token = localStorage.getItem("token");
+
+    axios.put(`http://34.125.232.84:3000/teacher/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      console.log('Image upload response:', response);
+      // 在这里可以处理上传成功后的逻辑，如更新页面数据等
+    })
+    .catch((error) => {
+      console.error('Image upload error:', error);
+      // 在这里可以处理上传失败后的逻辑，如显示错误提示等
+    });
+     console.log(formData);
+  }
+};
 
   // 处理保存按钮点击 
 const handleSaveClick = () => {

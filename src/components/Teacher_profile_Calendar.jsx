@@ -8,7 +8,6 @@ import '../assets/scss/reservecalendar.scss';
 import LeftArrow from '../assets/images/svg/arrow-left.svg';
 import RightArrow from '../assets/images/svg/arrow-right.svg';
 import { Button } from 'react-bootstrap';
-import EditIcon from '../assets/images/svg/edit.svg';
 import AddCourse from './AddCourse';
 import PutCourse from './PutCourse';
 
@@ -18,7 +17,7 @@ const localizer = momentLocalizer(moment);
 const MyCalendar = memo(({ teacherDetails, isEditCourse, handleEditCourse, closeEditCourse }) => {
 const [editedCourse, setEditedCourse] = useState(null);
 const [showPlusButton, setShowPlusButton] = useState(false);
-
+const [reloadCoursesFlag, setReloadCoursesFlag] = useState(false);
 
  const handleSaveCourse = () => {
     handleEditCourse(editedCourse);
@@ -33,10 +32,13 @@ const [showPlusButton, setShowPlusButton] = useState(false);
  const dayFormat = (date, culture, localizer) =>
     localizer.format(date, 'ddd', culture); 
 
+const [eventsChanged, setEventsChanged] = useState(false);
+
+
 const events = teacherDetails.Courses.flatMap(course => {
   const start = moment(course.startAt)
   const end = moment(course.startAt).add(course.duration, 'minutes'); 
-    const isReserved = course.Registrations.some(registration => registration.rating !== null);
+  const isReserved = course.Registrations && course.Registrations.length > 0;
 
   return {
     start: start.toDate(),
@@ -52,6 +54,11 @@ const events = teacherDetails.Courses.flatMap(course => {
   };
 });
 
+  useEffect(() => {
+    console.log('Teacher details have changed:', teacherDetails);
+    // 这里可以处理需要重新渲染的逻辑，比如更新其他组件状态、执行其他操作等
+  }, [teacherDetails, eventsChanged]);
+
 const categoryMap = {};
 teacherDetails.teaching_categories.forEach(category => {
   categoryMap[category.Category.name] = category.categoryId;
@@ -66,16 +73,27 @@ const eventsWithCategoryId = events.map(event => ({
 const CustomToolbar = (toolbar) => {
 const [showAddModal, setShowAddModal] = useState(false);
 
+ const handleYearChange = (event) => {
+    const newYear = parseInt(event.target.value, 10);
+    const newDate = moment(toolbar.date).set('year', newYear);
+    toolbar.onNavigate('DATE', newDate);
+  };
+
+  const handleMonthChange = (event) => {
+    const newMonth = parseInt(event.target.value, 10);
+    const newDate = moment(toolbar.datel).set('month', newMonth);
+    toolbar.onNavigate('DATE', newDate);
+  };
+
+
 
  const handlePlusClick = () => {
     setShowAddModal(true);
   };
 
-  const handleCloseAdd = () => {
+  const handleClose = () => {
     setShowAddModal(false);
   };
-
-
 
   const goToBack = () => {
     const newDate = moment(toolbar.date);
@@ -111,12 +129,11 @@ useEffect(() => {
   });
 }, [toolbar.date, isEditCourse]);
 
-  useEffect(() => {
-  }, [showAddModal]);
 
   useEffect(() => {
     setShowPlusButton(true); 
   }, [isEditCourse]); 
+
 
 
   return (
@@ -124,24 +141,47 @@ useEffect(() => {
 
       <div className="rbc-toolbar-top" >
 
-      <span className="rbc-btn-group-year">
+       <span className="rbc-btn-group-month">
+        <select value={moment(toolbar.date).month()} onChange={handleMonthChange}>
+          {moment.months().map((month, index) => (
+            <option key={index} value={index}>{month}</option>
+          ))}
+        </select>
+        </span>
+        <span className="rbc-btn-group-year">
+        <select value={moment(toolbar.date).year()} onChange={handleYearChange}>
+          {Array.from({ length: 10 }, (_, i) => moment(toolbar.date).year() - 5 + i).map((year) => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
+        </span>
+  
+
+      </div>
+            <div className="control-states d-flex" style={{justifyContent:'space-between'}}>
+      <div className="week-control">
+
+        <span className="rbc-btn-group-year">
         <button type="button" className="year-control" onClick={goToBack}>
           <img src={LeftArrow} alt="" />
         </button>           
         <button type="button" className="year-control" onClick={goToNext}>
           <img src={RightArrow} alt="" />
         </button>
-      </span>
-
+      </span>   
 
       </div>
+   
 
       <div className="reserve">
         <span style={{marginRight:'1rem'}}>可預約</span>
-        <span>不可預約</span>
+        <span>已有預約</span>
       </div>
+            </div>
 
-      {showAddModal&&<AddCourse showAddModal={showAddModal} onHide={handleCloseAdd} teacherDetails={teacherDetails} />}
+
+
+      {showAddModal&&<AddCourse showAddModal={showAddModal} onHide={handleClose} teacherDetails={teacherDetails} reloadCoursesFlag={reloadCoursesFlag}/>}
 
     </div>
 
@@ -152,32 +192,26 @@ useEffect(() => {
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
     const [showPutModal, setShowPutModal] = useState(false);
+
      const eventWithCategoryId = eventsWithCategoryId.find(
     (item) => item.title === event.title
   );
 //  console.log(eventWithCategoryId);
 
-
     const handlePutClick = () => {
     setShowPutModal(true);
   };
 
-     const handleClosePut = () => {
+     const handleClose = () => {
     setShowPutModal(false);
   };
 
 
     return (
-      <div className={event.reserved ? 'reserved' : 'not-reserved'}>
-        {`${start}`}{' '}
-      {isEditCourse && (
-        <>
-          <img className="edit-course" style={{width:'1rem',height:'1rem'}}src={EditIcon} alt="edit" onClick={handlePutClick} />
-          {showPutModal&&<PutCourse showPutModal={showPutModal} onHide={handleClosePut} event={eventWithCategoryId}
-/>}
-        </>
-      )}
-      </div>
+  <div className={event.reserved ? 'reserved' : 'not-reserved'} onClick={isEditCourse ? handlePutClick : null}>
+    {`${start}`}{' '}
+    {showPutModal && <PutCourse showPutModal={showPutModal} onHide={handleClose} event={eventWithCategoryId} setEventsChanged={setEventsChanged}/>}
+  </div>
     );
   };
 
@@ -207,9 +241,9 @@ EventComponent.propTypes = {
       allDayMaxRows='3'
            />
 
-        <div className='check-buttons d-flex' style={{marginTop:'3rem',justifyContent:'end'}}>
-        <Button style={{fontSize:'0.875rem',border:'1px solid var(--main-blue)',backgroundColor:'transparent',width:'8%',height:'2.2rem',color:'var(--main-blue)',marginRight:'1rem'}} onClick={handleCancelEdit}>取消</Button>
-        <Button style={{fontSize:'0.875rem',border:'none',backgroundColor:'var(--main-blue)',width:'8%',height:'2.2rem'}} onClick={handleSaveCourse}>確定</Button>
+        <div className='edit-button d-flex' style={{marginTop:'3rem',justifyContent:'end'}}>
+        <Button className="btn-cancel" onClick={handleCancelEdit}>取消</Button>
+        <Button className="btn-save" onClick={handleSaveCourse}>確定</Button>
         </div>
            </>
            ):(

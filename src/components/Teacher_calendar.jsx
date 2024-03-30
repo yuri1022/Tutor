@@ -7,6 +7,7 @@ import { getCourse } from '../api/course';
 import { getTeacher } from '../api/teacher';
 import TeacherGoClassModal from './OpenGoClassModal';
 import '../assets/scss/course.scss';
+import ArrowIcon from '../assets/images/svg/arrow-down.svg'
 
 const Teacher_profile_Calender = () =>{
     const today = new Date();
@@ -73,6 +74,11 @@ const startMinutes = startTime.getMinutes();
 const endHours = endTime.getHours();
 const endMinutes = endTime.getMinutes();
 
+const formattedEndMinutes = endMinutes.toString().padStart(2, '0');
+const formattedStartMinutes = startMinutes.toString().padStart(2, '0');
+
+
+if(courseData.Registrations[0]?.User?.name) {
       allCourseData.push({
         year: startDate.getFullYear(),
         month: startDate.getMonth() + 1,
@@ -80,10 +86,12 @@ const endMinutes = endTime.getMinutes();
         subject: courseData.name,
         student: courseData.Registrations[0]?.User?.name,
         time: courseData.duration,
-        startTime: `${startHours}:${startMinutes}`,
-        endTime: `${endHours}:${endMinutes}`, 
+        startTime: `${startHours}:${formattedStartMinutes}`,
+        endTime: `${endHours}:${formattedEndMinutes}`, 
         date: startDate,
       });
+}
+
     }
 
       setCourseList(allCourseData); 
@@ -177,18 +185,18 @@ useEffect(() => {
 
         if( courseList.date < today.getTime()){
             course_block =
-            <div className="course-block bg-finish" key={index}>
-                <div className="title-bar-subject finish">{courseList.subject}</div>
+            <div className="teacher-course-block bg-finish" key={index}>
+                <div className="title-bar-subject">{courseList.subject}</div>
                 <div className="title-bar-student">{courseList.student}</div>
                 <div className="title-bar-time">{courseList.startTime}~{courseList.endTime}</div>
             </div>
         }
         else if( courseList.date > today.getTime()){
             course_block =
-            <div className="course-block bg-reserve" key={index} onClick={() => handleCourseClick(courseList)}>
-                <div className="title-bar-subject">{courseList.subject}</div>
-                <div className="title-bar-student">{courseList.student}</div>
-                <div className="title-bar-time">{courseList.startTime}~{courseList.endTime}</div>
+            <div className="teacher-course-block bg-reserve" key={index} onClick={() => handleCourseClick(courseList)}>
+                <div className="title-bar-subject-reserve">{courseList.subject}</div>
+                <div className="title-bar-student-reserve">{courseList.student}</div>
+                <div className="title-bar-time-reserve">{courseList.startTime}~{courseList.endTime}</div>
             </div>
         }
         return(course_block);
@@ -253,8 +261,9 @@ for (let i = 0; i < 5; i++) {
          <>
       <div className="course-calendar-title justify-between mb-1">
         <div className="course-title">
-          <h5 className="title">我的課程行事曆</h5>
+          <h5 className="title">課程行事曆</h5>
           </div>
+        <div className="date-selector d-flex">
         <div className="course-date-selector d-flex">
               <select
           className="month-selection"
@@ -273,8 +282,11 @@ for (let i = 0; i < 5; i++) {
               </option>
             );
           })}
+          
         </select>
-        <div className="course-calendar-year d-flex">
+        <span className='arrow'><img src={ArrowIcon} alt="" /></span>
+        </div>
+         <div className="course-calendar-year d-flex">
           <img
             className="btn"
             src={arrow_left}
@@ -290,10 +302,13 @@ for (let i = 0; i < 5; i++) {
               increament_year(1);
             }}
           />
+        </div>       
         </div>
 
-        </div>
 
+        
+
+        
       </div>
 
       <div className="course-state d-flex flex-reverse mb-1 ml-1">

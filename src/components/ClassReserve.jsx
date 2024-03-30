@@ -15,7 +15,7 @@ import '../assets/scss/reservemodal.scss'
 import axios from 'axios';
 import SuccessModal from './SuccessModal.jsx';
 import FailModal from './FailModal.jsx';
-
+import Swal from 'sweetalert2';
 
 const ClassReserve = ({ 
   teacherDetails,
@@ -31,26 +31,29 @@ const [selectedCourseId, setSelectedCourseId] = useState('');
 const [showSuccessModal, setShowSuccessModal] = useState(false);
 const [showFailModal, setShowFailModal] = useState(false);
 const [successReservationData, setSuccessReservationData] = useState(null);
+const [errorMessage, setErrorMessage] = useState('');
+
 
  const dayFormat = (date, culture, localizer) =>
-  localizer.format(date, 'ddd', culture); // 格式化日期为星期几的缩写
+  localizer.format(date, 'ddd', culture);
 
- 
   // 根據已預約名單標識是否已預約
 const events = teacherDetails.Courses.flatMap(course => {
   const start = moment(course.startAt)
   const end = moment(course.startAt).add(course.duration, 'minutes'); 
-    const isReserved = course.Registrations.some(registration => registration.rating !== null);
+  const isReserved = course.Registrations && course.Registrations.length > 0;
 
   return {
     start: start.toDate(),
     end: end.toDate(),
     title: course.name,
+    name:teacherDetails.name,
     id:course.id,
     reserved: isReserved,
     duration:course.duration,  
     date:course.startAt,
-    allDay:true
+    allDay:true,
+    teacherId:course.teacherId,
   };
 });
 
@@ -64,8 +67,7 @@ const handleInputDurationChange = (event) => {
 
 const handleInputCourse = (event) =>{
   setSelectedCourseId(event.target.value)
-}
-
+};
 
   const handleEventClick = (events) => {
     // 在這裡根據點擊的事件更新 selectedCourse 的值
@@ -74,25 +76,42 @@ const handleInputCourse = (event) =>{
     setSelectedCourseId(events.id);
   };
 
-
-
-
-
 const handleSubmit = async () => {
  try {
+const selectedEvent = events.find(event => event.id === selectedCourseId);
+  const { teacherId ,name, date, start, end } = selectedEvent;
+  console.log(teacherId);
+
+    const token = localStorage.getItem('token');
+    const courseId = selectedCourseId;
+
+    const api = 'http://34.125.232.84:3000';
 
     if (!selectedCourseId) {
       // 處理未選擇課程的情況
       console.error('請選擇課程');
       return;
     }
-  const selectedEvent = events.find(event => event.id === selectedCourseId);
-  const { title, date, start, end } = selectedEvent;
 
-    const token = localStorage.getItem('token');
-    const courseId = selectedCourseId
+     if (localStorage.getItem('changeMode') === 'teacher') {
+      Swal.fire({
+        title: '警告',
+        text: '老師身分不可預約課程',
+        icon: 'warning',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+      if (parseInt(localStorage.getItem('user_id')) === teacherId) {
+      Swal.fire({
+        title: '警告',
+        text: '你不能預約自己開的課程！',
+        icon: 'warning',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
 
-    const api = 'http://34.125.232.84:3000';
     // Make a POST request to the /course endpoint
     const response = await axios.post(
       `${api}/register/${courseId}`,{},
@@ -109,7 +128,7 @@ const handleSubmit = async () => {
     if (response.data.status=== 'success') {
       
        setSuccessReservationData({
-        courseName: title,
+        courseName: name,
         date: `${moment(date).format('YYYY-MM-DD')}`,
         time: `${moment(start).format('HH:mm')}-${moment(end).format('HH:mm')}`,
       });
@@ -119,7 +138,8 @@ const handleSubmit = async () => {
       setShowFailModal(true);
     }
   } catch (error) {
-    console.error('Course creation error:', error.message);
+    console.error('Course creation error:', error);
+    setErrorMessage(error.response.data.message || 'An error occurred while registering for the course.');
     setShowFailModal(true);
   }
 };
@@ -140,6 +160,21 @@ useEffect(() => {
 
 
 const CustomToolbar = (toolbar) => {
+  const [weekStartDate, setWeekStartDate] = useState('');
+  const [weekEndDate, setWeekEndDate] = useState('');
+
+  const handleYearChange = (event) => {
+    const newYear = parseInt(event.target.value, 10);
+    const newDate = moment(toolbar.date).set('year', newYear);
+    toolbar.onNavigate('DATE', newDate);
+  };
+
+  const handleMonthChange = (event) => {
+    const newMonth = parseInt(event.target.value, 10);
+    const newDate = moment(toolbar.datel).set('month', newMonth);
+    toolbar.onNavigate('DATE', newDate);
+  };
+
   const goToBack = () => {
     const newDate = moment(toolbar.date);
     toolbar.onNavigate('PREV', newDate);
@@ -164,6 +199,15 @@ useEffect(() => {
   });
 }, [toolbar.date]);
 
+  useEffect(() => {
+    const startDate = moment(toolbar.date).startOf('week');
+    const endDate = moment(toolbar.date).endOf('week');
+
+    setWeekStartDate(startDate.format('YYYY/MM/DD'));
+    setWeekEndDate(endDate.format('YYYY/MM/DD'));
+  }, [toolbar.date]);
+
+
   return (
     <div  className="rbc-toolbar" >
 
@@ -178,13 +222,32 @@ useEffect(() => {
         </button>
       </span>
 
+       <span className="rbc-btn-group-month">
+ <select value={moment(toolbar.date).month()} onChange={handleMonthChange}>
+          {moment.months().map((month, index) => (
+            <option key={index} value={index}>{month}</option>
+          ))}
+        </select>
+        </span>
 
+  <select value={moment(toolbar.date).year()} onChange={handleYearChange}>
+          {Array.from({ length: 10 }, (_, i) => moment(toolbar.date).year() - 5 + i).map((year) => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
       </div>
+
+ <div className="week-dates">
+          {weekStartDate && weekEndDate && (
+            <div>{weekStartDate} ~ {weekEndDate}</div>
+          )}
+        </div>
 
       <div className="reserve">
         <span style={{marginRight:'1rem'}}>可預約</span>
         <span>不可預約</span>
       </div>
+      
 
     </div>
 
@@ -194,8 +257,10 @@ useEffect(() => {
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
     return (
-      <div className={event.reserved ? 'reserved' : 'not-reserved' }  onClick={() => handleEventClick(event)}>
-        {`${start}`}    </div>
+    <div className={event.reserved ? 'reserved' : 'not-reserved'} onClick={() => handleEventClick(event)}>
+      {`${start}`}
+    </div>
+
     );
   };
 
@@ -266,7 +331,7 @@ EventComponent.propTypes = {
       </Button>
          </div>
 
-    <FailModal show={showFailModal} handleClose={handleCloseFailModal} />
+    <FailModal show={showFailModal} handleClose={handleCloseFailModal} errorMessage={errorMessage}/>
      {successReservationData&& <SuccessModal show={showSuccessModal} handleClose={handleCloseSuccessModal} successReservationData={successReservationData}/>        }
         
       </div>

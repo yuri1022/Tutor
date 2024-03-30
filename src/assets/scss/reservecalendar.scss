@@ -1,7 +1,7 @@
 
 .rbc-calendar{
   width: 100%;
-  min-height: 8rem;
+  min-height: 10rem;
   .rbc-time-header-content{
     .rbc-row{
       .rbc-header{
@@ -26,7 +26,7 @@
 }
 
 .rbc-toolbar {
-
+  padding: 1.5rem 0.5rem 0 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: normal;
@@ -34,44 +34,61 @@
   .rbc-toolbar-top {
     display: flex;
     justify-content: space-between;
-
-    .rbc-btn-group-month-option {
-      color: var(--main-blue);
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 700;
-      font-size: 18px;
-      line-height: 22px;
-
-
-    }
-
-    .rbc-btn-group-year {
-
-      .year-control {
-        border: 0;
-      }
-
-      .year {
+    .rbc-btn-group-month {
+      margin-right: 0.6rem;
+      select{
+        width: 7.8rem;
+        text-align: center;
+        color: var(--main-blue);
         font-family: 'Inter';
         font-style: normal;
         font-weight: 700;
         font-size: 18px;
         line-height: 22px;
-        /* identical to box height */
-        color: var(--main-blue);
-        /* Inside auto layout */
-        flex: none;
-        order: 1;
-        flex-grow: 0;
+        background-color: transparent;
+        border: none;
+        option{
+          background-color: var(--white);
+          color: black;
+        }
       }
+
     }
+
+    .rbc-btn-group-year {
+       select {
+          color: var(--main-blue);
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 18px;
+          line-height: 22px;
+          background-color: transparent;
+          border: none;
+        option {
+            background-color: var(--white);
+            color: black;
+          }
+        }
+        
+      }
 
   }
 
+  .control-states {
+    margin-top: 1rem;
+    .week-control {
+      .rbc-btn-group-year {
+      .year-control {
+          border: none;
+          }
+        }
+      }
+    }
+
   .reserve {
     display: flex;
-    justify-content: flex-end;
+    align-items: end;
     background-color: transparent;
   }
 
@@ -108,7 +125,7 @@
 
 .rbc-time-view{
   .rbc-time-header{
-    min-height: 8rem;
+    min-height: 12rem;
     .rbc-label{
       display: none;
     }
@@ -174,8 +191,8 @@
 }
 
 .rbc-allday-cell {
+  height: 12rem;
   .rbc-row-bg {
-
     .rbc-day-bg {
       border: 1px solid var(--main-blue25);
       display: flex;

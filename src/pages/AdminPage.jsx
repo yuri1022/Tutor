@@ -10,12 +10,9 @@ const AdminPage = () => {
 useEffect(() => {
      const fetchAdminData = async () => {
     try {
-      const isAdmin = state.isAdmin; 
       const adminData = state.logindata;
-      // console.log(state);
-      // console.log('Admin data response:', adminData);
- 
-     if(isAdmin){
+
+     if(localStorage.getItem("isTeacher")==="undefined"){
        setAdminData(adminData);
        }else{
         console.log('You are not admin'); 

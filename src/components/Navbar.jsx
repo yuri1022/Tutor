@@ -12,6 +12,8 @@ import { Modal } from 'bootstrap';
 import AppReducer from '../store/AppContext';
 import { AppContext } from '../App';
 import { Dropdown } from 'react-bootstrap';
+import '../assets/scss/navbar.scss';
+
 const Navbar = (props) =>{
     const [isHome,setIsHome]= useState(true);
     const [ isTeacher,setIsTeacher] = useState(0);
@@ -96,11 +98,10 @@ const Navbar = (props) =>{
             const adminData = await axios.get(`${api}/admin/users`,{
                 headers: { Authorization: `Bearer ${token}` }
             }).then((res)=>{
-                console.log('Admin data' ,res.data);
-                const isAdmin = true;  
+                console.log('Admin data',res.data);
                 dispatch({
                     type:"LOGIN",
-                    payload:{logindata:res.data,isAdmin:isAdmin,isLogin:true} 
+                    payload:{logindata:res.data,isLogin:true} 
                 });
                 
             }).catch(
@@ -130,7 +131,13 @@ const Navbar = (props) =>{
     },[])
     useEffect(()=>{
 
-    },[localStorage.getItem("islogin")])
+    },[localStorage.getItem("islogin")]);
+
+    const handleModeChange = (mode) => {
+     // 将 changeMode 更新为传入的 mode 值
+     localStorage.setItem('changeMode', mode);
+    };
+
     return(
         <>
         {
@@ -157,13 +164,14 @@ const Navbar = (props) =>{
                                     (<div></div>)
                                 }
                                 {
-                                    (parseInt(localStorage.getItem("isTeacher"))===1 && state.isApply===false) &&
-                                    (<Link className="nav-link" to = '/homepage'>切換回學生頁面</Link>)
+                                    (parseInt(localStorage.getItem("isTeacher"))===1 && state.isApply===false && localStorage.getItem("changeMode")==="teacher") &&
+                                    (<Link className="nav-link" to="/homepage" onClick={() => handleModeChange('student')}>切換回學生頁面</Link>
+)
           
                                 }
                                 {
                                     (parseInt(localStorage.getItem("isTeacher"))===1 && localStorage.getItem("changeMode")==="student") &&
-                                    (<Link className="nav-link" to = '/homepage'>切換回老師頁面</Link>)
+                                    (<Link className="nav-link" to = '/homepage' onClick={() => handleModeChange('teacher')}>切換回老師頁面</Link>)
                                 }
                                 {
                                     (parseInt(localStorage.getItem("isTeacher"))===0 && state.isApply===false) &&
@@ -175,11 +183,16 @@ const Navbar = (props) =>{
                     </div>
                     <div className="NavCollapse" >
                         <div className="navbar-right">
-                            <div className="navbar-search">
-                                <input  id="search" className="form-control" placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
+                            {localStorage.getItem("isTeacher")==="undefined"?
+                            (<>
+                            </>):
+                            (  <div className="navbar-search">
+                                <input id="search" className="form-control" placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
                                 <img className="search-icon" src={searchIcon} onClick={handleSearch}>
                                 </img>
-                            </div>
+                            </div>)
+                            }
+  
                             {
                         localStorage.getItem("islogin")==="true" ? (
                         <div className="d-flex">
@@ -187,7 +200,7 @@ const Navbar = (props) =>{
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
                             <img className="avatar-img" src={state.logindata?.data?.avatar}/>
                             </Dropdown.Toggle>
-                            {state.isTeacher===1 ?
+                            {state.isTeacher===1 && localStorage.getItem("changeMode")==="teacher" ?
                             (    
                             <Dropdown.Menu>
                             <Dropdown.Item href={`/teacher/${state.logindata?.data?.id}/personal`}>個人檔案</Dropdown.Item>
@@ -209,7 +222,7 @@ const Navbar = (props) =>{
                                     
                                 ):
                                 ( 
-                                    <button  className={`btn btn-outline-primary my-2 my-sm-0 ${isOpen ? ('active'):('')}`} onClick={openLoginModal}>登入/註冊</button>
+                                    <button className={`navbar-login btn btn-outline-primary my-2 my-sm-0 ${isOpen ? ('active'):('')}`} onClick={openLoginModal}>登入/註冊</button>
                                     )
                             }
                         </div>

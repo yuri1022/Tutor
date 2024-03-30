@@ -2,7 +2,7 @@ import { Modal } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import '../assets/scss/failmodal.scss'
 
-const FailMessage = ({ show, handleClose }) => {
+const FailModal = ({ show, handleClose,errorMessage }) => {
 return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -16,7 +16,7 @@ return (
         
         <div className="modal-fail">
           <p className="fail-message">
-            Office ipsum you must be muted. We whos waste seat product finish attached ourselves dear globalize. Crack plan individual reference those driving feature problem native. Red-flag no-brainer can game day cost. Brainstorming territories pants beef mint drive live well building.
+            {errorMessage}
           </p>
         </div>
 
@@ -27,9 +27,9 @@ return (
   );
 };
 
-FailMessage.propTypes = {
+FailModal.propTypes = {
   show: PropTypes.bool.isRequired,  
   handleClose: PropTypes.func.isRequired,  
 };
 
-export default FailMessage;
+export default FailModal;

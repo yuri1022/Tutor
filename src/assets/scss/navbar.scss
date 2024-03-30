@@ -58,6 +58,7 @@
     .nav-link {
         color: #B6B6B6;
         padding: 0px;
+        font-weight: 700;
     }
 
     .nav-link:hover {
@@ -90,7 +91,12 @@
     flex-direction: row;
     
     .navbar-search{
-        margin-right:2vh;
+        margin-right:1rem;
+    }
+    .navbar-login{
+        font-weight: 700;
+        border-radius: 0.625rem;
+        width: 7rem;
     }
     .search-icon{
         position: absolute;

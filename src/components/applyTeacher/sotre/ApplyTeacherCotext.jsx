@@ -6,7 +6,6 @@ export const ApplyTeacherContext = createContext({page:1});
 export const ApplyTeacherProvider = ({children}) => {
     const [page,setPage] = useState(initial_page);
     const page_add = (num) =>{
-
         setPage(page+num);
 
     }

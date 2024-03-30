@@ -5,8 +5,12 @@ import CourseIcon from '../assets/images/svg/course-icon.svg';
 import DateIcon from '../assets/images/svg/calendar-icon.svg';
 import TimeIcon from '../assets/images/svg/time-icon.svg';
 import { Link } from "react-router-dom";
+import { useContext } from 'react';
+import { AppContext } from "../App";
 
 const SuccessMessage = ({ show, handleClose, successReservationData }) => {
+  const { state } = useContext(AppContext);
+  const id = state.logindata.data.id
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -15,7 +19,7 @@ const SuccessMessage = ({ show, handleClose, successReservationData }) => {
 
       <Modal.Body className="modal-body">
         <div className="modal-title">
-          <h5 className="title">預約成功！</h5>
+          <h5 className="success-title">預約成功！</h5>
         </div>
         
         <div className="modal-class">
@@ -30,7 +34,7 @@ const SuccessMessage = ({ show, handleClose, successReservationData }) => {
           <img className="modal-time-img" src={TimeIcon} alt="Time" />
           <h6 className="modal-time-title">{successReservationData.time}</h6>
         </div>
-        <Link to="/student">
+      <Link to={`/student/${id}`}>
         <button className="close-button btn btn-secondary">
           至我的課程查看
         </button>

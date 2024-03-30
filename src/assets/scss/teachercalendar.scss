@@ -1,3 +1,27 @@
+@media screen and (max-width: 480px){
+  .not-reserved,
+  .reserved{
+    font-size: 0.6rem !important ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 1080px){
+  .not-reserved,
+    .reserved {
+      font-size: 1rem;
+    }
+}
+
+@media screen and (min-width: 1081px){
+  .not-reserved,
+    .reserved {
+      font-size: 1rem;
+    }
+}
+
 .rbc-calendar{
   border: none;
 }
@@ -32,11 +56,8 @@
           font-family: 'Inter';
           font-style: normal;
           font-weight: 700;
-          font-size: 18px;
           line-height: 22px;
-          /* identical to box height */
           color:var(--main-blue);
-          /* Inside auto layout */
           flex: none;
           order: 1;
           flex-grow: 0;
@@ -91,7 +112,7 @@
   }
   .rbc-allday-cell{
     .rbc-row-bg{
-      height: 8rem;
+      height: 100%;
       
       .rbc-day-bg{        
       position: relative;
@@ -107,26 +128,26 @@
           }
       }
     }
+    .rbc-row-content{
+      margin-top: 1rem;
+    }
   }
 }
 
 
   .rbc-event.rbc-selected{
-      background-color:var(--main-blue25) !important;
-      width: 92%;
-      margin: 0 0.2rem 0 0.3rem;
+      background-color:transparent !important;
   }
 
   .rbc-event-content{
       text-align: center;
       width: 100%;
-      font-size: 1rem;
-      margin-top: 1rem;
       .reserved {
         border: none;
           background-color:var(--grey-300);
           color: var(--white);
           border-radius: 0.3125rem;
+          font-weight: 700;
           &:hover{
             filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
           }

@@ -1,7 +1,7 @@
 @media screen and (max-width: 480px){
 
       .course-title {
-          margin-bottom: 2rem;
+          display: none;
       
       .title {
             font-weight: 700;
@@ -15,10 +15,14 @@
         }
 
 
-      .course-block{
+      .teacher-course-block{
+        height: 0.5rem;
         .title-bar-subject,
         .title-bar-student,
-        .title-bar-time{
+        .title-bar-time,
+        .title-bar-subject-reserve,
+        .title-bar-student-reserve,
+        .title-bar-time-reserve{
           display: none;
         }
       }
@@ -73,38 +77,58 @@
     }
     }
   }
-  .course-date-selector{
+  .date-selector{
     justify-content: space-between;
-    .month-selection{
-      font-family: 'Inter', sans-serif;
-      border: none;
-      color: var(--main-blue);
-      font-weight: 700;
-      position: relative;
-      
-      option{
-        font-weight: 500;
-        font-size: 0.875rem;
-        max-width: 7rem;
+  .course-date-selector {
+      justify-content: space-between;
+  
+      .month-selection {
+        font-family: 'Inter', sans-serif;
+        border: none;
+        color: var(--main-blue);
+        font-weight: 700;
+        position: relative;
+        background-color: transparent;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+  
+        option {
+          font-weight: 700;
+          font-size: 0.875rem;
+          max-width: 7rem;
+          background-color: var(--white);
+        }
+        
       }
+            .arrow{
+              margin-left: -1rem;
+            }
+  
+  
     }
-    .course-calendar-year{
+  
+    .course-calendar-year {
       align-items: center;
-      .text-primary{
-      font-family: 'Inter', sans-serif;
-      font-weight: 700;
+  
+      .text-primary {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
       }
     }
-  }
-  .course-state{
-    margin-right: 0.5rem;
   }
 
-      .course-block{
+  .course-state{
+    .course-state-item{
+      margin-right: 0.5rem;
+    }
+  }
+
+      .teacher-course-block{
         padding:0.2rem;
         border-radius: 0.3125rem;
         .title-bar-subject{
-          background-color: var(--main-blue25);
+          background-color: rgba(255, 255, 255, 0.7);  
           color: black;
           width: 100%;
           text-align: center;
@@ -114,10 +138,45 @@
         }
         .title-bar-student{
           font-size: 0.75rem;
+          color: black;
+          text-align: center;
         }
         .title-bar-time{
           font-size: 0.75rem;
+          
+          color: black;
+          text-align: center;
         }
+        .title-bar-subject-reserve{
+            background-color: var(--main-blue25);
+            color: black;
+            width: 100%;
+            text-align: center;
+            border-radius: 0.1875rem;
+            font-size: 0.875rem;
+            margin-bottom: 0.3125rem;
+        }
+        .title-bar-student-reserve{
+          font-size: 0.75rem;
+          color: var(--white);
+          text-align: center;
+        }
+        .title-bar-time-reserve{
+          font-size: 0.75rem;
+          color: var(--white);
+          text-align: center;
+        }
+        
       }
-
+    .bg-finish {
+        background-color: var(--main-blue25);
+        border:0.0625rem solid var(--main-blue);
+          }
+    .bg-reserve{
+        background-color: var(--main-blue);
+          }
+          .bg-deep{
+            flex:1 0 0%;
+            background-color: var(--grey-light);
+          }
 }

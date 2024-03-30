@@ -6,17 +6,17 @@ import MyCalendar from "../components/Teacher_profile_Calendar";
 import PropTypes from 'prop-types';
 import ClassComments from "../components/ClassComments";
 import ClassReserve from '../components/ClassReserve.jsx';
-import { useState ,useEffect , useContext ,useRef } from "react";
+import { useState ,useEffect , useContext,useRef } from "react";
 import { AppContext } from "../App.jsx";
 import '../assets/scss/teacher.scss';
 import axios from "axios";
 import { Button } from 'react-bootstrap';
+import Flag from 'react-world-flags';
+import { Link } from "react-router-dom";
 import LoginModal from "../components/LoginModal.jsx";
 import { Modal } from 'bootstrap';
-import Flag from 'react-world-flags';
-
-
-
+import ExpandIcon from '../assets/images/svg/expand.svg';
+import CollapseIcon from '../assets/images/svg/collapse.svg';
 
 const TeachersPage = () => {
   const [teacherDetails, setTeacherDetails] = useState(null);
@@ -27,15 +27,9 @@ const TeachersPage = () => {
   const [reserveModalOpen,setIsReserveModalOpen]= useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const loginModal = useRef(null);
-
-
   const { state } = useContext(AppContext);
-
-
   const { id } = useParams();
   const api = 'http://34.125.232.84:3000';
-
-
 
   useEffect(() => {
     const fetchTeacherData = async () => {
@@ -58,32 +52,55 @@ const TeachersPage = () => {
 
     fetchTeacherData();
   }, [id]);
-
-    const openLoginModal = () => {
-    loginModal.current.show();
+  
+  const openLoginModal = () => {
+    loginModal.current?.show();
   };
 
   const closeLoginModal = () => {
-    loginModal.current.hide();  
+    loginModal.current?.hide();  
   };
 
   useEffect(()=>{
         loginModal.current = new Modal('#login_Modal',{
             backdrop: 'static'
         });
-    },[])
+    },[loginModal.current])
 
+  useEffect(()=>{
+    },[state.isLogin])
+
+console.log(localStorage.getItem("islogin"));
   
-    if (state.isLogin===false) {
+    if (localStorage.getItem("islogin")=== "false") {
     return (
-    <div>
-      <div>
-        請登入以查看完整教師資訊
+ <div className="teacher-redirect-container d-flex" style={{justifyContent:'center'}}>
+      <div className="teacher-redirect col-12 col-md-3 col-lg-3" style={{padding:'1rem'}}>
+        <div className="teacher-redirect d-flex" style={{flexDirection:'column',boxShadow:'1px 3px 5px 1px var(--main-blue25)',height:'12rem',textAlign:'center',borderRadius:'0.625rem'}}>
+        <div className="line"></div>
+        <div className="top" style={{marginTop:'5%'}}>
+          <h3 style={{color:'var(--red)'}}>Notice</h3>
+        </div>
+      <div className="title">
+        <h5>請登入以查看完整教師資訊</h5> 
       </div>
-      <Button onClick={openLoginModal}>登入</Button>
-       <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />
-      </div>)
-     ;
+      <div className="btn-login-back">
+      <Link to={"/home"}>
+        <Button className="close-button btn btn-light" style={{margin:'0.5rem',color:'var(--main-blue)',border:'1px solid var(--main-blue)',backgroundColor:'transparent'}}>
+          返回首頁
+        </Button>
+        </Link>
+
+       <Button onClick={openLoginModal}  style={{margin:'0.5rem'}}>登入</Button>
+      {showLoginModal&& <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />}
+      </div>
+        </div>
+      </div>
+      </div>
+    
+    );
+  } else if (localStorage.getItem("islogin")==="true"){
+    closeLoginModal();
   }
 
       if (!teacherDetails) {
@@ -134,7 +151,21 @@ const TeachersPage = () => {
       ))}
                     </div>
                 </div>
-               
+          <div className="pc-reserve-button">
+           <Button className="btn-reserve" style={{background:'linear-gradient(#1AEAEA,#3652E3)',border:'none'}} onClick={() => handleReserveOpen()}>
+          <div style={{fontSize:'0.875rem'}}>
+            預約上課
+          </div>
+          
+          </Button>
+        {reserveModalOpen&&        
+        <ClassReserve
+          teacherDetails={teacherDetails}
+          show={reserveModalOpen} 
+          handleClose={handleReserveClose}
+         />
+         }
+      </div>    
 
              </div>
 
@@ -165,7 +196,7 @@ const TeachersPage = () => {
         <h6 className="title" >簡介</h6>
         <span className="expand-icon"
                 onClick={() => setIsSelfIntroExpanded(!isSelfIntroExpanded)}>
-                {isSelfIntroExpanded ? "收合" : "打開"}
+                {isSelfIntroExpanded ? <img src={CollapseIcon} alt="收合"/> : <img src={ExpandIcon} alt="打開"/>}
               </span>
       </div>
       
@@ -186,7 +217,7 @@ const TeachersPage = () => {
         <h6 className="title">教學風格</h6>
          <span className="expand-icon"
                 onClick={() => setIsTeachStyleExpanded(!isTeachStyleExpanded)}>
-                {isTeachStyleExpanded ? "收合" : "打開"}
+                {isTeachStyleExpanded ? <img src={CollapseIcon} alt="收合"/> : <img src={ExpandIcon} alt="打開"/>}
               </span>       
       </div>
       
@@ -205,7 +236,7 @@ const TeachersPage = () => {
         <h6 className="title">授課時間</h6>
         <span className="expand-icon"
                 onClick={() => setIsCalendarExpanded(!isCalendarExpanded)}>
-                {isCalendarExpanded ? "收合" : "打開"}
+                {isCalendarExpanded ?<img src={CollapseIcon} alt="收合"/> : <img src={ExpandIcon} alt="打開"/>}
               </span>        
       </div>
       
@@ -229,7 +260,7 @@ const TeachersPage = () => {
         <h6 className="title">常見問題</h6>
         <span className="expand-icon"
                 onClick={() => setIsNoticeExpanded(!isNoticeExpanded)}>
-                {isNoticeExpanded ? "收合" : "打開"}</span>        
+                {isNoticeExpanded ?<img src={CollapseIcon} alt="收合"/> : <img src={ExpandIcon} alt="打開"/>}</span>        
       </div>
       
       <p className={`teacher-notice-description ${
