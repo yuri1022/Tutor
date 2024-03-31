@@ -6,6 +6,15 @@
     // .dropdown-item:hover{
     //     color:#3652E3;
     // }
+    .dropdown{
+        .dropdown-toggle{
+            position:relative;
+            width: 30px;
+            height: 30px;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+    }
 }
 @media screen and (max-width:480px){
 .searchbar-out{
@@ -133,7 +142,8 @@
 .navbar-right {
     display: flex;
     flex-direction: row;
-    
+    align-items:center;
+    justify-content: center;
     .navbar-search{
         margin-right:1rem;
     }
@@ -161,16 +171,18 @@
     .search-stroke:hover{
         stroke:#3652E3;
     }
-    .avatar-block{
-        display:flex;
-        justify-content: center;
-        align-items: center;
-        margin-right:2vh;
-    }
+
     .avatar-img{
-        width: 30px;
-        height: 30px;
-        border-radius: 15px;
+        width: 100%; 
+        height: 100%;  
+        max-width: none; 
+        max-height: none;
+        object-fit: cover; 
+        object-position: center; 
+        position: absolute; 
+        top: 50%;
+        left: 50%; 
+        transform: translate(-50%, -50%); 
     }
 }
 

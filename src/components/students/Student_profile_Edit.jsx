@@ -75,7 +75,11 @@ const Students_profile_Edit = ({closeEditModal,onMsg})=>{
             <div className="modal-body">
                 <div className=" w-100 d-flex edit-sm-container">
                     <div className="student_image_block col-4 d-flex flex-column items-center w-sm-100">
-                        <div className="d-flex justify-content-center align-items-center mb-10px w-sm-100"><img className="editImage" src={editImage.avatar}></img></div>
+                        <div className="d-flex justify-content-center align-items-center mb-10px w-sm-100">
+                            <div className="editImage-block">
+                            <img className="editImage" src={editImage.avatar}></img>
+                            </div>
+                        </div>
                         {ischangePhoto ?
                         (    
                         <div className="w-100 d-flex justify-content-between align-items-center">   

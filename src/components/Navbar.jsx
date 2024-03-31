@@ -206,7 +206,6 @@ const Navbar = (props) =>{
 
                             {
                         localStorage.getItem("islogin")==="true" ? (
-                        <div className="d-flex">
                             <Dropdown >
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
                             <img className="avatar-img" src={JSON.parse(localStorage.getItem("userdata"))?.data?.avatar}/>
@@ -228,8 +227,8 @@ const Navbar = (props) =>{
                             )}
                             </Dropdown>   
 
-                        {/* <button className="btn btn-outline-success my-2 my-sm-0" >登出</button> */}
-                            </div>
+                        
+                            
                                     
                                 ):
                                 ( 
