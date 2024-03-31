@@ -89,10 +89,7 @@ const Students_profile = () =>{
             <Students_profile_Rating obj_rating={obj_rating} closeRatingModal={closeRatingModal} onMsg={handleMsg}/>
             <Students_profile_Edit closeEditModal={closeEditModal} onMsg={handleMsg}/>
             <div className="Profile_container_stu">
-                <div className="row">
-
-                    <div className="col-sm-12 col-md-4 col-4 ">
-                        
+                <div className="grid-container">
                         <div className="left-profile-stu-container">
                             <div className="img-profile-container"><img className="img-profile" src={student_data.avatar}></img></div>
                             <div className="text-title mb-40px">{student_data.name}</div>
@@ -113,12 +110,12 @@ const Students_profile = () =>{
                             </div>    
                             <button type="button" className="btn btn-primary w-100 mb-20px" onClick={openEditModal}>編輯個人檔案</button>
                         </div>
-                    </div>
-                    <div className="col-sm-none col-md-8 col-8">
-                        <div className="right-profile-stu-container ">
+                    
+                    
+                        <div className="right-profile-stu-container">
                             <Students_profile_Calender  openRatingModal={openRatingModal} openGoClassModal={openGoClassModal}></Students_profile_Calender>
                         </div>
-                    </div>
+                    
 
                 </div>
             </div>
