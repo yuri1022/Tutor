@@ -44,7 +44,8 @@
         justify-content: center;
         align-items:center;
     }
-    .line{
+    .apply-line{
+        content:'';
         width: 90%; /* 設定寬度 */
         height: 2px; /* 設定高度 */
         background-color: #D9D9D9; /* 設定顏色 */
@@ -58,54 +59,4 @@
         position: relative;
         flex: 0;
     }
-}
-
-@media screen and (max-width: 480px){
-    .apply-mobile-container{
-        padding: 20px 24px 0px 24px;
-        .button-list{
-            width:100%;
-            display:flex;
-            margin-top:auto;
-            // position: absolute;
-            // bottom: 0px;
-            // right: 20px;
-        }  
-        .btn-form{
-            background-color: #9B9C9E;
-            color:white
-        }
-        .btn-form:hover{
-            background-color: #3652E3;
-        }
-    }
-}
-
-@media screen and (min-width: 1081px) {
-
-
-}
-@media screen and (min-width: 1081px){
-
-    .apply-mobile-container{
-
-        padding: 20px 24px 0px 24px;
-
-        .button-list{
-            width:100%;
-            display:flex;
-            margin-top:auto;
-            // position: absolute;
-            // bottom: 0px;
-            // right: 20px;
-        }  
-        .btn-form{
-            background-color: #9B9C9E;
-            color:white
-        }
-        .btn-form:hover{
-            background-color: #3652E3;
-        }
-    }
-
 }

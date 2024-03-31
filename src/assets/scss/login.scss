@@ -1,4 +1,23 @@
 
+@media screen and (max-width:480px) {
+    .login-container {
+            height: 100%;
+        }
+}
+
+@media screen and (min-width: 481px) and (max-width: 1080px){
+    .login-container {
+
+            height: 100%;
+        }
+}
+
+@media screen and (min-width:1081px){
+    .login-container {
+
+            height: 100%;
+        }
+}
 .login_modal_content{
     .modal-header{
         border-bottom: 3px solid;
@@ -23,11 +42,6 @@
         line-height: 1;
         color: #3652E3;
         text-shadow: 0 1px 0 #fff;
-    }
-    .login-container{
-        padding-left:60px;
-        padding-right:60px;
-        height: 100%;
     }
     .button-list{
         display:flex;
@@ -59,13 +73,14 @@
     }
     .mode-active{
         color:black;
+        font-weight: 700;
     }
     .input-bar{
         display:flex;
     }
     .input-login-label{
         text-align:center;
-        border:1px  solid #dee2e6;
+        border:1px solid var(--main-blue);
         width:34%;
         color:#3652E3;
         border-right: 0px;
@@ -73,9 +88,10 @@
         border-bottom-right-radius: 0px 0px;
 
     }
+
+    
     .is-wrong{
         background-image: none;
-        border: 1px solid #dc3546;
         border-right: 0px;
         border-top-right-radius: 0px 0px;
         border-bottom-right-radius: 0px 0px;
@@ -86,10 +102,20 @@
         border-top-left-radius: 0px 0px;
         border-bottom-left-radius: 0px 0px;
         border-left: 0px;
-        
+        border-color: var(--main-blue);
     }
 
-
+    .button-container{
+        justify-content: space-between;
+    .btn {
+        font-size: 0.875rem;
+        width: 48%;
+        padding:0.5rem 0;
+        .icon{
+        padding-right: 0.5rem;
+        }
+        }
+    }
 
     /*modal-footer*/
     .modal-footer {

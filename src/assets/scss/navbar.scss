@@ -30,11 +30,7 @@
         cursor: pointer;
     }
 }
-.Navtop{
-    .navbar-container {
-        padding: 2rem 1rem 0 1rem;
-    }
-}
+
     .navbar-right{
             .navbar-search{
                 display: none;
@@ -67,10 +63,19 @@
 }
 
 .apply-Nav{
+
     .topbar{
+        padding: 0px 5px 0px 5px;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items:center;
         border:1px solid #3652E3;
+        height:58px;
         border-right: 0px;
         border-left: 0px;
+        margin-bottom: 20px;
+        text-decoration: none;
+        
     }
 }
 /**/
@@ -96,7 +101,8 @@
     .nav-link {
         color: #B6B6B6;
         padding: 0px;
-        font-weight: bold;
+        font-weight: 700;
+
     }
 
     .nav-link:hover {
@@ -129,7 +135,12 @@
     flex-direction: row;
     
     .navbar-search{
-        margin-right:2vh;
+        margin-right:1rem;
+    }
+    .navbar-login{
+        font-weight: 700;
+        border-radius: 0.625rem;
+        width: 7rem;
     }
     .search-icon{
         position: absolute;

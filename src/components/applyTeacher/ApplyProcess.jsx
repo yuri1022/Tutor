@@ -15,7 +15,7 @@ const ApplyProcess = () =>{
                 </div>
                 <div className="process-line d-flex items-center justify-space-between mb-22px">
                   <div className="icon-circle mr-10px">3</div>
-                  <div className={`process-bar ${page===3? 'active': ''}`}>類別 / 教學分格 / 課程內容</div>
+                  <div className={`process-bar ${page===3? 'active': ''}`}>類別 / 教學風格 / 課程內容</div>
                 </div>
                 <div className="process-line-end d-flex items-center justify-space-between ">
                   <div className="icon-circle mr-10px">4</div>

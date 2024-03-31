@@ -10,10 +10,10 @@ const ApplyTeacher = () => {
   // 處理表單提交的函式
   return (
     <div className="apply-teacher-context">
-      <div className="mt-10px display-none-latop">申請成為老師</div>
+      <div className="apply-mb-title display-none-latop">申請成為老師</div>
       <ApplyTeacherProvider>
-        <div className="applyContainer d-flex .col.col-lg-9" style={{marginTop:"6%"}}>
-            <div  className="left-container" >
+        <div className="applyContainer d-flex" style={{height:'100%'}}>
+            <div  className="left-container col-4">
               <div className="text-center">
                 <div className="title mb-10px">填寫表單</div>
                 <p>完成時間約三分鐘</p>
@@ -21,16 +21,17 @@ const ApplyTeacher = () => {
               <ApplyProcess/>
 
             </div>
-            <div  className="clearout"  style={{width:"70%"}}>
-              <div className="right-container " >
+              <div className="right-container col-8">
                 <ApplyTeacherForm></ApplyTeacherForm>
               </div>
             </div>
-        </div>
       </ApplyTeacherProvider>
-      <button className="btn btn-outline-primary display-none-latop ">
-        <Link to="/apply/apply_teacher_form">開始撰寫</Link>
+      <div className="mb-start-container d-flex">
+        <button className="mb-startbutton btn btn-outline-primary display-none-latop">
+        <Link to="/apply/apply_teacher_form" className="text">開始填寫</Link>
       </button>
+      </div>
+
 
 
     </div>

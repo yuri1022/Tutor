@@ -4,7 +4,8 @@ import ReactFlagsSelect from "react-flags-select";
 import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext';
 import { AppContext } from '../../App';
 import { applyTeacher } from '../../api/teacher';
-import countries from './data/country';
+import Swal from 'sweetalert2';
+
 const ApplyTeacherForm = () =>{
     const [validateName,setValidateName] = useState(false);
     const [ validateCountry,setValidateCountry] = useState(false);
@@ -19,6 +20,8 @@ const ApplyTeacherForm = () =>{
     const [country,setCountry] = useState('');
     const [introTxt, setIntroTxt] = useState('');
     const [teachStyle,setTeachStyle] = useState('');
+    const [reloadPage, setReloadPage] = useState(false);
+
     const [weekdays, setWeekdays] = useState({
         mon: false,
         tue: false,
@@ -87,10 +90,6 @@ const ApplyTeacherForm = () =>{
             count++;
         }
         return cg_list;
-    }
-    const changeCountryISO = ()=>{
-        const country_name = countries[country];
-        return country_name;
     }
     //checkbox
     const handleCheckboxChange_day = (e)=>{
@@ -163,14 +162,15 @@ const ApplyTeacherForm = () =>{
         }
     }
     const handleApplyTeacher = async()=>{
+     try{
         const weekday_obj = weekdayforstr();
         const category_list = categoryToList();
-        const country_name = changeCountryISO();
+        // const country_name = changeCountryISO();
         const formdata = {
             name:teachername,
             email:userdata?.email,
             password: localStorage.getItem("password"),
-            nation: country_name,
+            nation: country,
             selfIntro: introTxt,
             teachStyle:teachStyle,
             ...weekday_obj,
@@ -178,11 +178,33 @@ const ApplyTeacherForm = () =>{
         }
         console.log(formdata);
         const applyres= await applyTeacher(userdata.id,formdata);
-        localStorage.setItem('isHome',"true");
-        navigate('/');
+
+
+        localStorage.setItem("isTeacher", "1"); 
+        Swal.fire({
+            title: 'Success',
+            text: '申請成功，您現在具有老師身分了！',
+            icon: 'success',
+            confirmButtonText: '確定'
+            }).then((result) => {
+        if (result.isConfirmed) {
+          setReloadPage(true);
+        }
+    });
         
+    }catch (error) {
+    console.error('Error applying for teacher:', error);
+  }
+};
+    useEffect(()=>{
+    if (reloadPage) {
+        localStorage.setItem('isHome',"true");
+      navigate('/home'); // 根据需要跳转到相应的页面
+      setReloadPage(false); // 重置 reloadPage 状态，避免重复触发
 
     }
+    },[reloadPage]);
+
     // console.log('errors:',errors);
     // console.log(errors.teachername);
     useEffect(()=>{
@@ -190,29 +212,32 @@ const ApplyTeacherForm = () =>{
         setTeachername(student_data.name);
         setIntroTxt(student_data.selfIntro);
     },[])
+
+
         return(
-            <div>
-                <form  className=" h-100 applyForm" >
+            <>
+                <form className="h-100 applyForm">
+                
                 {
                     page===1 &&
                    (<>
-
-                        <label htmlFor="teachername" className="title mb-22px">姓名</label>
+                        <div className="form-container d-flex">
+                        <label htmlFor="teachername" className="title mb-22px">名字</label>
                         <div className="mb-22px">
                             <input name="teachername" value={teachername}
                             onChange={(e)=>{handleTeacherName(e.target.value)}}
-                            className={`form-control  mb-10px${teachername===null && 'is-invalid'}`}
-                            placeholder="請輸入姓名"
+                            className={`form-control mt-1 mb-10px${teachername===null && 'is-invalid'}`}
+                            placeholder="請輸入名字"
                             required maxLength="20"/>
     
                             { validateName===true && 
-                                (<div className="txt-is-invalid">
+                                (<div className="txt-is-invalid mt-1">
                                 請輸入姓名
                             </div>)
                             }
                         </div>
     
-                        <label className="title mb-22px">請問來自哪個國家請問來自哪個國家</label>
+                        <label className="title mb-22px">請問你來自哪個國家?</label>
                         <ReactFlagsSelect
                             selected={country}
                             onSelect={(code) => setCountry(code)}
@@ -222,16 +247,18 @@ const ApplyTeacherForm = () =>{
                             
                         />
                         { validateCountry===true && 
-                            (<div className="txt-is-invalid">
+                            (<div className="txt-is-invalid mt-1">
                                 請輸入國籍
                             </div>)
                         }
                         <div className="mb-auto"></div>
+                        </div>
                     </>)
                 }
                 {
                     page===2 && (
                         <>
+                        <div className="form-container d-flex">
                             <label className="title mb-22px">簡介</label>
                             <div className="mb-22px">
                             <textarea value={introTxt}
@@ -240,9 +267,10 @@ const ApplyTeacherForm = () =>{
                             required
                             />
                             {validateIntro===true && 
-                            <div className="txt-is-invalid">
+                            <div className="txt-is-invalid mt-1">
                                 請輸入簡介
                             </div>}
+                        </div>
                         </div>
                         </>
                     )
@@ -250,13 +278,16 @@ const ApplyTeacherForm = () =>{
                 {
                     page===3 &&(
                     <>
+                        <div className="form-container d-flex">
+
                         <label className="title mb-22px">類別</label>
-                        <div className="row">
+                        <div className="category-container d-flex">
                         {
                             Object.keys(categoryObj).map((cg)=>(
-                                <div className="col-3" key={cg}>
+                                <div className="category-item" key={cg}>
                                     <label>
                                         <input
+                                        className="form-check-input"
                                         type="checkbox"
                                         name={cg}
                                         checked={categoryObj[cg]}
@@ -271,7 +302,7 @@ const ApplyTeacherForm = () =>{
                         }
                         </div>
                         { validateCategoryObj===true && 
-                                (<div className="txt-is-invalid">
+                                (<div className="txt-is-invalid mt-1">
                                 請勾選課程類別
                             </div>)
                         }
@@ -284,10 +315,11 @@ const ApplyTeacherForm = () =>{
                             placeholder="請輸入教學風格"/>
                         </div>
                         { validateStyle===true && 
-                            (<div className="txt-is-invalid">
+                            (<div className="txt-is-invalid mt-1">
                                 請輸入教學風格
                             </div>)
                         }
+                        </div>
                     </>
 
                     )
@@ -295,13 +327,19 @@ const ApplyTeacherForm = () =>{
                 {
                     page===4 && (
                         <>
-                        <label className="title mb-22px">授課時間1</label>
-                        <div className="row">
+                        <div className="form-container d-flex">
+
+                        <label className="title mb-22px">授課時間</label>
+                        <div className="time-text mb-22px">
+                            <h6>於下方先勾選每週方便的時間，後續可再至個人頁面以30分鐘或1小時為單位添加課程。</h6>
+                        </div>
+                        <div className="category-container d-flex">
                         {
                             Object.keys(weekdays).map((day)=>(                             
-                                <div className="col-3" key={day}>
+                                <div className="category-item" key={day}>
                                     <label >
                                     <input
+                                    className="form-check-input"
                                     type="checkbox"
                                     name={day}
                                     checked={weekdays[day]}
@@ -315,31 +353,32 @@ const ApplyTeacherForm = () =>{
                         }
                         </div>
                         { validateWeekdays===true && 
-                            (<div className="txt-is-invalid">
+                            (<div className="txt-is-invalid mt-1">
                                 請勾選能安排的課程時間
                             </div>)
                         }
-
+                        </div>
                         </>
                     )
                 }
+
                     <div className="button-list">
                         <div className="mr-auto"></div>
                         <button type="button" 
-                        className={`btn btn-form mr-10px ${page===1? 'disabled':''}`}
+                        className={`btn btn-previous btn-form mr-10px ${page===1? 'disabled':''}`}
                         onClick={()=>{
                             page_add(-1);
                         }}
                         >上一步</button>
                         {
-                            page===4 ? (<button type="button" className="btn btn-form" onClick={()=>{handlePageAdd(page)}}>完成表單</button>): 
-                            (<button type="button" className="btn btn-form" onClick={()=>{
+                            page===4 ? (<button type="button" className="btn btn-finish btn-form" onClick={()=>{handlePageAdd(page)}}>完成表單</button>): 
+                            (<button type="button" className="btn btn-next  btn-form" onClick={()=>{
                                 handlePageAdd(page);
                             }}>下一步</button>)
                         }             
                     </div>
                 </form>
-            </div>
+            </>
         )
 }
 
