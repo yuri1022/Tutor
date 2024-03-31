@@ -3,7 +3,7 @@ import { put_rating_course } from '../../api/register';
 import { get_student_data } from '../../api/student';
 import { AppContext } from '../../App';
 import PropTypes from 'prop-types';
-const Student_profile_Rating = ({closeRatingModal,obj_rating}) =>{
+const Student_profile_Rating = ({closeRatingModal,obj_rating,onMsg}) =>{
     const [comment,setComment] = useState('');
     const [rating, setRating] = useState(null);
     const {dispatch} = useContext(AppContext);
@@ -36,6 +36,7 @@ const Student_profile_Rating = ({closeRatingModal,obj_rating}) =>{
         const student_data =await get_student_data(studentData.id);
         console.log(student_data);
         localStorage.setItem('userdata',JSON.stringify(student_data));
+        onMsg('rating');
         closeRatingModal();
         
 

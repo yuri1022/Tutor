@@ -9,6 +9,7 @@ export const edit_student_data = async(id,formdata)=>{
       try {
         const res = await axios.put(`${baseUrl}/${id}`,formdata,{
           headers: {
+            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`,
           },
         });

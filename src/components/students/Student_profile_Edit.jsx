@@ -4,7 +4,7 @@ import { edit_student_data } from '../../api/student';
 import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import PropTypes from 'prop-types'
-const Students_profile_Edit = ({closeEditModal})=>{
+const Students_profile_Edit = ({closeEditModal,onMsg})=>{
     const api = 'http://34.125.232.84:3000';
     const studentData = useContext(AppContext).state.logindata.data;
     const student_data = JSON.parse(localStorage.getItem("userdata")).data;
@@ -13,6 +13,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
     const [ ischangePhoto,setIschangePhoto] = useState(false);
     const [ editImage, setEditImage] = useState({avatar:student_data.avatar});
     const [uploadImageModal, setUploadImageModal] = useState(false);
+    const [ file ,setFile] = useState({})
     const {dispatch} = useContext(AppContext);
     const handleImageChange = (e) => {
         setUploadImageModal(true);
@@ -27,6 +28,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
             );
           };
           reader.readAsDataURL(file);
+          setFile(file);
           setIschangePhoto(false);
           
         }
@@ -37,7 +39,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
             name: nameTxt,
             nickname: '',
             selfIntro: introTxt,
-            avatar: editImage.avatar,
+            avatar: file,
         }
         console.log(formData.avatar);
         const edit_res =await edit_student_data(id,formData);
@@ -53,6 +55,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
             }
         )
         console.log(edit_res);
+        onMsg('edit');
         closeEditModal();
     }
     const handleChangeheadshot = ()=>{
@@ -70,12 +73,13 @@ const Students_profile_Edit = ({closeEditModal})=>{
                 </button>
             </div>
             <div className="modal-body">
-                <div className="row">
-                    <div className="col-4 d-flex flex-column items-center">
-                        <div className="mb-10px"><img className="w-100 h-100" src={editImage.avatar}></img></div>
+                <div className=" w-100 d-flex edit-sm-container">
+                    <div className="student_image_block col-4 d-flex flex-column items-center w-sm-100">
+                        <div className="d-flex justify-content-center align-items-center mb-10px w-sm-100"><img className="editImage" src={editImage.avatar}></img></div>
                         {ischangePhoto ?
                         (    
-                        <div className="d-flex flex-reverse">            
+                        <div className="w-100 d-flex justify-content-between align-items-center">   
+                        <div>請上傳圖片</div>
                         <button type="button" className="close-btn close" data-dismiss="modal" aria-label="Close" onClick={()=>{setIschangePhoto(false)}}>
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -89,7 +93,6 @@ const Students_profile_Edit = ({closeEditModal})=>{
                             (   <>
                         <Form>
                         <Form.Group controlId="formFile" className="mb-3">
-                        <Form.Label>選取圖片上傳</Form.Label>
                         <Form.Control type="file" name="avatar" onChange={handleImageChange} />
                         </Form.Group>
                         </Form>
@@ -98,7 +101,7 @@ const Students_profile_Edit = ({closeEditModal})=>{
                         }
 
                     </div>
-                    <div className="col-8">
+                    <div className="col-8 w-sm-100">
                         <div className="mb-10px">
                             <div className="title mb-10px">姓名</div>
                             <input type="text" className="input-name" value={nameTxt} onChange={(e)=>{setNameTxt(e.target.value)}}/>

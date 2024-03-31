@@ -4,18 +4,32 @@ import Students_profile_Calender from "../../components/Student_profile_Calender
 import Students_profile_Rating from "../../components/students/Student_profile_Rating";
 import Students_profile_Go_Class from "../../components/students/Student_profile_Go_Class";
 import { Modal } from 'bootstrap';
+import Notification from '../../components/students/Student_Notification';
 
 const Students_profile = () =>{
     const ratingModal = useRef(null);
     const goclassModal = useRef(null);
+    const [msg_type,setMsg_type] = useState('');
+    const [showToast, setShowToast] = useState(false);
     const student_data = JSON.parse(localStorage.getItem("userdata")).data;
-    console.log(student_data);
+    // console.log(student_data);
+    const handleMsg=(msg)=>{
+        if(msg==="delete"){
+            setShowToast(true);
+            setMsg_type('delete');
+        }
+        if(msg==="rating"){
+            setShowToast(true);
+            setMsg_type('rating');
+        }
+    }
     const [obj_goclass, setObj_goclass] = useState({
         teacher: '',
         date: new Date(),
         time: 0,
         courseId: 0,
     })
+
     const [obj_rating,setObj_rating] = useState({
         teacher: '',
         date: new Date(),
@@ -54,9 +68,9 @@ const Students_profile = () =>{
         });
     },[])
     return(
-        <div>
-            <Students_profile_Go_Class obj_goclass={obj_goclass} closeGoClassModal={closeGoClassModal}/>
-            <Students_profile_Rating obj_rating={obj_rating} closeRatingModal={closeRatingModal} />
+        <div className="student_Course_Page">
+            <Students_profile_Go_Class obj_goclass={obj_goclass} closeGoClassModal={closeGoClassModal} onMsg={handleMsg}/>
+            <Students_profile_Rating obj_rating={obj_rating} closeRatingModal={closeRatingModal} onMsg={handleMsg}/>
             <div className="Course_container_stu">
                 <div className="row">
                     <div className="col-12">
@@ -69,6 +83,7 @@ const Students_profile = () =>{
                     </div>
                 </div>
             </div>
+            <Notification showToast={showToast} setShowToast={setShowToast} mode={msg_type}></Notification>
         </div>
     )
 }

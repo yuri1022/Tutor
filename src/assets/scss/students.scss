@@ -1,7 +1,38 @@
+.student_Profile_Page{
+    position: relative;
+    .toast{
+        position: absolute;
+        bottom: 80px;
+        right:80px;
+        width: 250px;
+        .toast-body{
+            background-color:rgb(222,223,223);
+            color:#3652E3;
+        }
+    }
+
+}
+.student_Course_Page{
+    position: relative;
+    
+    .toast{
+        position: absolute;
+        bottom: 80px;
+        right:80px;
+        width: 250px;
+        .toast-body{
+            color:#3652E3;
+            background-color:rgb(222,223,223);
+        }
+    }
+
+}
+
 .Profile_container_stu{
     padding: 20px 7vh 30px 7vh;
     background-color:white;
     position:relative;
+
 
     .absent{
         background-color: #f9d2cf;;
