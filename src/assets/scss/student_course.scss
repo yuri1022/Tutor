@@ -40,8 +40,9 @@
 
 }
 
-@media screen and (max-width: 480px){
+@media screen and (max-width: 590px){
     .Course_container_stu{
+        min-width: 300px;
         padding: 20px 20px 30px 20px;
         background-color:white;
         position:relative;
@@ -113,7 +114,7 @@
     }
     .calender_block{
         border:1px solid #3652E3;
-        padding:5px;
+        padding:3px;
         text-align:right;
         min-height:120px;
     }
@@ -129,7 +130,6 @@
         align-items: center;
         border-radius: 5px;
         padding:8px 3px 0px 3px;
-        
         
     }
     .title-bar{
