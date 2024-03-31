@@ -64,7 +64,7 @@ const Students_profile_Edit = ({closeEditModal,onMsg})=>{
     return(
         <div className="modal fade studentModal" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-        <div className=" modal-dialog modal-sm modal-lg">
+        <div className=" modal-dialog  modal-lg">
             <div className="editStuModal_content modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel"></h5>
