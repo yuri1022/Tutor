@@ -140,12 +140,17 @@ const handleCategoryChange = (selectedCategoryItemId) => {
   // 設定當前頁面狀態為 1，因為類別切換後應該回到第 1 頁
   setCurrentPage(1);
 };
+
+const maxPages = window.innerWidth < 480 ? 5 : 10;
+const startPage = currentPage <= maxPages/2 ? 1 : currentPage - maxPages +3;
+const endPage = Math.min(startPage + maxPages - 1, totalPages);
+
   return (
 
     
   <div className="div-container__home col col-12" >
 
-      <div className='category-buttons-container d-flex'>
+      <div className='category-buttons-container d-flex col-12'>
         <div className="category-buttons">
           {/* 動態生成按鈕 */}
       {categoryOptions && uniqueCategories.map((category) => (
@@ -162,10 +167,10 @@ const handleCategoryChange = (selectedCategoryItemId) => {
       </div>
 
 
-    <div className="div-container d-flex">
+    <div className="div-container col-12">
     {teacherData.teachers && teacherData.teachers.map((teacher) => (
 
-      <div className="div-container__info col-12 col-md-4 col-lg-4" key={teacher.id}>
+      <div className="div-container__info col-12" key={teacher.id}>
         <Card className="card">
         <Card.Body >
         <div className="teacher-top">
@@ -248,15 +253,16 @@ const handleCategoryChange = (selectedCategoryItemId) => {
         </div>
         
         <div className="pagination-control-page">
-          {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            className={`btn ${currentPage === index + 1 ? 'btn-primary' : 'btn-outline-primary'}`}
-            onClick={() => handlePageChange(index + 1)} 
-            style={{border:'none'}}>
-            {index + 1}
-          </button>
-        ))}
+        {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
+              <button
+                key={startPage + index}
+                className={`btn ${currentPage === startPage + index ? 'btn-primary' : 'btn-outline-primary'}`}
+                onClick={() => handlePageChange(startPage + index)}
+                style={{ border: 'none' }}
+              >
+                {startPage + index}
+              </button>
+            ))}
 
         </div>
 

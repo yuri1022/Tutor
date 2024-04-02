@@ -208,7 +208,7 @@ const Navbar = (props) =>{
                         localStorage.getItem("islogin")==="true" ? (
                             <Dropdown >
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
-                            <img className="avatar-img" src={JSON.parse(localStorage.getItem("userdata"))?.data?.avatar}/>
+                            <img className="avatar-img" style={{objectFit:'cover'}} src={JSON.parse(localStorage.getItem("userdata"))?.data?.avatar}/>
                             </Dropdown.Toggle>
                             {state.isTeacher===1 && localStorage.getItem("changeMode")==="teacher" ?
                             (    

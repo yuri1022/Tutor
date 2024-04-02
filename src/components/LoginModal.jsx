@@ -79,7 +79,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
 // <<<<<<< HEAD
 //         // localStorage.setItem("isHome","true");
 // =======
-        localStorage.setItem("changeMode","teacher");
+        localStorage.setItem("changeMode","student");
 
         //handle Login 
         if(token){
