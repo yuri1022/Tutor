@@ -15,6 +15,7 @@ import { useTeacherContext } from './teachercontext';
 import ClassReserve from './ClassReserve';
 import axios from 'axios';
 import Flag from 'react-world-flags';
+import Swal from 'sweetalert2';
 
 const api = 'http://34.125.232.84:3000';
 
@@ -61,20 +62,48 @@ const categoryOptions = teacherData?.categories?.map(category => ({
     const newPage = currentPage > 1 ? currentPage - 1 : 1;
     handlePageChange(newPage);
     setCurrentPage(newPage);
+  if (currentPage === 1) {
+    Swal.fire({
+      icon: 'info',
+      title: '已到達第一頁',
+      text: '已經是第一頁了！',
+    });
+  }
   };
 
   const handleNextPage = () => {
     const newPage = currentPage < totalPages ? currentPage + 1 : totalPages;
     handlePageChange(newPage);
     setCurrentPage(newPage);
+  if (currentPage === totalPages) {
+    Swal.fire({
+      icon: 'info',
+      title: '已到達最後一頁',
+      text: '已經是最後一頁了！',
+    });
+  }
   };
 
   const handleFirstPage = () => {
     handlePageChange(1);
+    if (currentPage === 1) {
+    Swal.fire({
+      icon: 'info',
+      title: '已到達第一頁',
+      text: '已經是第一頁了！',
+    });
+  }
   };
 
   const handleLastPage = () => {
     handlePageChange(totalPages);
+   if (currentPage === totalPages) {
+    Swal.fire({
+      icon: 'info',
+      title: '已到達最後一頁',
+      text: '已經是最後一頁了！',
+    });
+  }
   };  
 
 

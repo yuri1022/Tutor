@@ -119,7 +119,7 @@ useEffect(() => {
         <div className="student-info" style={{display:'flex',flex:'1'}}>
 
         <div className="img-container" style={{maxWidth:'3.5rem',maxHeight:'3.5rem',marginRight:'0.7rem'}}>
-          <img src={studentRank.avatar} alt="" style={{width:'2rem',height:'2rem',borderRadius:'50%'}}/>
+          <img src={studentRank.avatar} alt="" style={{width:'2rem',height:'2rem',borderRadius:'50%',objectFit:'cover'}}/>
         </div>
         <div className="student-name" style={{padding:'2px',fontWeight:'700'}} >{studentRank.name} </div>
 

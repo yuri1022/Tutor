@@ -11,7 +11,7 @@ const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editi
   const [category, setCategory] = useState([...new Set(teacherDetails.teaching_categories.map(categories => categories.Category.name))]);
   const [nation, setNation] = useState(editedData.nation);
   const [uploadImageModal, setUploadImageModal] = useState(false);
-
+  const [ file ,setFile] = useState({})
 const AllCategories = [
   { label: "多益", value: 1 },
   { label: "托福", value: 2 },
@@ -49,6 +49,7 @@ useEffect(() => {
       [e.target.name]: e.target.value,
     });
   };
+console.log(editedData.name);
 
   // 处理国籍输入框变化
 const handleNationChange = (code) => {
@@ -70,71 +71,41 @@ const handleCategoryChange = (selectedCategory) => {
 };
 
   // 处理图片上传变化
-const handleImageChange = (e) => {
-  setUploadImageModal(true);
 
-  const file = e.target.files[0];
-  if (file) {
-    const formData = new FormData();
-        const originalCategory =  [...new Set(teacherDetails.teaching_categories.map(category => category.categoryId))]
-        const sortedCategory = originalCategory.slice().sort((a, b) => a - b); // 按照数字大小排序
+  const handleImageChange = (e) => {
+        setUploadImageModal(true);
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setEditedData(
+                {
+                  name:editedData.name,
+                  avatar: reader.result,
+                  category:category,
+                  nation:nation,
+                }
+            );
+          };
+          reader.readAsDataURL(file);
+          setFile(file);
+          setUploadImageModal(false);
+        }
+      };
 
-    const id = teacherDetails.id;
-
-    sortedCategory.forEach((element, index) => {
-  formData.append(`category[${index}]`, element);
-});
-
-    formData.append('avatar', file);
-    formData.append('name', teacherDetails.name);
-    formData.append('nation', teacherDetails.nation);
-    formData.append('teachStyle', teacherDetails.teachStyle);
-    formData.append('selfIntro', teacherDetails.selfIntro);
-    formData.append('mon', teacherDetails.mon.toString());
-    formData.append('tue', teacherDetails.tue.toString());
-    formData.append('wed', teacherDetails.wed.toString());
-    formData.append('thu', teacherDetails.thu.toString());
-    formData.append('fri', teacherDetails.fri.toString());
-    formData.append('sat', teacherDetails.sat.toString());
-    formData.append('sun', teacherDetails.sun.toString());
-
-    const token = localStorage.getItem("token");
-
-    axios.put(`http://34.125.232.84:3000/teacher/${id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      console.log('Image upload response:', response);
-      // 在这里可以处理上传成功后的逻辑，如更新页面数据等
-    })
-    .catch((error) => {
-      console.error('Image upload error:', error);
-      // 在这里可以处理上传失败后的逻辑，如显示错误提示等
-    });
-     console.log(formData);
-  }
-};
-
-  // 处理保存按钮点击 
 const handleSaveClick = () => {
   const updatedData = {
   name: editedData.name,
   nation: nation,
   category: category,
-  avatar: editedData.avatar,
+  avatar: file,
   };
 
   // 将編輯的資料傳遞給父層組件的回調函數
   handleSave(updatedData, editingSection);
-
   handleClose();
   console.log(editedData.avatar);
   console.log("保存后的 updatedData：", updatedData);
-
-  
   
 };
 

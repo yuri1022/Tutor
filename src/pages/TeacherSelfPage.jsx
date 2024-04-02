@@ -169,62 +169,56 @@ const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
 
   
 
-const handleSave = async (updatedData,editedData, section) => {
-
+const handleSave = async (updatedData, editedData, section) => {
   try {
     const token = localStorage.getItem('token');
-    const originalCategory =  [...new Set(teacherDetails.teaching_categories.map(category => category.categoryId))]
+    const formData = new FormData();
+    formData.append('name', updatedData.name || teacherDetails.name);
+    formData.append('nation', updatedData.nation || teacherDetails.nation);
+    formData.append('avatar', updatedData.avatar || teacherDetails.avatar);
+    formData.append('teachStyle', isEditTeachingStyle ? updatedData.teachStyle : teacherDetails.teachStyle);
+    formData.append('selfIntro', isEditInfo ? updatedData.selfIntro : teacherDetails.selfIntro);
+    formData.append('mon', teacherDetails.mon.toString());
+    formData.append('tue', teacherDetails.tue.toString());
+    formData.append('wed', teacherDetails.wed.toString());
+    formData.append('thu', teacherDetails.thu.toString());
+    formData.append('fri', teacherDetails.fri.toString());
+    formData.append('sat', teacherDetails.sat.toString());
+    formData.append('sun', teacherDetails.sun.toString());
 
-    console.log(updatedData.category)
-
-   const requestData = {
-  "name": updatedData.name || teacherDetails.name,
-  "nation": updatedData.nation || teacherDetails.nation,
-  "category": updatedData.category || originalCategory,
-  "avatar": updatedData.avatar || teacherDetails.avatar,
-  "teachStyle": isEditTeachingStyle ? updatedData.teachStyle : teacherDetails.teachStyle,
-  "selfIntro": isEditInfo ? updatedData.selfIntro : teacherDetails.selfIntro,
-  "mon": teacherDetails.mon.toString(),
-  "tue": teacherDetails.tue.toString(),
-  "wed": teacherDetails.wed.toString(),
-  "thu": teacherDetails.thu.toString(),
-  "fri": teacherDetails.fri.toString(),
-  "sat": teacherDetails.sat.toString(),
-  "sun": teacherDetails.sun.toString(),
-};
-    // 检查哪些数据发生了更改
-    const changedData = {};
-    Object.keys(requestData).forEach((key) => {
-      if (requestData[key] !== teacherDetails[key]) {
-        changedData[key] = requestData[key];
-      }
-    });
-
-    // 如果没有更改，不发送请求
-    if (Object.keys(changedData).length === 0) {
-      return;
+    // 如果 category 有編輯過，則添加排序後的 category 數據到 FormData 對象中
+    if (updatedData.category) {
+      const sortedChangedCategory = updatedData.category.slice().sort((a, b) => a - b);
+      sortedChangedCategory.forEach((element, index) => {
+        formData.append(`category[${index}]`, element);
+      });
+    } else {
+      const originalCategory = [...new Set(teacherDetails.teaching_categories.map(category => category.categoryId))];
+      const sortedCategory = originalCategory.slice().sort((a, b) => a - b);
+      sortedCategory.forEach((element, index) => {
+        formData.append(`category[${index}]`, element);
+      });
     }
-    const requestBody = JSON.stringify(requestData)
-    console.log('reqeustBody:', requestBody);  
-    const response = await axios.put(`${api}/teacher/${id}`, requestData, {
-      headers: { Authorization: `Bearer ${token}` },
-      
+    const response = await axios.put(`${api}/teacher/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
     });
-    
-    // 處理成功更新的情況，例如更新本地 state
+    console.log(formData);
+
     setTeacherDetails((prevTeacher) => ({
       ...prevTeacher,
       [section]: response.data.data[section] || prevTeacher[section],
     }));
     setEditingContent(editedData[section] || '');
     setTeacherDetailsChanged(true);
-    console.log(teacherDetailsChanged);
     closeEdit();
     setIsEditInfo(false);
     setIsEditTeachingStyle(false);
+
     return response.data.data;
   } catch (error) {
-    // 處理錯誤
     console.error('Error updating teacher:', error);
   }
 };
