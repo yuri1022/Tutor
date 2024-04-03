@@ -41,7 +41,8 @@ const [errorMessage, setErrorMessage] = useState('');
 const events = teacherDetails.Courses.flatMap(course => {
   const start = moment(course.startAt)
   const end = moment(course.startAt).add(course.duration, 'minutes'); 
-  const isReserved = course.Registrations && course.Registrations.length > 0;
+  const startAtDate = new Date(course.startAt);
+  const isReserved = (startAtDate.getTime() < Date.now()) || (course.Registrations && course.Registrations.length > 0);
 
   return {
     start: start.toDate(),
@@ -79,7 +80,7 @@ const handleInputCourse = (event) =>{
 const handleSubmit = async () => {
  try {
 const selectedEvent = events.find(event => event.id === selectedCourseId);
-  const { teacherId ,name, date, start, end } = selectedEvent;
+  const { teacherId ,name, date, start, end,reserved } = selectedEvent;
   console.log(teacherId);
 
     const token = localStorage.getItem('token');
@@ -106,6 +107,16 @@ const selectedEvent = events.find(event => event.id === selectedCourseId);
       Swal.fire({
         title: '警告',
         text: '你不能預約自己開的課程！',
+        icon: 'warning',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    if (reserved===true) {
+      Swal.fire({
+        title: '警告',
+        text: '此課程已被預約！',
         icon: 'warning',
         confirmButtonText: '確定'
       });
@@ -257,7 +268,8 @@ useEffect(() => {
   const EventComponent = ({ event }) => {
     const start = moment(event.start).format('HH:mm');
     return (
-    <div className={event.reserved ? 'reserved' : 'not-reserved'} onClick={() => handleEventClick(event)}>
+    <div className={event.reserved ? 'reserved disable' : 'not-reserved'} onClick={event.reserved ? null : () => handleEventClick(event)}  style={{ cursor: event.reserved ? 'not-allowed' : 'pointer' }}>
+
       {`${start}`}
     </div>
 

@@ -396,9 +396,11 @@
 /* 1080px 以上的樣式 */
 @media screen and (min-width: 1081px) {
 .div-container__home {
-    padding: 0 0 0 2rem;
+    padding: 0;
     .category-buttons-container{
       max-height: 2.25rem;
+      width: 100%;
+      justify-content: center;
     .category-buttons {
         .category-buttons-item {
           font-weight: 700;
@@ -449,10 +451,10 @@
 
   .div-container{
    display: grid;
-    grid-template-columns:repeat(3, 1fr);
-    grid-auto-columns:1fr;
+    grid-template-columns:repeat(3, 22rem);
     grid-template-rows: 1fr 1fr;
     grid-gap: 0;
+    justify-content: center;
   }
 .div-container__info {
       padding: 0 2.5rem 0 0;
@@ -643,7 +645,7 @@
 
             .teacher-name {
               font-weight: 700;
-              font-size: 1rem;
+              font-size: 0.875rem;
             }
 
             .teacher-rating {

@@ -19,8 +19,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
         },
         mode: 'onTouched'
     });
-    // const watchEmail = watch("email");
-    // const watchCode = watch("password");
+
     const api = 'http://34.125.232.84:3000';
     const onSubmit = async(data)=>{
         const formData={
@@ -69,16 +68,13 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
         const token = loginRes.data.token;
         const id = loginRes.data.id;
         const isTeacher = loginRes.data.isTeacher;
-        console.log(isTeacher);
-        // fake data
-        console.log(token);
+        // console.log(isTeacher);
+        // // fake data
+        // console.log(token);
         localStorage.setItem("token",loginRes.data.token);
         localStorage.setItem("islogin",true);
         localStorage.setItem("user_id",loginRes.data.id);
         localStorage.setItem("isTeacher",isTeacher);
-// <<<<<<< HEAD
-//         // localStorage.setItem("isHome","true");
-// =======
         localStorage.setItem("changeMode","student");
 
         //handle Login 
@@ -100,6 +96,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
         setPassword('');
         closeLoginModal();
     }
+
     return(
         <div className="modal fade" id="login_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
@@ -184,8 +181,6 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
                                 Facebook帳戶
                             </button>
                             </div>
-
-
 
                         </form>
                         </>

@@ -216,11 +216,24 @@ const handleSave = async (updatedData, editedData, section) => {
     closeEdit();
     setIsEditInfo(false);
     setIsEditTeachingStyle(false);
+    Swal.fire({
+      title: 'Success!',
+      text: '更新個人檔案成功',
+      icon: 'success',
+      confirmButtonText: '確定'
+    });
 
     return response.data.data;
+
   } catch (error) {
     console.error('Error updating teacher:', error);
-  }
+  }    
+  Swal.fire({
+      title: 'Fail!',
+      text: '更新個人檔案失敗',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
 };
 
 

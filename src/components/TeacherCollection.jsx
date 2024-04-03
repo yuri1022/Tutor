@@ -17,6 +17,7 @@ import axios from 'axios';
 import Flag from 'react-world-flags';
 import Swal from 'sweetalert2';
 
+
 const api = 'http://34.125.232.84:3000';
 
 
@@ -171,8 +172,27 @@ const handleCategoryChange = (selectedCategoryItemId) => {
 };
 
 const maxPages = window.innerWidth < 480 ? 5 : 10;
-const startPage = currentPage <= maxPages/2 ? 1 : currentPage - maxPages +3;
-const endPage = Math.min(startPage + maxPages - 1, totalPages);
+let startPage, endPage;
+if (totalPages <= maxPages) {
+  // 如果總頁數小於等於最大顯示頁數，則起始頁碼為1，結束頁碼為總頁數
+  startPage = 1;
+  endPage = totalPages;
+} else {
+  // 否則根據當前頁碼計算起始頁碼和結束頁碼
+  if (currentPage <= Math.ceil(maxPages / 2)) {
+    // 如果當前頁碼在最大顯示頁數的一半以內，則起始頁碼為1
+    startPage = 1;
+  } else if (currentPage + Math.floor(maxPages / 2) > totalPages) {
+    // 如果當前頁碼加上最大顯示頁數的一半大於總頁數，則起始頁碼為總頁數減去最大顯示頁數加1
+    startPage = totalPages - maxPages + 1;
+  } else {
+    // 其他情況下，起始頁碼為當前頁碼減去最大顯示頁數的一半加1
+    startPage = currentPage - Math.floor(maxPages / 2);
+  }
+
+  // 計算結束頁碼，不能超過總頁數
+  endPage = Math.min(startPage + maxPages - 1, totalPages);
+}
 
   return (
 
@@ -204,7 +224,11 @@ const endPage = Math.min(startPage + maxPages - 1, totalPages);
         <Card.Body >
         <div className="teacher-top">
         <div className="teacher-img">
-        <img src={teacher.avatar} alt={teacher.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+     <img
+     src={teacher.avatar&& teacher.avatar.length>0 ? teacher.avatar:RatingStar}
+     alt="Teacher Avatar"
+      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+    />
         </div>
         <div className="teacher-basic-info">
 
@@ -220,7 +244,10 @@ const endPage = Math.min(startPage + maxPages - 1, totalPages);
         <div className="teacher-rating" >
           <img className="teacher-rating-img" src={RatingStar} alt={teacherData.rating}/>
           <h6 className="teacher-rating-num">            
-          {parseFloat(teacher.ratingAverage).toFixed(1)}</h6>
+          {teacher.ratingAverage?
+          (parseFloat(teacher.ratingAverage).toFixed(1)):
+          ('尚未有評價')
+          }</h6>
           </div>
 
       <div className="teacher-reserve-button">
@@ -282,17 +309,16 @@ const endPage = Math.min(startPage + maxPages - 1, totalPages);
         </div>
         
         <div className="pagination-control-page">
-        {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
-              <button
-                key={startPage + index}
-                className={`btn ${currentPage === startPage + index ? 'btn-primary' : 'btn-outline-primary'}`}
-                onClick={() => handlePageChange(startPage + index)}
-                style={{ border: 'none' }}
-              >
-                {startPage + index}
-              </button>
-            ))}
-
+    {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
+      <button
+        key={startPage + index}
+        className={`btn ${currentPage === startPage + index ? 'btn-primary' : 'btn-outline-primary'}`}
+        onClick={() => handlePageChange(startPage + index)}
+        style={{ border: 'none' }}
+      >
+        {startPage + index}
+      </button>
+    ))}
         </div>
 
 

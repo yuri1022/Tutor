@@ -46,6 +46,11 @@ export const createCourse = async (formdata) => {
 
   } catch (error) {
     console.error('[create Course failed]: ', error);
+    if (error.response) {
+      throw new Error(error.response.data.message); // 从 API 响应中获取错误消息并抛出
+    } else {
+      throw new Error('創建課程失敗'); // 如果没有响应，则抛出通用错误消息
+    }
   }
 
 };
@@ -75,7 +80,12 @@ export const putCourse = async(formdata,courseId) => {
     
     return res.data;
     } catch (error) {
-    console.error('[put Course failed]: ', error);
+    console.error('[create Course failed]: ', error);
+    if (error.response) {
+      throw new Error(error.response.data.message); // 从 API 响应中获取错误消息并抛出
+    } else {
+      throw new Error('更新課程錯誤'); // 如果没有响应，则抛出通用错误消息
+    }
   }
 
 

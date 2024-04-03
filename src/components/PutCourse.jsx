@@ -7,19 +7,17 @@ import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import { useContext } from 'react';
 import { AppContext } from "../App";
-import PropTypes from 'prop-types';
 import '../assets/scss/editCourseModal.scss';
-import CalendarIcon from '../assets/images/svg/icon_calender.svg'
+import CalendarIcon from '../assets/images/svg/icon_calender.svg';
+import Swal from "sweetalert2";
 
 
-const PutCourse = ({ showPutModal, onHide, event, setEventsChanged }) => {
+const PutCourse = ({ showUpdateModal, onHide, event }) => {
 const { state } = useContext(AppContext);
 const teacherId = state.logindata.data.id;
 const [courseId ,setCourseId]= useState({
   courseId:event.courseId,
 })
-
-// console.log(courseId.courseId);
 
   const [formData, setFormData] = useState({
     teacherId: teacherId,
@@ -38,8 +36,6 @@ const [courseId ,setCourseId]= useState({
   });
 };
 
-  // console.log(formData);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedFormData = {
@@ -48,22 +44,30 @@ const [courseId ,setCourseId]= useState({
     startAt:moment(formData.startAt),
     duration:parseInt(formData.duration, 10),
   };
-
-
+  if (updatedFormData.startAt._d.getTime() === event.start.getTime()) {
+    return;
+    
+    }
     try {
     await putCourse(updatedFormData,courseId.courseId);
     console.log(updatedFormData);
+          Swal.fire({
+            title: 'Success',
+            text: '修改課程成功！',
+            icon: 'success',
+            confirmButtonText: '確定'
+            })
       onHide(); 
-      setEventsChanged(true);
     } catch (error) {
       console.error('Create course failed:', error);
     }
   };
 
   return (
-    <Modal className="show-put-modal" show={showPutModal} onHide={onHide} centered>
-      <Modal.Header closeButton>
-        <Modal.Title className="modal-head-title"></Modal.Title>
+    <Modal className="show-put-modal" show={showUpdateModal} onHide={onHide} centered>
+      <Modal.Header closeButton >
+        <Modal.Title className="modal-head-title d-flex">
+        </Modal.Title>
       </Modal.Header>
 
       <Modal.Body className="modal-body">
@@ -84,11 +88,11 @@ const [courseId ,setCourseId]= useState({
           </Form.Group>
           <div className="btn-container d-flex">
           
-          <Button className="btn-cancel" variant="Light" type="cancel" onClick={onHide}>
+          <Button className="btn-cancel" variant="light" type="button" onClick={onHide}>
             取消更改
           </Button>
 
-          <Button className="btn-submit" variant="primary" type="submit">
+          <Button className="btn-submit" variant="primary" type="submit" onClick={handleSubmit}>
             確認修改
           </Button>
           </div>
@@ -102,10 +106,5 @@ const [courseId ,setCourseId]= useState({
     </Modal>
   );
 };
-
-PutCourse.propTypes = {
-  showPutModal: PropTypes.bool.isRequired,  
-};
-
 
 export default PutCourse;

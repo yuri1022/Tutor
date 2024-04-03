@@ -7,16 +7,14 @@ import PropTypes from 'prop-types';
 import ClassComments from "../components/ClassComments";
 import ClassReserve from '../components/ClassReserve.jsx';
 import { useState ,useEffect , useContext,useRef } from "react";
-import { AppContext } from "../App.jsx";
 import '../assets/scss/teacher.scss';
-import axios from "axios";
 import { Button } from 'react-bootstrap';
 import Flag from 'react-world-flags';
 import { Link } from "react-router-dom";
-import LoginModal from "../components/LoginModal.jsx";
-import { Modal } from 'bootstrap';
+import Login from "../components/Login.jsx";
 import ExpandIcon from '../assets/images/svg/expand.svg';
 import CollapseIcon from '../assets/images/svg/collapse.svg';
+import { getTeacher } from "../api/teacher.js";
 
 const TeachersPage = () => {
   const [teacherDetails, setTeacherDetails] = useState(null);
@@ -26,91 +24,46 @@ const TeachersPage = () => {
   const [isNoticeExpanded, setIsNoticeExpanded] = useState(true);
   const [reserveModalOpen,setIsReserveModalOpen]= useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const loginModal = useRef(null);
-  const { state } = useContext(AppContext);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(localStorage.getItem("islogin") === "true");
   const { id } = useParams();
-  const api = 'http://34.125.232.84:3000';
+
+ useEffect(() => {
+    // 检查用户登录状态
+    if (localStorage.getItem("islogin") === "false") {
+      setIsUserLoggedIn(false);
+    }
+  }, []);
+
 
   useEffect(() => {
-    const fetchTeacherData = async () => {
+    const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-        setTeacherDetails(response.data.data)
-        return response.data.data;        
-      } catch (error) {
-        if (error.response) {
-            console.error("Server error:", error.response.status, error.response.data);
-        } else if (error.request) {
-            console.error("No response from server");
-        } else {
-            console.error("Request failed:", error.message);
+        if (isUserLoggedIn) {
+          const data = await getTeacher(id);
+          setTeacherDetails(data.data);
+          console.log(data);
         }
-        throw error; 
-    }
+      } catch (error) {
+        console.error('Error fetching teacher data:', error);
+      }
     };
 
-    fetchTeacherData();
-  }, [id]);
+    fetchData();
+
+  }, [id, isUserLoggedIn]);
+
+// 当登录成功时调用的函数
+const handleLoginSuccess = async () => {
+  setIsUserLoggedIn(true);
+};
   
   const openLoginModal = () => {
-    loginModal.current?.show();
+    setShowLoginModal(true);
   };
 
   const closeLoginModal = () => {
-    loginModal.current?.hide();  
+    setShowLoginModal(false);
   };
-
-  useEffect(()=>{
-        loginModal.current = new Modal('#login_Modal',{
-            backdrop: 'static'
-        });
-    },[loginModal.current])
-
-  useEffect(()=>{
-    },[state.isLogin])
-
-console.log(localStorage.getItem("islogin"));
-  
-    if (localStorage.getItem("islogin")=== "false") {
-    return (
- <div className="teacher-redirect-container d-flex" style={{justifyContent:'center'}}>
-      <div className="teacher-redirect col-12 col-md-3 col-lg-3" style={{padding:'1rem'}}>
-        <div className="teacher-redirect d-flex" style={{flexDirection:'column',boxShadow:'1px 3px 5px 1px var(--main-blue25)',height:'12rem',textAlign:'center',borderRadius:'0.625rem'}}>
-        <div className="line"></div>
-        <div className="top" style={{marginTop:'5%'}}>
-          <h3 style={{color:'var(--red)'}}>Notice</h3>
-        </div>
-      <div className="title">
-        <h5>請登入以查看完整教師資訊</h5> 
-      </div>
-      <div className="btn-login-back">
-      <Link to={"/home"}>
-        <Button className="close-button btn btn-light" style={{margin:'0.5rem',color:'var(--main-blue)',border:'1px solid var(--main-blue)',backgroundColor:'transparent'}}>
-          返回首頁
-        </Button>
-        </Link>
-
-       <Button onClick={openLoginModal}  style={{margin:'0.5rem'}}>登入</Button>
-      {showLoginModal&& <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />}
-      </div>
-        </div>
-      </div>
-      </div>
-    
-    );
-  } else if (localStorage.getItem("islogin")==="true"){
-    closeLoginModal();
-  }
-
-      if (!teacherDetails) {
-    return (
-    <div>
-      正在加載中...
-    </div>)
-     ;
-  }
-
 
   const handleReserveOpen = () => {
     setIsReserveModalOpen(true);
@@ -121,9 +74,12 @@ console.log(localStorage.getItem("islogin"));
   };
 
 
-  return ( 
-      <div>
-    
+return (
+    <div>
+      {isUserLoggedIn ? (
+        teacherDetails ? (
+                <div>
+      
       <div className="div-container col-12 d-flex" >
         <div className="form-left col-12 col-md-9 col-lg-9" >
 
@@ -316,12 +272,38 @@ console.log(localStorage.getItem("islogin"));
            <div className="card-container">
             <ClassComments teacherDetails={teacherDetails} />
            </div>
-            
-
-
-      
         </div>
       </div>
+    </div>
+        ):(
+          <div>
+            正在載入中...
+            </div>
+        )
+      ) : (
+        <div className="teacher-redirect-container d-flex" style={{ justifyContent: 'center' }}>
+          <div className="teacher-redirect col-12 col-md-3 col-lg-3" style={{ padding: '1rem' }}>
+            <div className="teacher-redirect d-flex" style={{ flexDirection: 'column', boxShadow: '1px 3px 5px 1px var(--main-blue25)', height: '12rem', textAlign: 'center', borderRadius: '0.625rem' }}>
+              <div className="line"></div>
+              <div className="top" style={{ marginTop: '5%' }}>
+                <h3 style={{ color: 'var(--red)' }}>Notice</h3>
+              </div>
+              <div className="title">
+                <h5>請登入以查看完整教師資訊</h5>
+              </div>
+              <div className="btn-login-back">
+                <Link to={"/home"}>
+                  <Button className="close-button btn btn-light" style={{ margin: '0.5rem', color: 'var(--main-blue)', border: '1px solid var(--main-blue)', backgroundColor: 'transparent' }}>
+                    返回首頁
+                  </Button>
+                </Link>
+                <Button onClick={openLoginModal} style={{ margin: '0.5rem' }}>登入</Button>
+                {showLoginModal && <Login show={showLoginModal} onHide={closeLoginModal} handleLoginSuccess={handleLoginSuccess}/>}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

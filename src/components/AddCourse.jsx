@@ -8,8 +8,8 @@ import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import { useContext } from 'react';
 import { AppContext } from "../App";
-import '../assets/scss/addCourseModal.scss'
-
+import '../assets/scss/addCourseModal.scss';
+import Swal from "sweetalert2";
 
 const AddCourse = ({ showAddModal, onHide ,teacherDetails}) => {
 
@@ -44,7 +44,18 @@ const teacherId = state.logindata.data.id;
   
 
   const handleSubmit = async (e) => {
-  e.preventDefault();  
+  e.preventDefault();
+  
+  const isFormValid = Object.values(formData).every(value => value !== '');
+  if (!isFormValid) {
+    Swal.fire({
+            title: 'Warning!',
+            text: '請填寫所有欄位',
+            icon: 'warning',
+            confirmButtonText: '確定'
+            })
+    return;
+  }
   const updatedFormData = {
     ...formData,
     category: [parseInt(formData.category, 10)],
@@ -55,10 +66,22 @@ const teacherId = state.logindata.data.id;
     try {
       await createCourse(updatedFormData);
       console.log(updatedFormData);
+      Swal.fire({
+            title: 'Success',
+            text: '新增課程成功！',
+            icon: 'success',
+            confirmButtonText: '確定'
+            })
       onHide(); 
       // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
     } catch (error) {
       console.error('Create course failed:', error);
+      Swal.fire({
+      title: '新增課程失敗!',
+      text: error,
+      icon: 'error',
+      confirmButtonText: '確定'
+    });
     }
   };
 

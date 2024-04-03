@@ -13,14 +13,17 @@ import AppReducer from '../store/AppContext';
 import { AppContext } from '../App';
 import { Dropdown } from 'react-bootstrap';
 import '../assets/scss/navbar.scss';
+import { useAuth } from './AuthContext';
 
 const Navbar = (props) =>{
     const [ isOpen,setIsOpen] = useState(false);
     const [searchTxt, setSearchTxt]= useState('');
     const {state,dispatch} = useContext(AppContext);
+    const { isUserLoggedIn } = useAuth();
     const loginModal = useRef(null);
     const api = 'http://34.125.232.84:3000';
     const navigate = useNavigate();
+    const userId = localStorage.getItem('user_id')
     const openLoginModal = () =>{
         setIsOpen(true);
         loginModal.current.show();
@@ -82,7 +85,7 @@ const Navbar = (props) =>{
                     console.log(err);
                 }
             )
-            console.log(isTeacher);
+            // console.log(isTeacher);
             return teacherData;
             
         } else if (isTeacher===0) {
@@ -114,7 +117,8 @@ const Navbar = (props) =>{
                     console.log(err);
                 }
             )    
-        navigate('/admin');    
+        navigate('/admin');
+        return adminData;
         }
     }
     useEffect(()=>{
@@ -130,16 +134,12 @@ const Navbar = (props) =>{
             );
             console.log(userdata);
         }
-        if(localStorage.getItem("islogin")==='true'){
+        if( isUserLoggedIn){
             getUpdate()
         }
-    },[])
-    useEffect(()=>{
-
-    },[localStorage.getItem("islogin")]);
+    },[localStorage.getItem("islogin")])
 
     const handleModeChange = (mode) => {
-     // 将 changeMode 更新为传入的 mode 值
      localStorage.setItem('changeMode', mode);
     };
 
@@ -179,7 +179,7 @@ const Navbar = (props) =>{
                                 {
                                     (parseInt(localStorage.getItem("isTeacher"))===1 && localStorage.getItem("changeMode")==="student") &&
 
-                                    (<Link className="nav-link" to = '/homepage' onClick={() => handleModeChange('teacher')}>切換回老師頁面</Link>)
+                                    (<Link className="nav-link" to={`/teacher/${userId}/personal`} onClick={() => handleModeChange('teacher')}>切換回老師頁面</Link>)
 
                                 }
                                 {
@@ -210,18 +210,18 @@ const Navbar = (props) =>{
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
                             <img className="avatar-img" style={{objectFit:'cover'}} src={JSON.parse(localStorage.getItem("userdata"))?.data?.avatar}/>
                             </Dropdown.Toggle>
-                            {state.isTeacher===1 && localStorage.getItem("changeMode")==="teacher" ?
+                            {JSON.parse(localStorage.getItem("isTeacher")) === 1 && localStorage.getItem("changeMode")==="teacher" ?
                             (    
                             <Dropdown.Menu>
-                            <Dropdown.Item href={`/teacher/${state.logindata?.data?.id}/personal`}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href={`/teacher/${userId}/personal`}>個人檔案</Dropdown.Item>
                             <Dropdown.Item href={`/course`}>我的課程</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             ):
                             (                            
                             <Dropdown.Menu>
-                            <Dropdown.Item href={`/student/${state.logindata?.data?.id}`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
-                            <Dropdown.Item href={`/student/${state.logindata?.data?.id}/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
+                            <Dropdown.Item href={`/student/${userId}`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href={`/student/${userId}/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             )}

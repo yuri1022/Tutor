@@ -10,6 +10,7 @@ import RightArrow from '../assets/images/svg/arrow-right.svg';
 import { Button } from 'react-bootstrap';
 import AddCourse from './AddCourse';
 import PutCourse from './PutCourse';
+import Swal from 'sweetalert2';
 
 const localizer = momentLocalizer(moment);
 
@@ -17,7 +18,6 @@ const localizer = momentLocalizer(moment);
 const MyCalendar = memo(({ teacherDetails, isEditCourse, handleEditCourse, closeEditCourse }) => {
 const [editedCourse, setEditedCourse] = useState(null);
 const [showPlusButton, setShowPlusButton] = useState(false);
-const [reloadCoursesFlag, setReloadCoursesFlag] = useState(false);
 
  const handleSaveCourse = () => {
     handleEditCourse(editedCourse);
@@ -27,18 +27,15 @@ const [reloadCoursesFlag, setReloadCoursesFlag] = useState(false);
   const handleCancelEdit = () => {
     closeEditCourse();
   };
-
  
  const dayFormat = (date, culture, localizer) =>
     localizer.format(date, 'ddd', culture); 
 
-const [eventsChanged, setEventsChanged] = useState(false);
-
-
 const events = teacherDetails.Courses.flatMap(course => {
   const start = moment(course.startAt)
   const end = moment(course.startAt).add(course.duration, 'minutes'); 
-  const isReserved = course.Registrations && course.Registrations.length > 0;
+  const startAtDate = new Date(course.startAt);
+  const isReserved = (startAtDate.getTime() < Date.now()) || (course.Registrations && course.Registrations.length > 0);
 
   return {
     start: start.toDate(),
@@ -53,11 +50,6 @@ const events = teacherDetails.Courses.flatMap(course => {
     courseId:course.id,
   };
 });
-
-  useEffect(() => {
-    console.log('Teacher details have changed:', teacherDetails);
-    // 这里可以处理需要重新渲染的逻辑，比如更新其他组件状态、执行其他操作等
-  }, [teacherDetails, eventsChanged]);
 
 const categoryMap = {};
 teacherDetails.teaching_categories.forEach(category => {
@@ -84,7 +76,6 @@ const [showAddModal, setShowAddModal] = useState(false);
     const newDate = moment(toolbar.datel).set('month', newMonth);
     toolbar.onNavigate('DATE', newDate);
   };
-
 
 
  const handlePlusClick = () => {
@@ -134,8 +125,6 @@ useEffect(() => {
     setShowPlusButton(true); 
   }, [isEditCourse]); 
 
-
-
   return (
     <div className="rbc-toolbar" >
 
@@ -179,9 +168,7 @@ useEffect(() => {
       </div>
             </div>
 
-
-
-      {showAddModal&&<AddCourse showAddModal={showAddModal} onHide={handleClose} teacherDetails={teacherDetails} reloadCoursesFlag={reloadCoursesFlag}/>}
+      {showAddModal&&<AddCourse showAddModal={showAddModal} onHide={handleClose} teacherDetails={teacherDetails} />}
 
     </div>
 
@@ -190,27 +177,34 @@ useEffect(() => {
 
 
   const EventComponent = ({ event }) => {
-    const start = moment(event.start).format('HH:mm');
-    const [showPutModal, setShowPutModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
+    const start = moment(event.start).format('HH:mm');
      const eventWithCategoryId = eventsWithCategoryId.find(
     (item) => item.title === event.title
   );
-//  console.log(eventWithCategoryId);
 
     const handlePutClick = () => {
-    setShowPutModal(true);
+    if(event.reserved){
+    Swal.fire({
+      text: '課程已有預約，無法更改時間',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    });
+    return;
+    }else{
+    setShowUpdateModal(true);
+    }
   };
 
-     const handleClose = () => {
-    setShowPutModal(false);
+  const handleClose = () => {
+   setShowUpdateModal(false); 
   };
-
 
     return (
   <div className={event.reserved ? 'reserved' : 'not-reserved'} onClick={isEditCourse ? handlePutClick : null}>
     {`${start}`}{' '}
-    {showPutModal && <PutCourse showPutModal={showPutModal} onHide={handleClose} event={eventWithCategoryId} setEventsChanged={setEventsChanged}/>}
+  {showUpdateModal && <PutCourse showUpdateModal={showUpdateModal} onHide={handleClose} event={eventWithCategoryId}/>}
   </div>
     );
   };
@@ -245,6 +239,8 @@ EventComponent.propTypes = {
         <Button className="btn-cancel" onClick={handleCancelEdit}>取消</Button>
         <Button className="btn-save" onClick={handleSaveCourse}>確定</Button>
         </div>
+
+
            </>
            ):(
             <>

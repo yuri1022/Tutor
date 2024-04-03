@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 
 const ClassComments = ({teacherDetails}) =>{
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const roundedRating = parseFloat(teacherDetails.ratingAverage).toFixed(1);
+  const roundedRating = teacherDetails.ratingAverage?(parseFloat(teacherDetails.ratingAverage).toFixed(1)):(null);
 const filteredCourses = teacherDetails.Courses.filter(course => {
   return course.Registrations.length>0 && course.Registrations.every(registration => registration.rating !== null);
 });
@@ -40,7 +40,7 @@ const filteredCourses = teacherDetails.Courses.filter(course => {
       <div className="self-comment-title-rating" >
         <h6 className="self-comment-title">課程評價</h6>
         <img className="rating-img" src={Rating} alt="rating" />
-        <h6 className="title">{roundedRating}</h6>
+        <h6 className="title">{roundedRating!==null?(roundedRating):('尚未有評價')}</h6>
         <h6 className="rating-count">{'('}{courseLength}{')'}</h6>
       </div>
       
@@ -86,13 +86,18 @@ const filteredCourses = teacherDetails.Courses.filter(course => {
           )}
       </div>        
          
-             <div className="card-link">
+         {roundedRating?(             
+         <div className="card-link">
              <Button className="link" variant="outline-primary" onClick={handleCommentClick}>看更多評價</Button>     
 
           {isModalOpen && (
            <CommentModal show={isModalOpen} handleClose={closeModal} teacherDetails={teacherDetails}/>
          )}    
-          </div>
+          </div>):(
+            <>
+            </>
+          )}
+
 
 
 
