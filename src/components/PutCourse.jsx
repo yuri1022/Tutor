@@ -36,6 +36,24 @@ const [courseId ,setCourseId]= useState({
   });
 };
 
+const handleCancelEdit = async() =>{
+   const updatedFormData = {
+    ...formData,
+    category: [parseInt(formData.category, 10)],
+    startAt:moment(formData.startAt),
+    duration:parseInt(formData.duration, 10),
+  };
+    try {
+    await putCourse(updatedFormData,courseId.courseId);
+    console.log(updatedFormData);
+      onHide(); 
+    } catch (error) {
+      console.error('Create course failed:', error);
+    }
+
+  onHide();
+}
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedFormData = {
@@ -64,7 +82,7 @@ const [courseId ,setCourseId]= useState({
   };
 
   return (
-    <Modal className="show-put-modal" show={showUpdateModal} onHide={onHide} centered>
+    <Modal className="show-put-modal" show={showUpdateModal} onHide={handleCancelEdit} centered>
       <Modal.Header closeButton >
         <Modal.Title className="modal-head-title d-flex">
         </Modal.Title>
@@ -88,7 +106,7 @@ const [courseId ,setCourseId]= useState({
           </Form.Group>
           <div className="btn-container d-flex">
           
-          <Button className="btn-cancel" variant="light" type="button" onClick={onHide}>
+          <Button className="btn-cancel" variant="light" type="button" onClick={handleCancelEdit}>
             取消更改
           </Button>
 
