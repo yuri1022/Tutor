@@ -283,9 +283,8 @@ return (
       ) : (
         <div className="teacher-redirect-container d-flex" style={{ justifyContent: 'center' }}>
           <div className="teacher-redirect col-12 col-md-3 col-lg-3" style={{ padding: '1rem' }}>
-            <div className="teacher-redirect d-flex" style={{ flexDirection: 'column', boxShadow: '1px 3px 5px 1px var(--main-blue25)', height: '12rem', textAlign: 'center', borderRadius: '0.625rem' }}>
-              <div className="line"></div>
-              <div className="top" style={{ marginTop: '5%' }}>
+            <div className="teacher-redirect d-flex" style={{ flexDirection: 'column', boxShadow: '1px 3px 5px 1px var(--main-blue25)', height: '100%', textAlign: 'center', borderRadius: '0.625rem',padding:'1rem' }}>
+              <div className="top" style={{ marginTop: '2%' }}>
                 <h3 style={{ color: 'var(--red)' }}>Notice</h3>
               </div>
               <div className="title">

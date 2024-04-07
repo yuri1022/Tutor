@@ -55,11 +55,9 @@ const handlePageChange = (newPage, searchTerm) => {
   if (categoryId) {
     queryString += `&categoryId=${categoryId}`;
   }
-
   if (searchTerm) {
     queryString += `&keyword=${searchTerm}`;
   }
-  console.log(searchTerm);
   navigate(`/home${queryString}`);
   window.scrollTo(0, 0);
 };

@@ -198,12 +198,18 @@
 
 @media screen and (min-width: 481px) and (max-width: 1080px) {
 .div-container__home {
-    padding: 0 0 0 2rem;
+    padding: 0;
 
     .category-buttons-container {
       max-height: 2.25rem;
+      width: 100%;
 
       .category-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
         .category-buttons-item {
           font-weight: 700;
           font-size: 1.125rem;
@@ -256,9 +262,9 @@
   .div-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-columns: 1fr;
     grid-template-rows: 1fr 1fr;
     grid-gap: 0;
+    justify-content: center;
   }
 
   .div-container__info {
@@ -396,12 +402,15 @@
 /* 1080px 以上的樣式 */
 @media screen and (min-width: 1081px) {
 .div-container__home {
-    padding: 0;
+    padding-left: 2rem;
     .category-buttons-container{
       max-height: 2.25rem;
       width: 100%;
-      justify-content: center;
     .category-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
         .category-buttons-item {
           font-weight: 700;
           font-size: 1.125rem;
@@ -451,7 +460,7 @@
 
   .div-container{
    display: grid;
-    grid-template-columns:repeat(3, 22rem);
+    grid-template-columns:repeat(3, 1fr);
     grid-template-rows: 1fr 1fr;
     grid-gap: 0;
     justify-content: center;
