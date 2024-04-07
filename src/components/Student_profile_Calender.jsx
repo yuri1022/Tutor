@@ -79,6 +79,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const show_course=(course,index)=>{
         let course_block = ``
         let course_date = new Date(course.timestamp);
+
         // if( course.isattend ===false && course.timestamp < today.getTime()){
         //     course_block =
         //     <div className="course-block bg-absent" key={index}>
@@ -92,10 +93,9 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
             <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.name,course.date,course.time,course.courseId)} }>
                 <div className="title-bar reserve display-none">{course.subject}</div>
                 <div className="display-none">{course.name}</div>
-                {course.time===30 ? 
-                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
-                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
-                }
+                <div className="display-none">{course.date}~{course.date}</div>
+                <div className="display-none">{course.startTime}~{course.endTime}</div>
+
             </div>
         }
         else if ( course.rating===null){
@@ -103,10 +103,8 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
             <div className="course-block bg-not-review" key={index} onClick={()=>{openRatingModal(course.name,course.date,course.courseId)}}>
                 <div className="title-bar notreview display-none">{course.subject}</div>
                 <div className="display-none">{course.name}</div>
-                {course.time===30 ? 
-                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
-                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
-                }
+                <div className="display-none">{course.startTime}~{course.endTime}</div>
+
             </div>
         }
         else if ( course.rating!==null ){
@@ -114,10 +112,8 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
             <div className="course-block bg-finish" key={index}>
                 <div className="title-bar finish display-none">{course.subject}</div>
                 <div className="display-none">{course.name}</div>
-                {course.time===30 ? 
-                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+30)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+30)).getMinutes()).padStart(2, '0')}</div>):
-                (<div className="display-none">{course.hour}:{String(course.min).padStart(2, '0')}~{new Date(course_date.setMinutes(course_date.getMinutes()+60)).getHours() }:{String(new Date(course_date.setMinutes(course_date.getMinutes()+60)).getMinutes()).padStart(2, '0')}</div>)
-                }
+                <div className="display-none">{course.startTime}~{course.endTime}</div>
+
             </div>
         }
 
@@ -141,7 +137,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                         courseList[z].month - 1 === currentMonth &&
                         courseList[z].year === currentYear){
 
-                        if(count_course >= 2){
+                        if(count_course > 2){
                             newDiv.push(
                                 <button className="btn-more" key={'btn-more'+key}>More</button>
                             )
@@ -179,6 +175,13 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
             
                const courses = studentData.data.Registrations.map(course => {
                 const startDate = new Date(course.Course.startAt);
+                const endTime = new Date(startDate.getTime() + course.Course.duration * 60000); 
+                const startHours =  startDate.getHours();
+                const startMinutes = startDate.getMinutes();
+                const endHours = endTime.getHours();
+                const endMinutes = endTime.getMinutes();
+                const formattedEndMinutes = endMinutes.toString().padStart(2, '0');
+                const formattedStartMinutes = startMinutes.toString().padStart(2, '0');
                 return {
                 courseId: course.courseId,
                 year: startDate.getFullYear(),
@@ -194,6 +197,8 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
                 date: course.Course.startAt,
                 rating: course.rating,
                 comment: course.comment,
+                startTime: `${startHours}:${formattedStartMinutes}`,
+                endTime: `${endHours}:${formattedEndMinutes}`, 
                 };
               });
               setCourseList(courses);
