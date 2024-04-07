@@ -16,7 +16,6 @@ export const TeacherSelfProvider = ({ children,teacherId }) => {
       try {
         const api = 'http://34.125.232.84:3000';
         const token = localStorage.getItem('token');
-        console.log(id);
         const response = await axios.get(`${api}/teacher/${teacherId}` ,{
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -29,8 +29,8 @@ const Student_profile_Rating = ({closeRatingModal,obj_rating,onMsg}) =>{
         else if(rating=== "1顆星"){
             rating_point=1;
         }
-
-        const rating_res = await put_rating_course(rating_point,comment,studentData.id,obj_rating.courseId);
+        console.log(obj_rating.courseId);
+        const rating_res = await put_rating_course(rating_point,comment,obj_rating.courseId,studentData.id,);
         console.log(rating_res);
         //update student data
         const student_data =await get_student_data(studentData.id);
