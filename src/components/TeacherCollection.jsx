@@ -49,14 +49,20 @@ const categoryOptions = teacherData?.categories?.map(category => ({
     console.log('Current totalPages:', totalPages);
       }, [page,categoryItemId,currentPage,totalPages]);
 
-  const handlePageChange = (newPage) => {
-     if (categoryId) {
-    navigate(`/home?page=${newPage}&categoryId=${categoryId}`);
-  } else {
-    navigate(`/home?page=${newPage}`);
+const handlePageChange = (newPage, searchTerm) => {
+  let queryString = `?page=${newPage}`;
+
+  if (categoryId) {
+    queryString += `&categoryId=${categoryId}`;
   }
-    window.scrollTo(0, 0);
-  };
+
+  if (searchTerm) {
+    queryString += `&keyword=${searchTerm}`;
+  }
+  console.log(searchTerm);
+  navigate(`/home${queryString}`);
+  window.scrollTo(0, 0);
+};
 
 
    const handlePreviousPage = () => {

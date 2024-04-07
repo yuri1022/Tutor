@@ -9,21 +9,29 @@ import qs from 'qs';
 
 const TeacherContext = createContext();
 
-export const TeacherProvider = ({ children }) => {
+export const TeacherProvider = ({ children,searchTerm}) => {
   const [teacherData, setTeacherData] = useState([]);
   const { page, categoryId } = useParams(); // 获取路由参数
   const location = useLocation();
   const parsed = qs.parse(location.search, { ignoreQueryPrefix: true });
   const currentPage = parsed.page || 1;
   const categoryPage = parsed.categoryId || '';
+  const [searchKeyword, setSearchKeyword] = useState('');
 
+  useEffect(() => {
+    setSearchKeyword(searchTerm);
+  }, [searchTerm]);
 
   useEffect(() => {
     const fetchTeacherData = async () => {
       try {
         const api = 'http://34.125.232.84:3000';
         const token = localStorage.getItem('token');
-        const queryString = qs.stringify({ page: currentPage, categoryId: categoryPage }, { skipNulls: true });      
+        const queryString = qs.stringify({ 
+          page: currentPage, 
+          categoryId: categoryPage,
+          keyword: searchKeyword,
+      }, { skipNulls: true });      
 
         const url = queryString ? `${api}/home?${queryString}` : `${api}/home`;
         const response = await axios.get(url ,{
@@ -45,7 +53,7 @@ export const TeacherProvider = ({ children }) => {
       }
     };
       fetchTeacherData();
-  }, [page, categoryId,currentPage, categoryPage, setTeacherData]);
+  }, [page, categoryId,currentPage, categoryPage,searchKeyword, setTeacherData]);
   
 
   return (

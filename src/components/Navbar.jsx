@@ -33,8 +33,8 @@ const Navbar = (props) =>{
         loginModal.current.hide();
     }
     const handleSearch = () =>{
-        console.log("search");
-        props.onSearchChange(searchTxt);
+        console.log(searchTxt);
+        props.onSearchSubmit(searchTxt);
     }
     const handleGotoApply = ()=>{
         if(localStorage.getItem("islogin") === false){

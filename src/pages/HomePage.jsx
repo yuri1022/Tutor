@@ -18,7 +18,7 @@ const HomePage = () => {
 
   
   <div className="home-page d-flex">
-      <TeacherProvider>
+      <TeacherProvider searchTerm={searchTerm}>
       
     <div className="form col col-12 d-flex" >
 

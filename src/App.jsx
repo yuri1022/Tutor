@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes,useNavigate } from 'react-router-dom';
 import { createContext, useState,useReducer,useEffect } from 'react';
 import { AuthProvider } from './components/AuthContext.jsx';
 import HomePage from "./pages/HomePage";
@@ -13,8 +13,11 @@ import TeacherSelfPage from './pages/TeacherSelfPage';
 import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 import AppReducer from './store/AppContext.js';
 import AdminPage from './pages/AdminPage.jsx';
+import { TeacherProvider } from './components/teachercontext.jsx';
+
 
 export const AppContext = createContext();
+
 const initial_login = ()=>{
   let data = false;
   if(localStorage.getItem("islogin")===null){
@@ -41,11 +44,10 @@ function App() {
   }
   const [searchTerm, setSearchTerm] = useState("");
   const [state, dispatch ] = useReducer( AppReducer,initial_data);
-  
-  const handleSearchChange = (searchTxt) =>{
-    setSearchTerm(searchTxt);
-  }
 
+const handleSearchSubmit = (searchTxt) => {
+    setSearchTerm(searchTxt);
+};
   useEffect(()=>{
     const data =initial_login();
   },[])
@@ -54,7 +56,8 @@ function App() {
   <BrowserRouter>
   <div className="app">
     <AppContext.Provider value={{searchTerm,state,dispatch}}>
-      <Navbar onSearchChange={handleSearchChange}/>
+    <Navbar onSearchSubmit={handleSearchSubmit} />
+       <TeacherProvider searchTerm={searchTerm}>
       <Routes>
         <Route path="course" element={<TeacherCalendarPage />} />    
           <Route path="teacher/:id" element={<TeachersPage />} />
@@ -67,6 +70,7 @@ function App() {
           <Route path="apply/apply_teacher_form" element={<ApplyTeacherFormMobile/>}/>
           <Route path="admin" element={<AdminPage />}/>
       </Routes>
+      </TeacherProvider>
     </AppContext.Provider>
   </div>
   </BrowserRouter>
