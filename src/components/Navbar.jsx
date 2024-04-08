@@ -210,7 +210,7 @@ const Navbar = (props) =>{
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
                             <img className="avatar-img" style={{objectFit:'cover'}} src={JSON.parse(localStorage.getItem("userdata"))?.data?.avatar}/>
                             </Dropdown.Toggle>
-                            {JSON.parse(localStorage.getItem("isTeacher")) === 1 && localStorage.getItem("changeMode")==="teacher" ?
+                            {(localStorage.getItem("isTeacher")) == 1 && localStorage.getItem("changeMode")==="teacher" ?
                             (    
                             <Dropdown.Menu>
                             <Dropdown.Item href={`/teacher/${userId}/personal`}>個人檔案</Dropdown.Item>
@@ -218,13 +218,16 @@ const Navbar = (props) =>{
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             ):
+                            
                             (                            
                             <Dropdown.Menu>
                             <Dropdown.Item href={`/student/${userId}`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
                             <Dropdown.Item href={`/student/${userId}/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
-                            )}
+                            )
+                            
+                            }
                             </Dropdown>   
 
                         
