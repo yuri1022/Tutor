@@ -21,6 +21,7 @@ const ApplyFormInner = () =>{
     const [introTxt, setIntroTxt] = useState('');
     const [teachStyle,setTeachStyle] = useState('');
     const [reloadPage, setReloadPage] = useState(false);
+    const {state,dispatch} = useContext(AppContext);
 
     const [weekdays, setWeekdays] = useState({
         mon: false,
@@ -177,6 +178,8 @@ const ApplyFormInner = () =>{
         console.log(formdata);
         const applyres= await applyTeacher(userdata.id,formdata);
         localStorage.setItem("isTeacher", "1"); 
+        localStorage.setItem('isHome',"true");
+        dispatch({type:"APPLYTEACHER_BACK"});
         Swal.fire({
             title: 'Success',
             text: '申請成功，您現在具有老師身分了！',
@@ -194,8 +197,8 @@ const ApplyFormInner = () =>{
 };
     useEffect(()=>{
     if (reloadPage) {
-      navigate('/home'); // 根据需要跳转到相应的页面
-      setReloadPage(false); // 重置 reloadPage 状态，避免重复触发
+      navigate('/home'); 
+      setReloadPage(false);
     }
     },[reloadPage]);
 

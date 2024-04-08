@@ -21,6 +21,7 @@ const ApplyTeacherForm = () =>{
     const [introTxt, setIntroTxt] = useState('');
     const [teachStyle,setTeachStyle] = useState('');
     const [reloadPage, setReloadPage] = useState(false);
+    const {state,dispatch} = useContext(AppContext);
 
     const [weekdays, setWeekdays] = useState({
         mon: false,
@@ -178,9 +179,9 @@ const ApplyTeacherForm = () =>{
         }
         console.log(formdata);
         const applyres= await applyTeacher(userdata.id,formdata);
-
-
         localStorage.setItem("isTeacher", "1"); 
+        localStorage.setItem('isHome',"true");
+        dispatch({type:"APPLYTEACHER_BACK"});
         Swal.fire({
             title: 'Success',
             text: '申請成功，您現在具有老師身分了！',

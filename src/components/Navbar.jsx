@@ -134,7 +134,7 @@ const Navbar = (props) =>{
             );
             console.log(userdata);
         }
-        if( isUserLoggedIn){
+        if(isUserLoggedIn){
             getUpdate()
         }
     },[localStorage.getItem("islogin")])
