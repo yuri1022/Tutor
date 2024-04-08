@@ -39,9 +39,6 @@ const [courseId ,setCourseId]= useState({
 const handleCancelEdit = async() =>{
    const updatedFormData = {
     ...formData,
-    category: [parseInt(formData.category, 10)],
-    startAt:moment(formData.startAt),
-    duration:parseInt(formData.duration, 10),
   };
     try {
     await putCourse(updatedFormData,courseId.courseId);

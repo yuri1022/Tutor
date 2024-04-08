@@ -93,7 +93,6 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
             <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.name,course.date,course.time,course.courseId)} }>
                 <div className="title-bar reserve display-none">{course.subject}</div>
                 <div className="display-none">{course.name}</div>
-                <div className="display-none">{course.date}~{course.date}</div>
                 <div className="display-none">{course.startTime}~{course.endTime}</div>
 
             </div>

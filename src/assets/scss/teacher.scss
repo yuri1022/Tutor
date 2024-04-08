@@ -397,12 +397,13 @@
           -moz-box-shadow: 1px 3px 5px 1px var(--grey-light);
           -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
 
-          .self-card-img {
-            width: 9.7rem;
-            object-fit: cover;
-            margin: 1rem 2rem 1rem 1rem;
-            border-radius: 0.625rem;
-          }
+                      .self-card-img {
+                          width: 21%;
+                          max-width: 13rem;
+                          object-fit: cover;
+                          padding: 1rem 2rem 1rem 1rem;
+                          border-radius: 0.625rem;
+                        }
 
           .self-info-container {
             margin: 1rem 0 1rem 0;
@@ -778,9 +779,10 @@
                       -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
         
                       .self-card-img {
-                        width: 9.7rem;
+                        width: 21%;
+                        max-width: 13rem;
                         object-fit: cover;
-                        margin: 1rem 2rem 1rem 1rem;
+                        padding: 1rem 2rem 1rem 1rem;
                         border-radius: 0.625rem;
                       }
         
