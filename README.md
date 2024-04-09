@@ -9,10 +9,11 @@
 
 ![首頁](src/assets/Homepage-login-studentmode.png)
 ![老師頁面](src/assets/Homepage-login-teachermode.png)
+![手機版預覽](src/assets/mobile_ver_preview.jpg)
 
 
 - Demo 網址: [http://34.125.232.84:3030/](http://34.125.232.84:3030/)
-- Demo Video (電腦版) [https://youtu.be/-XmjX71Y9no](https://youtu.be/-XmjX71Y9no)
+- Demo Video (電腦版) [https://youtu.be/43G4X07Lq6s](https://youtu.be/43G4X07Lq6s)   
 - Back-End Link: [https://github.com/yuan6636/capstone-tutor-backend](https://github.com/yuan6636/capstone-tutor-backend)
 
 
@@ -103,9 +104,10 @@ And then , you can apply to become a tutor and create your own courses!
 
 ![首頁](src/assets/Homepage-login-studentmode.png)
 ![老師頁面](src/assets/Homepage-login-teachermode.png)
+![手機版預覽](src/assets/mobile_ver_preview.jpg)
 
 - Demo Link: [http://34.125.232.84:3030/](http://34.125.232.84:3030/)
-- Demo Video (on PC) [https://youtu.be/-XmjX71Y9no](https://youtu.be/-XmjX71Y9no)
+- Demo Video (on PC) [https://youtu.be/43G4X07Lq6s](https://youtu.be/43G4X07Lq6s)
 - Back-End Link: [https://github.com/yuan6636/capstone-tutor-backend](https://github.com/yuan6636/capstone-tutor-backend)
 
 ## Function
