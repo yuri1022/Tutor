@@ -1,17 +1,43 @@
 # Tutor
 
-## 家教平台網站
-Tutor是一個旨在提供學生和家教之間的配對服務的網站
+## 家教平台網站-Tutor
+串接後端API，並搭配 React 框架所打造出的小型專案。
+Tutor是一個提供學生和英文家教老師之間配對服務的網站，
+您登入後即可以在此網站上預約各種分類的課程，
+更可以進一步申請成為老師，並開設屬於自己的課程！
 
-
-### 使用技術：
-前端:React、React Bootstrap、React Flag Select、React Calendar、React Time Picker、React Router DOM
 
 ### 功能:
 學生和老師的註冊和登錄功能
 學生可以搜索和篩選可用的家教跟選擇要研習的課程
 學生預約課程
 上完課後的課程評分與評論
+Demo 網址: http://34.125.232.84:3030/
+Back-End GitHub Link: https://github.com/yuan6636/capstone-tutor-backend
+
+
+### 使用技術：
+功能介紹
+React-Bootstrap
+React-route-dom
+Axios
+React
+其他輔助 Library
+
+### 安裝與下載 :
+
+1.下載檔案至本地資料夾
+git clone https://github.com/enternalsong/tutor.git
+
+2.開啟專案資料夾後安裝檔案
+npm install
+
+3.輸入執行碼
+npm run dev
+
+4.於瀏覽器輸入以下網址
+http://127.0.0.1:3000/
+
 
 
 # Tutor
