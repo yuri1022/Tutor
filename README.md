@@ -7,8 +7,13 @@
 - 您登入後即可以在此網站上預約各種分類的課程，
 - 更可以進一步申請成為老師，並開設屬於自己的課程！
 
-### Demo 網址: [http://34.125.232.84:3030/](http://34.125.232.84:3030/)
-### Back-End Link: [https://github.com/yuan6636/capstone-tutor-backend](https://github.com/yuan6636/capstone-tutor-backend)
+![首頁](src/assets/Homepage-login-studentmode.png)
+![老師頁面](src/assets/Homepage-login-studentmode.png)
+
+
+- Demo 網址: [http://34.125.232.84:3030/](http://34.125.232.84:3030/)
+- Demo Video (電腦版) [https://youtu.be/-XmjX71Y9no](https://youtu.be/-XmjX71Y9no)
+- Back-End Link: [https://github.com/yuan6636/capstone-tutor-backend](https://github.com/yuan6636/capstone-tutor-backend)
 
 
 ## 功能:
@@ -91,13 +96,22 @@ http://localhost/5173/
 # Tutor -A website which matched English teachers and students.
 
 ## Introduction
+
 "Tutor" is a website that provides matching services between students and English tutors. 
 Once you log in, you can book various categories of courses on this website. 
 And then , you can apply to become a tutor and create your own courses!
 
+![首頁](src/assets/Homepage-login-studentmode.png)
+![老師頁面](src/assets/Homepage-login-studentmode.png)
+
+- Demo Link: [http://34.125.232.84:3030/](http://34.125.232.84:3030/)
+- Demo Video (on PC) [https://youtu.be/-XmjX71Y9no](https://youtu.be/-XmjX71Y9no)
+- Back-End Link: [https://github.com/yuan6636/capstone-tutor-backend](https://github.com/yuan6636/capstone-tutor-backend)
+
 ## Function
 
 At Tutor , you can do diffrent things when you are in different identities:
+
 ### Unregistered:
 You can see our teacher's brief introduction at homepage.
 
