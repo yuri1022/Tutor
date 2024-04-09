@@ -8,7 +8,7 @@
 - 更可以進一步申請成為老師，並開設屬於自己的課程！
 
 ![首頁](src/assets/Homepage-login-studentmode.png)
-![老師頁面](src/assets/Homepage-login-studentmode.png)
+![老師頁面](src/assets/Homepage-login-teachermode.png)
 
 
 - Demo 網址: [http://34.125.232.84:3030/](http://34.125.232.84:3030/)
@@ -102,7 +102,7 @@ Once you log in, you can book various categories of courses on this website.
 And then , you can apply to become a tutor and create your own courses!
 
 ![首頁](src/assets/Homepage-login-studentmode.png)
-![老師頁面](src/assets/Homepage-login-studentmode.png)
+![老師頁面](src/assets/Homepage-login-teachermode.png)
 
 - Demo Link: [http://34.125.232.84:3030/](http://34.125.232.84:3030/)
 - Demo Video (on PC) [https://youtu.be/-XmjX71Y9no](https://youtu.be/-XmjX71Y9no)
