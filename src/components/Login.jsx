@@ -13,7 +13,7 @@ import { AppContext } from '../App';
 const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
     const { login,isUserLoggedIn } = useAuth();
     const {state,dispatch} = useContext(AppContext);
-    const [mode, setMode] = useState('signup');
+    const [mode, setMode] = useState('login');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repassword, setRepassword] = useState('');
@@ -155,7 +155,7 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
                     }
                     {
                         mode === "login" && (
-                            <Form>
+                            <Form onSubmit={handleSubmit(apiLoginSubmit)}>
                                 <div className="mb-10px">使用帳號密碼登入</div>
                                 <Form.Group className='d-flex' controlId="formBasicLoginEmail" style={{marginBottom:'10px',border:'1px solid var(--main-blue)',borderRadius:'0.3125rem'}}>
                                     <Form.Label className="d-flex" style={{width:'30%',alignItems:'center',justifyContent:'center',marginBottom:'0',color:'var(--main-blue)'}}>帳號</Form.Label>
@@ -165,7 +165,7 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
                                     <Form.Label className="d-flex" style={{width:'30%',alignItems:'center',justifyContent:'center',marginBottom:'0',color:'var(--main-blue)'}}>密碼</Form.Label>
                                     <Form.Control type="password" style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} value={password} onChange={(e) => { setPassword(e.target.value) }} placeholder="請輸入密碼" />
                                 </Form.Group>
-                                <Button variant="primary" className="w-100 mb-20px" onClick={apiLoginSubmit}>
+                                <Button variant="primary" type="submit" className="w-100 mb-20px">
                                     登入
                                 </Button>
                                 <div className="mb-10px">使用其他方式登入</div>

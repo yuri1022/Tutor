@@ -28,17 +28,16 @@ const TeachersPage = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(localStorage.getItem("islogin") === "true");
   const { id } = useParams();
 
- useEffect(() => {
-    // 检查用户登录状态
-    if (localStorage.getItem("islogin") === "false") {
-      setIsUserLoggedIn(false);
-    }
-  }, []);
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
+
+      if (localStorage.getItem("islogin") === "true") {
+      setIsUserLoggedIn(true);
+      }
+      if (localStorage.getItem("islogin") === "false") {
+      setIsUserLoggedIn(false);
+       }
         if (isUserLoggedIn) {
           const data = await getTeacher(id);
           setTeacherDetails(data.data);
@@ -52,6 +51,8 @@ const TeachersPage = () => {
     fetchData();
 
   }, [id, isUserLoggedIn]);
+
+  console.log(isUserLoggedIn)
 
 // 当登录成功时调用的函数
 const handleLoginSuccess = async () => {

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
 
 const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
-    const [mode ,setMode] = useState('signup');
+    const [mode ,setMode] = useState('login');
     const [ email,setEmail ] = useState('');
     const [ password,setPassword ] = useState('');
     const [ repassword,setRepassword] = useState('');
@@ -17,17 +17,30 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
             password: '',
             repassword: '',
         },
-        mode: 'onTouched'
+        mode: 'onTouched',
+         errorMessage: {
+        email: {
+            required: 'Email必填',
+        },
+        password: {
+            required: '密碼必填',
+        },
+        repassword: {
+            required: '確認密碼必填',
+        },
+    },
     });
 
     const api = 'http://34.125.232.84:3000';
     const onSubmit = async(data)=>{
+
         const formData={
             email:data.email,
             password:data.password,
             passwordCheck:data.repassword,
             name:data.email.split('@')[0],
         }
+
         //console.log(formData);
         const signupRes = await axios.post(`${api}/signup`,formData
         ).then(res=>{
@@ -41,7 +54,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
       });
         }).catch(err=>{
             console.log(err);
-            const errorMessage= err.message;
+            const errorMessage= err.response.data.message;
             Swal.fire({
             title: 'Fail',
             text: errorMessage,
@@ -63,6 +76,13 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
             return res.data;
         }).catch(err=>{
             console.log(err);
+            const errorMessage= err.response.data.message;
+          Swal.fire({
+            title: 'Fail',
+            text: errorMessage,
+            icon: 'error',
+            confirmButtonText: '確定'
+      });
         })
         //console.log(loginRes);
         const token = loginRes.data.token;
@@ -119,21 +139,39 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
                             <div className="mb-10px">使用帳號密碼註冊</div>
                             <div className="input-bar mb-10px">
                                 <label className={`form-control input-login-label ${errors.email && 'is-wrong'}`}>帳號</label>
-                                <input  className={`form-control input-login-right  ${errors.email && 'is-invalid'} `} {...register("email",{
+                                <input className={`form-control input-login-right  ${errors.email && 'is-invalid'} `} {...register("email",{
                                 required:{value: true, message:'Email必填'},
-                                maxLegnth: 40,
+                                maxLenth: 40,
                                 pattern: /^\S+@\S+$/i
                                 })}  placeholder="請輸入信箱"/>
+                            {errors?.email?.message && (
+                              <div className="email-tooltip-box d-flex">
+                                  {errors.email.message}
+                                </div>
+                            )}
                             </div>
                             <div className="input-bar mb-10px">
-                                <label  className={`form-control input-login-label ${errors.password && 'is-wrong'}`}>密碼</label>
-                                <input type="password" className={`form-control input-login-right ${errors.password && 'is-invalid'}`} {...register("password",{required: true , maxLegnth: 20})}  placeholder="請輸入密碼"/>
+                                <label className={`form-control input-login-label ${errors.password && 'is-wrong'}`}>密碼</label>
+                                <input type="password" className={`form-control input-login-right ${errors.password && 'is-invalid'}`} {...register("password",{ required:{value: true, message:'密碼必填'},
+                                maxLenth: 20})}  placeholder="請輸入密碼"/>
+                            {errors.password && (
+                              <div className="pw-tooltip-box d-flex">
+                                  {errors.password.message}
+                                </div>
+                            )}
                             </div>
                             <div className="input-bar mb-10px">
                                 <label className={`form-control input-login-label ${errors.repassword && 'is-wrong'}`}>確認</label>
-                                <input  type="password" className={`form-control input-login-right ${errors.repassword && 'is-invalid'}`} {...register("repassword",{required: true , maxLegnth: 20})}  placeholder="請再次輸入密碼"/>
+                                <input type="password" className={`form-control input-login-right ${errors.repassword && 'is-invalid'}`} {...register("repassword",{ required:{value: true, message:'確認密碼必填'},
+                                maxLenth: 20})}  placeholder="請再次輸入密碼"/>
+                            {errors.repassword && (
+                              <div className="repw-tooltip-box d-flex">
+                                  {errors.repassword.message}
+                                </div>
+                            )}
+
                             </div>
-                            <button className="btn btn-primary w-100 mb-20px"  type="submit">
+                            <button className="btn btn-primary w-100 mb-20px" type="submit">
                                 註冊
                             </button>
                             <div className="mb-10px">使用其他方式註冊</div>
@@ -157,7 +195,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
                 {
                     mode==="login" && (
                         <>
-                        <form>
+                         <form onSubmit={handleSubmit(apiLoginSubmit)}>
                             <div className="mb-10px">使用帳號密碼註冊</div>
                             <div className="input-bar mb-10px">
                                 <label className={`form-control input-login-label`}>帳號</label>
@@ -165,11 +203,11 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
                             </div>
                             <div className="input-bar mb-10px">
                                 <label className={`form-control input-login-label`}>密碼</label>
-                                <input  type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}}  className={`form-control input-login-right `}   placeholder="請輸入密碼"/>
+                                <input type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}}  className={`form-control input-login-right `}   placeholder="請輸入密碼"/>
                             </div>
-                            <div className="btn btn-primary w-100 mb-20px" onClick={apiLoginSubmit}>
+                            <button className="btn btn-primary w-100 mb-20px" type="submit">
                                 登入
-                            </div>
+                            </button>
                             <div className="mb-10px">使用其他方式登入</div>
                             <div className="button-container d-flex">
                             <button className="btn" style={{border:'1px solid var(--main-blue25)'}}>

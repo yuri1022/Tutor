@@ -3,13 +3,33 @@
     .login-container {
             height: 100%;
         }
+         .tooltip-box {
+            position: absolute;
+            padding: 5px;
+            border-radius: 3px;
+            z-index: 999;
+            right: 8%;
+            top: 15%;
+            color: #dc3545;
+            display: none;
+                }
 }
 
 @media screen and (min-width: 481px) and (max-width: 1080px){
     .login-container {
-
             height: 100%;
         }
+                .tooltip-box {
+                    position: absolute;
+                    padding: 5px;
+                    border-radius: 3px;
+                    z-index: 999;
+                    right: 16%;
+                    top: 15%;
+                    color: #dc3545;
+                    display: none;
+                }
+
 }
 
 @media screen and (min-width:1081px){
@@ -17,6 +37,42 @@
 
             height: 100%;
         }
+
+            .email-tooltip-box {
+                                             position: absolute;
+                                             padding: 5px;
+                                             border-radius: 3px;
+                                             z-index: 999;
+                                             right: 16%;
+                                             top: 15%;
+                                             color: #dc3545;
+                                             background-color:pink;
+                                             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+             }
+
+             .pw-tooltip-box {
+                    position: absolute;
+                    padding: 5px;
+                    border-radius: 3px;
+                    z-index: 999;
+                    right: 16%;
+                    top: 28%;
+                    color: #dc3545;
+                    background-color:pink;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+
+                .repw-tooltip-box {
+                             position: absolute;
+                             padding: 5px;
+                             border-radius: 3px;
+                             z-index: 999;
+                             right: 16%;
+                             top: 41%;
+                             color: #dc3545;
+                             background-color: pink;
+                             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                         }
 }
 .login_modal_content{
     .modal-header{
@@ -122,4 +178,6 @@
         border-top: 0px;
     }
 
+
 }
+
