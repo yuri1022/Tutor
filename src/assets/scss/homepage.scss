@@ -39,6 +39,8 @@
       display:flex;
     }
   .div-container__info {
+    display: flex;
+    justify-content: center;
       align-items: center;
               .card {
                 justify-content: center;
@@ -198,7 +200,7 @@
 
 @media screen and (min-width: 481px) and (max-width: 1080px) {
 .div-container__home {
-    padding: 0;
+    padding-left: 2rem;
 
     .category-buttons-container {
       max-height: 2.25rem;
@@ -207,7 +209,7 @@
       .category-buttons {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         width: 100%;
 
         .category-buttons-item {

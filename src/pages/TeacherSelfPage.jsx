@@ -178,13 +178,13 @@ const handleSave = async (updatedData, editedData, section) => {
     formData.append('avatar', updatedData.avatar || teacherDetails.avatar);
     formData.append('teachStyle', isEditTeachingStyle ? updatedData.teachStyle : teacherDetails.teachStyle);
     formData.append('selfIntro', isEditInfo ? updatedData.selfIntro : teacherDetails.selfIntro);
-    formData.append('mon', teacherDetails.mon.toString());
-    formData.append('tue', teacherDetails.tue.toString());
-    formData.append('wed', teacherDetails.wed.toString());
-    formData.append('thu', teacherDetails.thu.toString());
-    formData.append('fri', teacherDetails.fri.toString());
-    formData.append('sat', teacherDetails.sat.toString());
-    formData.append('sun', teacherDetails.sun.toString());
+    formData.append('mon', updatedData.mon.toString() || teacherDetails.mon.toString());
+    formData.append('tue', updatedData.tue.toString() || teacherDetails.tue.toString());
+    formData.append('wed', updatedData.wed.toString() || teacherDetails.wed.toString());
+    formData.append('thu', updatedData.thu.toString() || teacherDetails.thu.toString());
+    formData.append('fri', updatedData.fri.toString() || teacherDetails.fri.toString());
+    formData.append('sat', updatedData.sat.toString() || teacherDetails.sat.toString());
+    formData.append('sun', updatedData.sun.toString() || teacherDetails.sun.toString());
 
     // 如果 category 有編輯過，則添加排序後的 category 數據到 FormData 對象中
     if (updatedData.category) {

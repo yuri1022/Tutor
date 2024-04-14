@@ -96,8 +96,7 @@
                   flex-wrap: wrap;
                   font-size: 0.8rem;
                   font-weight: 600;
-            
-  
+          
                   .form-check {
                     display: flex;
                     align-items: center;
@@ -114,6 +113,34 @@
                 }
   
               }
+    .edit-weekdays {
+      font-size: 1.03rem;
+      font-weight: 700;
+  
+      .edit-weekdays-items {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 0.8rem;
+        font-weight: 600;
+  
+        .form-check {
+          display: flex;
+          align-items: center;
+  
+          input {
+            border: 0.15rem solid var(--main-blue);
+            width: 1.3rem;
+            height: 1.3rem;
+            margin-right: 0.5rem;
+          }
+  
+          .form-check-label {
+            margin-right: 0.5rem;
+          }
+        }
+      }
+  
+    }
             }
           }
   
@@ -249,6 +276,36 @@
                 font-weight: 700;
   
                 .edit-category-items {
+                  display: flex;
+                  flex-wrap: wrap;
+                  font-size: 0.8rem;
+                  font-weight: 600;
+  
+  
+                  .form-check {
+                    display: flex;
+                    align-items: center;
+  
+                    input {
+                      border: 0.15rem solid var(--main-blue);
+                      width: 1.3rem;
+                      height: 1.3rem;
+                      margin-right: 0.4rem;
+                    }
+  
+                    .form-check-label {
+                      margin-right: 0.4rem;
+                    }
+                  }
+                }
+  
+              }
+  
+              .edit-weekdays {
+                font-size: 1.03rem;
+                font-weight: 700;
+  
+                .edit-weekdays-items {
                   display: flex;
                   flex-wrap: wrap;
                   font-size: 0.8rem;
@@ -434,6 +491,35 @@
                 }
   
               }
+                                                        .edit-weekdays {
+                                                          font-size: 1.03rem;
+                                                          font-weight: 700;
+                            
+                                                          .edit-weekdays-items {
+                                                            display: flex;
+                                                            flex-wrap: wrap;
+                                                            font-size: 0.8rem;
+                                                            font-weight: 600;
+                            
+                            
+                                                            .form-check {
+                                                              display: flex;
+                                                              align-items: center;
+                            
+                                                              input {
+                                                                border: 0.15rem solid var(--main-blue);
+                                                                width: 1.3rem;
+                                                                height: 1.3rem;
+                                                                margin-right: 0.4rem;
+                                                              }
+                            
+                                                              .form-check-label {
+                                                                margin-right: 0.4rem;
+                                                              }
+                                                            }
+                                                          }
+                            
+                                                        }
             }
           }
   

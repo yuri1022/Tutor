@@ -4,12 +4,22 @@ import { useState,useEffect } from 'react';
 import '../assets/scss/editmodal.scss';
 import ReactFlagsSelect from "react-flags-select";
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 
 const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editingSection }) => {
   const [editedData, setEditedData] = useState({ ...teacherDetails });
   const [category, setCategory] = useState([...new Set(teacherDetails.teaching_categories.map(categories => categories.Category.name))]);
   const [nation, setNation] = useState(editedData.nation);
+  const [weekdays, setWeekdays] = useState({
+  mon: teacherDetails.mon,
+  tue: teacherDetails.tue,
+  wed: teacherDetails.wed,
+  thu: teacherDetails.thu,
+  fri: teacherDetails.fri,
+  sat: teacherDetails.sat,
+  sun: teacherDetails.sun,
+});
   const [uploadImageModal, setUploadImageModal] = useState(false);
   const [ file ,setFile] = useState({})
 const AllCategories = [
@@ -22,6 +32,14 @@ const AllCategories = [
   { label: "商用英文", value: 4 }
 ];
 
+const handleWeekdaysChange = (e) => {
+  const { name, checked } = e.target;
+  setWeekdays((prevWeekdays) => ({
+    ...prevWeekdays,
+    [name]: checked,
+  }));
+};
+
 useEffect(() => {
   // 当传递给组件的 teacher 属性发生变化时，更新内部状态
   setEditedData({ ...teacherDetails });
@@ -30,7 +48,6 @@ useEffect(() => {
 
 
 useEffect(() => {
-  // 当传递给组件的 teacher 属性发生变化时，更新内部状态
   setEditedData({ ...teacherDetails });
   
   // 將教師的分類轉換為字符串陣列
@@ -76,6 +93,16 @@ const handleCategoryChange = (selectedCategory) => {
         setUploadImageModal(true);
         const file = e.target.files[0];
         if (file) {
+          const fileType = file.type.split('/')[1]; // 获取文件类型
+          if (fileType !== 'jpg' && fileType !== 'png' && fileType !== 'jpeg') {
+            Swal.fire({
+                title: '錯誤!',
+                text: '只允許上傳 JPG 或 PNG 格式的圖片!',
+                icon: 'error',
+                confirmButtonText: '確定'
+            });
+            return;
+          }
           const reader = new FileReader();
           reader.onloadend = () => {
             setEditedData(
@@ -99,6 +126,13 @@ const handleSaveClick = () => {
   nation: nation,
   category: category,
   avatar: file,
+  mon:weekdays.mon,
+    tue: weekdays.tue,
+    wed: weekdays.wed,
+    thu: weekdays.thu,
+    fri: weekdays.fri,
+    sat: weekdays.sat,
+    sun: weekdays.sun,
   };
 
   // 将編輯的資料傳遞給父層組件的回調函數
@@ -173,12 +207,76 @@ const handleSaveClick = () => {
           </div>
 
             </div>
+            <div className="edit-weekdays mt-2">
+                <Form.Label>每週可上課時間</Form.Label>
+                <div className="edit-weekdays-items d-flex" style={{flexWrap:'wrap'}}>
+    <Form.Check
+      type="checkbox"
+      id="mon"
+      name="mon"
+      label="星期一"
+      checked={weekdays.mon}
+      onChange={handleWeekdaysChange}
+    />
+    <Form.Check
+      type="checkbox"
+      id="tue"
+      name="tue"
+      label="星期二"
+      checked={weekdays.tue}
+      onChange={handleWeekdaysChange}
+    />
+        <Form.Check
+      type="checkbox"
+      id="wed"
+      name="wed"
+      label="星期三"
+      checked={weekdays.wed}
+      onChange={handleWeekdaysChange}
+    />
+    <Form.Check
+      type="checkbox"
+      id="thu"
+      name="thu"
+      label="星期四"
+      checked={weekdays.thu}
+      onChange={handleWeekdaysChange}
+    />    
+    <Form.Check
+      type="checkbox"
+      id="fri"
+      name="fri"
+      label="星期五"
+      checked={weekdays.fri}
+      onChange={handleWeekdaysChange}
+    />    
+    <Form.Check
+      type="checkbox"
+      id="sat"
+      name="sat"
+      label="星期六"
+      checked={weekdays.sat}
+      onChange={handleWeekdaysChange}
+    />    
+        <Form.Check
+      type="checkbox"
+      id="sun"
+      name="sun"
+      label="星期日"
+      checked={weekdays.sun}
+      onChange={handleWeekdaysChange}
+    />    
+            </div>
+            </div>
+
+
+
               
             </div>
 
           </Form.Group>
 
-          {/* 其他編輯欄位... */}
+    
         </Form>
       </Modal.Body>
 

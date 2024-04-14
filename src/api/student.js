@@ -16,8 +16,13 @@ export const edit_student_data = async(id,formdata)=>{
         console.log('API Response:', res);
         return res.data;
       } catch (error) {
-        console.error('[Edit Student Data Error] ', error);
-      }
+    console.error('[Put failed]: ', error);
+    if (error.response) {
+      throw new Error(error.response.data.message); // 从 API 响应中获取错误消息并抛出
+    } else {
+      throw new Error('創建課程失敗'); // 如果没有响应，则抛出通用错误消息
+    }
+  }
 }
 
 export const get_student_data = async(id)=>{
