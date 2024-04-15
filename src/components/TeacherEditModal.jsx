@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useState,useEffect } from 'react';
 import '../assets/scss/editmodal.scss';
 import ReactFlagsSelect from "react-flags-select";
-import axios from 'axios';
 import Swal from "sweetalert2";
+import DefaultImg from '../assets/images/svg/defaultimg.svg';
 
 
 const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editingSection }) => {
@@ -157,7 +157,7 @@ const handleSaveClick = () => {
 
             <div className="edit-img d-flex">
               <div className="edit-img-container">
-              <img className="img" src={editedData.avatar} alt="avatar" />
+              <img className="img" src={editedData.avatar&&editedData.avatar.length>0?editedData.avatar:DefaultImg} alt="avatar" />
 
               </div>
                    

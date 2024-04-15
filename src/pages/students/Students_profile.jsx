@@ -5,7 +5,9 @@ import Students_profile_Rating from "../../components/students/Student_profile_R
 import Students_profile_Go_Class from "../../components/students/Student_profile_Go_Class";
 import { Modal } from 'bootstrap';
 import Notification from '../../components/students/Student_Notification';
+import DefaultImg from '../../assets/images/svg/defaultimg.svg';
 import { AppContext } from './../../App';
+import {get_student_data} from '../../api/student.js'
 const Students_profile = () =>{
     const [msg_type,setMsg_type] = useState('');
     const [showToast, setShowToast] = useState(false);
@@ -13,7 +15,23 @@ const Students_profile = () =>{
     const ratingModal = useRef(null);
     const goclassModal = useRef(null);
     const student_data = JSON.parse(localStorage.getItem("userdata")).data;
-    // console.log(student_data);
+    const [studentData,setStudentData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const fetchedData = await get_student_data(student_data.id);
+               console.log(fetchedData);
+               setStudentData(fetchedData.data); 
+            } catch (error) {
+                console.error('Error fetching student data:', error);
+            }
+        };
+        
+        fetchData();
+    }, [student_data.id]);
+
+
     const handleMsg=(msg)=>{
         if(msg==="delete"){
             setShowToast(true);
@@ -91,14 +109,14 @@ const Students_profile = () =>{
             <div className="Profile_container_stu">
                 <div className="grid-container">
                         <div className="left-profile-stu-container">
-                            <div className="img-profile-container"><img className="img-profile" src={student_data.avatar}></img></div>
+                            <div className="img-profile-container"><img className="img-profile" src={student_data.avatar&&student_data.avatar.length>0?student_data.avatar:DefaultImg}></img></div>
                             <div className="text-title mb-40px">{student_data.name}</div>
                             <div>
                                 <div>
                                     <div className="text-title mb-10px">我的學習名次</div>
                                     <div className="rank-block">
-                                        <div>{student_data.studyRank}</div>
-                                        <div>{student_data.studyHours}hr</div>
+                                        <div>{studentData?.studyRank}</div>
+                                        <div>{studentData?.studyHours}hr</div>
                                     </div>
                                 </div>
                                 <div className="intro-block mb-40px">

@@ -82,7 +82,7 @@
   .course-date-selector {
       justify-content: space-between;
   
-      .month-selection {
+      .years-selection {
         font-family: 'Inter', sans-serif;
         border: none;
         color: var(--main-blue);
@@ -92,7 +92,6 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-  
         option {
           font-weight: 700;
           font-size: 0.875rem;
@@ -101,10 +100,6 @@
         }
         
       }
-            .arrow{
-              margin-left: -1rem;
-            }
-  
   
     }
   

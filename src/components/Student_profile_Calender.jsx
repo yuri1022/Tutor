@@ -15,6 +15,11 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const { state } = useContext(AppContext);
     const api = 'http://34.125.232.84:3000';
 
+    const handleYearChange = (e) => {
+      setCurrentYear(parseInt(e.target.value));
+    };
+  const yearsRange = Array.from({ length: 11 }, (_, index) => currentYear - 5 + index);
+
 
     const months = ["January",
     "February",
@@ -63,10 +68,22 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
             return days_arr[month];
         }   
     }
-    const increament_year =(add)=>{
+const increament_month = (step) => {
+  let newMonth = currentMonth + step;
+  let newYear = currentYear;
 
-        setCurrentYear(currentYear+add);
-    }
+  if (newMonth < 0) {
+    newMonth = 11; // 如果是1月往左，設置為12月
+    newYear -= 1; // 年份減1
+  } else if (newMonth > 11) {
+    newMonth = 0; // 如果是12月往右，設置為1月
+    newYear += 1; // 年份加1
+  }
+
+  setCurrentMonth(newMonth);
+  setCurrentYear(newYear); // 更新年份
+};
+
 
 
     let firstDayOfMonth= new Date(currentYear, currentMonth, 1).getDay();
@@ -225,20 +242,22 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     return(
         <>
         <div className="d-flex justify-between mb-20px">
-            <select className="month-selection" name="months" value={currentMonth} onChange={(e)=>{
-                setCurrentMonth(parseInt(e.target.value))}}>
-            {
-                months.map((month,key)=>{
-                    return(
-                        <option key={key} value={key} onClick={()=>{setCurrentMonth(key)}}> {month}</option>
-                    )
-                })
-            }
-            </select>
+                        <select
+      className="years-selection"
+      name="years"
+      value={currentYear}
+      onChange={handleYearChange}
+    >
+      {yearsRange.map((year) => (
+        <option key={year} value={year}>
+          {year}
+        </option>
+      ))}
+    </select>
             <div className="d-flex items-center">
-                <img className="btn" src={arrow_left} onClick={(e)=>{increament_year(-1)}}/>
-                <div className="text-primary">{currentYear}</div>
-                <img className="btn rotate-arrow" src={arrow_left} onClick={(e)=>{increament_year(1)}}/>
+                <img className="btn" src={arrow_left} onClick={(e)=>{increament_month(-1)}}/>
+                <div className="text-primary">{months[currentMonth]}</div>
+                <img className="btn rotate-arrow" src={arrow_left} onClick={(e)=>{increament_month(1)}}/>
             </div>
         </div>
 

@@ -3,7 +3,7 @@
         background-color: #f9d2cf;;
     }
     .finish{
-        background-color:#aeb6da;
+        background-color:var(--main-blue25)
     }
     .notreview{
         background-color: #f6f6f6;
@@ -200,3 +200,21 @@
         border: 0px;
     }
 }
+
+
+ .years-selection {
+     font-family: 'Inter', sans-serif;
+     border: none;
+     color: var(--main-blue);
+     font-weight: 700;
+     position: relative;
+     background-color: transparent;
+
+     option {
+         font-weight: 700;
+         font-size: 0.875rem;
+         max-width: 7rem;
+         background-color: var(--white);
+     }
+
+ }

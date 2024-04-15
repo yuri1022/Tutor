@@ -76,7 +76,7 @@ const Students_profile = () =>{
                     <div className="col-12">
                         <div className="right-profile-stu-container">
                             <div>
-                                <div className="text-title mb-20px">我的行事曆</div>
+                                <div className="text-title mb-20px" style={{fontWeight:'700'}}>我的行事曆</div>
                                 <Students_profile_Calender openRatingModal={openRatingModal} openGoClassModal={openGoClassModal}></Students_profile_Calender>
                             </div>
                         </div>

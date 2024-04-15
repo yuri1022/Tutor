@@ -15,7 +15,7 @@ import Login from "../components/Login.jsx";
 import ExpandIcon from '../assets/images/svg/expand.svg';
 import CollapseIcon from '../assets/images/svg/collapse.svg';
 import { getTeacher } from "../api/teacher.js";
-import RatingIcon from '../assets/images/svg/rating.svg'
+import DefaultImg from '../assets/images/svg/defaultimg.svg';
 
 const TeachersPage = () => {
   const [teacherDetails, setTeacherDetails] = useState(null);
@@ -91,7 +91,7 @@ return (
 
               <div className="self-card-container">
               
-              <img className="self-card-img" src={teacherDetails.avatar&& teacherDetails.avatar.length>0 ? teacherDetails.avatar:RatingIcon} alt="teacher Avatar" />
+              <img className="self-card-img" src={teacherDetails.avatar&& teacherDetails.avatar.length>0 ? teacherDetails.avatar:DefaultImg} alt="teacher Avatar" />
 
               <div className="self-info-container" >
 

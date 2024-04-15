@@ -20,8 +20,30 @@ const Teacher_profile_Calender = () =>{
     const { state } = useContext(AppContext);
     const [isCourseOpen, setIsCourseModalOpen] = useState(false);
     const [selectedCourse , setSelectedCourse] = useState('');
-
     const allCourseData = []; 
+
+    const handleYearChange = (e) => {
+      setCurrentYear(parseInt(e.target.value));
+    };
+  const yearsRange = Array.from({ length: 11 }, (_, index) => currentYear - 5 + index);
+
+const increament_month = (step) => {
+  let newMonth = currentMonth + step;
+  let newYear = currentYear;
+
+  if (newMonth < 0) {
+    newMonth = 11; // 如果是1月往左，設置為12月
+    newYear -= 1; // 年份減1
+  } else if (newMonth > 11) {
+    newMonth = 0; // 如果是12月往右，設置為1月
+    newYear += 1; // 年份加1
+  }
+
+  setCurrentMonth(newMonth);
+  setCurrentYear(newYear); // 更新年份
+};
+
+
 
    useEffect(() => {
     const fetchTeacherData = async () => {
@@ -160,11 +182,6 @@ useEffect(() => {
             return days_arr[month];
         }   
     }
-    const increament_year =(add)=>{
-
-        setCurrentYear(currentYear+add);
-    }
-
 
     let firstDayOfMonth= new Date(currentYear, currentMonth, 1).getDay();
     let dayInMonth= get_days_in_month(currentYear,currentMonth);
@@ -253,10 +270,6 @@ for (let i = 0; i < 5; i++) {
     );
   }
 
-  useEffect(() => {}, []);
-
-  useEffect(() => {}, [currentMonth, currentYear]);
-
     return(
          <>
       <div className="course-calendar-title justify-between mb-1">
@@ -265,25 +278,19 @@ for (let i = 0; i < 5; i++) {
           </div>
         <div className="date-selector d-flex">
         <div className="course-date-selector d-flex">
-              <select
-          className="month-selection"
-          name="months"
-          value={currentMonth}
-          onChange={(e) => {
-            console.log(parseInt(e.target.value));
-            setCurrentMonth(parseInt(e.target.value));
-          }}
-        >
-          {months.map((month, key) => {
-            return (
-              <option key={key} value={key} onClick={() => setCurrentMonth(key)}>
-                {' '}
-                {month}
-              </option>
-            );
-          })}
-          
-        </select>
+             <select
+      className="years-selection"
+      name="years"
+      value={currentYear}
+      onChange={handleYearChange}
+    >
+      {yearsRange.map((year) => (
+        <option key={year} value={year}>
+          {year}
+        </option>
+      ))}
+    </select>
+
         <span className='arrow'><img src={ArrowIcon} alt="" /></span>
         </div>
          <div className="course-calendar-year d-flex">
@@ -291,15 +298,15 @@ for (let i = 0; i < 5; i++) {
             className="btn"
             src={arrow_left}
             onClick={(e) => {
-              increament_year(-1);
+              increament_month(-1);
             }}
           />
-          <div className="text-primary">{currentYear}</div>
+          <div className="text-primary">{months[currentMonth]}</div>
           <img
             className="btn rotate-arrow"
             src={arrow_right}
             onClick={(e) => {
-              increament_year(1);
+              increament_month(1);
             }}
           />
         </div>       

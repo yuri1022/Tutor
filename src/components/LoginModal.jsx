@@ -199,11 +199,26 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
                             <div className="mb-10px">使用帳號密碼註冊</div>
                             <div className="input-bar mb-10px">
                                 <label className={`form-control input-login-label`}>帳號</label>
-                                <input  value={email} onChange={(e)=>{setEmail(e.target.value)}}className={`form-control input-login-right   `}  placeholder="請輸入信箱"/>
+                                 <input className={`form-control input-login-right  ${errors.email && 'is-invalid'} `} {...register("email",{
+                                required:{value: true, message:'Email必填'},
+                                maxLenth: 40,
+                                pattern: /^\S+@\S+$/i
+                                })}  placeholder="請輸入信箱"/>
+                            {errors?.email?.message && (
+                              <div className="email-tooltip-box d-flex">
+                                  {errors.email.message}
+                                </div>
+                            )}
                             </div>
                             <div className="input-bar mb-10px">
-                                <label className={`form-control input-login-label`}>密碼</label>
-                                <input type="password" value={password} onChange={(e)=>{setPassword(e.target.value)}}  className={`form-control input-login-right `}   placeholder="請輸入密碼"/>
+                                <label className={`form-control input-login-label ${errors.password && 'is-wrong'}`}>密碼</label>
+                                <input type="password" className={`form-control input-login-right ${errors.password && 'is-invalid'}`} {...register("password",{ required:{value: true, message:'密碼必填'},
+                                maxLenth: 20})}  placeholder="請輸入密碼"/>
+                            {errors.password && (
+                              <div className="pw-tooltip-box d-flex">
+                                  {errors.password.message}
+                                </div>
+                            )}
                             </div>
                             <button className="btn btn-primary w-100 mb-20px" type="submit">
                                 登入

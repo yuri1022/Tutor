@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import Flag from 'react-world-flags';
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import DefaultImg from '../assets/images/svg/defaultimg.svg';
 
 const fetchTeacherData = async (api,id) => {
   try {
@@ -41,11 +42,12 @@ const TeacherSelfPage = () => {
   const [editingContent, setEditingContent] = useState('');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const { id } = useParams();
-  const { state } = useContext(AppContext);
+  const { state,dispatch } = useContext(AppContext);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [teacherDetailsChanged,setTeacherDetailsChanged]=useState(false);
   const loginModal = useRef(null);
   const navigate = useNavigate();
+  
 
   const api = 'http://34.125.232.84:3000';
 
@@ -222,6 +224,17 @@ const handleSave = async (updatedData, editedData, section) => {
       icon: 'success',
       confirmButtonText: '確定'
     });
+  const teacherData = await axios.get(`${api}/teacher/${id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        }).then((res) => {
+            console.log(`teacher ${res}`);
+            localStorage.setItem('userdata', JSON.stringify(res.data));
+            dispatch({ type: "LOGIN", payload: { logindata: res.data, isTeacher: 0, isLogin: true } });
+        }).catch(
+            err => {
+                console.log(err);
+    }
+  )
 
     return response.data.data;
 
@@ -266,7 +279,7 @@ const handleCancel = () => {
 
      <div className="self-card-container" >
       
-      <img className="self-card-img" src={teacherDetails.avatar} alt={teacherDetails.name} />
+      <img className="self-card-img" src={teacherDetails.avatar&& teacherDetails.avatar.length>0 ? teacherDetails.avatar:DefaultImg} alt={teacherDetails.name} />
 
       <div className="self-info-container">
 

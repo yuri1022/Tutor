@@ -1,9 +1,10 @@
 import { useState,useEffect ,useRef,useContext,useReducer } from 'react';
 import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import Search from './Searchbar'
+import Search from './Searchbar';
 import PropTypes from 'prop-types';
-import headshot01 from './../assets/images/svg/headshot01.svg';
+import headshot01 from '../assets/images/svg/headshot01.svg';
+import DefaultImg from '../assets/images/svg/defaultimg.svg';
 import LogoIcon from '../assets/images/svg/logo.svg';
 import searchIcon from '../assets/images/svg/icon_search.svg';
 import { Link } from 'react-router-dom';
@@ -14,6 +15,7 @@ import { AppContext } from '../App';
 import { Dropdown } from 'react-bootstrap';
 import '../assets/scss/navbar.scss';
 import { useAuth } from './AuthContext';
+import Swal from 'sweetalert2';
 
 const Navbar = (props) =>{
     const [ isOpen,setIsOpen] = useState(false);
@@ -60,7 +62,12 @@ const Navbar = (props) =>{
         localStorage.setItem("islogin",false);
         localStorage.setItem("isHome","true");
         navigate('/');
-
+        Swal.fire({
+            title: 'Success',
+            text: '您已成功登出!',
+            icon: 'success',
+            confirmButtonText: '確定'
+        })
     }
     const getOut_homepage=()=>{
         localStorage.setItem('isHome',"false");
@@ -208,7 +215,7 @@ const Navbar = (props) =>{
                         localStorage.getItem("islogin")==="true" ? (
                             <Dropdown >
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
-                            <img className="avatar-img" style={{objectFit:'cover'}} src={JSON.parse(localStorage.getItem("userdata"))?.data?.avatar}/>
+                            <img className="avatar-img" style={{objectFit:'cover'}} src={JSON.parse(localStorage.getItem("userdata"))?.data?.avatar && JSON.parse(localStorage.getItem("userdata"))?.data?.avatar.length>0 ? JSON.parse(localStorage.getItem("userdata")).data.avatar:DefaultImg}/>
                             </Dropdown.Toggle>
                             {(localStorage.getItem("isTeacher")) == 1 && localStorage.getItem("changeMode")==="teacher" ?
                             (    
