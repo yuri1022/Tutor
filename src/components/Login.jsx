@@ -17,15 +17,29 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repassword, setRepassword] = useState('');
-
-    const { register, handleSubmit, formState: { errors }, watch } = useForm({
-        defaultValues: {
+    const { register, handleSubmit,formState:{errors},watch } = useForm({
+        defaultValues:{
             email: '',
             password: '',
             repassword: '',
         },
-        mode: 'onTouched'
+        mode: 'onTouched',
+         errorMessage: {
+        email: {
+            required: 'Email必填',
+        },
+        password: {
+            required: '密碼必填',
+        },
+        repassword: {
+            required: '確認密碼必填',
+        },
+    },
     });
+
+    console.log(errors.email)
+    console.log(errors.password)
+
     const api = 'http://34.125.232.84:3000';
 
     const handleHide = () => {
@@ -33,7 +47,6 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
         setPassword('');
         onHide(); // 关闭模态框
     };
-
     const onSubmit = async (data) => {
         const formData = {
             email: data.email,
@@ -117,24 +130,39 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
                         mode === "signup" && (
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <div className="mb-10px">使用帳號密碼註冊</div>
-                                <Form.Group className='d-flex' controlId="formBasicEmail" style={{marginBottom:'10px',border:'1px solid var(--main-blue)',borderRadius:'0.3125rem'}}>
+                                <Form.Group className='input-bar d-flex' controlId="formBasicEmail" style={{marginBottom:'10px',border:'1px solid var(--main-blue)',borderRadius:'0.3125rem'}}>
                                     <Form.Label className="d-flex" style={{width:'30%',alignItems:'center',justifyContent:'center',marginBottom:'0',color:'var(--main-blue)'}}>帳號</Form.Label>
-                                    <Form.Control style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} type="email" {...register("email", {
+                                    <Form.Control className={`form-control input-login-right ${errors.email && 'is-invalid'}`} style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} type="email" {...register("email", {
                                         required: { value: true, message: 'Email必填' },
                                         maxLength: 40,
                                         pattern: /^\S+@\S+$/i
                                     })} placeholder="請輸入信箱" />
-                                    {errors.email && <Form.Text className="text-danger">{errors.email.message}</Form.Text>}
+
+                                    {errors?.email?.message.length>0 && 
+                                    <div className="email-tooltip-box d-flex">
+                                        <Form.Text className="text-danger mt-0">{errors.email.message}</Form.Text>
+                                    </div>}
                                 </Form.Group>
-                                <Form.Group className='d-flex' controlId="formBasicPassword" style={{marginBottom:'10px',border:'1px solid var(--main-blue)',borderRadius:'0.3125rem'}}>
+                                <Form.Group className='input-bar d-flex' controlId="formBasicPassword" style={{marginBottom:'10px',border:'1px solid var(--main-blue)',borderRadius:'0.3125rem'}}>
                                     <Form.Label className="d-flex" style={{width:'30%',alignItems:'center',justifyContent:'center',marginBottom:'0',color:'var(--main-blue)'}}>密碼</Form.Label>
-                                    <Form.Control style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} type="password" {...register("password", { required: true, maxLength: 20 })} placeholder="請輸入密碼" />
-                                    {errors.password && <Form.Text className="text-danger">密碼必填</Form.Text>}
+                                    <Form.Control className={`form-control input-login-right ${errors.password && 'is-invalid'}`}
+                                    style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} type="password" {...register("password",{ required:{value: true, message:'密碼必填'},
+                                maxLength: 20})} placeholder="請輸入密碼" />
+                                
+                                    {errors?.password?.message && 
+                                    <div className="pw-tooltip-box d-flex">
+                                    <Form.Text className="text-danger mt-0">{errors.password.message}</Form.Text>
+                                    </div>}
                                 </Form.Group>
-                                <Form.Group className='d-flex' controlId="formBasicRepassword" style={{marginBottom:'20px',border:'1px solid var(--main-blue)',borderRadius:'0.3125rem'}}>
+                                <Form.Group className='input-bar d-flex' controlId="formBasicRepassword" style={{marginBottom:'20px',border:'1px solid var(--main-blue)',borderRadius:'0.3125rem'}}>
                                     <Form.Label className="d-flex" style={{width:'30%',alignItems:'center',justifyContent:'center',marginBottom:'0',color:'var(--main-blue)'}}>確認</Form.Label>
-                                    <Form.Control style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} type="password" {...register("repassword", { required: true, maxLength: 20 })} placeholder="請再次輸入密碼" />
-                                    {errors.repassword && <Form.Text className="text-danger">確認密碼必填</Form.Text>}
+                                    <Form.Control className={`form-control input-login-right ${errors.repassword && 'is-invalid'}`} {...register("repassword",{ required:{value: true, message:'確認密碼必填'},
+                                maxLength: 20})} style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} type="password"  placeholder="請再次輸入密碼" />
+                                     {errors.repassword && (
+                              <div className="repw-tooltip-box d-flex">
+                                <Form.Text className="text-danger mt-0">{errors.repassword.message}</Form.Text>                
+                                </div>
+                            )}
                                 </Form.Group>
                                 <Button variant="primary" type="submit" className="w-100 mb-20px">
                                     註冊
@@ -159,11 +187,28 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
                                 <div className="mb-10px">使用帳號密碼登入</div>
                                 <Form.Group className='d-flex' controlId="formBasicLoginEmail" style={{marginBottom:'10px',border:'1px solid var(--main-blue)',borderRadius:'0.3125rem'}}>
                                     <Form.Label className="d-flex" style={{width:'30%',alignItems:'center',justifyContent:'center',marginBottom:'0',color:'var(--main-blue)'}}>帳號</Form.Label>
-                                    <Form.Control style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} type="email" value={email} onChange={(e) => { setEmail(e.target.value) }} placeholder="請輸入信箱" />
+                                    <Form.Control className={`form-control input-login-right ${errors.email && 'is-invalid'}`} style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} 
+                                    {...register("email", {
+                                        required: { value: true, message: 'Email必填' },
+                                        maxLength: 40,
+                                        pattern: /^\S+@\S+$/i
+                                    })} 
+                                    type="email" value={email} 
+                                    onChange={(e) => { setEmail(e.target.value) }} 
+                                    placeholder="請輸入信箱" />
+                                    {errors?.email?.message && 
+                                    <div className="email-tooltip-box d-flex">
+                                    <Form.Text className="text-danger mt-0">{errors.email.message}</Form.Text>
+                                    </div>}
                                 </Form.Group>
                                 <Form.Group className='d-flex' controlId="formBasicLoginPassword" style={{marginBottom:'20px',border:'1px solid var(--main-blue)',borderRadius:'0.3125rem'}}>
                                     <Form.Label className="d-flex" style={{width:'30%',alignItems:'center',justifyContent:'center',marginBottom:'0',color:'var(--main-blue)'}}>密碼</Form.Label>
-                                    <Form.Control type="password" style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}} value={password} onChange={(e) => { setPassword(e.target.value) }} placeholder="請輸入密碼" />
+                                    <Form.Control className={`form-control input-login-right ${errors.password && 'is-invalid'}`} type="password" style={{border:'none',borderRadius:'0 0.3125rem 0.3125rem 0 '}}{...register("password",{ required:{value: true, message:'密碼必填'},
+                                maxLength: 20})} value={password} onChange={(e) => { setPassword(e.target.value) }} placeholder="請輸入密碼" />
+                                    {errors?.password?.message && 
+                                    <div className="pw-tooltip-box d-flex">
+                                    <Form.Text className="text-danger mt-0">{errors.password.message}</Form.Text>
+                                    </div>}
                                 </Form.Group>
                                 <Button variant="primary" type="submit" className="w-100 mb-20px">
                                     登入

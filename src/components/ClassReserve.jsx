@@ -93,16 +93,6 @@ const selectedEvent = events.find(event => event.id === selectedCourseId);
       console.error('請選擇課程');
       return;
     }
-
-     if (localStorage.getItem('changeMode') === 'teacher') {
-      Swal.fire({
-        title: '警告',
-        text: '老師身分不可預約課程',
-        icon: 'warning',
-        confirmButtonText: '確定'
-      });
-      return;
-    }
       if (parseInt(localStorage.getItem('user_id')) === teacherId) {
       Swal.fire({
         title: '警告',
@@ -222,7 +212,13 @@ useEffect(() => {
   return (
     <div  className="rbc-toolbar" >
 
-      <div className="rbc-toolbar-top" >
+      <div className="rbc-toolbar-top d-flex" style={{justifyContent:'space-between'}} >
+
+         <div className="week-dates">
+          {weekStartDate && weekEndDate && (
+            <div style={{fontWeight:'500'}}>{weekStartDate} ~ {weekEndDate}</div>
+          )}
+        </div>
 
       <span className="rbc-btn-group-year">
         <button type="button" className="year-control" onClick={goToBack}>
@@ -233,26 +229,22 @@ useEffect(() => {
         </button>
       </span>
 
-       <span className="rbc-btn-group-month">
+       {/* <span className="rbc-btn-group-month">
  <select value={moment(toolbar.date).month()} onChange={handleMonthChange}>
           {moment.months().map((month, index) => (
             <option key={index} value={index}>{month}</option>
           ))}
         </select>
-        </span>
-
+        </span> */}
+{/* 
   <select value={moment(toolbar.date).year()} onChange={handleYearChange}>
           {Array.from({ length: 10 }, (_, i) => moment(toolbar.date).year() - 5 + i).map((year) => (
             <option key={year} value={year}>{year}</option>
           ))}
-        </select>
+        </select> */}
       </div>
 
- <div className="week-dates">
-          {weekStartDate && weekEndDate && (
-            <div>{weekStartDate} ~ {weekEndDate}</div>
-          )}
-        </div>
+
 
       <div className="reserve">
         <span style={{marginRight:'1rem'}}>可預約</span>
@@ -288,7 +280,7 @@ EventComponent.propTypes = {
 
 
   return (
-    <Modal className="reserve-modal" centered show={show} onHide={handleClose} size='md'>
+    <Modal className="reserve-modal" centered show={show} onHide={handleClose} size='lg'>
     <Modal.Body>  
      <div className="class-reserve" style={{ width:'100%' }}>
       <div className="calendar">

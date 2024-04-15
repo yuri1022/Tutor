@@ -38,41 +38,20 @@
             height: 100%;
         }
 
-            .email-tooltip-box {
+            .email-tooltip-box,
+            .pw-tooltip-box,
+            .repw-tooltip-box {
                                              position: absolute;
-                                             padding: 5px;
-                                             border-radius: 3px;
+                                             padding: 0.3125rem;
+                                             border-radius: 0.3125rem;
                                              z-index: 999;
-                                             right: 16%;
-                                             top: 15%;
+                                             right: 16%;                                             
                                              color: #dc3545;
                                              background-color:pink;
                                              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                            font-size: 0.75rem;
+                                            align-items: center;
              }
-
-             .pw-tooltip-box {
-                    position: absolute;
-                    padding: 5px;
-                    border-radius: 3px;
-                    z-index: 999;
-                    right: 16%;
-                    top: 28%;
-                    color: #dc3545;
-                    background-color:pink;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                }
-
-                .repw-tooltip-box {
-                             position: absolute;
-                             padding: 5px;
-                             border-radius: 3px;
-                             z-index: 999;
-                             right: 16%;
-                             top: 41%;
-                             color: #dc3545;
-                             background-color: pink;
-                             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                         }
 }
 .login_modal_content{
     .modal-header{

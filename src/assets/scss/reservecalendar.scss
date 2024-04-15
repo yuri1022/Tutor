@@ -191,8 +191,9 @@
 }
 
 .rbc-allday-cell {
-  height: 12rem;
+  min-height: 12rem;
   .rbc-row-bg {
+      min-height: 12rem;
     .rbc-day-bg {
       border: 1px solid var(--main-blue25);
       display: flex;
