@@ -67,7 +67,7 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
             });
         } catch (err) {
             console.log(err);
-            const errorMessage = err.message;
+            const errorMessage =  err.response.data.message;
             Swal.fire({
                 title: 'Fail',
                 text: errorMessage,

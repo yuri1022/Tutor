@@ -16,6 +16,7 @@ import ClassReserve from './ClassReserve';
 import axios from 'axios';
 import Flag from 'react-world-flags';
 import Swal from 'sweetalert2';
+import DefaultImg from '../assets/images/svg/defaultimg.svg'
 
 
 const api = 'http://34.125.232.84:3000';
@@ -229,7 +230,7 @@ if (totalPages <= maxPages) {
         <div className="teacher-top">
         <div className="teacher-img">
      <img
-     src={teacher.avatar&& teacher.avatar.length>0 ? teacher.avatar:RatingStar}
+     src={teacher.avatar&& teacher.avatar.length>0 ? teacher.avatar:DefaultImg}
      alt="Teacher Avatar"
       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
     />
