@@ -86,7 +86,7 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
         try {
             const loginRes = await axios.post(`${api}/signin`, loginData);
             localStorage.setItem("password", password);
-            console.log(loginRes.data);
+            // console.log(loginRes.data);
             const token = loginRes.data.data.token;
             const id = loginRes.data.data.id;
             const isTeacher = loginRes.data.data.isTeacher;
@@ -110,11 +110,18 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
             onHide();
             
         } catch (err) {
-            console.log(err);
+            console.log('login err' , err);
+            const errorMessage = err.response.data.message;
+            Swal.fire({
+                title: 'Fail',
+                text: errorMessage,
+                icon: 'error',
+                confirmButtonText: '確定'
+            });
         }
     };
 
-    console.log(state)
+    console.log(state);
     return (
         <Modal className="login-container" show={show} onHide={handleHide}>
             <Modal.Header className='modal-header' closeButton>
@@ -123,8 +130,8 @@ const LoginModal = ({ show, onHide,handleLoginSuccess }) => {
             <Modal.Body className="login_modal_content">
                 <div className="login-container" style={{width:'70%'}}>
                     <div className="button-list">
+                    <button className={`btn mode-btn ${mode === "login" ? ('mode-active') : ('')}`} onClick={() => { setMode("login") }}>登入</button>
                         <button className={`btn mode-btn-1 ${mode === "signup" ? ('mode-active') : ('')}`} onClick={() => { setMode("signup") }}>註冊</button>
-                        <button className={`btn mode-btn ${mode === "login" ? ('mode-active') : ('')}`} onClick={() => { setMode("login") }}>登入</button>
                     </div>
                     {
                         mode === "signup" && (

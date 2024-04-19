@@ -8,7 +8,7 @@ import { delete_register_course } from '../../api/register';
 import PropTypes from 'prop-types'
 const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass,onMsg}) =>{
     const {dispatch} = useContext(AppContext);
-    
+    console.log(obj_goclass);
     const handle_delete_register = async(courseId)=>{
         let student_data = JSON.parse(localStorage.getItem("userdata")).data;
         const delete_res = await delete_register_course(courseId);
@@ -25,7 +25,7 @@ const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass,onMsg}) =>{
 
     return(
         <div className="modal studentModal fade" id="goclassStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog modal-sm modal-lg" role="document">
+            <div className="modal-dialog modal-md" role="document">
                 <div className="go_classStuModal_content modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLabel"></h5>

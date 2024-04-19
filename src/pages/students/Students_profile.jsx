@@ -115,8 +115,8 @@ const Students_profile = () =>{
                                 <div>
                                     <div className="text-title mb-10px">我的學習名次</div>
                                     <div className="rank-block">
-                                        <div>{studentData?.studyRank}</div>
-                                        <div>{studentData?.studyHours}hr</div>
+                                        <div className='rank-study-rank'>{studentData?.studyRank}</div>
+                                        <div className='rank-study-hours'>{studentData?.studyHours}hr</div>
                                     </div>
                                 </div>
                                 <div className="intro-block mb-40px">
@@ -126,12 +126,12 @@ const Students_profile = () =>{
                                     </div>
                                 </div>
                             </div>    
-                            <button type="button" className="btn btn-primary w-100 mb-20px" onClick={openEditModal}>編輯個人檔案</button>
+                            <button type="button" className="student-edit btn w-100 mb-20px" onClick={openEditModal}>編輯個人檔案</button>
                         </div>
                     
                     
                         <div className="right-profile-stu-container">
-                            <Students_profile_Calender  openRatingModal={openRatingModal} openGoClassModal={openGoClassModal}></Students_profile_Calender>
+                            <Students_profile_Calender openRatingModal={openRatingModal} openGoClassModal={openGoClassModal}></Students_profile_Calender>
                         </div>
                     
 

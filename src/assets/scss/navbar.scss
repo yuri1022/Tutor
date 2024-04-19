@@ -58,6 +58,9 @@
     .searchbar-out{
         display:none;
     }
+                .item-mb-only {
+                    display: none;
+                }
 }
 
 @media screen and (min-width:1081px) {
@@ -68,6 +71,9 @@
     }
     .searchbar-out{
         display:none;
+    }
+    .item-mb-only{
+        display: none;
     }
 }
 

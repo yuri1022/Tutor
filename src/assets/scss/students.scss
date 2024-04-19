@@ -87,11 +87,11 @@
     align-items: center;
     border: 0.2px #000000;
     border-radius: 15px;
-    box-shadow: 16px 16px 40px #C7C7C7;
+    box-shadow: 0px 4px 4px rgba(54, 82, 227, 0.25);
     .text-title{
         font-size:18px;
         line-height:22px;
-        font-weight: 500;
+        font-weight: 700;
     }
     .img-profile-container{
         margin-bottom: 10px;
@@ -128,12 +128,21 @@
         margin-bottom:20px;
         display:flex;
         justify-content: space-around;
-        border:1px solid #3652E3;
-        border-radius:15px;
+        border:1px solid var(--main-blue);
+        border-radius: 0.625rem;
         padding: 5px 10px 5px 10px;
+        .rank-study-rank{
+            font-weight: 700;
+            color: var(--main-blue);
+        }
     }
     .w-100{
         width:100%;
+    }
+    .student-edit{
+        background-color: var(--main-blue);
+        color:var(--white);
+        border-radius: 0.625rem;
     }
 }
 .img-lesson{
@@ -147,7 +156,6 @@
 }
 /* Right Profile Container */
 .right-profile-stu-container{
-    margin-right:40px;
     padding: 0px 0px 30px 0px;
     
     .text-title{

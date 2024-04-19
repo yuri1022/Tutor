@@ -1,4 +1,4 @@
-import { useState, } from 'react';
+import { useState, useEffect} from 'react';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import icon_google from './../assets/images/svg/icon_google.svg';
@@ -30,6 +30,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
         },
     },
     });
+
 
     const api = 'http://34.125.232.84:3000';
     const onSubmit = async(data)=>{
@@ -118,6 +119,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
     }
 
     return(
+        
         <div className="modal fade" id="login_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
             <div className="login_modal_content modal-content">
@@ -130,8 +132,9 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
             <div className="modal-body">
                 <div className="login-container">
                     <div className="button-list">
-                        <button className={`btn mode-btn-1 ${mode==="signup" ? ('mode-active'):('')}`} onClick={()=>{setMode("signup")}}>註冊</button>
-                        <button className={`btn mode-btn ${mode==="login" ? ('mode-active'):('')}`} onClick={()=>{setMode("login")}}>登入</button>
+                        <button className={`btn mode-btn-1 ${mode==="login" ? ('mode-active'):('')}`} style={{boxShadow:'none'}}onClick={()=>{setMode("login")}}>登入</button>
+                        <button className={`btn mode-btn ${mode==="signup" ? ('mode-active'):('')}`} style={{boxShadow:'none'}} onClick={()=>{setMode("signup")}}>註冊</button>
+
                     </div>
                     {
                     mode==="signup" && (

@@ -85,7 +85,7 @@ const handleImageChange = (e) => {
     return(
         <div className="modal fade studentModal" id="editStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-        <div className=" modal-dialog  modal-lg">
+        <div className=" modal-dialog modal-lg">
             <div className="editStuModal_content modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel"></h5>
@@ -95,7 +95,7 @@ const handleImageChange = (e) => {
             </div>
             <div className="modal-body">
                 <div className=" w-100 d-flex edit-sm-container">
-                    <div className="student_image_block col-4 d-flex flex-column items-center w-sm-100">
+                    <div className="student_image_block col-12 col-md-4 col-lg-4 d-flex flex-column items-center w-sm-100">
                         <div className="d-flex justify-content-center align-items-center mb-10px w-sm-100">
                             <div className="editImage-block">
                             <img className="editImage" src={editImage.avatar}></img>
@@ -110,7 +110,7 @@ const handleImageChange = (e) => {
                         </button>
                         </div>
                         ):
-                        (<button className="btn btn-primary mb-20px" onClick={()=>{handleChangeheadshot()}}>更換大頭貼</button>)
+                        (<button className="change-pic btn mb-20px" onClick={()=>{handleChangeheadshot()}}>更換大頭貼</button>)
                         }
                         
                         {
@@ -127,11 +127,11 @@ const handleImageChange = (e) => {
 
                     </div>
                     <div className="col-8 w-sm-100">
-                        <div className="mb-10px">
+                        <div className="edit-name mb-10px">
                             <div className="title mb-10px">姓名</div>
                             <input type="text" className="input-name" value={nameTxt} onChange={(e)=>{setNameTxt(e.target.value)}}/>
                         </div>
-                        <div>
+                        <div className="edit-intro mb-10px">
                             <div className="title mb-10px">自我介紹</div>
                             <textarea type="text" className="input-intro" value={introTxt} rows={5}  onChange={(e)=>{setIntroTxt(e.target.value)}}/>
                         </div>
@@ -140,8 +140,8 @@ const handleImageChange = (e) => {
                 </div>
             </div>
             <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={closeEditModal}>取消</button>
-                <button type="button" className="btn btn-primary" onClick={()=>{handleEdit(student_data.id)}} encType="multipart/form-data">確定</button>
+                <button type="button" className="close btn btn-secondary" data-dismiss="modal" onClick={closeEditModal}>取消</button>
+                <button type="button" className="save btn btn-primary" onClick={()=>{handleEdit(student_data.id)}} encType="multipart/form-data">確定</button>
             </div>
             </div>
         </div>

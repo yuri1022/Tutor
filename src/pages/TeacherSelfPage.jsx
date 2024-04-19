@@ -289,7 +289,7 @@ const handleCancel = () => {
         <h6 className="self-name">{teacherDetails.name}</h6>
       </div>
 
-       <div className="self-edit" style={{alignItems:'end'}}>
+       <div className="self-edit" style={{alignItems:'end',marginRight:'0.5rem'}}>
       <img src={EditImg} alt="edit" onClick={handleEditModal}/>
 
         {isEditOpen && (

@@ -1,12 +1,16 @@
-.Course_container_stu{
+.right-profile-stu-container{
+    .block-week {
+            background-color: var(--main-blue);
+        }
+
     .absent{
         background-color: #f9d2cf;;
     }
     .finish{
-        background-color:var(--main-blue25)
+        background-color:rgba(255, 255, 255, 0.7);
     }
     .notreview{
-        background-color: #f6f6f6;
+        background-color: var(--main-blue);
     }
     .reserve{
         background-color: #c2cbf7;
@@ -18,19 +22,25 @@
        background-color: #F43C2E; 
     }
     .bg-not-review{
-        background-color: #e1e1e1;
+        background-color:transparent;
+        border: 1px solid var(--main-blue);
         cursor: pointer;
+        .title-bar{
+            color: white;
+        }
     }
     .bg-finish{
-        background-color:#aeb6da;
+        background-color:var(--main-blue25);
+        border: 1px solid var(--main-blue);
     }
     .bg-reserve{
-        background-color: #3652E3;
+        background-color: var(--main-blue);
         transition: background-color 0.3s;
         cursor: pointer;
+        color: white;
     }
     .bg-reserve:hover{
-        background-color: #3652E3;
+        background-color: var(--main-blue);
         opacity: 70%;
     }
     .bg-not-review:hover{
@@ -38,9 +48,12 @@
         opacity: 30%;
     }
 
+
 }
 
-@media screen and (max-width: 590px){
+
+
+@media screen and (max-width: 480px){
     .Course_container_stu{
         min-width: 300px;
         padding: 20px 20px 30px 20px;
@@ -57,17 +70,16 @@
             
         }
         .calender_block{
-            border:1px solid #3652E3;
+            border: 1px solid var(--main-blue25);
             padding:5px;
             text-align:right;
             min-height:60px;
         }
         .calender_table{
-            border:1px solid #3652E3;
+            border:1px solid var(--main-blue25);
         }
         .course-block{
             font-size:12px;
-            color:white;
             margin-bottom: 3px;
             display: flex;
             flex-direction: column;
@@ -94,6 +106,40 @@
             background-color: white;
             text-align: left;
             border: 0px;
+        }
+        .course-info {
+            margin-top: 1rem;
+            .course-info-header{
+                font-weight: 700;
+                font-size: 1.25rem;
+                
+            }
+            .course-info-content{
+                .course-info-item{
+                    padding: 0.6rem;
+                    height:6rem;
+                    border-radius:0.3125rem;
+                    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+                    align-items: center;
+                    .progress-line{
+                        width: 0.5rem;
+                         height:80%; 
+                         border-radius:0.3125rem;
+                         margin: 0 1.5rem;
+                        &.not-comment{
+                            background-color: transparent;
+                            border: 1px solid var(--main-blue);
+                        }
+                        &.not-attend{
+                            background-color: var(--main-blue);
+                        }
+                        &.finished{
+                            background-color: var(--main-blue25);
+                        }
+                    }
+                }
+               
+            }
         }
     }
 
@@ -123,7 +169,6 @@
     }
     .course-block{
         font-size:12px;
-        color:white;
         margin-bottom: 3px;
         display: flex;
         flex-direction: column;
@@ -149,6 +194,9 @@
         text-align: left;
         border: 0px;
     }
+                .course-info {
+                    display: none;
+                }
 }
 @media screen and (min-width: 1081px){
     .Course_container_stu{
@@ -164,17 +212,16 @@
         
     }
     .calender_block{
-        border:1px solid #3652E3;
+        border:1px solid var(--main-blue25);
         padding:5px;
         text-align:right;
         min-height:120px;
     }
     .calender_table{
-        border:1px solid #3652E3;
+        border:1px solid var(--main-blue25);
     }
     .course-block{
         font-size:12px;
-        color:white;
         margin-bottom: 3px;
         display: flex;
         flex-direction: column;
@@ -185,7 +232,6 @@
         
     }
     .title-bar{
-        opacity: 70%;
         text-align: center;
         width: 100%;
         border-radius: 3px;
@@ -198,6 +244,9 @@
         background-color: white;
         text-align: left;
         border: 0px;
+    }
+    .course-info{
+        display: none;
     }
 }
 

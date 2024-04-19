@@ -137,7 +137,7 @@ useEffect(() => {
     </>
   ) : (
     <div className='logout' style={{height:'3.5rem',display:'flex',justifyContent:'center'}}>
-      <div className='logout-text' style={{display:'flex',alignItems:'center'}}>Please login to see yourself study hours</div>
+      <div className='logout-text' style={{display:'flex',alignItems:'center',fontWeight:'700',fontSize:'1.25rem'}}>請登入以查看您的學習排名</div>
       </div>
   )}
 </div>

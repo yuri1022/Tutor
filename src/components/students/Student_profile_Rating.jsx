@@ -3,6 +3,8 @@ import { put_rating_course } from '../../api/register';
 import { get_student_data } from '../../api/student';
 import { AppContext } from '../../App';
 import PropTypes from 'prop-types';
+import { Form } from 'react-bootstrap';
+
 const Student_profile_Rating = ({closeRatingModal,obj_rating,onMsg}) =>{
     const [comment,setComment] = useState('');
     const [rating, setRating] = useState(null);
@@ -43,7 +45,7 @@ const Student_profile_Rating = ({closeRatingModal,obj_rating,onMsg}) =>{
     }
     return(
         <div className="modal fade studentModal" id="ratingStudent_Profile_Modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-sm modal-lg modal-xl" role="document">
+        <div className="modal-dialog modal-lg" role="document">
             <div className="ratingStuModal_content modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel"></h5>
@@ -52,43 +54,45 @@ const Student_profile_Rating = ({closeRatingModal,obj_rating,onMsg}) =>{
                 </button>
             </div>
             <div className="modal-body">
-                <div className="">
+                <div className="modal-rating">
                     <form>
 
-                        <div className="mb-10px">
+                        <div className="modal-rating-container mb-10px">
                             <div className="modal-rating-toptitle mb-10px">{obj_rating.teacher}老師{obj_rating.date.getFullYear()}年{obj_rating.date.getMonth()+1}月{obj_rating.date.getDate()}日的課程評分</div> 
                             <div className="title mb-10px">星等</div>
-                            <div className="rating-list">
+                            <div className="rating-list d-flex">
                                 {
                                     starArr.map((star,key)=>(
-                                        <div className="form-check " key={key}>
+                                        <div className="form-check" key={key}>
                                             <div className="d-flex items-center">
-                                                <input
-                                                type="radio"
+                                                <Form.Check
+                                                type="checkbox"
                                                 name={star}
                                                 value={star}
                                                 checked={rating === star}
                                                 onChange={() => handleChange(star)}
                                                 className="text-center"
                                                 />
-                                                <label className="form-check-label text-radio" >{star}</label>
+                                                <label className="form-check-label text-radio">{star}</label>
                                             </div>
                                         </div>
                                     ))
                                 }
                             </div>
                         </div>
-                        <div className="mb-10px">
+                        <div className="modal-comment-container mb-10px">
                             <label className="title mb-10px">評論</label>
-                            <textarea className="input-comment" value={comment} rows={5}  onChange={(e)=>{setComment(e.target.value)}} required/>
+                            <textarea className="input-comment" value={comment} rows={4}  onChange={(e)=>{setComment(e.target.value)}} required/>
                         </div>
+                        <div className="buttons-container d-flex">
+                                        <button type="button" className="cancel btn btn-secondary" data-dismiss="modal" onClick={closeRatingModal}>取消</button>
+                                         <button type="button" className="check btn btn-primary" onClick={()=>{handleRatingSubmit()}}>送出</button>
+
+                        </div>
+
                     </form>
 
                 </div>
-            </div>
-            <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={closeRatingModal}>取消</button>
-                <button type="button" className="btn btn-primary" onClick={()=>{handleRatingSubmit()}}>送出</button>
             </div>
             </div>
         </div>

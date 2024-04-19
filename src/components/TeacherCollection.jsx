@@ -115,14 +115,32 @@ const handlePageChange = (newPage, searchTerm) => {
 
   const handleButtonClick = (teacherId) => {
   // 假設你有一個 teacher 物件，其中包含 id 屬性
+    if (localStorage.getItem("islogin") === "false"){
+    Swal.fire({
+      icon: 'info',
+      title: '尚未登入!',
+      text: '請登入/註冊以查看老師完整資訊',
+    });
+    return;
+  }else{
   navigate(`/teacher/${teacherId}`);
+  }
+
+
 
   };
 
 
 
 const handleReserveOpen = async (teacher) => {
-
+    if (localStorage.getItem("islogin") === "false"){
+    Swal.fire({
+      icon: 'info',
+      title: '尚未登入!',
+      text: '請登入/註冊以預約課程',
+    });
+    return;
+  }
   const fetchTeacherData = async (teacherId) => {
   try {
     const token = localStorage.getItem('token');
@@ -240,8 +258,9 @@ if (totalPages <= maxPages) {
           
         <div className="teacher-title" >
           <div className="teacher-nation">
-            <Flag code={teacher.nation} height="16" fallback={ <span>Unknown</span> }/>
-
+            <Flag code={teacher.nation} height="16" fallback={ <span>Unknown</span> } style={{border:'0.1rem solid var(--main-blue25)'}}/>
+                         
+{/*  */}
             </div>
         <h5 className="teacher-name" >{teacher.name}</h5>
         
@@ -328,7 +347,7 @@ if (totalPages <= maxPages) {
 
 
         <div className="pagination-control-next">
-          <img src={NextPageArrow} alt="下一頁" onClick={handleNextPage}/>
+          <img src={NextPageArrow}  alt="下一頁" onClick={handleNextPage}/>
         </div>
         <div className="pagination-control-last">
           <img src={LastPageArrow} alt="末頁" onClick={handleLastPage}/>

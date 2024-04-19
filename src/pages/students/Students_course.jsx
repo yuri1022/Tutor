@@ -61,10 +61,10 @@ const Students_profile = () =>{
     }
     useEffect(()=>{
         ratingModal.current = new Modal('#ratingStudent_Profile_Modal',{
-            backdrop: 'static',
+            backdrop: true,
         });
         goclassModal.current = new Modal('#goclassStudent_Profile_Modal',{
-            backdrop: 'static',
+            backdrop: true,
         });
     },[])
     return(

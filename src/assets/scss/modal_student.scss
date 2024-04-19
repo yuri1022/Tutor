@@ -29,6 +29,9 @@
     }
 } 
 .editStuModal_content{
+   .modal-body{
+    margin-top: 1rem;
+   }
     .editImage-block{
         margin-bottom: 10px;
         width:166px;
@@ -49,6 +52,43 @@
         left: 50%; 
         transform: translate(-50%, -50%);
     }
+    .change-pic{
+        border: 1px solid var(--main-blue);
+        color: var(--main-blue);
+        font-weight: 700;
+        border-radius: 0.625rem;
+    }
+    .modal-footer{
+        margin-bottom: 1rem;
+        .close,
+        .save{
+            border-radius: 0.625rem;
+            width: 5rem;
+        }
+        .close{
+            background-color: transparent;
+            color: var(--main-blue);
+            border: 1px solid var(--main-blue);
+        }
+        .save{
+            background-color: var(--main-blue);
+        }
+
+    }
+    .edit-name,
+    .edit-intro{
+    .title {
+            font-weight: 700;
+        }
+    input,textarea{
+        border: 1px solid var(--main-blue25);
+        border-radius: 0.3125rem;
+        padding: 0.5rem;
+    }
+
+    }
+
+
 }
 
 @media screen and (max-width: 480px){
@@ -78,15 +118,21 @@
         align-items:center;
         justify-content: center;
     }
+                .change-pic {
+                    width: 100%;
 
-    .ratingStuModal_content{
-        .rating-list{
-            display: flex;
-            flex-direction: column
-        }
+                }
+.ratingStuModal_content {
+    .rating-list {
+        display: flex;
+        flex-wrap: wrap;
     }
+
+    
 }
-@media screen and (min-width:481px) and (max-width: 581px){
+
+}
+@media screen and (min-width:481px) and (max-width: 1080px){
     .editStuModal_content{
         .editImage-block{
             width:120px;
@@ -105,19 +151,6 @@
             display: flex;
             flex-direction: column
         }
-    }
-}
-@media screen and (min-width:582px) and (max-width: 1080px){
-    .edit_container{
-        display:flex;
-        flex-direction: row;
-    }
-    .editStuModal_content{
-        .editImage-block{
-            width:120px;
-            height:120px;
-        }
-
     }
 }
 @media screen and (min-width: 1081px){
@@ -173,11 +206,6 @@
     .mb-10px {
         margin-bottom: 10px;
     }
-
-    /*modal-header*/
-
-
-    /*modal-body*/
     .input-name {
         width: 100%;
     }
@@ -196,27 +224,29 @@
 }
 
 .ratingStuModal_content{
-    padding-left: 20px;
-    padding-right: 20px;
+    .modal-rating{
+        width: 90%;
+    }
+    .modal-rating-container{
+        margin-top: 0.5rem;
+    }
+    .modal-comment-container{
+        margin-top: 1.5rem;
+    }
+
     .text-center{
         text-align: center;
     }
     .title {
-        font-size: 20px;
+        font-size: 1.25rem;
         line-height: 30px;
+        font-weight: 700;
     }
 
     .mb-10px {
         margin-bottom: 10px;
     }
-
-    /*modal-header*/
-
-
-    /*modal-body*/
-
-    .form-check {
-        padding-left: 0px;
+    .form-check {   
         margin-right: 10px;
     }
 
@@ -225,52 +255,60 @@
     }
 
     input {
-        margin-right: 5px;
-        border-radius: 0px;
-    }
-    input[type="radio"] {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        width: 20px;
-        /* 設置正方形的寬度和高度 */
-        height: 20px;
-        border-radius: 0;
-        /* 移除圓角 */
-        border: 2px solid #3652E3;
-        /* 設置邊框 */
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 0.3125rem;
+        border: 2px solid var(--main-blue) ;
         outline: none;
-        /* 移除聚焦時的外框 */
         margin-right: 5px;
-        /* 添加一些間距 */
         vertical-align: middle;
-        /* 垂直居中 */
     }
 
-    input[type="radio"]:checked {
+    input:checked[type="checkbox"] {
         background-color: #3652E3;
-        /* 添加背景顏色以表示選中狀態 */
     }
 
     .text-radio {
         font-size: 18px;
     }
     .modal-rating-toptitle{
-        font-size: 30px;
+        font-size: 1.3rem;
+        font-weight: 700;
     }
     .input-comment {
         width: 100%;
     }
-
-    /*modal-footer*/
-    .modal-footer {
-        border-top: 0px;
+    textarea{
+        border: 1px solid var(--main-blue25);
+        border-radius: 0.625rem;
+    }
+    .buttons-container {
+        margin:2rem 0 1rem 0;
+        justify-content: flex-end;
+        .cancel,
+        .check{
+            border-radius: 0.625rem;
+            width: 5rem;
+            font-weight: 700;
+        }
+        .cancel{
+            margin-right: 0.5rem;
+            background-color: transparent;
+            border:1px solid var(--main-blue);
+            color: var(--main-blue);
+        }
+        .check{
+            background-color: var(--main-blue);
+            border: none;
+        }
     }
 }
 .go_classStuModal_content{
     padding-left: 20px;
     padding-right: 20px;
-
+    .modal-body{
+        margin-bottom: 2rem;
+    }
     .title {
         font-size: 20px;
         line-height: 30px;
@@ -284,36 +322,44 @@
         margin-right: 10px;
     }
 
-    /*modal-header*/
-
-
-    /*modal-body*/
     .reserve-contents {
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        margin-top: 1rem;
     }
 
     .reserve-bar {
         width: 200px;
         display: flex;
         flex-direction: row;
-
+        margin-bottom: 1rem;
         align-items: center;
+        font-size: 1rem;
     }
 
     .reserve-button-list {
         display: flex;
         justify-content: space-around;
+        margin-top: 1rem;
+        width: 100%;
+    }
+    .btn-decline-regisiter,
+    .btn-goclass{
+    width: 45%;
+    height: 2.8rem;
+    border: none;
+    border-radius: 0.625rem;
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: white;
     }
 
     .btn-decline-regisiter {
-        width: 120px;
-        height: 41px;
         background-color: #F43C2E;
         opacity: 70%;
-        margin-right: 25px;
         transition: background-color 0.5s;
     }
     .btn-decline-register:hover{
@@ -322,8 +368,6 @@
     }
 
     .btn-goclass {
-        width: 120px;
-        height: 41px;
         background-image: linear-gradient(to bottom, #1cdeea, #345ce4);
     }
 
@@ -335,10 +379,8 @@
     .items-center {
         align-items: center
     }
-
-
-    /*modal-footer*/
     .modal-footer {
         border-top: 0px;
+        
     }
 }

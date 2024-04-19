@@ -13,6 +13,8 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const calender_block = useRef(null);
     const student_data = JSON.parse(localStorage.getItem("userdata")).data;
     const { state } = useContext(AppContext);
+    const [courseShow,setCourseShow] = useState('');
+
     const api = 'http://34.125.232.84:3000';
 
     const handleYearChange = (e) => {
@@ -20,6 +22,18 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     };
   const yearsRange = Array.from({ length: 11 }, (_, index) => currentYear - 5 + index);
 
+const showData = (date, courses) => {
+    setCourseShow({
+        date: date,
+        courses: courses
+    });
+};
+console.log(courseShow)
+
+
+const handleClickDay = (date, coursesForDay) => {
+    showData(date, coursesForDay);
+};
 
     const months = ["January",
     "February",
@@ -107,7 +121,7 @@ const increament_month = (step) => {
         // }
         if( course.timestamp > today.getTime()){
             course_block =
-            <div className="course-block bg-reserve" key={index} onClick={(e)=>{openGoClassModal(course.name,course.date,course.time,course.courseId)} }>
+            <div className="course-block bg-reserve" key={index} onClick={(e) => { openGoClassModal(course.name, course.date, course.time, course.courseId)}}>
                 <div className="title-bar reserve display-none">{course.subject}</div>
                 <div className="display-none">{course.name}</div>
                 <div className="display-none">{course.startTime}~{course.endTime}</div>
@@ -147,12 +161,12 @@ const increament_month = (step) => {
             else if(currentDay <= dayInMonth){
                 let newDiv = [];
                 let count_course = 0;
+                const coursesForCurrentDay = courseList.filter(course => course.day === currentDay && course.month - 1 === currentMonth && course.year === currentYear);
                 for( let z=0; z<courseList.length; z++){
                     //console.log(currentDay)
                     if( courseList[z].day === currentDay &&
                         courseList[z].month - 1 === currentMonth &&
                         courseList[z].year === currentYear){
-
                         if(count_course > 2){
                             newDiv.push(
                                 <button className="btn-more" key={'btn-more'+key}>More</button>
@@ -167,7 +181,11 @@ const increament_month = (step) => {
                         count_course++;
                     }
                 }
-                render_day_arr.push(<div  className="col calender_block" key={'calender'+key}>{currentDay}{newDiv}</div>);
+                render_day_arr.push(
+                           <div className="col calender_block" key={'calender' + key} onClick={(e) => handleClickDay(currentDay, coursesForCurrentDay)}>
+                        {currentDay}{newDiv}</div>
+
+                );
                 currentDay++;
             }
             else{
@@ -175,7 +193,7 @@ const increament_month = (step) => {
             }
             key++;
         }
-        render_week_array.push(<div className="d-flex " key={i}>{render_day_arr}</div>)
+        render_week_array.push(<div className="d-flex" style={{overflow:'hidden'}} key={i}>{render_day_arr}</div>)
     }
     useEffect(() => {
         const fetchStudentData = async () => {
@@ -282,19 +300,54 @@ const increament_month = (step) => {
 
                 </div>
             </div>
-            <div className="d-flex">
+
+            <div className="calendar" >
+                <div className="d-flex">
             {
                     weeks_arr.map((week,key)=>{
                         return(
-                            <div className="col" key={week}>
-                                <div className="block-week bg-primary">{week}</div>
+                            <div className="col" key={week} >
+                                <div className="block-week"style={{
+                        borderTopLeftRadius: key === 0 ? '0.625rem' : '0',
+                        borderTopRightRadius: key === weeks_arr.length - 1 ? '0.625rem' : '0',
+                    }}>{week}</div>
                             </div>
                         )
                     })
             }
                 
             </div>
-            <div id="calender-block" className="calender_table">{render_week_array}</div>
+            <div id="calender-block" style={{borderRadius:'0 0 0.625rem 0.625rem'}} className="calender_table">{render_week_array}</div>
+            </div>
+             {courseShow && (
+                <div className="course-info">
+                    <div className="course-info-header">
+                       {months[currentMonth]} {courseShow.courses[0].day}
+                    </div>
+                    <div className="course-info-content">
+                        {courseShow.courses.map((course, index) => (
+                            <div className="course-info-item d-flex" key={index}>
+                                <div className="course-info-item-left">
+                                    <div>
+                                    {(course.timestamp > today.getTime()) ? "尚未上課" : ((course.comment==null)? "未評論":"已完課") }
+                                    </div>
+                                <div>{course.startTime}</div>
+                                </div>
+                                <div className={`progress-line ${
+                            course.timestamp > today.getTime() ? 'not-attend' : ''
+                             } ${course.comment === null ? 'not-comment' : 'finished'}`}>
+
+                                </div>
+                                <div className="course-info-item-right">
+                                    <div>課程名稱:{course.name}</div>
+                                    <div>時長:{course.time}</div>
+                                    <div>類別:{course.subject}</div>
+                                    </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </>
     )
 }

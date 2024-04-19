@@ -281,6 +281,9 @@ EventComponent.propTypes = {
 
   return (
     <Modal className="reserve-modal" centered show={show} onHide={handleClose} size='lg'>
+      <Modal.Header className='modal-header' closeButton>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
     <Modal.Body>  
      <div className="class-reserve" style={{ width:'100%' }}>
       <div className="calendar">

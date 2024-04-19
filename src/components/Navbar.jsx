@@ -130,7 +130,7 @@ const Navbar = (props) =>{
     }
     useEffect(()=>{
         loginModal.current = new Modal('#login_Modal',{
-            backdrop: 'static'
+            backdrop: true
         });
     },[])
     useEffect(()=>{
@@ -229,7 +229,7 @@ const Navbar = (props) =>{
                             (                            
                             <Dropdown.Menu>
                             <Dropdown.Item href={`/student/${userId}`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
-                            <Dropdown.Item href={`/student/${userId}/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
+                            <Dropdown.Item className="item-mb-only" href={`/student/${userId}/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             )
