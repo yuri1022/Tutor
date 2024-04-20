@@ -83,8 +83,30 @@ npm run dev
 
 ### 於瀏覽器輸入以下網址
 ```
-http://localhost:5173/
+http://localhost:3030/
 ```
+
+## 更新日誌
+
+### Version 1.01
+
+### 登入/註冊：
+1. 點擊 「登入/註冊」 按鈕時，預設模式為「登入」
+2. 新增缺少欄位資料提示文字
+3. 修正當登入/註冊失敗時，訊息提示內容的錯誤
+4. 增加登出訊息提示
+
+### 學生:
+1. 增加圖片上傳錯誤時的彈窗通知，以及直接拒絕上傳jpg/jpeg/png以外的檔案類型。
+2. 新用戶未上傳大頭貼時，先提供空默認頭像作為大頭貼
+3. 將行事曆中月份的下拉式選單，跟年份的左右按鈕操作對調
+
+### 老師:
+1. 修正老師個人檔案更新大頭照後，Nav 頭像未同步更新的錯誤
+2. 增加申請成為老師後，老師的可預約星期修改處 
+3. 修正當日開課堂數超過 2 堂時，預約課程彈窗的行事曆會跑版的錯誤
+4. 調整課程預約的彈窗大小
+
 
 ## Contributer
 
@@ -94,6 +116,7 @@ http://localhost:5173/
 
 ### UI/UX : 北極
 
+#
 
 # Tutor -A website which matched English teachers and students.
 
@@ -154,7 +177,7 @@ npm run dev
 
 ### Enter the following URL in your browser:
 ```
-http://localhost:5173/
+http://localhost:3030/
 ```
 
 ## Tools
@@ -178,6 +201,26 @@ Use the SweetAlert2 library to efficiently create customized pop-up alert window
 Utilize the react-big-calendar library to create customized calendar interfaces.
 Use the React-flag-select library as a convenient tool for selecting nationalities.
 
+## Update Log
+
+### Version 1.01
+
+### Login/Register:
+1. When clicking the "Login/Register" button, the default mode is set to "Login".
+2. Added missing field data prompt text.
+3. Fixed incorrect message content when login/register fails.
+4. Added logout message prompt.
+
+### Students Page:
+1. Added popup notification for image upload errors and rejected file types other than jpg/jpeg/png.
+2. For new users who have not uploaded a profile picture, provide a default avatar as the profile picture.
+3. Swapped the dropdown menu for months in the calendar with the left and right buttons for years.
+
+### Teachers Page:
+1. Fixed the issue where the teacher's profile picture did not update synchronously in the Nav after updating the profile picture.
+2. Added the ability for teachers to modify the available booking days after applying to become a teacher.
+3. Fixed the error where the calendar in the course reservation popup would be misaligned when the number of courses scheduled for the day exceeded 2.
+4. Adjusted the size of the course reservation popup.
 
 ## Contributer
 
