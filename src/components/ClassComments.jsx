@@ -17,18 +17,12 @@ const filteredCourses = teacherDetails.Courses.filter(course => {
 
  const courseLength = filteredCourses.length;
 
-
-
   const handleCommentClick = () => {
-    // 在這裡執行你的操作，例如拉取教師評價信息
-    // ...
 
-    // 打開 Modal
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    // 關閉 Modal
     setIsModalOpen(false);
   };
 

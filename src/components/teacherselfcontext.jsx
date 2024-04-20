@@ -14,7 +14,7 @@ export const TeacherSelfProvider = ({ children,teacherId }) => {
   useEffect(() => {
     const fetchTeacherSelfData = async () => {
       try {
-        const api = 'http://34.125.232.84:3000';
+        const api = 'http://54.250.240.16:3000';
         const token = localStorage.getItem('token');
         const response = await axios.get(`${api}/teacher/${teacherId}` ,{
         headers: { Authorization: `Bearer ${token}` },

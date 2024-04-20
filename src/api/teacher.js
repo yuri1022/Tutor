@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl= 'http://34.125.232.84:3000/teacher'
+const baseUrl= 'http://54.250.240.16:3000/teacher'
 
 
 export const getTeacher = async (id) => {
@@ -23,11 +23,7 @@ export const getTeacher = async (id) => {
   }
 };
 
-
-
-export const createTeacher = () => {};
 export const patchTeacher = () => {};
-export const deleteTeacher = () => {};
 
 export const applyTeacher = async(id,formdata)=>{
   const token = localStorage.getItem("token");

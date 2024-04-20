@@ -33,15 +33,15 @@ const increament_month = (step) => {
   let newYear = currentYear;
 
   if (newMonth < 0) {
-    newMonth = 11; // 如果是1月往左，設置為12月
-    newYear -= 1; // 年份減1
+    newMonth = 11; 
+    newYear -= 1; 
   } else if (newMonth > 11) {
-    newMonth = 0; // 如果是12月往右，設置為1月
-    newYear += 1; // 年份加1
+    newMonth = 0;
+    newYear += 1; 
   }
 
   setCurrentMonth(newMonth);
-  setCurrentYear(newYear); // 更新年份
+  setCurrentYear(newYear); 
 };
 const showData = (date, courses) => {
     setCourseShow({
@@ -94,7 +94,7 @@ const fetchCourseData = async (courseIds) => {
 
     const courseDuration = courseData.duration;
     const startTime = new Date(courseData.startAt);
-    const endTime = new Date(startTime.getTime() + courseDuration * 60000); // 计算结束时间的毫秒数
+    const endTime = new Date(startTime.getTime() + courseDuration * 60000); 
 const startHours = startTime.getHours();
 const startMinutes = startTime.getMinutes();
 const endHours = endTime.getHours();

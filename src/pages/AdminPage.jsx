@@ -63,7 +63,7 @@ useEffect(() => {
       </table>
       </div>):(
       <div>
-        Hi Admin, please login
+        Hi Admin，請登入以查看後台
         </div>
         
         )}

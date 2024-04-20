@@ -1,5 +1,29 @@
 import axios from "axios";
-const baseUrl= 'http://34.125.232.84:3000/register'
+const baseUrl= 'http://54.250.240.16:3000/register'
+
+export const createRegister = async(courseId)=>{
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Token is missing. Redirecting to login.");
+      return;
+    }
+    try {
+      const res = await axios.post(`${baseUrl}/${courseId}`,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('API Response:', res);
+      return res.data;
+    } catch (error) {
+    console.error('[Register failed]: ', error);
+    if (error.response) {
+      throw new Error(error.response.data.message); 
+    } else {
+      throw new Error('無法預約!'); 
+    }
+  }
+  }
 
 export const delete_register_course = async(courseId)=>{
     const token = localStorage.getItem("token");

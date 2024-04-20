@@ -86,7 +86,7 @@ const selectedEvent = events.find(event => event.id === selectedCourseId);
     const token = localStorage.getItem('token');
     const courseId = selectedCourseId;
 
-    const api = 'http://34.125.232.84:3000';
+    const api = 'http://54.250.240.16:3000';
 
     if (!selectedCourseId) {
       // 處理未選擇課程的情況
@@ -113,7 +113,6 @@ const selectedEvent = events.find(event => event.id === selectedCourseId);
       return;
     }
 
-    // Make a POST request to the /course endpoint
     const response = await axios.post(
       `${api}/register/${courseId}`,{},
  {
@@ -125,7 +124,6 @@ const selectedEvent = events.find(event => event.id === selectedCourseId);
 
     console.log('Course creation response:', response);
 
-    // Check the response and show success or fail modal
     if (response.data.status=== 'success') {
       
        setSuccessReservationData({

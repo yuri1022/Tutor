@@ -34,12 +34,10 @@ const handleRatingToggle = (rating) => {
   };
 
  teacherDetails.Courses.forEach((course) => {
-    // 使用 filter 過濾掉 rating 或 comment 為 null 的 Registrations
     const validRegistrations = course.Registrations.filter(
       (registration) => registration.rating !== null && registration.comment !== null
     );
 
-    // 接著處理過濾後的 validRegistrations
     validRegistrations.forEach((validRegistration) => {
       const rating = validRegistration.rating;
       ratingCounts[rating]++;
@@ -64,10 +62,8 @@ const handleRatingToggle = (rating) => {
       setSelectedCategory((prev) => {
         const index = prev.indexOf(category);
         if (index !== -1) {
-          // 如果已經選擇了該類別，則刪除該類別
           return prev.filter((c) => c !== category);
         } else {
-          // 如果尚未選擇該類別，則添加該類別
           return [...prev, category];
         }
       });

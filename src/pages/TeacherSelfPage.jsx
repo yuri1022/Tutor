@@ -49,8 +49,7 @@ const TeacherSelfPage = () => {
   const navigate = useNavigate();
   
 
-  const api = 'http://34.125.232.84:3000';
-
+  const api = 'http://54.250.240.16:3000'
  useEffect(() => {
     const fetchData = async () => {
       try{
@@ -125,7 +124,6 @@ const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
       confirmButtonText: '確定'
     }).then((result) => {
       if (result.isConfirmed) {
-        // 用户点击了确认按钮，执行页面跳转
         navigate('/home');      }
     });
   }
@@ -253,9 +251,9 @@ const handleSave = async (updatedData, editedData, section) => {
 
 const handleCancel = () => {
      if (isEditInfo) {
-    setEditingContent(teacherDetails.selfIntro); // 將編輯內容還原為原始內容
+    setEditingContent(teacherDetails.selfIntro); 
   } else if (isEditTeachingStyle) {
-    setEditingContent(teacherDetails.teachStyle); // 將編輯內容還原為原始內容
+    setEditingContent(teacherDetails.teachStyle); 
   }
     setIsEditInfo(false);
     setIsEditTeachingStyle(false);
@@ -296,7 +294,7 @@ const handleCancel = () => {
            <TeacherEditInfo 
            show={isEditOpen} 
            handleClose={closeEdit} 
-           handleSave={(editedData) => handleSave(editedData, editingSection)} //传递section参数
+           handleSave={(editedData) => handleSave(editedData, editingSection)} 
           teacherDetails={teacherDetails} 
           editingSection={editingSection}/>
          )}

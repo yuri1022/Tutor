@@ -15,7 +15,7 @@ const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const { state } = useContext(AppContext);
     const [courseShow,setCourseShow] = useState('');
 
-    const api = 'http://34.125.232.84:3000';
+    const api = 'http://54.250.240.16:3000';
 
     const handleYearChange = (e) => {
       setCurrentYear(parseInt(e.target.value));
@@ -87,14 +87,14 @@ const increament_month = (step) => {
 
   if (newMonth < 0) {
     newMonth = 11; // 如果是1月往左，設置為12月
-    newYear -= 1; // 年份減1
+    newYear -= 1; 
   } else if (newMonth > 11) {
     newMonth = 0; // 如果是12月往右，設置為1月
-    newYear += 1; // 年份加1
+    newYear += 1; 
   }
 
   setCurrentMonth(newMonth);
-  setCurrentYear(newYear); // 更新年份
+  setCurrentYear(newYear); 
 };
 
 

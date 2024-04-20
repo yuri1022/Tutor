@@ -5,14 +5,13 @@ import Rank1 from '../assets/images/svg/rank1.svg';
 import Rank2 from '../assets/images/svg/rank2.svg';
 import Rank3 from '../assets/images/svg/rank3.svg';
 import { useTeacherContext } from './teachercontext';
-import axios from 'axios';
 import { useState,useContext,useEffect } from 'react';
 import { AppContext } from "../App";
+import {get_student_data} from '../api/student.js'
 
 const BestStudents = () => {
   const { teacherData } = useTeacherContext();
   const bestStudent = teacherData.students || [];
-  const api = 'http://34.125.232.84:3000';
   const [studentRank, setstudentRank] = useState(null);
   const { state } = useContext(AppContext);
 
@@ -24,14 +23,12 @@ const BestStudents = () => {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const studentId = state.logindata.data.id;
-        // console.log(state.logindata.data.id) 
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`${api}/student/${studentId}`, { headers: { Authorization: `Bearer ${token}` } });
-        setstudentRank(response.data.data)
-        return response.data.data; 
+        const studentId = localStorage.getItem("user_id")
+        const response = await get_student_data(studentId);
+        console.log('res',response)
+        setstudentRank(response.data)
+        return response.data; 
         
-           
       } catch (error) {
         if (error.response) {
             console.error("Server error:", error.response.status, error.response.data);

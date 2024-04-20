@@ -6,7 +6,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types'
 import Swal from 'sweetalert2';
 const Students_profile_Edit = ({closeEditModal,onMsg})=>{
-    const api = 'http://34.125.232.84:3000';
+    const api = 'http://54.250.240.16:3000';
     const student_data = JSON.parse(localStorage.getItem("userdata")).data;
     const [nameTxt,setNameTxt] = useState(student_data.name);
     const [introTxt,setIntroTxt ] = useState(student_data.selfIntro);

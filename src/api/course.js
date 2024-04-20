@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl= 'http://34.125.232.84:3000/course';
+const baseUrl= 'http://54.250.240.16:3000/course';
 
 
 export const getCourse = async (id) => {

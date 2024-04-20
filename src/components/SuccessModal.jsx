@@ -52,8 +52,8 @@ SuccessMessage.propTypes = {
   handleClose: PropTypes.func.isRequired,
   successReservationData: PropTypes.shape({
     courseName: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired, // 根據實際資料型別調整
-    time: PropTypes.string.isRequired, // 根據實際資料型別調整
+    date: PropTypes.string.isRequired, 
+    time: PropTypes.string.isRequired, 
   }).isRequired,
 };
 

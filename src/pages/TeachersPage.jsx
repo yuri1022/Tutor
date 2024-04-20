@@ -54,7 +54,6 @@ const TeachersPage = () => {
 
   console.log(isUserLoggedIn)
 
-// 当登录成功时调用的函数
 const handleLoginSuccess = async () => {
   setIsUserLoggedIn(true);
 };
@@ -198,7 +197,6 @@ return (
               </span>        
       </div>
       
-          {/* 日曆待修改 */}
       <div className="self-class-time-calendar" style={{width:'100%'}}>
           <p className={`self-class-time-description ${
         isCalendarExpanded ? "expanded" : "collapsed"
