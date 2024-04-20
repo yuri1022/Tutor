@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl= 'http://34.125.232.84:3000/student'
+const baseUrl= 'http://54.250.240.16:3000/student'
 export const edit_student_data = async(id,formdata)=>{
     const token = localStorage.getItem("token");
     if (!token) {
