@@ -28,7 +28,6 @@ const showData = (date, courses) => {
         courses: courses
     });
 };
-console.log(courseShow)
 
 
 const handleClickDay = (date, coursesForDay) => {
@@ -102,7 +101,7 @@ const increament_month = (step) => {
 
     let firstDayOfMonth= new Date(currentYear, currentMonth, 1).getDay();
     let dayInMonth= get_days_in_month(currentYear,currentMonth);
-    const weeks_arr = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+    const weeks_arr = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
     const render_week_array = [];
     let currentDay = 1;
@@ -182,7 +181,11 @@ const increament_month = (step) => {
                     }
                 }
                 render_day_arr.push(
-                           <div className="col calender_block" key={'calender' + key} onClick={(e) => handleClickDay(currentDay, coursesForCurrentDay)}>
+                           <div className="col calender_block" key={'calender' + key} style={{cursor:coursesForCurrentDay.length > 0?'pointer':''}} onClick={(e) => {
+                  if (coursesForCurrentDay.length > 0) {
+                     handleClickDay(currentDay, coursesForCurrentDay);
+                      }
+                     }}>
                         {currentDay}{newDiv}</div>
 
                 );
@@ -233,6 +236,7 @@ const increament_month = (step) => {
                 comment: course.comment,
                 startTime: `${startHours}:${formattedStartMinutes}`,
                 endTime: `${endHours}:${formattedEndMinutes}`, 
+                dayOfWeek:weeks_arr[startDate.getDay()]
                 };
               });
               setCourseList(courses);
@@ -307,7 +311,7 @@ const increament_month = (step) => {
                     weeks_arr.map((week,key)=>{
                         return(
                             <div className="col" key={week} >
-                                <div className="block-week"style={{
+                                <div className="block-week" style={{
                         borderTopLeftRadius: key === 0 ? '0.625rem' : '0',
                         borderTopRightRadius: key === weeks_arr.length - 1 ? '0.625rem' : '0',
                     }}>{week}</div>
@@ -322,16 +326,26 @@ const increament_month = (step) => {
              {courseShow && (
                 <div className="course-info">
                     <div className="course-info-header">
-                       {months[currentMonth]} {courseShow.courses[0].day}
+                       {courseShow.courses[0]?.month}/{courseShow.courses[0]?.day} {courseShow.courses[0]?.dayOfWeek}
                     </div>
-                    <div className="course-info-content">
+                    <div className="course-info-content" >
                         {courseShow.courses.map((course, index) => (
-                            <div className="course-info-item d-flex" key={index}>
+                            <div className="course-info-item d-flex" key={index} onClick={(e) => {
+                            if (course.timestamp > today.getTime()) {
+                             openGoClassModal(course.name, course.date, course.time, course.courseId);
+                              } else if (course.comment === null) {
+                            openRatingModal(course.name,course.date,course.courseId)
+                            } else {
+                            return
+                             }
+                             }}>
+                                
                                 <div className="course-info-item-left">
+                                    <div style={{fontWeight:'700'}}>{course.startTime}</div>
                                     <div>
                                     {(course.timestamp > today.getTime()) ? "尚未上課" : ((course.comment==null)? "未評論":"已完課") }
                                     </div>
-                                <div>{course.startTime}</div>
+                                
                                 </div>
                                 <div className={`progress-line ${
                             course.timestamp > today.getTime() ? 'not-attend' : ''

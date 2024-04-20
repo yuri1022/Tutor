@@ -3,8 +3,11 @@
   width: 100%;
   min-height: 10rem;
   .rbc-time-header-content{
+    background-color: var(--main-blue);
+    border-radius: 0.625rem;
     .rbc-row{
       .rbc-header{
+      border-radius: 0.625rem 0.625rem 0 0 ;
       background-color: var(--main-blue);
       color: var(--white);
       padding: 0.6rem 0 0.6rem 0;
@@ -191,11 +194,13 @@
 }
 
 .rbc-allday-cell {
-  min-height: 12rem;
+  height: 12rem !important;
   .rbc-row-bg {
       min-height: 12rem;
+      border-radius: 0 0 0.625rem 0.625rem;
     .rbc-day-bg {
       border: 1px solid var(--main-blue25);
+      background-color: white;
       display: flex;
       flex-direction: row-reverse;
       align-items: flex-end;

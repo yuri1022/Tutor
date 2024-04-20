@@ -10,8 +10,13 @@
         }
 
 
-        .calendar-table {
-                  width: 100%;
+        .calender-table {
+          width: 100%;
+          .calender_block{
+            border: 1px solid var(--main-blue25);
+            text-align: end;
+            padding:0.3rem;
+          }
         }
 
 
@@ -26,6 +31,49 @@
           display: none;
         }
       }
+
+                            .course-info {
+                              margin-top: 1rem;
+              
+                              .course-info-header {
+                                font-weight: 700;
+                                font-size: 1.25rem;
+              
+                              }
+              
+                              .course-info-content {
+                                .course-info-item {
+                                  padding: 0.6rem;
+                                  height: 6rem;
+                                  border-radius: 0.3125rem;
+                                  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+                                  align-items: center;
+                                  border: 1px solid var(--main-blue25);
+                                 margin-top: 1rem;
+                                  .progress-line {
+                                    width: 0.5rem;
+                                    height: 80%;
+                                    border-radius: 0.3125rem;
+                                    margin: 0 1.5rem;
+              
+                                    &.not-comment {
+                                      background-color: transparent;
+                                      border: 1px solid var(--main-blue);
+                                    }
+              
+                                    &.not-attend {
+                                      background-color: var(--main-blue);
+                                    }
+              
+                                    &.finished {
+                                      background-color: var(--main-blue25);
+                                      border: 1px solid var(--main-blue);
+                                    }
+                                  }
+                                }
+              
+                              }
+                            }
   
 }
 
@@ -50,7 +98,9 @@
         .title-bar-time{
         }
       }
-
+       .course-info {
+          display: none;
+     }
 }
 
 @media screen and (min-width: 1081px) {
@@ -63,6 +113,12 @@
             font-size: 1.125rem;
           }
         }
+        .block-week {
+           font-size: 1.25rem !important;
+           }
+                .course-info {
+                  display: none;
+                }
 
 }
 
@@ -116,6 +172,17 @@
   .course-state{
     .course-state-item{
       margin-right: 0.5rem;
+    }
+  }
+  .course-body{
+    .block-week{
+      background-color: var(--main-blue);
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: 700;
+      height: 3rem;
+      display: flex;
     }
   }
 
@@ -174,4 +241,5 @@
             flex:1 0 0%;
             background-color: var(--grey-light);
           }
+
 }

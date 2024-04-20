@@ -110,7 +110,7 @@ const handleRatingToggle = (rating) => {
                 <div className="progressbar" ></div>
                 </div>
               <div className="percentnum" style={{ display: 'flex', justifyContent: 'end' ,minWidth:'3rem'}}>
-              <h6 className="percent-num-item">{`${ratingPercentages[key]}%`}</h6>
+              <h6 className="percent-num-item">{`${ratingPercentages[key].toFixed(2)}%`}</h6>
                 </div>
              </div>
                 </div>
