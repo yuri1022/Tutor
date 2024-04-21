@@ -32,7 +32,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
     });
 
 
-    const api = 'http://34.125.232.84:3000';
+    const api = 'http://54.250.240.16:3000';
     const onSubmit = async(data)=>{
 
         const formData={
