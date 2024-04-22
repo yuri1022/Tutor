@@ -1,5 +1,5 @@
 import { useRef,useState,useEffect,useContext } from 'react';
-import Students_profile_Calender from "../../components/Student_profile_Calender";
+import Students_profile_Calender from "../../components/students/Student_profile_Calender.jsx";
 import Students_profile_Edit from "../../components/students/Student_profile_Edit";
 import Students_profile_Rating from "../../components/students/Student_profile_Rating";
 import Students_profile_Go_Class from "../../components/students/Student_profile_Go_Class";
@@ -8,15 +8,16 @@ import Notification from '../../components/students/Student_Notification';
 import DefaultImg from '../../assets/images/svg/defaultimg.svg';
 import { AppContext } from './../../App';
 import {get_student_data} from '../../api/student.js'
+
 const Students_profile = () =>{
     const [msg_type,setMsg_type] = useState('');
     const [showToast, setShowToast] = useState(false);
     const editModal = useRef(null);
     const ratingModal = useRef(null);
     const goclassModal = useRef(null);
-    const student_data = JSON.parse(localStorage.getItem("userdata")).data;
+    const student_data = JSON.parse(localStorage.getItem("userdata"));
     const [studentData,setStudentData] = useState(null);
-
+    console.log(student_data)
     useEffect(() => {
         const fetchData = async () => {
             try {

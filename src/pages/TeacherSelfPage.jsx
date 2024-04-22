@@ -2,11 +2,10 @@
 
 import { useParams } from "react-router-dom";
 import EditImg from '../assets/images/svg/edit.svg';
-import '../assets/scss/teacherpage.scss'
-import MyCalendar from "../components/Teacher_profile_Calendar";
+import MyCalendar from "../components/teachers/Teacher_profile_Calendar.jsx";
 import PropTypes from 'prop-types';
-import ClassComments from "../components/ClassComments";
-import TeacherEditInfo from "../components/TeacherEditModal";
+import ClassComments from "../components/teachers/ClassComments.jsx";
+import TeacherEditInfo from "../components/teachers/TeacherEditModal.jsx";
 import { useState ,useEffect,useContext, useRef } from "react";
 import '../assets/scss/teacher.scss';
 import { Button } from "react-bootstrap";
@@ -83,7 +82,7 @@ const TeacherSelfPage = () => {
         });
     },[loginModal.current])
 
-const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
+const userId = JSON.parse(localStorage.getItem("userdata"))?.id;
 
  if (localStorage.getItem("islogin") === "false") {
     return (
@@ -124,7 +123,8 @@ const userId = JSON.parse(localStorage.getItem("userdata"))?.data?.id;
       confirmButtonText: '確定'
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate('/home');      }
+        navigate('/home');      
+      }
     });
   }
 

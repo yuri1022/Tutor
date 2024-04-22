@@ -1,5 +1,5 @@
 import { useRef,useState,useEffect,useContext } from 'react';
-import Students_profile_Calender from "../../components/Student_profile_Calender";
+import Students_profile_Calender from "../../components/students/Student_profile_Calender";
 
 import Students_profile_Rating from "../../components/students/Student_profile_Rating";
 import Students_profile_Go_Class from "../../components/students/Student_profile_Go_Class";

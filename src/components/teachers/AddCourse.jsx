@@ -1,5 +1,5 @@
 import { Modal,Form,Button } from "react-bootstrap";
-import {createCourse} from '../api/course.js';
+import {createCourse} from '../../api/course.js';
 import { useState } from "react";
 import DateTimePicker from 'react-datetime-picker';
 import moment from "moment";
@@ -7,8 +7,7 @@ import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import { useContext } from 'react';
-import { AppContext } from "../App";
-import '../assets/scss/addCourseModal.scss';
+import { AppContext } from "../../App.jsx";
 import Swal from "sweetalert2";
 
 const AddCourse = ({ showAddModal, onHide ,teacherDetails}) => {

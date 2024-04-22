@@ -1,13 +1,12 @@
 import { Card } from 'react-bootstrap';
-import '../assets/scss/studentsrank.scss'
-import RankingImg from '../assets/images/svg/ranking.svg';
-import Rank1 from '../assets/images/svg/rank1.svg';
-import Rank2 from '../assets/images/svg/rank2.svg';
-import Rank3 from '../assets/images/svg/rank3.svg';
-import { useTeacherContext } from './teachercontext';
+import RankingImg from '../../assets/images/svg/ranking.svg';
+import Rank1 from '../../assets/images/svg/rank1.svg';
+import Rank2 from '../../assets/images/svg/rank2.svg';
+import Rank3 from '../../assets/images/svg/rank3.svg';
+import { useTeacherContext } from '../context/teachercontext.jsx';
 import { useState,useContext,useEffect } from 'react';
-import { AppContext } from "../App";
-import {get_student_data} from '../api/student.js'
+import { AppContext } from "../../App.jsx";
+import {get_student_data} from '../../api/student.js'
 
 const BestStudents = () => {
   const { teacherData } = useTeacherContext();

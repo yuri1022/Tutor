@@ -9,7 +9,7 @@ const Student_profile_Rating = ({closeRatingModal,obj_rating,onMsg}) =>{
     const [comment,setComment] = useState('');
     const [rating, setRating] = useState(null);
     const {dispatch} = useContext(AppContext);
-    const studentData = useContext(AppContext).state.logindata.data;
+    const studentData = useContext(AppContext).state.logindata;
     const handleChange = (value) => {
       setRating(value);
     };

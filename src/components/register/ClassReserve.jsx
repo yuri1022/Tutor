@@ -6,16 +6,15 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import { Calendar,momentLocalizer,Views } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import '../../assets/scss/reservecalendar.scss';
 import moment from 'moment';
 import { useState,useEffect } from 'react';
-import LeftArrow from '../assets/images/svg/arrow-left.svg';
-import RightArrow from '../assets/images/svg/arrow-right.svg';
-import '../assets/scss/teachercalendar.scss';
-import '../assets/scss/reservemodal.scss'
-import axios from 'axios';
+import LeftArrow from '../../assets/images/svg/arrow-left.svg';
+import RightArrow from '../../assets/images/svg/arrow-right.svg';
 import SuccessModal from './SuccessModal.jsx';
 import FailModal from './FailModal.jsx';
 import Swal from 'sweetalert2';
+import { createRegister } from '../../api/register.js';
 
 const ClassReserve = ({ 
   teacherDetails,
@@ -82,11 +81,7 @@ const handleSubmit = async () => {
 const selectedEvent = events.find(event => event.id === selectedCourseId);
   const { teacherId ,name, date, start, end,reserved } = selectedEvent;
   console.log(teacherId);
-
-    const token = localStorage.getItem('token');
-    const courseId = selectedCourseId;
-
-    const api = 'http://54.250.240.16:3000';
+  const courseId = selectedCourseId;
 
     if (!selectedCourseId) {
       // 處理未選擇課程的情況
@@ -113,18 +108,11 @@ const selectedEvent = events.find(event => event.id === selectedCourseId);
       return;
     }
 
-    const response = await axios.post(
-      `${api}/register/${courseId}`,{},
- {
-    headers: { 
-      Authorization: `Bearer ${token}`
-    } 
-  }
-    );
+    const response = await createRegister(courseId);
 
     console.log('Course creation response:', response);
 
-    if (response.data.status=== 'success') {
+    if (response.status=== 'success') {
       
        setSuccessReservationData({
         courseName: name,
@@ -295,7 +283,7 @@ EventComponent.propTypes = {
           toolbar: CustomToolbar,
             event: EventComponent,
         }}
-      defaultView={Views.WEEK} // 將預設視圖設為 Week
+      defaultView={Views.WEEK} 
       allDayMaxRows='3'
            />
 
@@ -309,8 +297,8 @@ EventComponent.propTypes = {
 
 
 
-        <div className="select-name" style={{background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程名稱</div>
-          <input style={{width:'20.5rem',fontSize:'0.875rem',borderRadius:'0 0.5rem 0.5rem 0',border:'none',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}
+        <div className="select-name" style={{width:'25%',background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程名稱</div>
+          <input style={{width:'75%',fontSize:'0.875rem',borderRadius:'0 0.5rem 0.5rem 0',border:'none',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}
       onChange={(selectedCourse) => handleInputCourseChange (selectedCourse)}
         value={selectedCourse}
         placeholder="Please Click Date To Check"
@@ -320,8 +308,8 @@ EventComponent.propTypes = {
         </div>
         <div className="select-item d-flex" style={{marginBottom:'1rem',justifyContent:'center'}}>
           
-        <div className="select-time" style={{background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程時長</div>
-      <input style={{width:'20.5rem',fontSize:'0.875rem',borderRadius:'0 0.5rem 0.5rem 0',border:'none',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}
+        <div className="select-time" style={{width:'25%',background:'var(--main-blue)',color:'white',padding:'0.5rem',borderRadius:'0.5rem 0 0 0.5rem',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}>課程時長</div>
+      <input style={{width:'75%',fontSize:'0.875rem',borderRadius:'0 0.5rem 0.5rem 0',border:'none',boxShadow: '0px 4px 4px 2px rgba(54, 82, 227, 0.25)'}}
       onChange={(selectedDuration) => handleInputDurationChange (selectedDuration)}
       value={selectedDuration}
        placeholder="Please Click Date To Check"
@@ -331,7 +319,7 @@ EventComponent.propTypes = {
         </div>  
         <div className="btn-submit" >
 
-      <Button className="submit btn-light" style={{background:'linear-gradient(#1AEAEA,#3652E3)',border:'none',color:'var(--white)'}} onClick={handleSubmit}>
+      <Button className="submit btn-light" style={{width:'100%',background:'linear-gradient(#1AEAEA,#3652E3)',border:'none',color:'var(--white)'}} onClick={handleSubmit}>
         預約課程
       </Button>
          </div>

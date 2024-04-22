@@ -8,7 +8,7 @@ export const createRegister = async(courseId)=>{
       return;
     }
     try {
-      const res = await axios.post(`${baseUrl}/${courseId}`,{
+      const res = await axios.post(`${baseUrl}/${courseId}`,{},{
         headers: {
           Authorization: `Bearer ${token}`,
         },

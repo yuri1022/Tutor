@@ -17,6 +17,11 @@
     }
 }
 @media screen and (max-width:480px){
+        .Navtop {
+                .navbar-container {
+                    padding: 0.5rem 1.75rem 0.5rem 1.75rem;
+                }
+            }
 .searchbar-out{
     padding-right:28px;
     padding-left:28px;

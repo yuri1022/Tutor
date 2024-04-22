@@ -1,7 +1,7 @@
 import { useState,useEffect,useContext } from 'react';
 import { useNavigate} from 'react-router-dom';
 import ReactFlagsSelect from "react-flags-select";
-import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext';
+import { ApplyTeacherContext } from './sotre/ApplyTeacherContext';
 import { AppContext } from '../../App';
 import { applyTeacher } from '../../api/teacher';
 import Swal from 'sweetalert2';

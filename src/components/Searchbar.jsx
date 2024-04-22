@@ -14,8 +14,8 @@ const Search = ({ searchTerm, onSearchChange }) => {
 };
 
 Search.propTypes = {
-  searchTerm: PropTypes.string.isRequired,  // 驗證 searchTerm 存在並為字串型態
-  onSearchChange: PropTypes.func.isRequired,  // 驗證 onSearchChange 存在並為函數型態
+  searchTerm: PropTypes.string.isRequired,  
+  onSearchChange: PropTypes.func.isRequired, 
 };
 
 

@@ -1,19 +1,18 @@
 import { memo } from 'react'
-import { useRef,useEffect,useState } from 'react';
+import { useEffect,useState } from 'react';
 import { Calendar, momentLocalizer,Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import '../../assets/scss/reservecalendar.scss';
 import PropTypes from 'prop-types';
-import '../assets/scss/reservecalendar.scss';
-import LeftArrow from '../assets/images/svg/arrow-left.svg';
-import RightArrow from '../assets/images/svg/arrow-right.svg';
+import LeftArrow from '../../assets/images/svg/arrow-left.svg';
+import RightArrow from '../../assets/images/svg/arrow-right.svg';
 import { Button } from 'react-bootstrap';
 import AddCourse from './AddCourse';
 import PutCourse from './PutCourse';
 import Swal from 'sweetalert2';
 
 const localizer = momentLocalizer(moment);
-
 
 const MyCalendar = memo(({ teacherDetails, isEditCourse, handleEditCourse, closeEditCourse }) => {
 const [editedCourse, setEditedCourse] = useState(null);

@@ -1,7 +1,6 @@
-import icon_teacher from '../assets/images/svg/icon_teacher.svg';
-import icon_calender from '../assets/images/svg/icon_calender.svg';
-import icon_time from '../assets/images/svg/icon_time.svg';
-import '../assets/scss/goclassmodal.scss';
+import icon_teacher from '../../assets/images/svg/icon_teacher.svg';
+import icon_calender from '../../assets/images/svg/icon_calender.svg';
+import icon_time from '../../assets/images/svg/icon_time.svg';
 import { Modal , Button } from 'react-bootstrap';
 
 const TeacherGoClassModal = ({ show, handleCourseClose,selectedCourse }) => {

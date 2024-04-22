@@ -1,12 +1,11 @@
 import { Modal } from "react-bootstrap";
 import PropTypes from 'prop-types';
-import '../assets/scss/successmodal.scss';
-import CourseIcon from '../assets/images/svg/course-icon.svg';
-import DateIcon from '../assets/images/svg/calendar-icon.svg';
-import TimeIcon from '../assets/images/svg/time-icon.svg';
+import CourseIcon from '../../assets/images/svg/course-icon.svg';
+import DateIcon from '../../assets/images/svg/calendar-icon.svg';
+import TimeIcon from '../../assets/images/svg/time-icon.svg';
 import { Link } from "react-router-dom";
 import { useContext } from 'react';
-import { AppContext } from "../App";
+import { AppContext } from "../../App";
 
 const SuccessMessage = ({ show, handleClose, successReservationData }) => {
   const { state } = useContext(AppContext);

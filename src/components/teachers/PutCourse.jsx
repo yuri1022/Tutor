@@ -1,14 +1,13 @@
 import { Modal,Form,Button } from "react-bootstrap";
-import { putCourse } from '../api/course.js';
+import { putCourse } from '../../api/course.js';
 import { useEffect, useState } from "react";
 import moment from 'moment';
 import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import { useContext } from 'react';
-import { AppContext } from "../App";
-import '../assets/scss/editCourseModal.scss';
-import CalendarIcon from '../assets/images/svg/icon_calender.svg';
+import { AppContext } from "../../App.jsx";
+import CalendarIcon from '../../assets/images/svg/icon_calender.svg';
 import Swal from "sweetalert2";
 
 

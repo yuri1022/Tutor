@@ -1,5 +1,5 @@
 import { useContext} from 'react'
-import { ApplyTeacherContext } from './sotre/ApplyTeacherCotext'
+import { ApplyTeacherContext } from './sotre/ApplyTeacherContext'
 const ApplyProcess = () =>{
     const contextdata = useContext(ApplyTeacherContext);
     const page = contextdata.page;

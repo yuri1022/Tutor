@@ -1,6 +1,7 @@
 import { useState, useEffect,useContext  } from "react";
 import { AppContext } from "../App";
 import { useNavigate } from "react-router-dom";
+import { getAdminUsers } from "../api/admin";
 
 const AdminPage = () => {
   const [adminData,setAdminData] = useState('');
@@ -10,23 +11,20 @@ const AdminPage = () => {
 useEffect(() => {
      const fetchAdminData = async () => {
     try {
-      const adminData = state.logindata;
-
+      const userData = await getAdminUsers();
      if(localStorage.getItem("isTeacher")==="undefined"){
-       setAdminData(adminData);
+       setAdminData(userData);
        }else{
         console.log('You are not admin'); 
         navigate('/home');   
       }
-    return adminData;
+    return userData;
     } catch (error) {
       console.error('Admin data fetching error:', error.message);
 
     }
   };
-      if (state.logindata && state.logindata.data) {
       fetchAdminData();
-    }
   }, [state]);
 
   return (
@@ -34,8 +32,8 @@ useEffect(() => {
     <>
 
     {adminData?(
-    <div className="admin-page-container col-12">
-    <table className="admin-container col-11" style={{margin:'1rem 3.75rem 1rem 3.75rem',textAlign:'center',borderCollapse: 'collapse', borderSpacing: '0',lineHeight:'2rem'}}>
+    <div className="admin-page-container col-12 d-flex" style={{justifyContent:'center'}}>
+    <table className="admin-container col-11" style={{marginBottom:'1.5rem',textAlign:'center',borderCollapse: 'collapse', borderSpacing: '0',lineHeight:'2rem'}}>
        <thead>
         <tr style={{ backgroundColor: 'var(--main-blue)', color: 'var(--white)' }}>
       <th>編號</th>
@@ -62,7 +60,7 @@ useEffect(() => {
 
       </table>
       </div>):(
-      <div>
+      <div className="d-flex" style={{justifyContent:'center'}}>
         Hi Admin，請登入以查看後台
         </div>
         

@@ -3,24 +3,18 @@
 import { useNavigate, useParams,useLocation } from 'react-router-dom';
 import { useEffect,useState } from 'react';
 import PropTypes from 'prop-types';
-import '../main.scss'
 import { Card , Button } from 'react-bootstrap';
-import RatingStar from '../assets/images/svg/rating.svg';
-import FirstPageArrow from '../assets/images/svg/arrow-first.svg';
-import LastPageArrow from '../assets/images/svg/arrow-last.svg';
-import PrePageArrow from '../assets/images/svg/previouspage.svg';
-import NextPageArrow from '../assets/images/svg/nextpage.svg'
-import '../assets/scss/homepage.scss';
-import { useTeacherContext } from './teachercontext';
-import ClassReserve from './ClassReserve';
-import axios from 'axios';
+import RatingStar from '../../assets/images/svg/rating.svg';
+import FirstPageArrow from '../../assets/images/svg/arrow-first.svg';
+import LastPageArrow from '../../assets/images/svg/arrow-last.svg';
+import PrePageArrow from '../../assets/images/svg/previouspage.svg';
+import NextPageArrow from '../../assets/images/svg/nextpage.svg'
+import { useTeacherContext } from '../context/teachercontext';
+import ClassReserve from '../register/ClassReserve';
 import Flag from 'react-world-flags';
 import Swal from 'sweetalert2';
-import DefaultImg from '../assets/images/svg/defaultimg.svg'
-
-
-const api = 'http://54.250.240.16:3000';
-
+import DefaultImg from '../../assets/images/svg/defaultimg.svg'
+import { getTeacher } from '../../api/teacher';
 
 const TeacherCollection = () => {
  const { page } = useParams();
@@ -139,10 +133,10 @@ const handleReserveOpen = async (teacher) => {
     return;
   }
   const fetchTeacherData = async (teacherId) => {
+    console.log(teacherId)
   try {
-    const token = localStorage.getItem('token');
-    const response = await axios.get(`${api}/teacher/${teacherId}`, { headers: { Authorization: `Bearer ${token}` } });
-    return response.data.data;
+    const response = await getTeacher(teacherId);
+    return response.data;
   } catch (error) {
     if (error.response) {
       console.error("Server error:", error.response.status, error.response.data);

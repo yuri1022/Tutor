@@ -1,13 +1,11 @@
 import { useState,useContext } from 'react'; 
 import { AppContext } from '../../App';
-import { edit_student_data } from '../../api/student';
-import { Button, Form } from 'react-bootstrap';
-import axios from 'axios';
+import { edit_student_data, get_student_data } from '../../api/student';
+import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 import Swal from 'sweetalert2';
 const Students_profile_Edit = ({closeEditModal,onMsg})=>{
-    const api = 'http://54.250.240.16:3000';
-    const student_data = JSON.parse(localStorage.getItem("userdata")).data;
+    const student_data = JSON.parse(localStorage.getItem("userdata"));
     const [nameTxt,setNameTxt] = useState(student_data.name);
     const [introTxt,setIntroTxt ] = useState(student_data.selfIntro);
     const [ ischangePhoto,setIschangePhoto] = useState(false);
@@ -20,9 +18,8 @@ const handleImageChange = (e) => {
     setUploadImageModal(true);
     const file = e.target.files[0];
     if (file) {
-        const fileType = file.type.split('/')[1]; // 获取文件类型
+        const fileType = file.type.split('/')[1]; 
         if (fileType !== 'jpg' && fileType !== 'png' && fileType !== 'jpeg') {
-            // 如果文件类型不是 jpg 或 png，则显示错误消息并返回
             Swal.fire({
                 title: '錯誤!',
                 text: '只允許上傳 JPG 或 PNG 格式的圖片!',
@@ -44,7 +41,6 @@ const handleImageChange = (e) => {
     }
 };
     const handleEdit = async(id)=>{
-        const token = localStorage.getItem("token");
         const formData = {
             name: nameTxt,
             nickname: '',
@@ -54,9 +50,7 @@ const handleImageChange = (e) => {
         console.log(formData.avatar);
      try {
         const edit_res = await edit_student_data(id, formData);
-        const studentData = await axios.get(`${api}/student/${id}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        }).then((res) => {
+        const studentData = await get_student_data(id).then((res) => {
             console.log(`student data ${res}`);
             localStorage.setItem('userdata', JSON.stringify(res.data));
             dispatch({ type: "LOGIN", payload: { logindata: res.data, isTeacher: 0, isLogin: true } });
@@ -66,7 +60,6 @@ const handleImageChange = (e) => {
     }
 )
         console.log(edit_res);
-        // 编辑成功时显示消息
         onMsg('edit');
         closeEditModal();
     } catch (error) {

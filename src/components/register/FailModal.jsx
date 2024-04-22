@@ -1,6 +1,5 @@
 import { Modal } from "react-bootstrap";
 import PropTypes from 'prop-types';
-import '../assets/scss/failmodal.scss'
 
 const FailModal = ({ show, handleClose,errorMessage }) => {
 return (

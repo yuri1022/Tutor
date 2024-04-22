@@ -8,9 +8,9 @@ import { delete_register_course } from '../../api/register';
 import PropTypes from 'prop-types'
 const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass,onMsg}) =>{
     const {dispatch} = useContext(AppContext);
-    console.log(obj_goclass);
+    // console.log(obj_goclass);
     const handle_delete_register = async(courseId)=>{
-        let student_data = JSON.parse(localStorage.getItem("userdata")).data;
+        let student_data = JSON.parse(localStorage.getItem("userdata"));
         const delete_res = await delete_register_course(courseId);
         //console.log(courseId);
         //console.log(delete_res);

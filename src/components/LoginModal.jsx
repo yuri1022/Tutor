@@ -1,10 +1,11 @@
 import { useState, useEffect} from 'react';
 import { useForm } from "react-hook-form";
-import axios from 'axios';
 import icon_google from './../assets/images/svg/icon_google.svg';
 import icon_fb from './../assets/images/svg/icon_facebook.svg';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
+import { createAccount,handleLogin } from '../api/auth';
+import '../assets/scss/login.scss';
 
 const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
     const [mode ,setMode] = useState('login');
@@ -31,72 +32,48 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
     },
     });
 
-
-    const api = 'http://54.250.240.16:3000';
-    const onSubmit = async(data)=>{
-
-        const formData={
-            email:data.email,
-            password:data.password,
-            passwordCheck:data.repassword,
-            name:data.email.split('@')[0],
-        }
-
-        //console.log(formData);
-        const signupRes = await axios.post(`${api}/signup`,formData
-        ).then(res=>{
-            console.log(res.data);
-            setMode('login');
-            Swal.fire({
-            title: 'Success',
-            text: '註冊成功！您現在可以登入了',
-            icon: 'success',
-            confirmButtonText: '確定'
-      });
-        }).catch(err=>{
-            console.log(err);
-            const errorMessage= err.response.data.message;
-            Swal.fire({
-            title: 'Fail',
-            text: errorMessage,
-            icon: 'error',
-            confirmButtonText: '確定'
-      });
-        })
-    }
-    const apiLoginSubmit = async ()=>{
-        const loginData= {
-            "email": email,
-            "password":password,
-        }  
-
-        const loginRes = await axios.post(`${api}/signin`,
-        loginData).then(res=>{
+const onSubmit = async (data) => {
+    
+  try {
+    const formData = {
+      email: data.email,
+      password: data.password,
+      passwordCheck: data.repassword,
+      name: data.email.split('@')[0],
+    };
+    console.log(formData)
+    const signupRes = await createAccount(formData);
+    console.log(signupRes.data);
+    setMode('login');
+    Swal.fire({
+      title: 'Success',
+      text: '註冊成功！您現在可以登入了',
+      icon: 'success',
+      confirmButtonText: '確定',
+    });
+  } catch (error) {
+    console.log(error);
+    Swal.fire({
+      title: 'Fail',
+      text: error,
+      icon: 'error',
+      confirmButtonText: '確定',
+    });
+  }
+};
+    const apiLoginSubmit = async (loginData)=>{
+        try{
+        const loginRes = await handleLogin(email,password)
             localStorage.setItem("password",password);
-            console.log(res.data);
-            return res.data;
-        }).catch(err=>{
-            console.log(err);
-            const errorMessage= err.response.data.message;
-          Swal.fire({
-            title: 'Fail',
-            text: errorMessage,
-            icon: 'error',
-            confirmButtonText: '確定'
-      });
-        })
-        //console.log(loginRes);
-        const token = loginRes.data.token;
-        const id = loginRes.data.id;
-        const isTeacher = loginRes.data.isTeacher;
-        // console.log(isTeacher);
-        // // fake data
-        // console.log(token);
+            const token = loginRes.data.token;
+            const id = loginRes.data.id;
+            const isTeacher = loginRes.data.isTeacher;
         localStorage.setItem("token",loginRes.data.token);
         localStorage.setItem("islogin",true);
         localStorage.setItem("user_id",loginRes.data.id);
         localStorage.setItem("isTeacher",isTeacher);
         localStorage.setItem("changeMode","student");
+        localStorage.setItem("isAdmin",isTeacher===undefined);
 
         //handle Login 
         if(token){
@@ -110,6 +87,18 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
         confirmButtonText: '確定'
       });
         closeLoginModal();
+        return loginRes.data;
+
+        }catch(err){
+        const errorMessage= err.response.data.message;
+          Swal.fire({
+            title: 'Fail',
+            text: errorMessage,
+            icon: 'error',
+            confirmButtonText: '確定'
+            });
+        }
+   
     }
 
     const handleClose = () =>{
@@ -174,7 +163,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
                             )}
 
                             </div>
-                            <button className="btn btn-primary w-100 mb-20px" type="submit">
+                            <button className="btn btn-primary w-100 mb-20px" type="submit" style={{borderRadius:'0.625rem',backgroundColor:'var(--main-blue)'}}>
                                 註冊
                             </button>
                             <div className="mb-10px">使用其他方式註冊</div>
@@ -229,7 +218,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
                             )}
 
                             </div>
-                            <button className="btn btn-primary w-100 mb-20px" type="submit">
+                            <button className="btn btn-primary w-100 mb-20px" type="submit" style={{borderRadius:'0.625rem',backgroundColor:'var(--main-blue)'}}>
                                 登入
                             </button>
                             <div className="mb-10px">使用其他方式登入</div>

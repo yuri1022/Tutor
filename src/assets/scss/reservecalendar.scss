@@ -1,4 +1,18 @@
+@media screen and (min-width: 481px) and (max-width: 1080px){
+  .reserve-modal {
+      .modal-body {
+        margin: 0 1.5rem 1rem 1.5rem;
+      }
+    }
+}
 
+@media screen and (min-width: 1081px) {
+.reserve-modal{
+  .modal-body{
+    margin:0 1.5rem 1rem 1.5rem;
+  }
+}
+}
 .rbc-calendar{
   width: 100%;
   min-height: 10rem;

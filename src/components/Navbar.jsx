@@ -1,9 +1,6 @@
 import { useState,useEffect ,useRef,useContext,useReducer } from 'react';
 import { useNavigate} from 'react-router-dom';
-import axios from 'axios';
-import Search from './Searchbar';
 import PropTypes from 'prop-types';
-import headshot01 from '../assets/images/svg/headshot01.svg';
 import DefaultImg from '../assets/images/svg/defaultimg.svg';
 import LogoIcon from '../assets/images/svg/logo.svg';
 import searchIcon from '../assets/images/svg/icon_search.svg';
@@ -14,8 +11,11 @@ import AppReducer from '../store/AppContext';
 import { AppContext } from '../App';
 import { Dropdown } from 'react-bootstrap';
 import '../assets/scss/navbar.scss';
-import { useAuth } from './AuthContext';
+import { useAuth } from './context/AuthContext';
 import Swal from 'sweetalert2';
+import { getTeacher } from '../api/teacher';
+import { get_student_data } from '../api/student';
+import { getAdminUsers } from '../api/admin';
 
 const Navbar = (props) =>{
     const [ isOpen,setIsOpen] = useState(false);
@@ -23,7 +23,6 @@ const Navbar = (props) =>{
     const {state,dispatch} = useContext(AppContext);
     const { isUserLoggedIn } = useAuth();
     const loginModal = useRef(null);
-    const api = 'http://54.250.240.16:3000';
     const navigate = useNavigate();
     const userId = localStorage.getItem('user_id')
     const openLoginModal = () =>{
@@ -53,7 +52,7 @@ const Navbar = (props) =>{
         dispatch({type:'APPLYTEACHER_BACK'});
     }
 
-
+    console.log('STATE',state)
     const handleLogin = (id,isTeacher)=>{
         const user_data = getData(id,isTeacher);
     }
@@ -77,57 +76,37 @@ const Navbar = (props) =>{
         dispatch({type:"APPLYTEACHER_BACK"});
     }
 
-    const getData = async(id,isTeacher)=>{
-        const token = localStorage.getItem('token');
-        if(isTeacher===1){
-            const teacherData = await axios.get(`${api}/teacher/${id}`,{
-                headers: { Authorization: `Bearer ${token}` }
-            }).then((res)=>{
-                // console.log(`teacher data${res.data.data.teachStyle}`);
-                localStorage.setItem('userdata',JSON.stringify(res.data));
-
-                dispatch({type:"LOGIN",payload:{logindata:res.data,isAdmin:false,isTeacher:1,isLogin:true} });
-            }).catch(
-                err=>{
-                    console.log(err);
-                }
-            )
-            // console.log(isTeacher);
-            return teacherData;
-            
-        } else if (isTeacher===0) {
-            const studentData = await axios.get(`${api}/student/${id}`,{
-                headers: { Authorization: `Bearer ${token}` }
-            }).then((res)=>{
-                // console.log(`student data ${res.data.data.selfIntro}`);
-                dispatch({type:"LOGIN",payload:{logindata:res.data,isTeacher:0,isAdmin:false,isLogin:true} });
-                localStorage.setItem('userdata',JSON.stringify(res.data));
-            }).catch(
-                err=>{
-                    console.log(err);
-                }
-            )
-            
-            return studentData;
-            } else if (isTeacher===undefined){
-            const adminData = await axios.get(`${api}/admin/users`,{
-                headers: { Authorization: `Bearer ${token}` }
-            }).then((res)=>{
-                console.log('Admin data',res.data);
-                dispatch({
-                    type:"LOGIN",
-                    payload:{logindata:res.data,isLogin:true} 
-                });
-                
-            }).catch(
-                err=>{
-                    console.log(err);
-                }
-            )    
-        navigate('/admin');
-        return adminData;
+   const getData = async (id, isTeacher) => {
+    try {
+        let userData;
+        if (isTeacher === 1) {
+            userData = await getTeacher(id);
+        } else if (isTeacher === 0) {
+            userData = await get_student_data(id);
+        } else if (isTeacher === undefined) {
+            userData = await getAdminUsers();
+            navigate('/admin');
         }
+        
+        if (userData) {
+            dispatch({
+                type: "LOGIN",
+                payload: {
+                    logindata: userData.data,
+                    isAdmin: isTeacher === undefined,
+                    isTeacher: isTeacher === 1,
+                    isLogin: true
+                }
+            });
+            localStorage.setItem('userdata', JSON.stringify(userData.data));
+            return userData;
+        }
+    } catch (error) {
+        console.log(error);
     }
+}
+        
+
     useEffect(()=>{
         loginModal.current = new Modal('#login_Modal',{
             backdrop: true
@@ -178,7 +157,7 @@ const Navbar = (props) =>{
                                 {
 
                                     (parseInt(localStorage.getItem("isTeacher"))===1 && state.isApply===false && localStorage.getItem("changeMode")==="teacher") &&
-                                    (<Link className="nav-link" to="/homepage" onClick={() => handleModeChange('student')}>切換回學生頁面</Link>
+                                    (<Link className="nav-link" to={`/student/${userId}`} onClick={() => handleModeChange('student')}>切換回學生頁面</Link>
 )
 
           
@@ -200,7 +179,7 @@ const Navbar = (props) =>{
                     <div className="NavCollapse" >
                         <div className="navbar-right">
 
-                            { (localStorage.getItem('isHome')==="true" && state.isAdmin===false && localStorage.getItem("islogin")==="true") ?
+                            { (localStorage.getItem('isHome')==="true" && (localStorage.getItem('isAdmin'))==="false" && localStorage.getItem("islogin")==="true") ?
                             ( 
                             <div className="navbar-search">
                                 <input  id="search" className="form-control " placeholder="請輸入要查詢的課程" aria-label="Search" onChange={(e)=>{setSearchTxt(e.target.value)}}/>
@@ -215,13 +194,21 @@ const Navbar = (props) =>{
                         localStorage.getItem("islogin")==="true" ? (
                             <Dropdown >
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
-                            <img className="avatar-img" style={{objectFit:'cover'}} src={JSON.parse(localStorage.getItem("userdata"))?.data?.avatar && JSON.parse(localStorage.getItem("userdata"))?.data?.avatar.length>0 ? JSON.parse(localStorage.getItem("userdata")).data.avatar:DefaultImg}/>
+                            <img className="avatar-img" style={{objectFit:'cover'}} src={JSON.parse(localStorage.getItem("userdata"))?.avatar && JSON.parse(localStorage.getItem("userdata"))?.avatar.length>0 ? JSON.parse(localStorage.getItem("userdata")).avatar:DefaultImg}/>
                             </Dropdown.Toggle>
-                            {(localStorage.getItem("isTeacher")) == 1 && localStorage.getItem("changeMode")==="teacher" ?
+                            {(localStorage.getItem('isAdmin'))==="true" ? 
+                            (                           
+                            <Dropdown.Menu>
+                            <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
+                            </Dropdown.Menu>
+                            ):
+                            
+                            ( 
+                                (localStorage.getItem("isTeacher")) == 1 && localStorage.getItem("changeMode")==="teacher" ?
                             (    
                             <Dropdown.Menu>
-                            <Dropdown.Item href={`/teacher/${userId}/personal`}>個人檔案</Dropdown.Item>
-                            <Dropdown.Item href={`/course`}>我的課程</Dropdown.Item>
+                            <Dropdown.Item href={`/teacher/${userId}/personal`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href={`/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             ):
@@ -234,7 +221,8 @@ const Navbar = (props) =>{
                             </Dropdown.Menu>
                             )
                             
-                            }
+                            )}
+                           
                             </Dropdown>   
 
                         

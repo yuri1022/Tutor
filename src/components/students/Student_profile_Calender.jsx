@@ -1,21 +1,16 @@
 import { useState,useEffect,useRef,useContext } from 'react';
-import arrow_right from './../assets/images/svg/arrow-right.svg';
-import arrow_left from './../assets/images/svg/arrow-left.svg';
-import axios from 'axios';
-import { AppContext } from '../App';
+import arrow_left from '../../assets/images/svg/arrow-left.svg';
+import { AppContext } from '../../App';
+import { get_student_data } from '../../api/student';
 const Students_profile_Calender = ({openRatingModal,openGoClassModal}) =>{
     const today = new Date();
-    const today_month = today.getMonth();
-    const today_year = today.getFullYear();
     const [currentMonth,setCurrentMonth] = useState(today.getMonth());
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
     const [courseList, setCourseList] = useState([]);
     const calender_block = useRef(null);
-    const student_data = JSON.parse(localStorage.getItem("userdata")).data;
+    const studentId = JSON.parse(localStorage.getItem("userdata")).id;
     const { state } = useContext(AppContext);
     const [courseShow,setCourseShow] = useState('');
-
-    const api = 'http://54.250.240.16:3000';
 
     const handleYearChange = (e) => {
       setCurrentYear(parseInt(e.target.value));
@@ -200,17 +195,15 @@ const increament_month = (step) => {
     }
     useEffect(() => {
         const fetchStudentData = async () => {
-          try {
-            const studentId = JSON.parse(localStorage.getItem("userdata")).data.id;
-            const response = await axios.get(`${api}/student/${studentId}`);
-    
+            console.log(studentId);
+            try {
+            const response = await get_student_data(studentId);
             const studentData = response.data;
-    
             console.log('Student Data:', studentData);
     
-            if (studentData.data.Registrations) {
+            if (studentData.Registrations) {
             
-               const courses = studentData.data.Registrations.map(course => {
+               const courses = studentData.Registrations.map(course => {
                 const startDate = new Date(course.Course.startAt);
                 const endTime = new Date(startDate.getTime() + course.Course.duration * 60000); 
                 const startHours =  startDate.getHours();
@@ -249,7 +242,7 @@ const increament_month = (step) => {
           }
         };
     
-        if (JSON.parse(localStorage.getItem("userdata")).data) {
+        if (JSON.parse(localStorage.getItem("userdata"))) {
           fetchStudentData();
         }
     

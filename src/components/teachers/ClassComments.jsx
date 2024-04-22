@@ -1,8 +1,8 @@
 //classcomment
 
-import Rating from '../assets/images/svg/rating.svg'
+import Rating from '../../assets/images/svg/rating.svg'
 import { Button,Card, CardImg } from "react-bootstrap";
-import CommentModal from "../components/CommentsModal";
+import CommentModal from "./CommentsModal";
 import { useState } from 'react';
 import PropTypes from 'prop-types'
 

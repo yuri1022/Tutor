@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes,useNavigate } from 'react-router-dom';
 import { createContext, useState,useReducer,useEffect } from 'react';
-import { AuthProvider } from './components/AuthContext.jsx';
+import { AuthProvider } from './components/context/AuthContext.jsx';
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import TeachersPage from "./pages/TeachersPage";
@@ -13,7 +13,7 @@ import TeacherSelfPage from './pages/TeacherSelfPage';
 import TeacherCalendarPage from './pages/TeacherCalendarPage.jsx';
 import AppReducer from './store/AppContext.js';
 import AdminPage from './pages/AdminPage.jsx';
-import { TeacherProvider } from './components/teachercontext.jsx';
+import { TeacherProvider } from './components/context/teachercontext.jsx';
 
 
 export const AppContext = createContext();

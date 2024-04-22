@@ -1,10 +1,9 @@
 import { Modal,Button,Form } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { useState,useEffect } from 'react';
-import '../assets/scss/editmodal.scss';
 import ReactFlagsSelect from "react-flags-select";
 import Swal from "sweetalert2";
-import DefaultImg from '../assets/images/svg/defaultimg.svg';
+import DefaultImg from '../../assets/images/svg/defaultimg.svg';
 
 
 const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editingSection }) => {
@@ -41,7 +40,6 @@ const handleWeekdaysChange = (e) => {
 };
 
 useEffect(() => {
-  // 当传递给组件的 teacher 属性发生变化时，更新内部状态
   setEditedData({ ...teacherDetails });
   setCategory(teacherDetails.teaching_categories || []);
 }, [teacherDetails]);
@@ -49,9 +47,7 @@ useEffect(() => {
 
 useEffect(() => {
   setEditedData({ ...teacherDetails });
-  
-  // 將教師的分類轉換為字符串陣列
-  const initialCategories = teacherDetails.teaching_categories
+    const initialCategories = teacherDetails.teaching_categories
     ? [...new Set(teacherDetails.teaching_categories.map(category => category.categoryId))]
     : [];
 
@@ -60,7 +56,6 @@ useEffect(() => {
 
 
   const handleInputChange = (e) => {
-    // 更新編輯的資料
     setEditedData({
       ...editedData,
       [e.target.name]: e.target.value,
@@ -68,26 +63,20 @@ useEffect(() => {
   };
 console.log(editedData.name);
 
-  // 处理国籍输入框变化
 const handleNationChange = (code) => {
   setNation(code);
 };
 
-
-// 处理类别选择变化
 const handleCategoryChange = (selectedCategory) => {
   setCategory((prevCategory) => {
     if (prevCategory.includes(selectedCategory)) {
-      // 如果类别已经存在，移除它
       return prevCategory.filter((c) => c !== selectedCategory);
     } else {
-      // 如果类别不存在，添加它
       return [...prevCategory, selectedCategory];
     }
   });
 };
 
-  // 处理图片上传变化
 
   const handleImageChange = (e) => {
         setUploadImageModal(true);

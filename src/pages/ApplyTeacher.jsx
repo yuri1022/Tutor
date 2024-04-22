@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ApplyProcess from "../components/applyTeacher/ApplyProcess";
 import ApplyTeacherFormMobile from "../components/applyTeacher/mobile/ApplyTeacherForm";
 import ApplyTeacherForm from "../components/applyTeacher/ApplyTeacherForm";
-import { ApplyTeacherContext, ApplyTeacherProvider } from "../components/applyTeacher/sotre/ApplyTeacherCotext";
+import { ApplyTeacherContext, ApplyTeacherProvider } from "../components/applyTeacher/sotre/ApplyTeacherContext";
 import PropTypes from 'prop-types';
 const ApplyTeacher = () => {
   // 處理表單提交的函式

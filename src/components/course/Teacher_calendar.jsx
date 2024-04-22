@@ -1,13 +1,13 @@
 import { useState,useEffect,useRef } from 'react';
-import arrow_right from './../assets/images/svg/arrow-right.svg';
-import arrow_left from './../assets/images/svg/arrow-left.svg';
+import arrow_right from '../../assets/images/svg/arrow-right.svg';
+import arrow_left from '../../assets/images/svg/arrow-left.svg';
 import { useContext } from 'react';
-import { AppContext } from "../App";
-import { getCourse } from '../api/course';
-import { getTeacher } from '../api/teacher';
+import { AppContext } from "../../App";
+import { getCourse } from '../../api/course';
+import { getTeacher } from '../../api/teacher';
 import TeacherGoClassModal from './OpenGoClassModal';
-import '../assets/scss/course.scss';
-import ArrowIcon from '../assets/images/svg/arrow-down.svg'
+import ArrowIcon from '../../assets/images/svg/arrow-down.svg';
+import '../../assets/scss/course.scss';
 
 const Teacher_profile_Calender = () =>{
     const today = new Date();
@@ -22,6 +22,8 @@ const Teacher_profile_Calender = () =>{
     const [selectedCourse , setSelectedCourse] = useState('');
     const [courseShow,setCourseShow] = useState('');
     const allCourseData = []; 
+    const teacherId = localStorage.getItem("user_id");
+
 
     const handleYearChange = (e) => {
       setCurrentYear(parseInt(e.target.value));
@@ -56,8 +58,8 @@ const handleClickDay = (date, coursesForDay) => {
    useEffect(() => {
     const fetchTeacherData = async () => {
       try {
-      const teacherId = state.logindata.data.id;
       const response = await getTeacher(teacherId);
+      console.log(response);
       const teacherData = response.data;
       console.log('Teacher Data:', teacherData);
   if (teacherData.Courses) {
@@ -74,7 +76,7 @@ const handleClickDay = (date, coursesForDay) => {
       }
     };
 
-    if (state.logindata && state.logindata.data) {
+    if (state.logindata) {
       fetchTeacherData();
     }
 

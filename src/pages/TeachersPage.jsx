@@ -1,21 +1,20 @@
 //teacherpage
 
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import '../assets/scss/teacherpage.scss'
-import MyCalendar from "../components/Teacher_profile_Calendar";
+import MyCalendar from "../components/teachers/Teacher_profile_Calendar.jsx";
 import PropTypes from 'prop-types';
-import ClassComments from "../components/ClassComments";
-import ClassReserve from '../components/ClassReserve.jsx';
+import ClassComments from "../components/teachers/ClassComments.jsx";
+import ClassReserve from '../components/register/ClassReserve.jsx';
 import { useState ,useEffect , useContext,useRef } from "react";
 import '../assets/scss/teacher.scss';
 import { Button } from 'react-bootstrap';
 import Flag from 'react-world-flags';
-import { Link } from "react-router-dom";
-import Login from "../components/Login.jsx";
 import ExpandIcon from '../assets/images/svg/expand.svg';
 import CollapseIcon from '../assets/images/svg/collapse.svg';
 import { getTeacher } from "../api/teacher.js";
 import DefaultImg from '../assets/images/svg/defaultimg.svg';
+import Swal from "sweetalert2";
 
 const TeachersPage = () => {
   const [teacherDetails, setTeacherDetails] = useState(null);
@@ -27,6 +26,27 @@ const TeachersPage = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(localStorage.getItem("islogin") === "true");
   const { id } = useParams();
+  const navigate = useNavigate();
+
+    useEffect(() => {
+    if (!isUserLoggedIn) {
+      Swal.fire({
+        title: '警告',
+        text: '請先登入!',
+        icon: 'warning',
+        confirmButtonText: '確定',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleGohome();
+        }
+      });
+    }
+  }, [isUserLoggedIn]);
+
+  const handleGohome = () =>{
+    console.log('Redirecting to home page');
+    navigate('/home');
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,19 +72,9 @@ const TeachersPage = () => {
 
   }, [id, isUserLoggedIn]);
 
-  console.log(isUserLoggedIn)
-
 const handleLoginSuccess = async () => {
   setIsUserLoggedIn(true);
 };
-  
-  const openLoginModal = () => {
-    setShowLoginModal(true);
-  };
-
-  const closeLoginModal = () => {
-    setShowLoginModal(false);
-  };
 
   const handleReserveOpen = () => {
     setIsReserveModalOpen(true);
@@ -77,7 +87,7 @@ const handleLoginSuccess = async () => {
 
 return (
     <div>
-      {isUserLoggedIn ? (
+      {
         teacherDetails ? (
                 <div>
       
@@ -276,33 +286,11 @@ return (
       </div>
     </div>
         ):(
-          <div>
+          <div className="d-flex" style={{justifyContent:'center'}}>
             正在載入中...
             </div>
         )
-      ) : (
-        <div className="teacher-redirect-container d-flex" style={{ justifyContent: 'center' }}>
-          <div className="teacher-redirect col-12 col-md-3 col-lg-3" style={{ padding: '1rem' }}>
-            <div className="teacher-redirect d-flex" style={{ flexDirection: 'column', boxShadow: '1px 3px 5px 1px var(--main-blue25)', height: '100%', textAlign: 'center', borderRadius: '0.625rem',padding:'1rem' }}>
-              <div className="top" style={{ marginTop: '2%' }}>
-                <h3 style={{ color: 'var(--red)' }}>Notice</h3>
-              </div>
-              <div className="title">
-                <h5>請登入以查看完整教師資訊</h5>
-              </div>
-              <div className="btn-login-back">
-                <Link to={"/home"}>
-                  <Button className="close-button btn btn-light" style={{ margin: '0.5rem', color: 'var(--main-blue)', border: '1px solid var(--main-blue)', backgroundColor: 'transparent' }}>
-                    返回首頁
-                  </Button>
-                </Link>
-                <Button onClick={openLoginModal} style={{ margin: '0.5rem' }}>登入</Button>
-                {showLoginModal && <Login show={showLoginModal} onHide={closeLoginModal} handleLoginSuccess={handleLoginSuccess}/>}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+       }
     </div>
   );
 };

@@ -1,4 +1,4 @@
- import Teacher_profile_Calender from "../components/Teacher_calendar";
+ import Teacher_profile_Calender from "../components/course/Teacher_calendar";
  import '../assets/scss/coursecalendar.scss'
 
  const TeacherCalendarPage =  () =>{

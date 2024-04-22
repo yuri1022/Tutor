@@ -1,9 +1,9 @@
 import { useContext,useEffect} from 'react';
-import TeachersCollection from '../components/TeacherCollection';
-import BestStudents from '../components/BestStudents';
+import TeachersCollection from '../components/homePage/TeacherCollection';
+import BestStudents from '../components/homePage/BestStudents';
 import { AppContext } from '../App';
-import { TeacherProvider } from '../components/teachercontext';
-import { CourseProvider } from '../components/coursecontext';
+import { TeacherProvider } from '../components/context/teachercontext';
+import { CourseProvider } from '../components/context/coursecontext';
 import '../assets/scss/home.scss'
 
 

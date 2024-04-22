@@ -1,7 +1,6 @@
 import { Modal , Card ,CardImg } from "react-bootstrap";
 import PropTypes from 'prop-types';
-import Rating from '../assets/images/svg/rating.svg';
-import '../assets/scss/commentmodal.scss';
+import Rating from '../../assets/images/svg/rating.svg';
 import { useState } from "react";
 
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import ReactFlagsSelect from "react-flags-select";
 import { AppContext } from '../../../App.jsx';
 import { applyTeacher } from '../../../api/teacher.js';
-import { ApplyTeacherContext, ApplyTeacherProvider } from "../sotre/ApplyTeacherCotext.jsx";
+import { ApplyTeacherContext, ApplyTeacherProvider } from "../sotre/ApplyTeacherContext.jsx";
 import Swal from 'sweetalert2';
 
 const ApplyFormInner = () =>{
