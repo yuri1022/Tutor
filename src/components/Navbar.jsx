@@ -194,7 +194,7 @@ const Navbar = (props) =>{
                         localStorage.getItem("islogin")==="true" ? (
                             <Dropdown >
                             <Dropdown.Toggle style={{background:'transparent',border:'none'}}>
-                            <img className="avatar-img" style={{objectFit:'cover'}} src={JSON.parse(localStorage.getItem("userdata"))?.avatar && JSON.parse(localStorage.getItem("userdata"))?.avatar.length>0 ? JSON.parse(localStorage.getItem("userdata")).avatar:DefaultImg}/>
+                            <img className="avatar-img" style={{objectFit:'cover'}} src={JSON.parse(localStorage.getItem("userdata"))?.avatar && JSON.parse(localStorage.getItem("userdata"))?.avatar.length>0 ? JSON.parse(localStorage.getItem("userdata")).avatar:DefaultImg} onError={(e) => { e.target.src = DefaultImg }}/>
                             </Dropdown.Toggle>
                             {(localStorage.getItem('isAdmin'))==="true" ? 
                             (                           
@@ -207,16 +207,16 @@ const Navbar = (props) =>{
                                 (localStorage.getItem("isTeacher")) == 1 && localStorage.getItem("changeMode")==="teacher" ?
                             (    
                             <Dropdown.Menu>
-                            <Dropdown.Item href={`/teacher/${userId}/personal`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
-                            <Dropdown.Item href={`/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
+                            <Dropdown.Item href={`/Tutor/teacher/${userId}/personal`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item href={`/Tutor/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             ):
                             
                             (                            
                             <Dropdown.Menu>
-                            <Dropdown.Item href={`/student/${userId}`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
-                            <Dropdown.Item className="item-mb-only" href={`/student/${userId}/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
+                            <Dropdown.Item href={`/Tutor/student/${userId}`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
+                            <Dropdown.Item className="item-mb-only" href={`/Tutor/student/${userId}/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             )
