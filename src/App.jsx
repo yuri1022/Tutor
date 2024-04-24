@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes,useNavigate } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes,useNavigate } from 'react-router-dom';
 import { createContext, useState,useReducer,useEffect } from 'react';
 import { AuthProvider } from './components/context/AuthContext.jsx';
 import HomePage from "./pages/HomePage";
@@ -53,27 +53,27 @@ const handleSearchSubmit = (searchTxt) => {
   },[])
   return (
   <AuthProvider>
-  <BrowserRouter>
-  <div className="app">
-    <AppContext.Provider value={{searchTerm,state,dispatch}}>
-    <Navbar onSearchSubmit={handleSearchSubmit} />
-       <TeacherProvider searchTerm={searchTerm}>
-      <Routes>
-        <Route path="course" element={<TeacherCalendarPage />} />    
-          <Route path="teacher/:id" element={<TeachersPage />} />
-          <Route path="teacher/:id/personal" element={<TeacherSelfPage />} />
-          <Route path="student/:id" element={<Students_profile/>} />
-          <Route path="student/:id/course" element={<Students_course/>}/>
-          <Route path="home/*" element={<HomePage />} />
-          <Route path="*" element={<HomePage />} />
-          <Route path="apply" element={<ApplyTeacher />}/>      
-          <Route path="apply/apply_teacher_form" element={<ApplyTeacherFormMobile/>}/>
-          <Route path="admin" element={<AdminPage />}/>
-      </Routes>
-      </TeacherProvider>
-    </AppContext.Provider>
-  </div>
-  </BrowserRouter>
+  <Router>
+        <div className="app">
+          <AppContext.Provider value={{ searchTerm, state, dispatch }}>
+            <Navbar onSearchSubmit={handleSearchSubmit} />
+            <TeacherProvider searchTerm={searchTerm}>
+              <Routes>
+                <Route path="course" element={<TeacherCalendarPage />} />
+                <Route path="teacher/:id" element={<TeachersPage />} />
+                <Route path="teacher/:id/personal" element={<TeacherSelfPage />} />
+                <Route path="student/:id" element={<Students_profile />} />
+                <Route path="student/:id/course" element={<Students_course />} />
+                <Route path="home/*" element={<HomePage />} />
+                <Route path="*" element={<HomePage />} />
+                <Route path="apply" element={<ApplyTeacher />} />
+                <Route path="apply/apply_teacher_form" element={<ApplyTeacherFormMobile />} />
+                <Route path="admin" element={<AdminPage />} />
+              </Routes>
+            </TeacherProvider>
+          </AppContext.Provider>
+        </div>
+      </Router>
   </AuthProvider>
   );
 }
