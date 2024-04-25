@@ -9,11 +9,12 @@ import { useContext } from 'react';
 import { AppContext } from "../../App.jsx";
 import CalendarIcon from '../../assets/images/svg/icon_calender.svg';
 import Swal from "sweetalert2";
+import '../../assets/scss/editCourseModal.scss';
 
 
 const PutCourse = ({ showUpdateModal, onHide, event }) => {
 const { state } = useContext(AppContext);
-const teacherId = state.logindata.data.id;
+const teacherId = state.logindata.id;
 const [courseId ,setCourseId]= useState({
   courseId:event.courseId,
 })

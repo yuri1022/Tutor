@@ -23,7 +23,20 @@ export const getTeacher = async (id) => {
   }
 };
 
-export const patchTeacher = () => {};
+export const putTeacher = async (id, formData) => {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await axios.put(`${baseUrl}/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw new Error('Error updating teacher:', error);
+  }
+};
 
 export const applyTeacher = async(id,formdata)=>{
   const token = localStorage.getItem("token");

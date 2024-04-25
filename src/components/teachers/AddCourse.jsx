@@ -6,6 +6,7 @@ import moment from "moment";
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
+import '../../assets/scss/addCourseModal.scss';
 import { useContext } from 'react';
 import { AppContext } from "../../App.jsx";
 import Swal from "sweetalert2";
@@ -13,7 +14,7 @@ import Swal from "sweetalert2";
 const AddCourse = ({ showAddModal, onHide ,teacherDetails}) => {
 
 const { state } = useContext(AppContext);
-const teacherId = state.logindata.data.id;
+const teacherId = state.logindata.id;
 
  const [formData, setFormData] = useState({
     teacherId:teacherId,

@@ -9,7 +9,6 @@ import TeacherEditInfo from "../components/teachers/TeacherEditModal.jsx";
 import { useState ,useEffect,useContext, useRef } from "react";
 import '../assets/scss/teacher.scss';
 import { Button } from "react-bootstrap";
-import axios from "axios";
 import { AppContext } from "../App";
 import LoginModal from "../components/LoginModal.jsx";
 import { Modal } from 'bootstrap';
@@ -18,18 +17,8 @@ import Flag from 'react-world-flags';
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import DefaultImg from '../assets/images/svg/defaultimg.svg';
-
-const fetchTeacherData = async (api,id) => {
-  try {
-    const token = localStorage.getItem('token');
-    const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
-    return response.data.data;
-  } catch (error) {
-    console.error('Error fetching teacher data:', error);
-    throw error;
-  }
-};
-
+import { getTeacher,putTeacher } from "../api/teacher.js";
+import { get } from "react-hook-form";
 
 const TeacherSelfPage = () => {
   const [editingSection, setEditingSection] = useState(null);
@@ -46,26 +35,22 @@ const TeacherSelfPage = () => {
   const loginModal = useRef(null);
   const navigate = useNavigate();
   
-
-  const api = 'https://ec2-54-250-240-16.ap-northeast-1.compute.amazonaws.com'
  useEffect(() => {
     const fetchData = async () => {
       try{
-      const data = await fetchTeacherData(api, id);
-      // console.log(state.logindata)
-      setTeacherDetails(data);
+      const data = await getTeacher(id);
+      setTeacherDetails(data.data);
       }catch(error){
         console.error(error)
       }
 
     };
-
     fetchData();
-
     if (teacherDetailsChanged){
       setTeacherDetailsChanged(false);
+      fetchData();
     }
-  }, [id, state,setTeacherDetails,teacherDetailsChanged]);
+  }, [id, setTeacherDetails,teacherDetailsChanged]);
 
   const openLoginModal = () => {
     loginModal.current?.show();
@@ -170,7 +155,6 @@ const userId = JSON.parse(localStorage.getItem("userdata"))?.id;
 
 const handleSave = async (updatedData, editedData, section) => {
   try {
-    const token = localStorage.getItem('token');
     const formData = new FormData();
     formData.append('name', updatedData.name || teacherDetails.name);
     formData.append('nation', updatedData.nation || teacherDetails.nation);
@@ -198,21 +182,17 @@ const handleSave = async (updatedData, editedData, section) => {
         formData.append(`category[${index}]`, element);
       });
     }
-    const response = await axios.put(`${api}/teacher/${id}`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+   const response = await putTeacher(id, formData)
     console.log(formData);
 
     setTeacherDetails((prevTeacher) => ({
       ...prevTeacher,
-      [section]: response.data.data[section] || prevTeacher[section],
+      [section]: response.data[section] || prevTeacher[section],
     }));
     setEditingContent(editedData[section] || '');
-    setTeacherDetailsChanged(true);
     closeEdit();
+    await getTeacher(id); 
+    setTeacherDetailsChanged(true);
     setIsEditInfo(false);
     setIsEditTeachingStyle(false);
     Swal.fire({
@@ -221,20 +201,7 @@ const handleSave = async (updatedData, editedData, section) => {
       icon: 'success',
       confirmButtonText: '確定'
     });
-  const teacherData = await axios.get(`${api}/teacher/${id}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        }).then((res) => {
-            console.log(`teacher ${res}`);
-            localStorage.setItem('userdata', JSON.stringify(res.data));
-            dispatch({ type: "LOGIN", payload: { logindata: res.data, isTeacher: 0, isLogin: true } });
-        }).catch(
-            err => {
-                console.log(err);
-    }
-  )
-
     return response.data.data;
-
   } catch (error) {
     console.error('Error updating teacher:', error);
   }    
