@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl= 'https://ec2-54-250-240-16.ap-northeast-1.compute.amazonaws.com/api/teacher'
+const baseUrl= 'https://ec2-13-231-143-123.ap-northeast-1.compute.amazonaws.com/api/teacher'
 
 
 export const getTeacher = async (id) => {
