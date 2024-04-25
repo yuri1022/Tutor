@@ -14,7 +14,7 @@ const ApplyFormInner = () =>{
     const [ validateWeekdays,setValidateWeekdays] = useState(false);
     const [ validateCategoryObj,setValidateCategoryObj] = useState(false);
     const {page,page_add} = useContext(ApplyTeacherContext);
-    const userdata = useContext(AppContext).state.logindata.data;
+    const userdata = useContext(AppContext).state.logindata;
     const navigate = useNavigate();
     const [teachername,setTeachername] = useState('');
     const [country,setCountry] = useState('');
@@ -203,7 +203,7 @@ const ApplyFormInner = () =>{
     },[reloadPage]);
 
     useEffect(()=>{
-        const student_data = JSON.parse(localStorage.getItem("userdata")).data;
+        const student_data = JSON.parse(localStorage.getItem("userdata"));
         setTeachername(student_data.name);
         setIntroTxt(student_data.selfIntro);
     },[])

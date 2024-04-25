@@ -6,7 +6,8 @@ import Rank3 from '../../assets/images/svg/rank3.svg';
 import { useTeacherContext } from '../context/teachercontext.jsx';
 import { useState,useContext,useEffect } from 'react';
 import { AppContext } from "../../App.jsx";
-import {get_student_data} from '../../api/student.js'
+import {get_student_data} from '../../api/student.js';
+import DefaultImg  from '../../assets/images/svg/defaultimg.svg';
 
 const BestStudents = () => {
   const { teacherData } = useTeacherContext();
@@ -80,7 +81,7 @@ useEffect(() => {
         <div className="student-info" style={{display:'flex',flex:'1'}}>
 
         <div className="img-container" style={{maxWidth:'3.5rem',maxHeight:'3.5rem',marginRight:'0.7rem'}}>
-          <img src={student.User.avatar} alt={student.User.name} style={{width:'2rem',height:'2rem',borderRadius:'50%',objectFit:'cover'}}/>
+          <img src={student.User.avatar} alt={student.User.name}  onError={(e) => { e.target.src = DefaultImg }} style={{width:'2rem',height:'2rem',borderRadius:'50%',objectFit:'cover'}}/>
         </div>
         <div className="student-name" style={{padding:'2px',fontWeight:'700'}} >{student.User.name} </div>
 
@@ -115,7 +116,7 @@ useEffect(() => {
         <div className="student-info" style={{display:'flex',flex:'1'}}>
 
         <div className="img-container" style={{maxWidth:'3.5rem',maxHeight:'3.5rem',marginRight:'0.7rem'}}>
-          <img src={studentRank.avatar} alt="" style={{width:'2rem',height:'2rem',borderRadius:'50%',objectFit:'cover'}}/>
+          <img src={studentRank.avatar} alt="" onError={(e) => { e.target.src = DefaultImg }} style={{width:'2rem',height:'2rem',borderRadius:'50%',objectFit:'cover'}}/>
         </div>
         <div className="student-name" style={{padding:'2px',fontWeight:'700'}} >{studentRank.name} </div>
 

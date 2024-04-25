@@ -200,8 +200,8 @@ const ApplyTeacherForm = () =>{
     useEffect(()=>{
     if (reloadPage) {
         localStorage.setItem('isHome',"true");
-      navigate('/home'); // 根据需要跳转到相应的页面
-      setReloadPage(false); // 重置 reloadPage 状态，避免重复触发
+      navigate('/home'); 
+      setReloadPage(false); 
 
     }
     },[reloadPage]);
@@ -209,7 +209,7 @@ const ApplyTeacherForm = () =>{
     // console.log('errors:',errors);
     // console.log(errors.teachername);
     useEffect(()=>{
-        const student_data = JSON.parse(localStorage.getItem("userdata")).data;
+        const student_data = JSON.parse(localStorage.getItem("userdata"));
         setTeachername(student_data.name);
         setIntroTxt(student_data.selfIntro);
     },[])

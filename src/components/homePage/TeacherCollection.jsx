@@ -240,7 +240,8 @@ if (totalPages <= maxPages) {
         <div className="teacher-img">
      <img
      src={teacher.avatar&& teacher.avatar.length>0 ? teacher.avatar:DefaultImg}
-     alt="Teacher Avatar"
+     alt={teacher.name.charAt(0)}
+      onError={(e) => { e.target.src = DefaultImg }}
       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
     />
         </div>
