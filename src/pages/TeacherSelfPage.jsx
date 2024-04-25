@@ -9,16 +9,11 @@ import TeacherEditInfo from "../components/teachers/TeacherEditModal.jsx";
 import { useState ,useEffect,useContext, useRef } from "react";
 import '../assets/scss/teacher.scss';
 import { Button } from "react-bootstrap";
-import { AppContext } from "../App";
-import LoginModal from "../components/LoginModal.jsx";
-import { Modal } from 'bootstrap';
 import { useNavigate } from "react-router-dom";
 import Flag from 'react-world-flags';
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
 import DefaultImg from '../assets/images/svg/defaultimg.svg';
 import { getTeacher,putTeacher } from "../api/teacher.js";
-import { get } from "react-hook-form";
 
 const TeacherSelfPage = () => {
   const [editingSection, setEditingSection] = useState(null);
@@ -29,10 +24,7 @@ const TeacherSelfPage = () => {
   const [editingContent, setEditingContent] = useState('');
   const [teacherDetails, setTeacherDetails] = useState(null);
   const { id } = useParams();
-  const { state,dispatch } = useContext(AppContext);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [teacherDetailsChanged,setTeacherDetailsChanged]=useState(false);
-  const loginModal = useRef(null);
   const navigate = useNavigate();
   
  useEffect(() => {
@@ -43,7 +35,6 @@ const TeacherSelfPage = () => {
       }catch(error){
         console.error(error)
       }
-
     };
     fetchData();
     if (teacherDetailsChanged){
@@ -52,54 +43,24 @@ const TeacherSelfPage = () => {
     }
   }, [id, setTeacherDetails,teacherDetailsChanged]);
 
-  const openLoginModal = () => {
-    loginModal.current?.show();
-  };
-
-  const closeLoginModal = () => {
-    loginModal.current?.hide();  
-  };
-
-  useEffect(()=>{
-        loginModal.current = new Modal('#login_Modal',{
-            backdrop: 'static'
-        });
-    },[loginModal.current])
+useEffect(() => {
+    console.log(teacherDetails);
+}, [teacherDetails]);
 
 const userId = JSON.parse(localStorage.getItem("userdata"))?.id;
 
  if (localStorage.getItem("islogin") === "false") {
-    return (
- <div className="teacher-redirect-container d-flex" style={{justifyContent:'center'}}>
-      <div className="teacher-redirect col-12 col-md-3 col-lg-3" style={{padding:'1rem'}}>
-        <div className="teacher-redirect d-flex" style={{flexDirection:'column',boxShadow:'1px 3px 5px 1px var(--main-blue25)',height:'12rem',textAlign:'center',borderRadius:'0.625rem'}}>
-        <div className="line"></div>
-        <div className="top" style={{marginTop:'5%'}}>
-          <h3 style={{color:'var(--red)'}}>Notice</h3>
-        </div>
-      <div className="title">
-        <h5>請登入以查看完整個人資訊</h5> 
-      </div>
-      <div className="btn-login-back">
-      <Link to={"/home"}>
-        <Button className="close-button btn btn-light" style={{margin:'0.5rem',color:'var(--main-blue)',border:'1px solid var(--main-blue)',backgroundColor:'transparent'}}>
-          返回首頁
-        </Button>
-        </Link>
-
-       <Button onClick={openLoginModal}  style={{margin:'0.5rem'}}>登入</Button>
-      {showLoginModal&& <LoginModal show={showLoginModal} closeLoginModal={closeLoginModal} />}
-      </div>
-        </div>
-      </div>
-      </div>
-    );
-  }
-  
-  if (localStorage.getItem("islogin") === "true" && userId === parseInt(id, 10)) {
-    closeLoginModal();
+    Swal.fire({
+      title: '警告',
+      text: '請先登入!',
+      icon: 'warning',
+      confirmButtonText: '確定'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/home');      
+      }
+    });
   } else if (localStorage.getItem("islogin") === "true" && userId !== parseInt(id, 10)) {
-    closeLoginModal();
     Swal.fire({
       title: '警告',
       text: '你不是這個人，請你離開',

@@ -16,7 +16,7 @@ export const getTeacher = async (id) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('API Response:', res);
+    console.log('API Response:', res.data);
     return res.data;
   } catch (error) {
     console.error('[Get Teacher by ID failed]: ', error);
