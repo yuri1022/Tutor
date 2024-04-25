@@ -4,7 +4,7 @@ import { useState,useEffect } from 'react';
 import ReactFlagsSelect from "react-flags-select";
 import Swal from "sweetalert2";
 import DefaultImg from '../../assets/images/svg/defaultimg.svg';
-import '../../assets/scss/editModal.scss';
+import '../../assets/scss/editmodal.scss';
 
 
 const TeacherEditInfo = ({ show, handleClose, handleSave , teacherDetails, editingSection }) => {
