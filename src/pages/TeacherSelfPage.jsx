@@ -22,10 +22,9 @@ import DefaultImg from '../assets/images/svg/defaultimg.svg';
 const fetchTeacherData = async (api,id) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${api}/teacher/${id}/personal`, { headers: { Authorization: `Bearer ${token}` } });
+    const response = await axios.get(`${api}/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } });
     return response.data.data;
   } catch (error) {
-    // 处理错误
     console.error('Error fetching teacher data:', error);
     throw error;
   }
@@ -48,7 +47,7 @@ const TeacherSelfPage = () => {
   const navigate = useNavigate();
   
 
-  const api = 'http://54.250.240.16:3000'
+  const api = 'https://ec2-54-250-240-16.ap-northeast-1.compute.amazonaws.com'
  useEffect(() => {
     const fetchData = async () => {
       try{

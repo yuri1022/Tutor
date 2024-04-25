@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl= 'http://54.250.240.16:3000/register'
+const baseUrl= 'https://ec2-54-250-240-16.ap-northeast-1.compute.amazonaws.com/api/register'
 
 export const createRegister = async(courseId)=>{
     const token = localStorage.getItem("token");

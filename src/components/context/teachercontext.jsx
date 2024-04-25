@@ -25,7 +25,7 @@ export const TeacherProvider = ({ children,searchTerm}) => {
   useEffect(() => {
     const fetchTeacherData = async () => {
       try {
-        const api = 'http://54.250.240.16:3000';
+        const api = 'https://ec2-54-250-240-16.ap-northeast-1.compute.amazonaws.com/api';
         const token = localStorage.getItem('token');
         const queryString = qs.stringify({ 
           page: currentPage, 

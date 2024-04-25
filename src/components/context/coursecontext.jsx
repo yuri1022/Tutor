@@ -16,7 +16,7 @@ export const CourseProvider = ({ children }) => {
   useEffect(() => {
     const fetchAllCourseData = async () => {
       try {
-        const api = 'http://54.250.240.16:3000/';
+        const api = 'https://ec2-54-250-240-16.ap-northeast-1.compute.amazonaws.com/api';
         const token = localStorage.getItem('token');  
         const response = await axios.get(`${api}/courses` ,{
         headers: { Authorization: `Bearer ${token}` },
