@@ -207,16 +207,23 @@ const Navbar = (props) =>{
                                 (localStorage.getItem("isTeacher")) == 1 && localStorage.getItem("changeMode")==="teacher" ?
                             (    
                             <Dropdown.Menu>
-                            <Dropdown.Item href={`/Tutor/teacher/${userId}/personal`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
-                            <Dropdown.Item href={`/Tutor/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
+                            <Dropdown.Item >
+                            <Link to={`/teacher/${userId}/personal`} onClick={getOut_homepage}>個人檔案</Link>
+                            </Dropdown.Item>
+                            <Dropdown.Item>
+                            <Link to={`/course`} onClick={getOut_homepage}>我的課程</Link>
+                            </Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             ):
                             
                             (                            
                             <Dropdown.Menu>
-                            <Dropdown.Item href={`/Tutor/student/${userId}`} onClick={getOut_homepage}>個人檔案</Dropdown.Item>
-                            <Dropdown.Item className="item-mb-only" href={`/Tutor/student/${userId}/course`} onClick={getOut_homepage}>我的課程</Dropdown.Item>
+                            <Dropdown.Item>
+                            <Link to={`student/${userId}`} onClick={getOut_homepage}>個人檔案</Link></Dropdown.Item>
+                            <Dropdown.Item className="item-mb-only">
+                            <Link to={`student/${userId}/course`} onClick={getOut_homepage}>我的課程</Link>
+                            </Dropdown.Item>
                             <Dropdown.Item href="#" onClick={()=>{handleLogout()}}>登出</Dropdown.Item>
                             </Dropdown.Menu>
                             )
