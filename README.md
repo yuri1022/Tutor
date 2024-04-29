@@ -7,9 +7,10 @@
 - 您登入後即可以在此網站上預約各種分類的課程，在課程完成後，也可以做評分。
 - 如果您想開設課程的話，更可以進一步申請成為老師！
 
-![首頁](src/assets/Homepage-login-studentmode.png)
-![老師頁面](src/assets/Homepage-login-teachermode.png)
-![手機版預覽](src/assets/mobile_ver_preview.jpg)
+![首頁](src/assets/homepage-pc.png)
+![老師頁面](src/assets/teacherpage-pc.png)
+![手機版預覽](src/assets/pages-mb.png)
+![手機版預覽](src/assets/pages-mb-2.png)
 
 - Demo 網址: [https://yuri1022.github.io/Tutor](https://yuri1022.github.io/Tutor)
 - Demo Video (電腦版) [https://youtu.be/8xkb6eoTsPc](https://youtu.be/8xkb6eoTsPc)
@@ -69,7 +70,7 @@ useNavigate, useParams 做網頁的導向，以及從網址欄抓取需要的數
 ### 下載檔案至本地資料夾
 
 ```
-git clone https://github.com/enternalsong/tutor.git
+git clone https://github.com/yuri1022/Tutor.git
 ```
 
 ### 開啟專案資料夾後安裝檔案
@@ -87,7 +88,7 @@ npm run dev
 ### 於瀏覽器輸入以下網址
 
 ```
-http://localhost:3030/
+http://localhost:3030/Tutor
 ```
 
 ## 更新日誌
@@ -114,6 +115,12 @@ http://localhost:3030/
 3. 修正當日開課堂數超過 2 堂時，預約課程彈窗的行事曆會跑版的錯誤
 4. 調整課程預約的彈窗大小
 
+### Version 1.02
+
+1. 更換API網址，並改以github page方式部署前端網頁
+2. 修正畫面錯誤
+3. 學生頁面UI整體更新
+
 ## Contributer
 
 ### Front-End : @kspsss @yuri1022
@@ -132,9 +139,10 @@ http://localhost:3030/
 Once you log in, you can book various categories of courses on this website.
 And then , you can apply to become a tutor and create your own courses!
 
-![首頁](src/assets/Homepage-login-studentmode.png)
-![老師頁面](src/assets/Homepage-login-teachermode.png)
-![手機版預覽](src/assets/mobile_ver_preview.jpg)
+![首頁](src/assets/homepage-pc.png)
+![老師頁面](src/assets/teacherpage-pc.png)
+![手機版預覽](src/assets/pages-mb.png)
+![手機版預覽](src/assets/pages-mb-2.png)
 
 - Demo Link: [https://yuri1022.github.io/Tutor](https://yuri1022.github.io/Tutor)
 - Demo Video (on PC) [https://youtu.be/8xkb6eoTsPc](https://youtu.be/8xkb6eoTsPc)
@@ -168,7 +176,7 @@ At Tutor , you can do diffrent things when you are in different identities:
 ### Download the files to your local folder:
 
 ```
-git clone https://github.com/enternalsong/tutor.git
+git clone https://github.com/yuri1022/Tutor.git
 ```
 
 ### After opening the project folder, install the files:
@@ -186,7 +194,7 @@ npm run dev
 ### Enter the following URL in your browser:
 
 ```
-http://localhost:3030/
+http://localhost:3030/Tutor
 ```
 
 ## Tools
@@ -238,6 +246,12 @@ Use the React-flag-select library as a convenient tool for selecting nationaliti
 2. Added the ability for teachers to modify the available booking days after applying to become a teacher.
 3. Fixed the error where the calendar in the course reservation popup would be misaligned when the number of courses scheduled for the day exceeded 2.
 4. Adjusted the size of the course reservation popup.
+
+## Version 1.02
+
+1. Changed API URL and deployed the frontend webpage using GitHub Pages.
+2. Fixed screen errors.
+3. Updated UI of the student page.
 
 ## Contributer
 
