@@ -40,8 +40,8 @@ const categoryOptions = teacherData?.categories?.map(category => ({
   }, [categoryId]);
 
  useEffect(() => {
-    console.log('Current categoryId:', categoryItemId);
-    console.log('Current totalPages:', totalPages);
+    // console.log('Current categoryId:', categoryItemId);
+    // console.log('Current totalPages:', totalPages);
       }, [page,categoryItemId,currentPage,totalPages]);
 
 const handlePageChange = (newPage, searchTerm) => {

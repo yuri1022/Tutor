@@ -13,14 +13,14 @@ export const edit_student_data = async(id,formdata)=>{
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log('API Response:', res);
+        // console.log('API Response:', res);
         return res.data;
       } catch (error) {
     console.error('[Put failed]: ', error);
     if (error.response) {
-      throw new Error(error.response.data.message); // 从 API 响应中获取错误消息并抛出
+      throw new Error(error.response.data.message);
     } else {
-      throw new Error('創建課程失敗'); // 如果没有响应，则抛出通用错误消息
+      throw new Error('創建課程失敗'); 
     }
   }
 }
@@ -31,7 +31,7 @@ export const get_student_data = async(id)=>{
       const res = await axios.get(`${baseUrl}/${id}`,{
         headers: { Authorization: `Bearer ${token}` }
     })
-    console.log('API Response:', res);
+    // console.log('API Response:', res);
     const studentData =await  res.data;
     return studentData;
     } catch (error) {

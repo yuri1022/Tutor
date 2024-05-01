@@ -24,7 +24,7 @@ const Navbar = (props) =>{
     const { isUserLoggedIn } = useAuth();
     const loginModal = useRef(null);
     const navigate = useNavigate();
-    const userId = localStorage.getItem('user_id')
+    const userId = localStorage.getItem("user_id")
     const openLoginModal = () =>{
         setIsOpen(true);
         loginModal.current.show();
@@ -128,6 +128,7 @@ const Navbar = (props) =>{
     const handleModeChange = (mode) => {
      localStorage.setItem('changeMode', mode);
     };
+    console.log(localStorage.getItem("user_id"))
 
     return(
         <>

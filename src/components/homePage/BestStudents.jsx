@@ -25,7 +25,7 @@ const BestStudents = () => {
       try {
         const studentId = localStorage.getItem("user_id")
         const response = await get_student_data(studentId);
-        console.log('res',response)
+        // console.log('res',response)
         setstudentRank(response.data)
         return response.data; 
         
@@ -96,7 +96,7 @@ useEffect(() => {
 
 
         <div className="student-self-rank" style={{ padding: '2px' }}>
-  {state.logindata.data ? (
+  {state.logindata ? (
     <>
       {studentRank ? (
         <>

@@ -11,7 +11,7 @@ const HomePage = () => {
   const searchTerm = useContext(AppContext).searchTerm;
 
   useEffect(()=>{
-    console.log(searchTerm);
+    // console.log(searchTerm);
   },[searchTerm]);
 
   return (

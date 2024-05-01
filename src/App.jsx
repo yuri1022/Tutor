@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes,useNavigate } from 'react-router-dom';
+import { HashRouter, Route, Routes,useNavigate } from 'react-router-dom';
 import { createContext, useState,useReducer,useEffect } from 'react';
 import { AuthProvider } from './components/context/AuthContext.jsx';
 import HomePage from "./pages/HomePage";
@@ -53,7 +53,7 @@ const handleSearchSubmit = (searchTxt) => {
   },[])
   return (
   <AuthProvider>
-  <BrowserRouter basename="/Tutor">
+  <HashRouter>
         <div className="app">
           <AppContext.Provider value={{ searchTerm, state, dispatch }}>
             <Navbar onSearchSubmit={handleSearchSubmit} />
@@ -73,7 +73,7 @@ const handleSearchSubmit = (searchTxt) => {
             </TeacherProvider>
           </AppContext.Provider>
         </div>
-      </BrowserRouter>
+      </HashRouter>
   </AuthProvider>
   );
 }

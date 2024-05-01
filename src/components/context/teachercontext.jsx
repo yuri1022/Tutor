@@ -38,7 +38,7 @@ export const TeacherProvider = ({ children,searchTerm}) => {
         headers: { Authorization: `Bearer ${token}` },
       });
         setTeacherData(response.data.data);
-        console.log(queryString);
+        // console.log(queryString);
         return response.data.data;
         
       } catch (error) {
