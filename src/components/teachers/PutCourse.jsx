@@ -66,13 +66,19 @@ const handleCancelEdit = async() =>{
     try {
     await putCourse(updatedFormData,courseId.courseId);
     console.log(updatedFormData);
-          Swal.fire({
+        Swal.fire({
             title: 'Success',
             text: '修改課程成功！',
             icon: 'success',
             confirmButtonText: '確定'
-            })
-      onHide(); 
+        }).then((result) => {
+            if (result.isConfirmed) {
+                onHide();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            }
+        });
     } catch (error) {
       console.error('Create course failed:', error);
     }

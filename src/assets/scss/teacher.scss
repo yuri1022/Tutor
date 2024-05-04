@@ -398,10 +398,10 @@
           -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
 
                       .self-card-img {
-                          width: 21%;
-                          max-width: 13rem;
+                        width: 12rem;
+                          height: 10rem;
                           object-fit: cover;
-                          padding: 1rem 2rem 1rem 1rem;
+                          margin: 1rem 2rem 1rem 1rem;
                           border-radius: 0.625rem;
                         }
 
@@ -779,10 +779,10 @@
                       -o-box-shadow: 1px 3px 5px 1px var(--grey-light);
         
                       .self-card-img {
-                        width: 21%;
-                        max-width: 13rem;
+                        width: 12rem;
+                        height: 10rem;
                         object-fit: cover;
-                        padding: 1rem 2rem 1rem 1rem;
+                        margin: 1rem 2rem 1rem 1rem;
                         border-radius: 0.625rem;
                       }
         

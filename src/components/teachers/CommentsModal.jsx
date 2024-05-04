@@ -2,7 +2,7 @@ import { Modal , Card ,CardImg } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import Rating from '../../assets/images/svg/rating.svg';
 import { useState } from "react";
-
+import defaultImg from '../../assets/images/svg/defaultimg.svg'
 
 const CommentModal = ({show,handleClose,teacherDetails}) => {
 const [selectedRatings, setSelectedRatings] = useState({
@@ -157,7 +157,7 @@ const handleRatingToggle = (rating) => {
 
               <div className="card-img-title">
                  <div className="card-img" > 
-            <CardImg className="class-comment" src={course.image} />
+            <CardImg className="class-comment" src={course.image.length>0 ?course.image : defaultImg}/>
             </div>
 
 

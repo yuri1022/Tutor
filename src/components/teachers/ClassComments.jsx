@@ -4,7 +4,8 @@ import Rating from '../../assets/images/svg/rating.svg'
 import { Button,Card, CardImg } from "react-bootstrap";
 import CommentModal from "./CommentsModal";
 import { useState } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import defaultImg from '../../assets/images/svg/defaultimg.svg'
 
 
 
@@ -46,7 +47,7 @@ const filteredCourses = teacherDetails.Courses.filter(course => {
               <div className="card-container">
                 <div className="card-img-title d-flex">
                   <div className='card-img'>
-                <CardImg className="class-comment" src={course.image} alt={course.name} />
+                <CardImg className="class-comment" src={course.image.length>0 ?course.image : defaultImg} alt={course.name} />
 
                   </div>
 

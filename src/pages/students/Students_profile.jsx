@@ -16,12 +16,13 @@ const Students_profile = () =>{
     const ratingModal = useRef(null);
     const goclassModal = useRef(null);
     const student_data = JSON.parse(localStorage.getItem("userdata"));
+    const studentId = localStorage.getItem("user_id")
     const [studentData,setStudentData] = useState(null);
     console.log(student_data)
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedData = await get_student_data(student_data.id);
+                const fetchedData = await get_student_data(studentId);
                console.log(fetchedData);
                setStudentData(fetchedData.data); 
             } catch (error) {

@@ -6,10 +6,11 @@ import TimeIcon from '../../assets/images/svg/time-icon.svg';
 import { Link } from "react-router-dom";
 import { useContext } from 'react';
 import { AppContext } from "../../App";
+import '../../assets/scss/successmodal.scss';
 
 const SuccessMessage = ({ show, handleClose, successReservationData }) => {
   const { state } = useContext(AppContext);
-  const id = state.logindata.data.id
+  const id = state.logindata.id;
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>

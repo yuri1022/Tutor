@@ -66,14 +66,17 @@ const teacherId = state.logindata.id;
     try {
       await createCourse(updatedFormData);
       console.log(updatedFormData);
-      Swal.fire({
+        Swal.fire({
             title: 'Success',
             text: '新增課程成功！',
             icon: 'success',
             confirmButtonText: '確定'
-            })
-      onHide(); 
-      // 可以在這裡執行其他需要更新的操作，如重新加載課程列表等
+        }).then((result) => {
+            if (result.isConfirmed) {
+                onHide();
+                window.location.reload();
+            }
+        });
     } catch (error) {
       console.error('Create course failed:', error);
       Swal.fire({

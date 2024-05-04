@@ -122,13 +122,13 @@ const handleSave = async (updatedData, editedData, section) => {
     formData.append('avatar', updatedData.avatar || teacherDetails.avatar);
     formData.append('teachStyle', isEditTeachingStyle ? updatedData.teachStyle : teacherDetails.teachStyle);
     formData.append('selfIntro', isEditInfo ? updatedData.selfIntro : teacherDetails.selfIntro);
-    formData.append('mon', updatedData.mon.toString() || teacherDetails.mon.toString());
-    formData.append('tue', updatedData.tue.toString() || teacherDetails.tue.toString());
-    formData.append('wed', updatedData.wed.toString() || teacherDetails.wed.toString());
-    formData.append('thu', updatedData.thu.toString() || teacherDetails.thu.toString());
-    formData.append('fri', updatedData.fri.toString() || teacherDetails.fri.toString());
-    formData.append('sat', updatedData.sat.toString() || teacherDetails.sat.toString());
-    formData.append('sun', updatedData.sun.toString() || teacherDetails.sun.toString());
+    formData.append('mon', updatedData.mon === undefined ?  teacherDetails.mon.toString(): updatedData.mon.toString());
+    formData.append('tue', updatedData.tue === undefined ?  teacherDetails.tue.toString(): updatedData.tue.toString());
+    formData.append('wed', updatedData.wed === undefined ? teacherDetails.wed.toString() : updatedData.wed.toString());
+    formData.append('thu', updatedData.thu === undefined ? teacherDetails.thu.toString() : updatedData.thu.toString());
+    formData.append('fri', updatedData.fri === undefined ? teacherDetails.fri.toString(): updatedData.fri.toString());
+    formData.append('sat', updatedData.sat === undefined ?   teacherDetails.sat.toString(): updatedData.sat.toString());
+    formData.append('sun', updatedData.sun === undefined ?  teacherDetails.sun.toString(): updatedData.sun.toString());
 
     // 如果 category 有編輯過，則添加排序後的 category 數據到 FormData 對象中
     if (updatedData.category) {

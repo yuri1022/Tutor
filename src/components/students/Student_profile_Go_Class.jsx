@@ -7,7 +7,7 @@ import { get_student_data } from '../../api/student';
 import { delete_register_course } from '../../api/register';
 import PropTypes from 'prop-types'
 const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass,onMsg}) =>{
-    const {dispatch} = useContext(AppContext);
+    const {dispatch,state} = useContext(AppContext);
     // console.log(obj_goclass);
     const handle_delete_register = async(courseId)=>{
         let student_data = JSON.parse(localStorage.getItem("userdata"));
@@ -16,11 +16,11 @@ const Students_profile_Go_Class = ({closeGoClassModal,obj_goclass,onMsg}) =>{
         //console.log(delete_res);
         //update data
         // console.log(student_data);
-        student_data =await get_student_data(student_data.id);
         closeGoClassModal();
         localStorage.setItem('userdata',JSON.stringify(student_data));
         onMsg('delete');
-        
+        window.location.reload();
+
     }
 
     return(
