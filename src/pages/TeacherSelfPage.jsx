@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Flag from 'react-world-flags';
 import Swal from "sweetalert2";
 import DefaultImg from '../assets/images/svg/defaultimg.svg';
-import { getTeacher,putTeacher } from "../api/teacher.js";
+import { getTeacherSelf,putTeacher } from "../api/teacher.js";
 
 const TeacherSelfPage = () => {
   const [editingSection, setEditingSection] = useState(null);
@@ -30,7 +30,7 @@ const TeacherSelfPage = () => {
  useEffect(() => {
     const fetchData = async () => {
       try{
-      const data = await getTeacher(id);
+      const data = await getTeacherSelf(id);
       setTeacherDetails(data.data);
       }catch(error){
         console.error(error)

@@ -1,12 +1,12 @@
 //teacherpage
 
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import '../assets/scss/teacherpage.scss'
 import MyCalendar from "../components/teachers/Teacher_profile_Calendar.jsx";
 import PropTypes from 'prop-types';
 import ClassComments from "../components/teachers/ClassComments.jsx";
 import ClassReserve from '../components/register/ClassReserve.jsx';
-import { useState ,useEffect , useContext,useRef } from "react";
+import { useState ,useEffect} from "react";
 import '../assets/scss/teacher.scss';
 import { Button } from 'react-bootstrap';
 import Flag from 'react-world-flags';
@@ -14,7 +14,6 @@ import ExpandIcon from '../assets/images/svg/expand.svg';
 import CollapseIcon from '../assets/images/svg/collapse.svg';
 import { getTeacher } from "../api/teacher.js";
 import DefaultImg from '../assets/images/svg/defaultimg.svg';
-import Swal from "sweetalert2";
 
 const TeachersPage = () => {
   const [teacherDetails, setTeacherDetails] = useState(null);
@@ -23,46 +22,15 @@ const TeachersPage = () => {
   const [isCalendarExpanded, setIsCalendarExpanded] = useState(true);
   const [isNoticeExpanded, setIsNoticeExpanded] = useState(true);
   const [reserveModalOpen,setIsReserveModalOpen]= useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(localStorage.getItem("islogin") === "true");
+
   const { id } = useParams();
-  const navigate = useNavigate();
-
-    useEffect(() => {
-    if (!isUserLoggedIn) {
-      Swal.fire({
-        title: '警告',
-        text: '請先登入!',
-        icon: 'warning',
-        confirmButtonText: '確定',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          handleGohome();
-        }
-      });
-    }
-  }, [isUserLoggedIn]);
-
-  const handleGohome = () =>{
-    console.log('Redirecting to home page');
-    navigate('/home');
-  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-
-      if (localStorage.getItem("islogin") === "true") {
-      setIsUserLoggedIn(true);
-      }
-      if (localStorage.getItem("islogin") === "false") {
-      setIsUserLoggedIn(false);
-       }
-        if (isUserLoggedIn) {
           const data = await getTeacher(id);
           setTeacherDetails(data.data);
           console.log(data);
-        }
       } catch (error) {
         console.error('Error fetching teacher data:', error);
       }
@@ -70,11 +38,7 @@ const TeachersPage = () => {
 
     fetchData();
 
-  }, [id, isUserLoggedIn]);
-
-const handleLoginSuccess = async () => {
-  setIsUserLoggedIn(true);
-};
+  }, [id]);
 
   const handleReserveOpen = () => {
     setIsReserveModalOpen(true);

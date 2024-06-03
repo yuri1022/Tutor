@@ -1,15 +1,15 @@
 import axios from "axios";
-const baseUrl= 'https://ec2-13-231-143-123.ap-northeast-1.compute.amazonaws.com/api';
+const baseUrl = 'https://ec2-13-231-143-123.ap-northeast-1.compute.amazonaws.com/api';
 
 export const createAccount = async (data) => {
   try {
-      const formData={
-            email:data.email,
-            password:data.password,
-            passwordCheck:data.repassword,
-            name:data.email.split('@')[0],
-        }
-    console.log('fd',formData)
+    const formData = {
+      email: data.email,
+      password: data.password,
+      passwordCheck: data.repassword,
+      name: data.email.split('@')[0],
+    }
+    console.log('fd', formData)
     const res = await axios.post(`${baseUrl}/signup`, formData);
     console.log('API Response:', res);
     return res.data;
@@ -18,29 +18,31 @@ export const createAccount = async (data) => {
     if (error.response) {
       throw new Error(error.response.data.message);
     } else {
-      throw new Error('註冊失敗!'); 
+      throw new Error('註冊失敗!');
     }
   }
 };
 
-export const handleLogin = async (email,password) => {
+export const handleLogin = async (email, password) => {
   const loginData = {
     "email": email,
-    "password":password,
+    "password": password,
   }
   try {
-    const res = await axios.post(`${baseUrl}/signin`,loginData)
+    const res = await axios.post(`${baseUrl}/signin`, loginData)
     return res.data;
 
   } catch (error) {
     console.error('[login failed]: ', error);
     if (error.response) {
-      throw new Error(error.response.data.message); 
+      throw new Error(error.response.data.message);
     } else {
-      throw new Error('登入失敗!'); 
+      throw new Error('登入失敗!');
     }
   }
-
 };
+
+
+
 
 

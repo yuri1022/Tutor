@@ -55,8 +55,28 @@ export const createCourse = async (formdata) => {
 
 };
 
+export const deleteCourse = async(courseId) => {
+ const token = localStorage.getItem("token");
+
+  try {
+    const res = await axios.delete(`${baseUrl}/${courseId}`,{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    
+    return res.data;
+    } catch (error) {
+    console.error('[create Course failed]: ', error);
+    if (error.response) {
+      throw new Error(error.response.data.message); 
+    } else {
+      throw new Error('刪除課程錯誤'); 
+    }
+  }
 
 
+};
 
 export const putCourse = async(formdata,courseId) => {
  const token = localStorage.getItem("token");
@@ -82,12 +102,11 @@ export const putCourse = async(formdata,courseId) => {
     } catch (error) {
     console.error('[create Course failed]: ', error);
     if (error.response) {
-      throw new Error(error.response.data.message); // 从 API 响应中获取错误消息并抛出
+      throw new Error(error.response.data.message); 
     } else {
-      throw new Error('更新課程錯誤'); // 如果没有响应，则抛出通用错误消息
+      throw new Error('更新課程錯誤'); 
     }
   }
 
 
 };
-

@@ -3,6 +3,18 @@ const baseUrl= 'https://ec2-13-231-143-123.ap-northeast-1.compute.amazonaws.com/
 
 
 export const getTeacher = async (id) => {
+
+  try {
+    const res = await axios.get(`${baseUrl}/${id}`);
+    console.log('API Response:', res.data);
+    return res.data;
+  } catch (error) {
+    console.error('[Get Teacher by ID failed]: ', error);
+  }
+};
+
+
+export const getTeacherSelf = async (id) => {
   const token = localStorage.getItem("token");
   console.log('Fetching teacher data for ID:', id);
   if (!token) {
@@ -11,7 +23,7 @@ export const getTeacher = async (id) => {
   }
 
   try {
-    const res = await axios.get(`${baseUrl}/${id}`, {
+    const res = await axios.get(`${baseUrl}/${id}/personal`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

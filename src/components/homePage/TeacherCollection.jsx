@@ -108,17 +108,7 @@ const handlePageChange = (newPage, searchTerm) => {
 
 
   const handleButtonClick = (teacherId) => {
-  // 假設你有一個 teacher 物件，其中包含 id 屬性
-    if (localStorage.getItem("islogin") === "false"){
-    Swal.fire({
-      icon: 'info',
-      title: '尚未登入!',
-      text: '請登入/註冊以查看老師完整資訊',
-    });
-    return;
-  }else{
   navigate(`/teacher/${teacherId}`);
-  }
   };
 
 
