@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
 import { createAccount,handleLogin } from '../api/auth';
 import '../assets/scss/login.scss';
+import axios from 'axios';
+
+const baseUrl = 'https://ec2-13-231-143-123.ap-northeast-1.compute.amazonaws.com/api';
+const clientId = '952647805381-un6tfl6m1sl17cdm3t0j5nuh444u4rum.apps.googleusercontent.com';
 
 const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
     const [mode ,setMode] = useState('login');
@@ -31,6 +35,53 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
         },
     },
     });
+
+     useEffect(() => {
+    // Load the Google API script
+    const script = document.createElement('script');
+    script.src = 'https://apis.google.com/js/api:client.js';
+    script.onload = initGoogleSignIn;
+    document.body.appendChild(script);
+  }, []);
+  const initGoogleSignIn = () => {
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2.init({
+        client_id: clientId
+      }).then(auth2 => {
+        document.getElementById('googleSignInButton').addEventListener('click', () => {
+          auth2.signIn().then(googleUser => {
+            const id_token = googleUser.getAuthResponse().id_token;
+            sendTokenToServer(id_token);
+          }).catch(error => {
+            console.error('Error signing in', error);
+          });
+        });
+      }).catch(error => {
+        console.error('Error initializing Google Auth', error);
+      });
+    });
+  };
+ const sendTokenToServer = async (id_token) => {
+    try {
+      const response = await axios.post(`${baseUrl}/oauth/google`, { token: id_token });
+      console.log('User authenticated', response.data);
+    } catch (error) {
+      console.error('Error sending token to server', error);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+  if (window.gapi && window.gapi.auth2) {
+    window.gapi.auth2.getAuthInstance().signIn().then(googleUser => {
+      const id_token = googleUser.getAuthResponse().id_token;
+      sendTokenToServer(id_token);
+    }).catch(error => {
+      console.error('Error signing in', error);
+    });
+  } else {
+    window.onload = initGoogleSignIn;
+  }
+};
 
 const onSubmit = async (data) => {
     
@@ -168,7 +219,7 @@ const onSubmit = async (data) => {
                             </button>
                             <div className="mb-10px">使用其他方式註冊</div>
                             <div className="button-container d-flex">
-                            <button className="btn" style={{border:'1px solid var(--main-blue25)'}}>
+                            <button className="btn"  onClick={handleGoogleLogin} style={{border:'1px solid var(--main-blue25)'}}>
                                 <img className="icon" src={icon_google}></img>
                                 google帳戶
                             </button>
@@ -223,7 +274,7 @@ const onSubmit = async (data) => {
                             </button>
                             <div className="mb-10px">使用其他方式登入</div>
                             <div className="button-container d-flex">
-                            <button className="btn" style={{border:'1px solid var(--main-blue25)'}}>
+                            <button className="btn"  onClick={handleGoogleLogin} style={{border:'1px solid var(--main-blue25)'}}>
                                 <img src={icon_google} className="icon"></img>
                                 google帳戶
                             </button>
