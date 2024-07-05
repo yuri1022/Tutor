@@ -6,7 +6,7 @@ export const createAccount = async (data) => {
     const formData = {
       email: data.email,
       password: data.password,
-      passwordCheck: data.repassword,
+      passwordCheck: data.passwordCheck,
       name: data.email.split('@')[0],
     }
     console.log('fd', formData)

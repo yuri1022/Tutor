@@ -15,12 +15,12 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
     const [mode ,setMode] = useState('login');
     const [ email,setEmail ] = useState('');
     const [ password,setPassword ] = useState('');
-    const [ repassword,setRepassword] = useState('');
+    const [ passwordCheck,setPasswordcheck] = useState('');
     const { register, handleSubmit,formState:{errors},watch } = useForm({
         defaultValues:{
             email: '',
             password: '',
-            repassword: '',
+            passwordCheck: '',
         },
         mode: 'onTouched',
          errorMessage: {
@@ -30,7 +30,7 @@ const LoginModal = ({show,closeLoginModal,onNavbar}) =>{
         password: {
             required: '密碼必填',
         },
-        repassword: {
+        passwordCheck: {
             required: '確認密碼必填',
         },
     },
@@ -89,7 +89,7 @@ const onSubmit = async (data) => {
     const formData = {
       email: data.email,
       password: data.password,
-      passwordCheck: data.repassword,
+      passwordCheck: data.passwordCheck,
       name: data.email.split('@')[0],
     };
     console.log(formData)
@@ -204,12 +204,12 @@ const onSubmit = async (data) => {
                             )}
                             </div>
                             <div className="input-bar mb-10px">
-                                <label className={`form-control input-login-label ${errors.repassword && 'is-wrong'}`}>確認</label>
-                                <input type="password" className={`form-control input-login-right ${errors.repassword && 'is-invalid'}`} {...register("repassword",{ required:{value: true, message:'確認密碼必填'},
+                                <label className={`form-control input-login-label ${errors.passwordCheck && 'is-wrong'}`}>確認</label>
+                                <input type="password" className={`form-control input-login-right ${errors.passwordCheck && 'is-invalid'}`} {...register("passwordCheck",{ required:{value: true, message:'確認密碼必填'},
                                 maxLength: 20})}  placeholder="請再次輸入密碼"/>
-                            {errors.repassword && (
+                            {errors.passwordCheck && (
                               <div className="repw-tooltip-box d-flex">
-                                  {errors.repassword.message}
+                                  {errors.passwordCheck.message}
                                 </div>
                             )}
 
